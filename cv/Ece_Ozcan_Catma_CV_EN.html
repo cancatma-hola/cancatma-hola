@@ -1,61 +1,52 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <title>Ece Özcan Çatma CV</title>
-<link href="fonts/fonts.css" rel="stylesheet">
+<link href="font/fonts.css" rel="stylesheet">
 <style>
 @page { size: A4; margin: 0; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-:root { --ink:#262a2e; --muted:#5d646b; --line:#d9dde1; --accent:#8a5a44; --side:#f3f1ee; }
-body { font-family:'Source Sans 3', sans-serif; color:var(--ink); font-size:10.3pt; line-height:1.47; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
-.page { display:grid; grid-template-columns: 62mm 1fr; height:297mm; overflow:hidden; page-break-after:always; }
-.page:last-child { page-break-after:auto; }
-.en-up { }
-aside { background:var(--side); padding:14mm 7mm 12mm 10mm; }
-main { padding:14mm 12mm 12mm 9mm; }
-main h2.first { margin-top:0; }
-.mini { margin-bottom:22px; }
-.mini-n { font-family:'Raleway'; font-weight:700; font-size:12pt; }
-.mini-t { font-size:8pt; color:var(--accent); letter-spacing:1px; font-weight:600; margin-top:2px; }
-header.top { grid-column: 1 / -1; display:none; }
-h1 { font-family:'Raleway'; font-weight:700; font-size:25pt; letter-spacing:.5px; line-height:1.05; color:var(--ink); }
-.title { font-family:'Raleway'; font-weight:600; font-size:10.5pt; letter-spacing:2.2px; color:var(--accent); margin-top:6px; }
-h2 { font-family:'Raleway'; font-weight:700; font-size:9.6pt; letter-spacing:2.4px; text-transform:uppercase; color:var(--ink); padding-bottom:4px; border-bottom:1.2px solid var(--accent); margin:19px 0 10px; break-after:avoid; }
-aside h2:first-of-type { margin-top:0; }
-.intro { margin-bottom:4px; }
-.profile { color:#3b4146; }
-.contact div { margin-bottom:7px; }
-.lbl { font-size:7.8pt; letter-spacing:1.2px; text-transform:uppercase; color:var(--muted); font-weight:600; }
-.val { font-size:9.2pt; word-break:break-word; }
-.edu .d, .muted { color:var(--muted); font-size:8.6pt; }
-.edu .dept { font-weight:700; margin-top:1px; }
-.lang { display:flex; justify-content:space-between; margin-bottom:3px; }
+:root { --ink:#22262a; --muted:#61686f; --line:#dcdfe2; --accent:#8a5a44; --side:#f3f1ee; }
+body { font-family:'Open Sans', sans-serif; color:var(--ink); font-size:9pt; line-height:1.42; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.page { display:grid; grid-template-columns: 60mm 1fr; height:297mm; overflow:hidden; }
+aside { background:var(--side); padding:12mm 7mm 9mm 10mm; }
+main { padding:12mm 11mm 9mm 9mm; }
+h1 { font-family:'Montserrat'; font-weight:700; font-size:24pt; letter-spacing:.2px; line-height:1.1; }
+.title { font-family:'Montserrat'; font-weight:600; font-size:10.5pt; letter-spacing:2.5px; text-transform:uppercase; color:var(--accent); margin-top:5px; }
+h2 { font-family:'Montserrat'; font-weight:700; font-size:9pt; letter-spacing:2px; text-transform:uppercase; padding-bottom:4px; border-bottom:1.2px solid var(--accent); margin:12px 0 7px; }
+aside h2:first-of-type { margin-top:2px; }
+.profile { color:#383d42; }
+.contact div { margin-bottom:6px; }
+.lbl { font-size:7.6pt; letter-spacing:1.2px; text-transform:uppercase; color:var(--muted); font-weight:700; }
+.val { font-size:9.2pt; }
+.muted { color:var(--muted); font-size:8.6pt; }
+.edu .dept { font-weight:700; }
+.lang { display:flex; justify-content:space-between; margin-bottom:2px; }
 .lang span { color:var(--muted); }
-.sg { margin-bottom:9px; }
-.sg-t { font-weight:700; font-size:8.6pt; color:var(--accent); text-transform:uppercase; letter-spacing:1px; margin-bottom:3px; }
-.sg ul { list-style:none; }
-.sg li { padding-left:9px; position:relative; margin-bottom:1.5px; }
-.sg li::before { content:''; position:absolute; left:0; top:.62em; width:3.5px; height:3.5px; background:var(--accent); }
+aside ul { list-style:none; }
+aside li { padding-left:9px; position:relative; margin-bottom:2px; }
+aside li::before { content:''; position:absolute; left:0; top:.62em; width:3.5px; height:3.5px; background:var(--accent); }
 .tags { display:flex; flex-wrap:wrap; gap:4px; }
 .tags span { background:#fff; border:1px solid var(--line); border-radius:3px; padding:1px 6px; font-size:8.4pt; }
 .ref .n { font-weight:700; }
-.ref .em { font-size:8.8pt; }
-.job { margin-bottom:15px; }
-.job-head { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; break-after:avoid; }
-.role { font-family:'Raleway'; font-weight:700; font-size:10.6pt; }
-.company { font-weight:600; color:var(--accent); font-size:9.8pt; }
+.ref .em { font-size:8.6pt; }
+.job { margin-bottom:9px; }
+.job-head { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+.role { font-family:'Montserrat'; font-weight:700; font-size:10.4pt; }
+.company { font-weight:700; color:var(--accent); font-size:9.8pt; }
 .company span { color:var(--muted); font-weight:400; }
-.date { white-space:nowrap; font-size:8.6pt; color:var(--muted); font-weight:600; padding-top:2px; }
-main ul { margin:5px 0 0 0; list-style:none; }
-main li { padding-left:11px; position:relative; margin-bottom:3.5px; }
-main li::before { content:''; position:absolute; left:1px; top:.6em; width:4px; height:4px; border-radius:50%; background:var(--accent); }
-.proj-label { font-size:7.8pt; letter-spacing:1.4px; text-transform:uppercase; color:var(--muted); font-weight:700; margin:8px 0 4px; }
-.proj { border-left:2px solid var(--line); padding-left:8px; margin-bottom:8px; break-inside:avoid; }
-.proj-t { font-weight:700; font-size:9.5pt; }
-.proj p { color:#41474d; }
-.awards { display:grid; grid-template-columns:1fr 1fr; gap:7px 14px; }
-.aw { break-inside:avoid; }
-.aw .o { font-size:7.8pt; letter-spacing:1px; text-transform:uppercase; color:var(--accent); font-weight:700; }
-.aw .t { font-weight:700; }
-.aw .p { color:var(--muted); font-size:8.5pt; }
+.date { white-space:nowrap; font-size:8.6pt; color:var(--muted); font-weight:700; padding-top:2px; }
+ul.bul { margin-top:4px; list-style:none; }
+ul.bul li { padding-left:11px; position:relative; margin-bottom:1.5px; }
+ul.bul li::before { content:''; position:absolute; left:1px; top:.6em; width:4px; height:4px; border-radius:50%; background:var(--accent); }
+.proj-label { font-size:7.6pt; letter-spacing:1.4px; text-transform:uppercase; color:var(--muted); font-weight:700; margin:6px 0 4px; }
+ul.projs { list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:4px 12px; }
+ul.projs li { border-left:2px solid var(--accent); padding-left:7px; line-height:1.3; }
+ul.projs b { display:block; font-size:9.2pt; }
+ul.projs span { font-size:8.3pt; color:var(--muted); }
+.awards { display:grid; gap:3px; }
+.aw { display:grid; grid-template-columns:36mm 1fr; align-items:baseline; }
+.aw .o { font-size:7.8pt; letter-spacing:.8px; text-transform:uppercase; color:var(--accent); font-weight:700; }
+.aw .t { font-weight:600; }
+.aw-note { margin-top:3px; padding-left:36mm; color:var(--muted); font-size:8.6pt; font-style:italic; }
 </style></head><body>
 <div class="page">
 <aside>
@@ -66,24 +57,28 @@ main li::before { content:''; position:absolute; left:1px; top:.6em; width:4px; 
     <div><div class="lbl">E-mail</div><div class="val">eceozcaan1@gmail.com</div></div>
   </div>
   <h2>Education</h2>
-  <div class="edu"><div class="d">2014 - 2018</div><div class="dept">Visual Communication Design</div><div>Üsküdar University, Faculty of Fine Arts</div><div class="muted">GPA: 3.11 / 4.00</div></div>
+  <div class="edu"><div class="muted">2014 - 2018</div><div class="dept">Visual Communication Design</div><div>Üsküdar University, Faculty of Fine Arts</div><div class="muted">GPA: 3.11 / 4.00</div></div>
   <h2>Languages</h2>
   <div class="lang"><b>Turkish</b><span>Native</span></div><div class="lang"><b>English</b><span>Intermediate</span></div>
   <h2>Skills</h2>
-  <div class="sg"><div class="sg-t">Creative</div><ul><li>Art direction</li><li>Concept development</li><li>Storytelling and storyboarding</li><li>2D / 3D animation</li><li>Compositing and VFX</li><li>Projection mapping</li><li>LED and multi-screen content</li><li>Editing, sound and music sync</li></ul></div><div class="sg"><div class="sg-t">Leadership</div><ul><li>Team management and mentoring</li><li>Client relations and presenting</li><li>Project and time management</li><li>On-site and live show management</li><li>Clear decision making</li></ul></div>
+  <ul><li>Motion design</li><li>2D / 3D animation</li><li>Projection mapping</li><li>Compositing and VFX</li><li>LED and multi-screen content</li><li>Editing, sound and music sync</li><li>Concept and storyboarding</li><li>Team and project management</li><li>Client communication</li></ul>
+  <h2>Software</h2>
+  <div class="tags"><span>After Effects</span><span>Premiere Pro</span><span>Photoshop</span><span>Illustrator</span><span>InDesign</span><span>Microsoft Office</span></div>
+  <h2>Reference</h2>
+  <div class="ref"><div class="n">Ahmet Öztürk</div><div class="muted">Art Director &amp; Studio Manager, Awesome Bros.</div><div>+90 531 704 30 35</div><div class="em">ahmet@awesomebroduction.com</div></div>
 </aside>
 <main>
-  <div class="intro"><h1>Ece Özcan Çatma</h1><div class="title">ART DIRECTOR &amp; SENIOR MOTION DESIGNER</div></div>
+  <h1>Ece Özcan Çatma</h1><div class="title" lang="en">Sr. Motion Designer</div>
   <h2>Profile</h2>
-  <p class="profile">Art Director and Senior Motion Designer with 8 years of experience in 3D projection mapping, immersive experiences, brand launches and live events, audiovisual shows and architectural installations. Has delivered work for brands such as Nike, Porsche, Hyundai, Dell and MEY, and was part of the team behind projects awarded at Crystal Apple and Felis. Currently leads creative direction and motion design at 3İK, taking projects from the first idea to the live show on site. Combines strong storytelling with hands-on technical knowledge of LED, multi-screen and mapping production.</p>
+  <p class="profile">Senior Motion Designer with 8 years of experience in 3D projection mapping, immersive experiences, brand launches and live events, audiovisual shows and architectural installations. Has delivered work for brands such as Nike, Porsche, Hyundai, Dell and MEY, and was part of the team behind projects awarded at Crystal Apple and Felis. Currently leads motion design processes at 3İK, taking projects from the first idea to the live show on site. Combines strong storytelling with hands-on technical knowledge of LED, multi-screen and mapping production.</p>
   <h2>Work Experience</h2>
   
     <div class="job">
       <div class="job-head">
-        <div><div class="role">Art Director / Motion Design Lead</div><div class="company">3İK <span>· Istanbul</span></div></div>
+        <div><div class="role">Senior Motion Designer</div><div class="company">3İK <span>· Istanbul</span></div></div>
         <div class="date">March 2025 - Present</div>
       </div>
-      <ul><li>Sets the creative direction for brand launches, corporate events and immersive experiences, and manages projects from the first idea to the live show.</li><li>Leads the motion design team, plans the workload and keeps visual quality and brand consistency high across all projects.</li><li>Prepares concepts, moodboards, storyboards and client presentations, and takes an active role in new business pitches.</li><li>Works directly with clients, producers and technical teams to plan content for LED, projection mapping and multi-screen setups.</li><li>Plans project timelines and resources, and runs installation, rehearsals and live shows on site.</li><li>Mentors junior designers and builds workflows and templates that make production faster.</li></ul>
+      <ul class="bul"><li>Leads motion design for brand launches, corporate events and immersive experiences, from the first idea to the live show.</li><li>Plans the motion team's workload and keeps visual quality and brand consistency high across all projects.</li><li>Prepares concepts, storyboards and client presentations, and takes an active role in new business pitches.</li><li>Works with clients, producers and technical teams to plan LED, projection mapping and multi-screen content, and follows installation and live shows on site.</li><li>Mentors junior designers and builds workflows that make production faster.</li></ul>
       
     </div>
     <div class="job">
@@ -91,38 +86,19 @@ main li::before { content:''; position:absolute; left:1px; top:.6em; width:4px; 
         <div><div class="role">Senior Motion Designer</div><div class="company">Sth Team <span>· Istanbul</span></div></div>
         <div class="date">September 2024 - February 2025</div>
       </div>
-      <ul><li>Worked on event design, video production and editing, social media content, digital campaigns and immersive experiences.</li><li>Took an active part in creative ideation and helped raise the overall production quality of projects.</li></ul>
-      <div class="proj-label">Selected Projects</div>
-        <div class="proj"><div class="proj-t">Dell Technologies Forum 2024</div><p>Responsible for all creative processes of the event held at Rixos Tersane in November 2024, including multi-screen displays, stage shows, laser mapping, live broadcast and editing. Managed every stage from content production to technical control for each LED screen, in line with the same event held in other cities around the world.</p></div>
+      <ul class="bul"><li>Worked on event design, video production and editing, social media content, digital campaigns and immersive experiences.</li><li>Responsible for the creative process of multi-screen displays, stage shows, laser mapping and live broadcast content.</li></ul>
+      <div class="proj-label">Projects</div><ul class="projs"><li><b>Dell Technologies Forum 2024</b><span>Rixos Tersane, İstanbul</span></li></ul>
     </div>
-</main>
-</div>
-<div class="page">
-<aside>
-  <div class="mini"><div class="mini-n">Ece Özcan Çatma</div><div class="mini-t">ART DIRECTOR &amp; SENIOR MOTION DESIGNER</div></div>
-  <h2>Software</h2>
-  <div class="tags"><span>After Effects</span><span>Premiere Pro</span><span>Photoshop</span><span>Illustrator</span><span>InDesign</span><span>Microsoft Office</span></div>
-  <h2>Reference</h2>
-  <div class="ref"><div class="n">Ahmet Öztürk</div><div class="muted">Art Director &amp; Studio Manager, Awesome Bros.</div><div>+90 531 704 30 35</div><div class="em">ahmet@awesomebroduction.com</div></div>
-</aside>
-<main>
-  <h2 class="first">Work Experience</h2>
-  
     <div class="job">
       <div class="job-head">
         <div><div class="role">Senior Motion Designer</div><div class="company">Awesome Bros. <span>· Istanbul &amp; London</span></div></div>
         <div class="date">October 2018 - March 2024</div>
       </div>
-      <ul><li>Worked across digital art, immersive experiences, 3D mapping, event design, video production, audiovisual installations, data visualization and digital campaigns, and contributed to overall production management.</li></ul>
-      <div class="proj-label">Selected Projects</div>
-        <div class="proj"><div class="proj-t">Galata Tower 3D Projection Mapping Show</div><p>Started as composition artist and movement designer in the storytelling phase, then took ownership of all project details including 3D and 2D animation, and prepared the full project documentation.</p></div>
-        <div class="proj"><div class="proj-t">Nike Air Max 720 Launch Campaign</div><p>Took part in the animation and design process of the launch created in collaboration with Refik Anadol. The project won 6 awards in total at Crystal Apple and Felis.</p></div>
-        <div class="proj"><div class="proj-t">Porsche Taycan Launch, Zorlu Center</div><p>Responsible for compositing, creative process, editing, and sound and music synchronization, and produced the LED screen content for the immersive space.</p></div>
-        <div class="proj"><div class="proj-t">Hyundai i20 Launch Event</div><p>Worked on the full design process, including film composition, animation, film flow and storytelling.</p></div>
-        <div class="proj"><div class="proj-t">MEXT Brick Wall</div><p>Led the architectural design process of the mapping demonstration for the MEXT technology center, then supervised animation production to fit the architectural structure.</p></div>
-        <div class="proj"><div class="proj-t">MEY: "Discover the Art of Rakı"</div><p>Produced the 2D and 3D animations of the digital installation and was accountable for every stage of the project.</p></div>
+      <ul class="bul"><li>Handled 2D / 3D animation, compositing and editing across digital art, 3D mapping, immersive experiences, event design, video production, audiovisual installations and data visualization.</li><li>Took part in every stage of projects, from storytelling to final documentation, and contributed to overall production management.</li></ul>
+      <div class="proj-label">Projects</div><ul class="projs"><li><b>Galata Tower 3D Projection Mapping Show</b><span>10 November</span></li><li><b>Nike Air Max 720 Launch Campaign</b><span>Nike x Refik Anadol x Awesome Bros</span></li><li><b>Porsche Taycan Launch Event</b><span>Zorlu Center, İstanbul</span></li><li><b>Hyundai i20 Launch Event</b><span>Launch film &amp; event content</span></li><li><b>MEXT Brick Wall</b><span>Architectural mapping, MEXT</span></li><li><b>MEY "Discover the Art of Rakı"</b><span>Digital installation</span></li></ul>
     </div>
   <h2>Awards</h2>
-  <div class="awards"><div class="aw"><div class="o">Crystal Apple 2019</div><div class="t">Grand Award of Digital</div><div class="p">Nike x Refik Anadol x Awesome Bros, Nike Air Max 720</div></div><div class="aw"><div class="o">Crystal Apple 2019</div><div class="t">Best Installation</div><div class="p">Nike x Refik Anadol x Awesome Bros, Nike Air Max 720</div></div><div class="aw"><div class="o">Crystal Apple 2019</div><div class="t">Best Data Visualization</div><div class="p">Nike x Refik Anadol x Awesome Bros, Nike Air Max 720</div></div><div class="aw"><div class="o">Felis 2019</div><div class="t">Success Award, Digital</div><div class="p">Creativity From Data, Creativity in Data Collection, Data Visualization</div></div></div>
+  <div class="awards"><div class="aw"><span class="o">Crystal Apple 2019</span><span class="t">Grand Award of Digital · Best Installation · Best Data Visualization</span></div><div class="aw"><span class="o">Felis 2019</span><span class="t">Success Award, Digital: Creativity From Data · Creativity in Data Collection · Data Visualization</span></div></div>
+  <div class="aw-note">Nike Air Max 720 Launch Campaign, Nike x Refik Anadol x Awesome Bros</div>
 </main>
 </div></body></html>
