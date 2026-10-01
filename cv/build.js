@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const { chromium } = require('playwright');
 
 // Titles stay in English in both versions.
 const TITLE = 'Sr. Motion Designer';
@@ -226,7 +225,10 @@ ul.projs span { font-size:8.3pt; color:var(--muted); }
 </div></body></html>`;
 }
 
-(async () => {
+module.exports = { TITLE, ROLE, contact, data };
+
+if (require.main === module) (async () => {
+  const { chromium } = require('playwright');
   const out = __dirname;
   const browser = await chromium.launch();
   for (const d of Object.values(data)) {
