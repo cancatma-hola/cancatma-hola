@@ -1,0 +1,27 @@
+1
+00:00:00,250 --> 00:00:02,803
+Bakiyeniz, vadeniz, faturalarınız… hepsi tek yerde.
+
+2
+00:00:06,130 --> 00:00:09,534
+Açık bakiyenizi ve vade dilimlerini tek bakışta görün.
+
+3
+00:00:13,730 --> 00:00:17,560
+Her sipariş, tahsilat ve fatura hareketi vadesiyle birlikte listelenir.
+
+4
+00:00:20,630 --> 00:00:24,460
+Faturalarınız Logo ERP üzerinden otomatik düzenlenir; tek tıkla indirin.
+
+5
+00:00:26,830 --> 00:00:29,809
+Satın alma analitiğiyle harcamanızın nereye gittiğini görün.
+
+6
+00:00:34,430 --> 00:00:36,983
+Her siparişte puan kazanın, kupona çevirin.
+
+7
+00:00:40,630 --> 00:00:43,609
+MTS Hijyen B2B. Şeffaf cari, kontrollü harcama.
