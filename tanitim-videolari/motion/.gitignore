@@ -1,0 +1,3 @@
+node_modules/
+cikti/*.png
+!cikti/ornek-karsilastirma.png

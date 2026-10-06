@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>C · Koli & Mühür</title>
+<link rel="stylesheet" href="../node_modules/@fontsource/fraunces/600.css">
+<link rel="stylesheet" href="../node_modules/@fontsource/fraunces/400-italic.css">
+<link rel="stylesheet" href="../node_modules/@fontsource/inter-tight/400.css">
+<link rel="stylesheet" href="../node_modules/@fontsource/inter-tight/500.css">
+<link rel="stylesheet" href="../node_modules/@fontsource/jetbrains-mono/500.css">
+<style>
+  :root { --bg: #EFE8DC; --ink: #1E1A15; --ink2: rgba(30,26,21,.55); --ink3: rgba(30,26,21,.24); --red: #C8432B; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--ink); }
+  body { font-family: 'Inter Tight', sans-serif; -webkit-font-smoothing: antialiased; }
+  .abs { position: absolute; }
+  .grain { inset: 0; opacity: .5; mix-blend-mode: multiply; }
+  .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
+  .m { overflow: hidden; padding: 0 .1em .16em .1em; margin: 0 0 -.16em -.1em; }
+  .m > div { will-change: transform; }
+  .hl { left: 116px; top: 170px; font-family: 'Fraunces', serif; font-weight: 600; font-size: 132px; line-height: 1.0; letter-spacing: -.03em; white-space: nowrap; }
+  .hl .it { font-weight: 400; font-style: italic; }
+  .hl .red { color: var(--red); }
+  .steps { left: 120px; top: 560px; width: 640px; }
+  .st { display: flex; align-items: baseline; gap: 28px; height: 64px; border-top: 1px solid var(--ink3); padding-top: 16px; }
+  .st .n { font-size: 14px; width: 40px; color: var(--ink2); }
+  .st .t { font-size: 32px; font-weight: 500; letter-spacing: -.01em; }
+  .st .d { margin-left: auto; width: 12px; height: 12px; border-radius: 50%; background: var(--red); align-self: center; }
+  .top { top: 60px; font-size: 14px; color: var(--ink2); }
+  .stage { left: 940px; top: 0; width: 980px; height: 1080px; overflow: hidden; }
+  .foot { left: 120px; top: 960px; font-size: 15px; color: var(--ink2); }
+  .foot b { color: var(--ink); font-weight: 500; text-transform: none; }
+</style>
+</head>
+<body>
+<svg class="abs grain" width="1920" height="1080">
+  <filter id="paper"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="4"/>
+    <feColorMatrix values="0 0 0 0 .45  0 0 0 0 .38  0 0 0 0 .3  0 0 0 .09 0"/></filter>
+  <rect width="1920" height="1080" filter="url(#paper)"/>
+</svg>
+
+<div class="abs top mono" style="left:120px">MTS Hijyen · B2B</div>
+<div class="abs top mono" style="right:120px">Bir siparişin hikâyesi · örnek</div>
+
+<div class="abs hl">
+  <div class="m"><div class="a1">Siparişiniz</div></div>
+  <div class="m"><div class="a2 it">yola çıktı.</div></div>
+</div>
+<div class="abs hl">
+  <div class="m"><div class="b1">Siparişten teslimata,</div></div>
+  <div class="m"><div class="b2 it red">tek panel.</div></div>
+</div>
+
+<div class="abs steps"></div>
+<div class="abs foot mono"><div class="m"><div class="f1">MTS Hijyen B2B &nbsp;·&nbsp; <b>panel.mtshijyen.com</b></div></div></div>
+
+<svg class="abs stage" viewBox="0 0 980 1080">
+  <defs>
+    <filter id="ink" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="1.1" numOctaves="2" seed="9" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.6 1.9" result="m"/>
+      <feComposite in="SourceGraphic" in2="m" operator="in"/>
+    </filter>
+    <linearGradient id="shade" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".08"/></linearGradient>
+  </defs>
+  <line class="floor" x1="20" x2="960" y1="820" y2="820" stroke="#1E1A15" stroke-width="2"/>
+  <line class="route" x1="560" x2="980" y1="842" y2="842" stroke="#C8432B" stroke-width="3" stroke-dasharray="14 12"/>
+  <ellipse class="shadow" cx="420" cy="822" rx="250" ry="16" fill="#1E1A15" opacity=".14"/>
+  <g class="boxpos">
+    <g class="box">
+      <polygon points="180,0 300,-70 300,-330 180,-260" fill="#A97B4F"/>
+      <polygon points="-180,-260 180,-260 300,-330 -60,-330" fill="#DDB487"/>
+      <rect x="-180" y="-260" width="360" height="260" fill="#C99866"/>
+      <rect x="-180" y="-260" width="360" height="260" fill="url(#shade)"/>
+      <g class="tapeTop"><polygon points="-26,-260 26,-260 146,-330 94,-330" fill="#EBD9B9"/></g>
+      <rect class="tapeFront" x="-26" y="-260" width="52" height="74" fill="#EBD9B9"/>
+      <g class="label">
+        <rect x="-96" y="-62" width="192" height="124" fill="#FBF8F2"/>
+        <text x="-80" y="-30" font-family="JetBrains Mono" font-weight="500" font-size="12" letter-spacing="1.5" fill="#1E1A15">MTS HİJYEN · B2B</text>
+        <text x="-80" y="6" font-family="Fraunces" font-weight="600" font-size="32" fill="#1E1A15">#24815</text>
+        <g class="barcode" fill="#1E1A15"></g>
+      </g>
+      <g class="imprint1" filter="url(#ink)">
+        <g transform="translate(36,-72) rotate(-8)">
+          <rect x="-138" y="-38" width="276" height="76" rx="6" fill="none" stroke="#C8432B" stroke-width="6"/>
+          <text x="0" y="14" text-anchor="middle" font-family="Fraunces" font-weight="600" font-size="34" letter-spacing="3" fill="#C8432B">ONAYLANDI</text>
+        </g>
+      </g>
+      <g class="imprint2" filter="url(#ink)">
+        <g transform="translate(104,-192) rotate(12) scale(.86)">
+          <circle r="84" fill="none" stroke="#C8432B" stroke-width="6"/>
+          <circle r="70" fill="none" stroke="#C8432B" stroke-width="2"/>
+          <text y="-24" text-anchor="middle" font-family="JetBrains Mono" font-weight="500" font-size="17" letter-spacing="3" fill="#C8432B">TESLİM</text>
+          <path d="M-22 4 l14 14 l30 -32" stroke="#C8432B" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <text y="48" text-anchor="middle" font-family="JetBrains Mono" font-weight="500" font-size="17" letter-spacing="3" fill="#C8432B">EDİLDİ</text>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g class="tool">
+    <rect x="-28" y="-230" width="56" height="170" rx="26" fill="#6B4A2F"/>
+    <rect x="-130" y="-62" width="260" height="52" rx="6" fill="#2A2420"/>
+    <rect x="-122" y="-10" width="244" height="10" fill="#C8432B"/>
+  </g>
+</svg>
+
+<script src="../lib.js"></script>
+<script>
+  const STEPS = ['Sipariş alındı', 'Onaylandı', 'Hazırlanıyor', 'Kargoda', 'Teslim edildi'];
+  const T = [1.45, 2.85, 3.8, 5.0, 7.05];
+  const BX = 420, FLOOR = 820;
+  STEPS.forEach((s, i) => $('.steps').insertAdjacentHTML('beforeend',
+    `<div class="st"><span class="n mono">0${i + 1}</span><span class="t">${s}</span><span class="d"></span></div>`));
+  // barkod: deterministik çubuklar
+  let bx = -80;
+  for (let i = 0; bx < 78; i++) { const w = 1 + Math.floor(rnd(i) * 4); $('.barcode').insertAdjacentHTML('beforeend', `<rect x="${bx}" y="18" width="${w}" height="30"/>`); bx += w + 2 + Math.floor(rnd(i + 50) * 3); }
+
+  const at = (el, tr) => (typeof el === 'string' ? $(el) : el).setAttribute('transform', tr);
+  const line = (sel, t, a, d = 0.8, out = null) => {
+    let y = (1 - E.editorial(seg(t, a, a + d))) * 110;
+    if (out !== null) y -= E.inOutQuart(seg(t, out, out + 0.55)) * 150;
+    $(sel).style.transform = `translateY(${y}%)`;
+  };
+  // darbe sonrası sönümlü salınım
+  const wobble = (u, f = 18, k = 8) => (u <= 0 ? 0 : Math.exp(-k * u) * Math.cos(f * u));
+
+  window.render = function (t) {
+    $$('.top').forEach(e => e.style.opacity = E.outExpo(seg(t, 0.2, 0.8)));
+    // 1 · başlık
+    line('.a1', t, 0.3, 0.8, 8.0); line('.a2', t, 0.45, 0.8, 8.08);
+    line('.b1', t, 8.35); line('.b2', t, 8.5);
+    line('.f1', t, 8.9, 0.6);
+
+    // 2 · adım listesi
+    let k = -1; for (let j = 0; j < 5; j++) if (t >= T[j]) k = j;
+    $$('.st').forEach((s, i) => {
+      const inP = E.outExpo(seg(t, 0.9 + i * 0.08, 1.5 + i * 0.08));
+      const outP = E.inOutQuart(seg(t, 8.0 + i * 0.04, 8.4 + i * 0.04));
+      s.style.opacity = inP * (1 - outP);
+      s.style.transform = `translateY(${(1 - inP) * 16}px)`;
+      const on = i === k;
+      s.querySelector('.t').style.color = on ? 'var(--ink)' : i < k ? 'var(--ink2)' : 'var(--ink3)';
+      s.querySelector('.n').style.color = on ? 'var(--red)' : '';
+      s.querySelector('.d').style.transform = `scale(${on ? spring(t - T[i], SPRING.bouncy) : 0})`;
+      s.style.borderTopColor = on ? 'var(--ink)' : '';
+    });
+
+    // 3 · zemin
+    $('.floor').style.strokeDasharray = `${940 * E.outExpo(seg(t, 0.6, 1.4))} 2000`;
+
+    // 4 · koli: yerçekimiyle düşer, ezilir, oturur
+    const fall = E.inExpo(seg(t, 1.0, 1.45));
+    let y = -900 * (1 - fall);
+    const sq = wobble(t - 1.45);
+    let x = 0;
+    // kargoya çıkış (hızlanarak) ve teslimata giriş (yavaşlayarak)
+    if (t >= 5.0 && t < 6.3) x = 1000 * E.inExpo(seg(t, 5.0, 5.8));
+    if (t >= 6.3) x = -1000 * (1 - E.outExpo(seg(t, 6.3, 7.0)));
+    const tilt = t >= 5.0 && t < 6.3 ? -3 * Math.sin(Math.PI * seg(t, 5.0, 5.8)) : (t >= 6.3 ? 3 * wobble(t - 6.75, 14, 6) : 0);
+    // mühür darbeleri: koli küçük sarsılır
+    const hit = wobble(t - 2.85, 40, 14) + wobble(t - 7.05, 40, 14);
+    at('.boxpos', `translate(${BX + x}, ${FLOOR + y + hit * 4})`);
+    at('.box', `rotate(${tilt}) scale(${1 + 0.05 * sq}, ${1 - 0.09 * sq})`);
+    const h = clamp(1 + y / 900);
+    css('.shadow', { opacity: 0.14 * h * (t >= 5.0 && t < 6.3 ? 1 - seg(t, 5.0, 5.6) : 1) * (t >= 6.3 ? seg(t, 6.4, 6.9) : 1) });
+    $('.shadow').setAttribute('rx', 250 * (0.5 + 0.5 * h));
+
+    // 5 · etiket yapışır
+    const lp = spring(t - 1.9, SPRING.snappy);
+    at('.label', `translate(${-82 - 40 * (1 - lp)}, ${-178 - 40 * (1 - lp)}) rotate(${lerp(-12, -2, lp)}) scale(${lerp(1.15, 1, lp)})`);
+    $('.label').style.opacity = t < 1.9 ? 0 : clamp(lp * 3);
+
+    // 6 · lastik mühür: iner, basar, kalkar (iki kez)
+    const stampAt = (t0, tx, ty) => {
+      const down = E.sharp(seg(t, t0 - 0.28, t0));
+      const up = E.outExpo(seg(t, t0 + 0.12, t0 + 0.6));
+      return { x: tx, y: lerp(-1200, ty, down) - up * 1200, v: t > t0 - 0.3 && t < t0 + 0.7 };
+    };
+    let s = stampAt(2.85, BX + 36, FLOOR - 72 + 38);
+    if (t > 4) s = stampAt(7.05, BX + 104, FLOOR - 192 + 42);
+    at('.tool', `translate(${s.x}, ${s.y}) rotate(${t > 4 ? 12 : -8})`);
+    $('.tool').style.display = s.v ? '' : 'none';
+    const i1 = t >= 2.85 ? 1 : 0, i2 = t >= 7.05 ? 1 : 0;
+    $('.imprint1').style.opacity = i1;
+    $('.imprint2').style.opacity = i2;
+
+    // 7 · bant (hazırlanıyor)
+    const tp = E.outExpo(seg(t, 3.85, 4.5)), tf = E.outExpo(seg(t, 4.2, 4.7));
+    at('.tapeTop', `translate(120,-330) scale(${tp}) translate(-120,330)`);
+    $('.tapeTop').style.opacity = tp > 0 ? 1 : 0;
+    $('.tapeFront').setAttribute('height', 74 * tf);
+
+    // 8 · rota çizgisi
+    const rp = E.outExpo(seg(t, 4.6, 5.3)) * (1 - seg(t, 5.9, 6.2));
+    $('.route').style.strokeDashoffset = 0;
+    $('.route').setAttribute('x2', 560 + 420 * rp);
+    $('.route').style.opacity = rp > 0 ? 1 : 0;
+  };
+  window.render(0);
+</script>
+</body>
+</html>
