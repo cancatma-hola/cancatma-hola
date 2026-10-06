@@ -1,4 +1,4 @@
-# Dış Ses Metinleri (Faz 1)
+# Dış Ses Metinleri (14 video)
 
 > Bu belge `motion/videos/*.js` tanımlarından otomatik üretilir (`node motion/metin.js`). Ses: Microsoft nöral Türkçe ses (tr-TR-AhmetNeural), hız −4%.
 
@@ -94,3 +94,102 @@
 | 7 | Panel ekranı | `ozet-alt` · Eşiğin altı beklemez | Kural eşiğinin altında kalan siparişler otomatik onaylanır; kimse beklemez. |
 | 8 | Başlık | Kademeli kurallarla büyük tutara ek onay. | İpucu: kademeli kurallar kurarak büyük tutarlı siparişlere ek onaylayıcı ekleyin. |
 | 9 | Kapanış kartı |  | Sıradaki eğitimde kullanıcıları, yetkileri ve departman bütçelerini göreceğiz. |
+
+## V4 — Cari ve Finans Şeffaflığı
+
+| # | Sahne | Görsel | Dış ses |
+|---|---|---|---|
+| 1 | Başlık | Bakiyeniz kaç? Vadesi ne zaman? | Bakiyeniz, vadeniz, faturalarınız… hepsi tek yerde. |
+| 2 | Panel ekranı | `ekstre` · Açık bakiye ve vade dilimleri | Açık bakiyenizi ve vade dilimlerini tek bakışta görün. |
+| 3 | Panel ekranı | `ekstre-alt` · Sipariş, tahsilat, fatura | Her sipariş, tahsilat ve fatura hareketi vadesiyle birlikte listelenir. |
+| 4 | Panel ekranı | `faturalar` · e-Fatura, Logo ERP’den otomatik | Faturalarınız Logo ERP üzerinden otomatik düzenlenir; tek tıkla indirin. |
+| 5 | Panel ekranı | `analitik` · Son 12 ayın özeti | Satın alma analitiğiyle harcamanızın nereye gittiğini görün. |
+| 6 | Panel ekranı | `sadakat` · Her siparişte puan | Her siparişte puan kazanın, kupona çevirin. |
+| 7 | Kapanış kartı |  | MTS Hijyen B2B. Şeffaf cari, kontrollü harcama. |
+
+## E3 — Eğitim 03 · Hızlı Sipariş: SKU ve Excel/CSV
+
+| # | Sahne | Görsel | Dış ses |
+|---|---|---|---|
+| 1 | Başlık | Hızlı sipariş: SKU ve Excel. | Ürün kodlarını biliyorsanız, sepeti saniyeler içinde doldurabilirsiniz. |
+| 2 | Panel ekranı | `hizli` · Adım 1: Hızlı Sipariş ekranı | Hızlı Sipariş ekranında her satıra ürün kodu ve miktar girin. |
+| 3 | Animasyonlu panel işlemi | Kodu yazın, ürün gelsin. | Kodu yazdığınızda ürün adı, birim fiyat ve satır toplamı otomatik gelir. |
+| 4 | Panel ekranı | `hizli` · Adım 3: Excel’den yapıştırın | Uzun listeler için Excel’den kopyalayıp CSV Yapıştır ile tek seferde aktarın, ardından Doğrula’ya basın. |
+| 5 | Animasyonlu panel işlemi | Doğrula, sepete ekle. | Hatalı kod varsa işaretlenir; her şey doğruysa tek tıkla sepete ekleyin. |
+| 6 | Başlık | En fazla 100 satır; kademeli iskonto otomatik. | İpucu: tek seferde yüz satıra kadar ekleyebilirsiniz; miktara göre kademeli iskonto otomatik uygulanır. |
+| 7 | Kapanış kartı |  | Sıradaki eğitimde periyodik siparişleri ve listeleri göreceğiz. |
+
+## E4 — Eğitim 04 · Periyodik Siparişler ve Listeler
+
+| # | Sahne | Görsel | Dış ses |
+|---|---|---|---|
+| 1 | Başlık | Periyodik siparişler ve listeler. | Her ay aynı ürünleri mi alıyorsunuz? Siparişi bir kez kurun, panel sizin yerinize hatırlasın. |
+| 2 | Panel ekranı | `periyodik` · Adım 1: Aktif abonelikler | Periyodik Siparişler ekranında aktif aboneliklerinizi, sıklığını ve bir sonraki sipariş tarihini görürsünüz. |
+| 3 | Animasyonlu form | Bir kez kurun, her ay gelsin. | Yeni Şablon ile sıklığı, günü, ürünleri ve teslimat adresini seçip kaydedin. |
+| 4 | Panel ekranı | `listeler` · Adım 3: Sipariş listeleri | Sık alımları kişisel ya da firma listesi olarak kaydedin; tek tıkla sepete ekleyin. |
+| 5 | Panel ekranı | `siparis-detay` · Adım 4: Siparişten şablon | Geçmiş bir siparişi de Şablona Kaydet ile tek tıkla tekrar kullanılabilir hale getirin. |
+| 6 | Başlık | Ürün sayfasında “Aboneliğe Çevir”. | İpucu: tek bir ürünü de ürün sayfasındaki Aboneliğe Çevir ile periyodik hale getirebilirsiniz. |
+| 7 | Kapanış kartı |  | Sıradaki eğitimde siparişlerinizi nasıl takip edeceğinizi göreceğiz. |
+
+## E5 — Eğitim 05 · Siparişlerimi Takip Etmek
+
+| # | Sahne | Görsel | Dış ses |
+|---|---|---|---|
+| 1 | Başlık | Siparişlerimi takip etmek. | Bu eğitimde siparişlerinizi nasıl bulacağınızı, filtreleyeceğinizi ve adım adım izleyeceğinizi göreceksiniz. |
+| 2 | Panel ekranı | `siparisler` · Adım 1: Tüm siparişler tek listede | Siparişlerim ekranında firmanız adına açılan tüm siparişleri, kimin açtığını ve güncel durumunu görürsünüz. |
+| 3 | Panel ekranı | `siparisler` · Adım 2: Filtreleyin ve aktarın | Duruma, projeye ve tarihe göre filtreleyin; hızlı filtrelerle tek tıkla daraltın, listeyi Excel’e aktarın. |
+| 4 | Panel ekranı | `siparis-detay` · Adım 3: Dokuz adımlı durum | Detay ekranında siparişin dokuz adımın hangisinde olduğunu ve sıradaki işlemi görürsünüz. |
+| 5 | Panel ekranı | `siparis-detay` · Adım 4: Kalemler, özet, belge | Kalemleri, indirimleri ve toplamı inceleyin; siparişi PDF olarak yazdırın. |
+| 6 | Panel ekranı | `bildirimler` · Adım 5: Bildirimler | Her durum değişikliği bildirim olarak gelir; aramanıza gerek kalmaz. |
+| 7 | Teslim sahnesi (illüstrasyon) | Teslim edildi. | Teslimatla birlikte durum anında güncellenir. |
+| 8 | Kapanış kartı |  | Sıradaki eğitimde kullanıcıları ve bütçeleri göreceğiz. |
+
+## E7 — Eğitim 07 · Kullanıcılar, Yetkiler, Departman Bütçeleri
+
+| # | Sahne | Görsel | Dış ses |
+|---|---|---|---|
+| 1 | Başlık | Kullanıcılar, yetkiler ve bütçeler. | Bu eğitimde ekibinizi panele davet etmeyi, yetki vermeyi ve departman bütçelerini yönetmeyi öğreneceksiniz. |
+| 2 | Panel ekranı | `kullanicilar` · Adım 1: Kullanıcılar & Yetkiler | Kullanıcılar ve Yetkiler ekranında firmanızın tüm kullanıcılarını görürsünüz. Yeni biri için Kullanıcı Davet Et’e basın. |
+| 3 | Animasyonlu form | Rol, departman, onay limiti. | Davet ederken rolü, departmanı ve kişinin onay limitini belirleyin; davet e-postayla gider. |
+| 4 | Panel ekranı | `kullanicilar` · Adım 3: Roller ve durum | Roller yetkileri belirler. Ayrılan bir çalışanı silmeden, devre dışı bırakarak erişimini kapatın. |
+| 5 | Panel ekranı | `departmanlar` · Adım 4: Departman bütçeleri | Her departmana aylık bütçe tanımlayın; harcanan tutar siparişlerle birlikte anında güncellenir. |
+| 6 | Panel ekranı | `butce` · Adım 5: Bütçe panosu | Bütçe Panosu’nda kalan bütçeyi, kullanım oranını ve kullanıcı limitlerini izleyin. |
+| 7 | Panel ekranı | `projeler` · Adım 6: Projeler ve şantiyeler | Şube açılışı ya da şantiye gibi işler için proje açın; harcamayı proje bütçesine göre izleyin. |
+| 8 | Başlık | Görüntüleyici rolü: raporları görür, sipariş vermez. | İpucu: muhasebe gibi yalnızca raporları izlemesi gereken kişilere Görüntüleyici rolü verin. |
+| 9 | Kapanış kartı |  | Sıradaki eğitimde cari ekstreyi ve faturaları göreceğiz. |
+
+## E8 — Eğitim 08 · Cari Ekstre ve Faturalar
+
+| # | Sahne | Görsel | Dış ses |
+|---|---|---|---|
+| 1 | Başlık | Cari ekstre ve faturalar. | Bu eğitimde bakiyenizi, vadelerinizi ve faturalarınızı nasıl takip edeceğinizi göreceksiniz. |
+| 2 | Panel ekranı | `ekstre` · Adım 1: Açık bakiye ve vade | Cari Ekstre ekranında açık bakiyenizi ve borcun hangi vade diliminde olduğunu görürsünüz. |
+| 3 | Panel ekranı | `ekstre` · Adım 2: Dönem filtresi ve hareketler | Tarih aralığı seçerek dönemin tüm sipariş ve tahsilat hareketlerini, vade tarihleriyle listeleyin. |
+| 4 | Panel ekranı | `faturalar` · Adım 3: Faturalarım | Faturalarınız Logo ERP üzerinden otomatik düzenlenir; PDF olarak indirin ya da yazdırın. |
+| 5 | Panel ekranı | `ekstre` · Adım 4: Sadakat birikimi | Ekstrede sadakat puanınızı ve kullanabileceğiniz tutarı da görürsünüz. |
+| 6 | Başlık | Dönem sonu mutabakatı: tarih filtresi + Excel. | İpucu: dönem sonu mutabakatı için tarih filtresini kullanın; dakikalar değil, saniyeler sürer. |
+| 7 | Kapanış kartı |  | Sıradaki eğitimde teklif, numune ve iade süreçlerini göreceğiz. |
+
+## E9 — Eğitim 09 · Teklif, Numune ve İade
+
+| # | Sahne | Görsel | Dış ses |
+|---|---|---|---|
+| 1 | Başlık | Teklif, numune ve iade. | Bu eğitimde özel fiyat teklifi istemeyi, numune talep etmeyi ve iade açmayı öğreneceksiniz. |
+| 2 | Panel ekranı | `teklifler` · Adım 1: Fiyat tekliflerim | Fiyat Tekliflerim ekranında tüm teklif taleplerinizi ve durumlarını görürsünüz. |
+| 3 | Animasyonlu form | Büyük miktar, özel fiyat. | Ürünü ve miktarı girip talebi gönderin; MTS ekibi size özel fiyatı hazırlar. |
+| 4 | Panel ekranı | `teklifler` · Adım 3: Teklif hazır | Teklif hazır olduğunda durumu güncellenir; inceleyip siparişe çevirin. |
+| 5 | Panel ekranı | `numune` · Adım 4: Ücretsiz numune | Yeni bir ürünü denemek isterseniz ücretsiz numune talep edin; durumunu buradan izleyin. |
+| 6 | Panel ekranı | `iadeler` · Adım 5: İade talepleri | Hasarlı ya da hatalı teslimatta siparişi seçip iade açın; talebin her adımını takip edin. |
+| 7 | Başlık | 500 adet üzeri mi? Önce teklif isteyin. | İpucu: beş yüz adedin üzerindeki alımlarda önce teklif isteyin; özel fiyat avantajı kazanın. |
+| 8 | Kapanış kartı |  | Sıradaki eğitimde sadakat programını, kuponları ve davet sistemini göreceğiz. |
+
+## E10 — Eğitim 10 · Sadakat, Kupon ve Davet
+
+| # | Sahne | Görsel | Dış ses |
+|---|---|---|---|
+| 1 | Başlık | Sadakat, kupon ve davet. | Siparişleriniz size puan, kupon ve indirim olarak geri döner. |
+| 2 | Panel ekranı | `sadakat` · Adım 1: Kademe ve puan | Sadakat Programı’nda kademenizi, puan bakiyenizi ve bir üst kademeye kalan puanı görürsünüz. |
+| 3 | Panel ekranı | `sadakat-alt` · Adım 2: Bekleyen puanlar | Her siparişin puanı teslim edildiğinde otomatik olarak bakiyenize eklenir. |
+| 4 | Panel ekranı | `kuponlar` · Adım 3: Kuponlarım | Kuponlarınızı kopyalayıp sepette kullanın; indirim tutardan otomatik düşer. |
+| 5 | Panel ekranı | `davet` · Adım 4: Arkadaşını davet et | Bir firmayı davet edin; ilk siparişinde iki firma da yüzde beş indirim kuponu kazanır. |
+| 6 | Kapanış kartı |  | MTS Hijyen B2B. Eğitim serisinin sonuna geldiniz; iyi alışverişler! |

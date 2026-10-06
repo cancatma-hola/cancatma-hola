@@ -28,7 +28,8 @@ function clean() {
   }
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   let n; const blur = new Set();
-  while ((n = walker.nextNode())) if (/@(gmail|hotmail|outlook|yahoo)\./i.test(n.textContent)) blur.add(n.parentElement);
+  while ((n = walker.nextNode())) if (/@(gmail|hotmail|outlook|yahoo)\.|asd, istanbul/i.test(n.textContent)) blur.add(n.parentElement);
+  for (const el of document.querySelectorAll('body *')) if (el.children.length <= 3 && /^\W*asd,\s*istanbul\s*$/i.test((el.textContent || '').trim())) blur.add(el);
   blur.forEach(el => { el.style.filter = 'blur(6px)'; });
 }
 

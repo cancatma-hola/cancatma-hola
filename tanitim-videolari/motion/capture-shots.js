@@ -63,4 +63,17 @@ module.exports = [
     targets: { b1: ['Onayınızı bekleyen sipariş var'], b2: ['MTS-2026-0018, Sevkiyatta'] } },
   { name: 'hizli', url: '/tr/hesap/hizli-siparis',
     targets: { satir: ['Satır Ekle'], csv: ['CSV Yapıştır'], dogrula: ['Doğrula'], sepete: ['Sepete Ekle'] } },
+  // ── Faz 2
+  { name: 'periyodik', url: '/tr/hesap/periyodik-siparisler', targets: { yeni: ['Yeni Şablon'], aylik: ['Aylık Temizlik Sarf Aboneliği'], sonraki: ['Sonraki Sipariş: 31 Eki 2026', 0, false] } },
+  { name: 'listeler', url: '/tr/hesap/listeler', targets: { yeni: ['Yeni Liste'], uretim: ['Üretim Hattı Standart Set'], sepete: ['Sepete Ekle', 1] } },
+  { name: 'teklifler', url: '/tr/hesap/teklifler', targets: { yeni: ['Yeni Teklif Talebi'], t2: ['TKF-2026-0002'], hazir: ['Teklif Hazır'] } },
+  { name: 'iadeler', url: '/tr/hesap/iadeler', targets: { ac: ['Sipariş seç ve iade aç →'], r: ['MTS-2026-0017'] } },
+  { name: 'numune', url: '/tr/hesap/numune-talepler', targets: { yeni: ['+ Yeni Numune Talebi'] } },
+  { name: 'sadakat', url: '/tr/hesap/sadakat', targets: { kademe: ['ALTIN MÜŞTERİ', 0, false], bakiye: ['TOPLAM BAKİYE', 0, false], sonraki: ['SONRAKİ', 0, false] } },
+  { name: 'sadakat-alt', url: '/tr/hesap/sadakat', before: scroll(420), targets: { bekleyen: ['Bekleyen puanlarınız', 0, false] } },
+  { name: 'kuponlar', url: '/tr/hesap/kuponlar', targets: { k1: ['SADAKAT10-MUWO14U7'], k2: ['HOSGELDIN-MUWO14U7'], nasil: ['Nasıl kullanılır?'] } },
+  { name: 'davet', url: '/tr/hesap/davet', targets: { baslik: ['Firma Davet Et, İkisi de Kazan'], gonder: ['Davet Gönder'] } },
+  { name: 'projeler', url: '/tr/hesap/projeler', targets: { yeni: ['Yeni Proje'], ozet: ['PROJE HARCAMA ÖZETİ', 0, false], p2: ['PRJ-2026-02'] } },
+  { name: 'ekstre-alt', url: '/tr/hesap/ekstre', before: scroll(380), targets: {} },
+  { name: 'analitik', url: '/tr/hesap/analitik', wait: 3000, targets: {} },
 ];

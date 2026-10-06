@@ -57,7 +57,7 @@ const VIDEO = {
 
     { type: 'screen', shot: 'siparisler', d: 6, step: { n: 6, of: 6, ttl: 'Siparişlerim’den izleyin' },
       cam: [{ at: 0.8, rect: { x: 565, y: 300, w: 1072, h: 420 }, pad: 20 }],
-      focus: [{ at: 1.4, rect: { x: 870, y: 440, w: 220, h: 280 }, label: 'Durum', pad: 4 }],
+      focus: [{ at: 1.4, rect: { x: 1150, y: 440, w: 150, h: 300 }, label: 'Durum', pad: 6 }],
       vo: [{ id: 'e2-09', text: 'Durumunu Siparişlerim ekranından anlık takip edin.', at: 1.0 }] },
 
     { type: 'title', d: 5.5, tip: true, eyebrow: 'İpucu', size: 104, y: 380,

@@ -385,3 +385,58 @@ SCENES.list = {
     }
   },
 };
+
+// ── Sahne: form kartı (animasyonla doldurulan panel formu) ──────
+// { eyebrow, title:[...], sub, form:{ ttl, tag, fields:[[etiket, değer, genişlik%]], at, gap, button:{text, at}, toast:{at,title,sub}, stamp:{at,text} } }
+SCENES.form = {
+  build(el, s) {
+    const f = s.form;
+    el.innerHTML = gridHTML() + `
+      <div class="abs" style="left:116px;top:250px;width:560px">
+        <div class="mono t-eyebrow"><span class="mask"><span>${s.eyebrow || ''}</span></span></div>
+        ${(s.title || []).map((t, i) => `<div class="t-line ${i === s.title.length - 1 ? 't-accent' : ''}" style="font-size:${s.titleSize || 78}px;margin-top:${i ? 0 : 18}px"><span class="mask"><span>${t}</span></span></div>`).join('')}
+        ${s.sub ? `<div class="t-sub" style="font-size:30px;margin-top:28px"><span class="mask"><span>${s.sub}</span></span></div>` : ''}</div>
+      <div class="abs fcard" style="left:720px;top:180px;width:1080px;background:#fff;border-radius:20px;padding:36px 40px;box-shadow:0 30px 80px -24px rgba(11,31,51,.35),0 0 0 1px rgba(11,31,51,.06)">
+        <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:32px;font-weight:600;letter-spacing:-.02em">${f.ttl}</div>
+          <div class="mono" style="font-size:13px;color:var(--ink2)">${f.tag || ''}</div></div>
+        <div style="display:flex;flex-wrap:wrap;gap:20px 20px;margin-top:26px">${f.fields.map(([k, v, w]) => `<div class="ff" style="width:calc(${w || 100}% - ${w && w < 100 ? 10 : 0}px)">
+          <div class="mono" style="font-size:13px;color:var(--ink2)">${k}</div>
+          <div class="fbox" style="margin-top:8px;border:1.5px solid var(--line);border-radius:10px;padding:13px 16px;font-size:23px;height:56px;white-space:nowrap;overflow:hidden"><span class="tx"></span></div></div>`).join('')}</div>
+        ${f.button ? `<div style="display:flex;justify-content:flex-end;margin-top:30px;border-top:1px solid var(--line);padding-top:24px"><div class="lbtn" style="background:var(--blue);color:#fff;font-weight:600;font-size:24px;padding:18px 34px;border-radius:12px">${f.button.text}</div></div>` : ''}</div>
+      ${f.toast ? `<div class="toast" style="right:120px;top:70px"><div class="ic">${CHECK('#fff', 26)}</div><div><b>${f.toast.title}</b><span>${f.toast.sub || ''}</span></div></div>` : ''}
+      ${f.stamp ? `<div class="stamp lstamp" style="font-size:52px">${f.stamp.text}</div>` : ''}
+      <div class="ring"></div><svg class="cursor" viewBox="0 0 34 34"><path d="M6 3 L6 27 L12.5 21 L17 31 L21.5 29 L17 19.5 L26 19.5 Z" fill="#fff" stroke="#0B1F33" stroke-width="2.2" stroke-linejoin="round"/></svg>`;
+  },
+  render(el, s, lt) {
+    const f = s.form;
+    gridIn(el, lt, 0);
+    el.querySelectorAll('.mask > span').forEach((m, i) => { const a = 0.2 + i * 0.1; m.style.transform = `translateY(${(1 - E.editorial(seg(lt, a, a + 0.8))) * 106}%)`; });
+    const cp = E.outExpo(seg(lt, 0.2, 1.1));
+    const card = el.querySelector('.fcard');
+    card.style.transform = `translateY(${(1 - cp) * 60}px)`; card.style.opacity = cp;
+    const t0 = f.at ?? 1.3, gap = f.gap ?? 0.9;
+    el.querySelectorAll('.ff').forEach((ff, i) => {
+      const v = f.fields[i][1], a = t0 + i * gap;
+      const p = seg(lt, a, a + Math.min(0.8, v.length * 0.045));
+      ff.querySelector('.tx').textContent = v.slice(0, Math.floor(p * v.length)) + (p > 0 && p < 1 ? '▍' : '');
+      ff.querySelector('.fbox').style.borderColor = p > 0 && p < 1 ? 'var(--blue)' : '';
+    });
+    const btn = el.querySelector('.lbtn'), cur = el.querySelector('.cursor'), ring = el.querySelector('.ring');
+    if (btn && f.button.at) {
+      const b = btn.getBoundingClientRect();
+      const tx = b.x + b.width / 2, ty = b.y + b.height / 2 + 4;
+      const mv = E.inOutQuart(seg(lt, f.button.at - 0.8, f.button.at));
+      css(cur, { left: lerp(1700, tx, mv) + 'px', top: lerp(1150, ty, mv) + 'px', opacity: lt > f.button.at - 0.8 ? 1 : 0 });
+      btn.style.transform = `scale(${lt > f.button.at ? 1 - 0.05 * (1 - seg(lt, f.button.at, f.button.at + 0.2)) : 1})`;
+      const rp = seg(lt, f.button.at, f.button.at + 0.55);
+      if (rp > 0 && rp < 1) { const rr = 14 + 50 * E.outExpo(rp); css(ring, { display: 'block', left: (tx - rr) + 'px', top: (ty - rr) + 'px', width: rr * 2 + 'px', height: rr * 2 + 'px', opacity: 1 - rp }); }
+      else ring.style.display = 'none';
+    } else { cur.style.opacity = 0; ring.style.display = 'none'; }
+    if (f.toast) { const te = el.querySelector('.toast'); const p = spring(lt - f.toast.at, SPRING.snappy); css(te, { opacity: lt >= f.toast.at ? 1 : 0, transform: `translateX(${(1 - p) * 140}px)` }); }
+    if (f.stamp) {
+      const sp = E.sharp(seg(lt, f.stamp.at - 0.22, f.stamp.at));
+      css(el.querySelector('.lstamp'), { left: '1420px', top: '540px', opacity: lt > f.stamp.at - 0.22 ? Math.min(1, sp * 2) : 0,
+        transform: `translate(-50%,-50%) rotate(-8deg) scale(${lerp(1.7, 1, sp)})` });
+    }
+  },
+};
