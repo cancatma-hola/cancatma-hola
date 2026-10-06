@@ -30,5 +30,12 @@
 
 ## Hype promo
 - Dosyalar: `motion/hype/promo.html` (sahne), `motion/hype/render.js` (hareket bulanıklıklı render), `motion/hype/audio.py` (müzik + efekt sentezi)
-- Süre 52 sn · 1920×1080 · 30 fps · −14 LUFS
+- Süre 60 sn · 1920×1080 · 30 fps · −14 LUFS
 - Sahneler: açılış → 3D uçuş → kategori yörüngesi → özel fiyat → hızlı sipariş → onay mührü → teslimat koşusu → büyük sayılar → logo montajı
+
+## v2 · Okunabilirlik düzeltmesi
+Geri bildirim: “Ekranlar çok uzak, metinler çok hızlı ya da kontrast düşük.”
+- **Ekranlar yakın:** panel görüntüleri tam ekran değil, ilgili bölge kırpılıp 1,6× büyütülerek gösteriliyor (özet kartları, ürün fiyatı, onay kartı, SKU listesi).
+- **Okuma süresi:** her başlık en az ~2,5 sn ekranda kalıyor; video 52 → 60 sn.
+- **Kontrast:** metinler koyu zemin bandı (scrim) üzerinde, beyaz + amber; arka plan parlaklığı ve gren azaltıldı.
+- Ses zamanlaması `hits.json` içindeki `meta` olayından okunuyor (davul girişi, rulo, logo).

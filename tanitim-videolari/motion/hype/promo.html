@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="../node_modules/@fontsource/inter-tight/700.css">
 <link rel="stylesheet" href="../node_modules/@fontsource/jetbrains-mono/500.css">
 <style>
-  :root { --bg: #050D18; --blue: #2F7FE0; --blue2: #1D5FA8; --cyan: #5FD3FF; --amber: #F5B019; --white: #F2F6FB; --dim: rgba(242,246,251,.55); }
+  :root { --bg: #050D18; --blue: #2F7FE0; --blue2: #1D5FA8; --cyan: #5FD3FF; --amber: #F5B019; --white: #F2F6FB; --dim: rgba(242,246,251,.85); }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--white); }
   body { font-family: 'Inter Tight', sans-serif; -webkit-font-smoothing: antialiased; }
@@ -32,8 +32,8 @@
            text-transform: uppercase; white-space: nowrap; padding: 10px 48px; filter: url(#ink); }
   #flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; z-index: 90; mix-blend-mode: screen; }
   #vig { position: absolute; inset: 0; pointer-events: none; z-index: 80;
-         background: radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(0,0,0,.65) 100%); }
-  #grain { position: absolute; inset: 0; z-index: 85; pointer-events: none; opacity: .07; mix-blend-mode: overlay; }
+         background: radial-gradient(130% 100% at 50% 50%, transparent 65%, rgba(0,0,0,.45) 100%); }
+  #grain { position: absolute; inset: 0; z-index: 85; pointer-events: none; opacity: .035; mix-blend-mode: overlay; }
 </style>
 </head>
 <body>
@@ -53,16 +53,19 @@
 <script src="../kit/illus.js"></script>
 <script>
 // ════════════════════════════════════════════════════════════════
-// MTS Hijyen B2B · Hype promo — 120 BPM, her şey t'nin saf fonksiyonu
+// MTS Hijyen B2B · Hype promo v2 — okunabilirlik kuralları:
+//  • panel ekranı = ilgili bölge kırpılıp ≥1,5× büyütülür (UI yazısı ≥ 21 px)
+//  • her metin oturduktan sonra ≥ 1,5 sn sabit kalır
+//  • görüntü üstünde yazı = koyu zemin bandı; düz beyaz/turuncu metin
 // ════════════════════════════════════════════════════════════════
-const BPM = 120, BEAT = 60 / BPM, DUR = 52;
-const S = {                                  // sahne pencereleri (sn)
-  open: [0, 4], fly: [4, 10], orbit: [10, 16], price: [16, 22], sku: [22, 28],
-  stamp: [28, 33], rush: [33, 40], nums: [40, 45], logo: [45, 52],
+const BPM = 120, BEAT = 60 / BPM, DUR = 60;
+const S = {
+  open: [0, 5], fly: [5, 13], orbit: [13, 20], price: [20, 27], sku: [27, 34],
+  stamp: [34, 40], rush: [40, 48], nums: [48, 54], logo: [54, 60],
 };
-// Ses tasarımı için olay listesi (render betiği okur)
-window.HITS = [];   // {t, type:'impact'|'whoosh'|'riser'|'tick'|'pop'|'stamp'}
+window.HITS = [];
 const hit = (t, type, extra = {}) => (HITS.push({ t, type, ...extra }), t);
+hit(0, 'meta', { drop: 5, stop: 54, roll: 42.5, logo: 56, dur: DUR });
 window.TOTAL = DUR;
 
 const cam = $('#cam');
@@ -70,337 +73,288 @@ const P = (t, a, b, e = E.outExpo) => e(seg(t, a, b));
 const sc = {};
 function scene(id, html) { const d = document.createElement('div'); d.className = 'sc'; d.id = 's-' + id; d.innerHTML = html; cam.appendChild(d); sc[id] = d; return d; }
 function show(id, t, pre = 0.45, post = 0.45) { const [a, b] = S[id]; const on = t >= a - pre && t < b + post; sc[id].style.display = on ? 'block' : 'none'; return t - a; }
-function chars(str, cls = '') { return [...str].map(c => `<span class="ch ${cls}" style="display:inline-block;white-space:pre">${c}</span>`).join(''); }
-// zoom-through çıkışı/girişi (hız tepesinde kesme)
-function zoomOut(el, t, cut, dir = 1, blurPeak = 12) { // dir 1: öne (kameraya), -1: geriye
-  const p = E.inExpo(seg(t, cut - 0.35, cut));
-  if (p <= 0) return 1;
-  el.style.transform += ` scale(${1 + dir * 0.35 * p})`;
-  el.style.filter = `blur(${blurPeak * p}px)`;
+function chars(str) { return [...str].map(c => `<span class="ch" style="display:inline-block;white-space:pre">${c}</span>`).join(''); }
+function words(arr, cls = 'w') { return arr.map(w => `<span class="${cls}" style="display:inline-block;margin:0 .13em">${w}</span>`).join(''); }
+function reset(root) { root.style.transform = ''; root.style.filter = ''; root.style.opacity = 1; }
+// zoom-through (hız tepesinde kesme)
+function zoomOut(el, t, cut, dir = 1, blurPeak = 12) {
+  const p = E.inExpo(seg(t, cut - 0.35, cut)); if (p <= 0) return;
+  el.style.transform += ` scale(${1 + dir * 0.35 * p})`; el.style.filter = `blur(${blurPeak * p}px)`;
   el.style.opacity = t >= cut ? 0 : 1 - 0.85 * seg(t, cut - 0.35, cut);
-  return 1;
 }
 function zoomIn(el, t, cut, dir = 1, blurPeak = 12) {
-  const p = E.outExpo(seg(t, cut, cut + 0.6));
   if (t < cut) { el.style.opacity = 0; return; }
-  const s0 = dir > 0 ? 0.72 : 1.45;
-  el.style.transform = `scale(${lerp(s0, 1, p)})`;
-  el.style.filter = p < 1 ? `blur(${blurPeak * (1 - p)}px)` : 'none';
-  el.style.opacity = 0.15 + 0.85 * p;
+  const p = E.outExpo(seg(t, cut, cut + 0.6));
+  el.style.transform = `scale(${lerp(dir > 0 ? 0.72 : 1.45, 1, p)})`;
+  el.style.filter = p < 1 ? `blur(${blurPeak * (1 - p)}px)` : 'none'; el.style.opacity = 0.15 + 0.85 * p;
+}
+// kelime girişi: hızlı giriş (≤0,5 sn), sonra sabit
+function wordsIn(sel, lt, a, gap = 0.18, kind = 'up') {
+  $$(sel).forEach((w, i) => { const t0 = a + i * gap, p = E.outExpo(seg(lt, t0, t0 + 0.45));
+    w.style.opacity = lt > t0 ? Math.min(1, (lt - t0) * 6) : 0;
+    w.style.transform = kind === 'slam' ? `scale(${lerp(1.8, 1, E.sharp(seg(lt, t0, t0 + 0.3)))})` : `translateY(${(1 - p) * 50}px)`; });
+}
+// kırpılmış panel bölgesi (okunabilir ölçek)
+function crop(shot, r, k, extra = '') {
+  return `<div class="crop" style="position:relative;width:${r.w * k}px;height:${r.h * k}px;overflow:hidden;border-radius:18px;background:#fff;
+    box-shadow:0 0 0 3px rgba(95,211,255,.45),0 40px 120px -20px rgba(0,0,0,.9),0 0 90px rgba(47,127,224,.35);${extra}">
+    <img src="../shots/${shot}.png" style="position:absolute;left:${-r.x * k}px;top:${-r.y * k}px;width:${1920 * k}px;height:${1080 * k}px"></div>`;
 }
 
-// ── Arka plan: derinlikli ışık tozları + ışık sızıntıları ─────────
+// ── Arka plan ────────────────────────────────────────────────────
 const bg = $('#bg').getContext('2d');
-const DUST = Array.from({ length: 170 }, (_, i) => ({ x: rnd(i) * 1920, y: rnd(i + 99) * 1080, z: 0.2 + rnd(i + 7) * 1.4, r: 0.6 + rnd(i + 3) * 2.6, ph: rnd(i + 5) * 6.28 }));
+const DUST = Array.from({ length: 150 }, (_, i) => ({ x: rnd(i) * 1920, y: rnd(i + 99) * 1080, z: 0.2 + rnd(i + 7) * 1.4, r: 0.6 + rnd(i + 3) * 2.4, ph: rnd(i + 5) * 6.28 }));
 function drawBG(t, speed) {
-  const g = bg.createRadialGradient(960, 640, 50, 960, 540, 1200);
-  g.addColorStop(0, '#0B2240'); g.addColorStop(1, '#03080F');
-  bg.fillStyle = g; bg.fillRect(0, 0, 1920, 1080);
-  // ışık sızıntısı lekeleri
+  const g = bg.createRadialGradient(960, 600, 50, 960, 540, 1200);
+  g.addColorStop(0, '#0B2240'); g.addColorStop(1, '#03080F'); bg.fillStyle = g; bg.fillRect(0, 0, 1920, 1080);
   for (let k = 0; k < 3; k++) {
     const cx = 960 + Math.sin(t * 0.21 + k * 2.1) * 700, cy = 540 + Math.cos(t * 0.17 + k * 1.3) * 380;
     const lg = bg.createRadialGradient(cx, cy, 0, cx, cy, 520);
-    lg.addColorStop(0, k === 1 ? 'rgba(245,176,25,.10)' : 'rgba(47,127,224,.16)'); lg.addColorStop(1, 'rgba(0,0,0,0)');
-    bg.fillStyle = lg; bg.fillRect(0, 0, 1920, 1080);
+    lg.addColorStop(0, k === 1 ? 'rgba(245,176,25,.08)' : 'rgba(47,127,224,.13)'); lg.addColorStop(1, 'rgba(0,0,0,0)'); bg.fillStyle = lg; bg.fillRect(0, 0, 1920, 1080);
   }
-  // tozlar: hız arttıkça çizgiye dönüşür
   for (const d of DUST) {
-    const x = ((d.x - t * 40 * d.z * (1 + speed * 14)) % 1920 + 1920) % 1920;
-    const y = d.y + Math.sin(t * 0.6 + d.ph) * 18 * d.z;
+    const x = ((d.x - t * 40 * d.z * (1 + speed * 14)) % 1920 + 1920) % 1920, y = d.y + Math.sin(t * 0.6 + d.ph) * 18 * d.z;
     const a = 0.25 + 0.5 * (0.5 + 0.5 * Math.sin(t * 1.3 + d.ph));
-    bg.strokeStyle = bg.fillStyle = `rgba(150,200,255,${a * d.z * 0.5})`;
+    bg.strokeStyle = bg.fillStyle = `rgba(150,200,255,${a * d.z * 0.45})`;
     if (speed > 0.05) { bg.lineWidth = d.r; bg.beginPath(); bg.moveTo(x, y); bg.lineTo(x + speed * 220 * d.z, y); bg.stroke(); }
     else { bg.beginPath(); bg.arc(x, y, d.r * d.z, 0, 6.283); bg.fill(); }
   }
 }
-const gr = $('#grain').getContext('2d');
-const grainImg = gr.createImageData(480, 270);
-function drawGrain(t) {
-  const f = Math.floor(t * 30), d = grainImg.data;
-  for (let i = 0; i < d.length; i += 4) { const v = rnd(i * 0.37 + f * 13.1) * 255; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; }
-  gr.putImageData(grainImg, 0, 0);
-}
+const gr = $('#grain').getContext('2d'), grainImg = gr.createImageData(480, 270);
+function drawGrain(t) { const f = Math.floor(t * 30), d = grainImg.data;
+  for (let i = 0; i < d.length; i += 4) { const v = rnd(i * 0.37 + f * 13.1) * 255; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; } gr.putImageData(grainImg, 0, 0); }
 
-// ── Kamera sarsıntısı (darbelerde) ───────────────────────────────
-const SHAKES = [];
+// ── Sarsıntı, flaş, parçacık, halka ──────────────────────────────
+const SHAKES = [], FLASHES = [];
 const shakeAt = (t, amp = 14) => SHAKES.push({ t, amp });
-function shake(t) {
-  let x = 0, y = 0, r = 0;
-  for (const s of SHAKES) { const u = t - s.t; if (u < 0 || u > 0.7) continue; const e = Math.exp(-7 * u) * s.amp;
-    x += Math.sin(u * 63) * e; y += Math.cos(u * 51) * e * 0.8; r += Math.sin(u * 40) * e * 0.04; }
-  return { x, y, r };
-}
-const FLASHES = [];
-const flashAt = (t, a = 0.6, d = 0.3) => FLASHES.push({ t, a, d });
+const flashAt = (t, a = 0.5, d = 0.3) => FLASHES.push({ t, a, d });
+function shake(t) { let x = 0, y = 0, r = 0;
+  for (const s of SHAKES) { const u = t - s.t; if (u < 0 || u > 0.7) continue; const e = Math.exp(-7 * u) * s.amp; x += Math.sin(u * 63) * e; y += Math.cos(u * 51) * e * 0.8; r += Math.sin(u * 40) * e * 0.04; }
+  return { x, y, r }; }
 function flash(t) { let v = 0; for (const f of FLASHES) { const u = t - f.t; if (u >= 0 && u < f.d) v = Math.max(v, f.a * (1 - u / f.d) ** 2); } return v; }
-
-// ── Parçacık patlaması (saf fonksiyon) ───────────────────────────
 function burstHTML(id, n = 46) { return `<div class="abs burst" id="${id}" style="left:0;top:0">${Array.from({ length: n }, (_, i) =>
   `<i style="position:absolute;width:${8 + rnd(i * 3.1) * 12}px;height:${5 + rnd(i * 7.7) * 8}px;border-radius:2px;background:${['#F5B019', '#5FD3FF', '#FFFFFF', '#2F7FE0'][i % 4]}"></i>`).join('')}</div>`; }
 function burst(el, t, t0, cx, cy, spread = 900, grav = 1400, life = 1.8) {
   const u = t - t0; el.style.display = u >= 0 && u < life ? 'block' : 'none'; if (u < 0 || u >= life) return;
-  el.querySelectorAll('i').forEach((p, i) => {
-    const a = rnd(i * 1.7) * 6.283, sp = spread * (0.35 + rnd(i * 2.9) * 0.65);
+  el.querySelectorAll('i').forEach((p, i) => { const a = rnd(i * 1.7) * 6.283, sp = spread * (0.35 + rnd(i * 2.9) * 0.65);
     const x = cx + Math.cos(a) * sp * u * Math.exp(-1.2 * u), y = cy + Math.sin(a) * sp * u * Math.exp(-1.2 * u) * 0.8 + grav * u * u * 0.5;
-    p.style.transform = `translate(${x}px,${y}px) rotate(${(rnd(i) - 0.5) * 1400 * u}deg)`;
-    p.style.opacity = 1 - (u / life) ** 2;
-  });
-}
+    p.style.transform = `translate(${x}px,${y}px) rotate(${(rnd(i) - 0.5) * 1400 * u}deg)`; p.style.opacity = 1 - (u / life) ** 2; }); }
 function ring(el, t, t0, max = 900) { const u = seg(t, t0, t0 + 0.7); el.style.opacity = t >= t0 && u < 1 ? (1 - u) : 0;
   const r = 40 + max * E.outExpo(u); css(el, { width: r * 2 + 'px', height: r * 2 + 'px', marginLeft: -r + 'px', marginTop: -r + 'px', borderWidth: (14 * (1 - u) + 1) + 'px' }); }
+const SCRIM = 'background:linear-gradient(90deg,rgba(3,8,15,.92),rgba(3,8,15,.82) 70%,rgba(3,8,15,0));padding:26px 120px 30px 40px;border-radius:18px;';
 
-// ════════════════ S1 · Açılış ════════════════
+// ════════════════ S1 · Açılış (0–5) ════════════════
 scene('open', `
-  <div class="abs" id="o-sweep" style="left:-600px;top:-200px;width:420px;height:1500px;background:linear-gradient(90deg,transparent,rgba(95,211,255,.25),transparent);transform:rotate(18deg)"></div>
-  <div class="abs mono" id="o-eb" style="left:0;right:0;top:330px;text-align:center;font-size:22px;color:var(--cyan)">MTS Hijyen · B2B</div>
-  <div class="abs" id="o-l1" style="left:0;right:0;top:380px;text-align:center;font-size:150px;font-weight:700;letter-spacing:-.04em;perspective:1500px">${chars('Hijyen tedariği')}</div>
-  <div class="abs" id="o-l2" style="left:0;right:0;top:560px;text-align:center;font-size:150px;font-weight:700;letter-spacing:-.04em">${['yeniden', 'tasarlandı.'].map(w => `<span class="w grad" style="display:inline-block;margin:0 .14em">${w}</span>`).join('')}</div>`);
+  <div class="abs" id="o-sweep" style="left:-600px;top:-200px;width:420px;height:1500px;background:linear-gradient(90deg,transparent,rgba(95,211,255,.22),transparent);transform:rotate(18deg)"></div>
+  <div class="abs mono" id="o-eb" style="left:0;right:0;top:300px;text-align:center;font-size:28px;color:var(--cyan)">MTS Hijyen · B2B</div>
+  <div class="abs" id="o-l1" style="left:0;right:0;top:360px;text-align:center;font-size:150px;font-weight:700;letter-spacing:-.04em;perspective:1500px">${chars('Hijyen tedariği')}</div>
+  <div class="abs" id="o-l2" style="left:0;right:0;top:540px;text-align:center;font-size:150px;font-weight:700;letter-spacing:-.04em;color:var(--amber)">${words(['yeniden', 'tasarlandı.'])}</div>`);
 const GLY = 'ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ0123456789';
 function rOpen(t) {
-  const lt = show('open', t, 0, 0.4);
+  const lt = show('open', t, 0, 0.4); reset(sc.open);
   css('#o-sweep', { transform: `translateX(${E.inOutQuart(seg(lt, 0.2, 1.8)) * 3200}px) rotate(18deg)` });
-  $('#o-eb').style.opacity = P(lt, 0.2, 0.8) * (1 - seg(lt, 3.6, 4.0));
+  $('#o-eb').style.opacity = P(lt, 0.2, 0.8);
   $$('#o-l1 .ch').forEach((c, i) => {
-    const a = 0.45 + i * 0.07, settle = a + 0.45;
-    const p = E.outBack(seg(lt, a, settle));
-    c.style.transform = `rotateX(${(1 - p) * 95}deg)`; c.style.transformOrigin = 'bottom';
-    c.style.opacity = lt > a ? 1 : 0;
+    const a = 0.4 + i * 0.05, settle = a + 0.4, p = E.outBack(seg(lt, a, settle));
+    c.style.transform = `rotateX(${(1 - p) * 95}deg)`; c.style.transformOrigin = 'bottom'; c.style.opacity = lt > a ? 1 : 0;
     const tgt = c.dataset.t || (c.dataset.t = c.textContent);
     c.textContent = tgt === ' ' ? ' ' : (lt < settle ? GLY[Math.floor(rnd(i * 31 + Math.floor(lt * 24)) * GLY.length)] : tgt);
-    c.style.color = lt < settle ? 'var(--cyan)' : 'var(--white)';
+    c.style.color = lt < settle ? 'var(--cyan)' : '#fff';
   });
-  $$('#o-l2 .w').forEach((w, i) => {
-    const a = 2.0 + i * 0.5, p = E.sharp(seg(lt, a, a + 0.32));
-    w.style.transform = `scale(${lerp(2.4, 1, p)})`; w.style.filter = `blur(${(1 - p) * 14}px)`; w.style.opacity = lt > a ? 1 : 0;
-  });
-  $$('#o-l2 .w').forEach(w => w.style.backgroundPosition = `${100 - seg(lt, 2.4, 3.8) * 100}% 0`);
-  const root = sc.open; root.style.transform = ''; root.style.filter = ''; root.style.opacity = 1;
-  zoomOut(root, lt, 4.0, 1);
+  wordsIn('#o-l2 .w', lt, 2.0, 0.5, 'slam');
+  zoomOut(sc.open, lt, 5.0, 1);
 }
-hit(2.0, 'impact', { g: 0.5 }); hit(2.5, 'impact', { g: 0.6 }); hit(0.0, 'riser', { d: 4.0 }); shakeAt(2.0, 6); shakeAt(2.5, 8);
+hit(0.0, 'riser', { d: 5.0 }); hit(2.0, 'impact', { g: 0.5 }); hit(2.5, 'impact', { g: 0.6 }); shakeAt(2.0, 6); shakeAt(2.5, 8);
 
-// ════════════════ S2 · 3D kamera uçuşu ════════════════
-const CARDS = [
-  ['ozet', 0, 0, 0], ['kategori', -1150, -380, -900], ['urun', 1150, -360, -1300], ['onaylarim', -1250, 420, -1700],
+// ════════════════ S2 · 3D uçuş → Özet (5–13) ════════════════
+const CARDS = [['kategori', -1150, -380, -900], ['urun', 1150, -360, -1300], ['onaylarim', -1250, 420, -1700],
   ['siparis-detay', 1200, 440, -2200], ['butce', -300, -720, -2600], ['faturalar', 420, 760, -3000], ['sadakat', -1400, -40, -3500], ['analitik', 1400, 0, -3900]];
-scene('fly', `<div class="full" id="f-stage" style="perspective:1400px"><div id="f-world" style="position:absolute;left:960px;top:540px;transform-style:preserve-3d">
-  <div style="position:absolute;left:-4000px;top:600px;width:8000px;height:8000px;transform:rotateX(90deg);transform-origin:top;
-    background-image:linear-gradient(rgba(95,211,255,.25) 2px,transparent 2px),linear-gradient(90deg,rgba(95,211,255,.25) 2px,transparent 2px);background-size:200px 200px;
-    -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent)"></div>
-  ${CARDS.map(([s, x, y, z], i) => `<div class="shotcard" style="left:-480px;top:-270px;transform:translate3d(${x}px,${y}px,${z}px) rotateY(${i ? (x > 0 ? -18 : 18) : 0}deg)"><img src="../shots/${s}.png"></div>`).join('')}
+const OZET = { x: 565, y: 182, w: 1072, h: 281 };
+scene('fly', `<div class="full" id="f-flight" style="perspective:1400px"><div id="f-world" style="position:absolute;left:960px;top:540px;transform-style:preserve-3d">
+    <div style="position:absolute;left:-4000px;top:600px;width:8000px;height:8000px;transform:rotateX(90deg);transform-origin:top;
+      background-image:linear-gradient(rgba(95,211,255,.25) 2px,transparent 2px),linear-gradient(90deg,rgba(95,211,255,.25) 2px,transparent 2px);background-size:200px 200px;
+      -webkit-mask-image:radial-gradient(closest-side,#000 30%,transparent)"></div>
+    ${CARDS.map(([s, x, y, z]) => `<div class="shotcard" style="left:-480px;top:-270px;transform:translate3d(${x}px,${y}px,${z}px) rotateY(${x > 0 ? -18 : 18}deg)"><img src="../shots/${s}.png"></div>`).join('')}
   </div></div>
-  <div class="abs" id="f-words" style="left:110px;bottom:120px;height:200px;width:1500px;perspective:1200px">
-    ${['Sipariş.', 'Onay.', 'Teslimat.', 'Fatura.'].map(w => `<div class="abs fw glowtxt" style="left:0;bottom:0;font-size:190px;font-weight:700;letter-spacing:-.045em;white-space:nowrap">${w}</div>`).join('')}</div>`);
-// kamera bacakları: {t, x, y, z, rx, ry}
+  <div class="abs" id="f-line" style="left:110px;top:400px;${SCRIM}">
+    <div style="font-size:120px;font-weight:700;letter-spacing:-.045em;line-height:1.02">${words(['Tüm', 'süreç'])}<br>${words(['<span style="color:var(--amber)">tek</span>', '<span style="color:var(--amber)">panelde.</span>'])}</div></div>
+  <div class="abs" id="f-land" style="left:102px;top:140px">${crop('ozet', OZET, 1.6)}</div>
+  <div class="abs" id="f-chips" style="left:0;right:0;top:640px;display:flex;justify-content:center;gap:22px">
+    ${[['cart', 'Sipariş'], ['approve', 'Onay'], ['truck', 'Teslimat'], ['doc', 'Fatura']].map(([ic, w]) => `<div class="chip fc" style="font-size:44px;padding:20px 36px;background:#0B2240;border:2px solid rgba(95,211,255,.6)">${ICON(ic, 44, '#5FD3FF', 2.4)}${w}</div>`).join('')}</div>`);
 const FLY = [
   { t: 0.0, x: 0, y: -60, z: -4800, rx: 22, ry: -26 },
-  { t: 1.6, x: 260, y: 120, z: 1100, rx: 10, ry: -14, e: E.outExpo },        // dalış
-  { t: 3.2, x: -900, y: -240, z: 1900, rx: 4, ry: 16, e: E.inOutQuart },     // yanal süzülüş
-  { t: 4.7, x: 620, y: 140, z: 2700, rx: -6, ry: -12, e: E.inOutQuart },
-  { t: 5.7, x: 0, y: 0, z: 700, rx: 0, ry: 0, e: E.outExpo },               // özet kartına iniş
+  { t: 1.4, x: 260, y: 120, z: 1100, rx: 10, ry: -14, e: E.outExpo },
+  { t: 2.6, x: -900, y: -240, z: 1900, rx: 4, ry: 16, e: E.inOutQuart },
+  { t: 3.6, x: 620, y: 140, z: 2700, rx: -6, ry: -12, e: E.inOutQuart },
 ];
-function camAt(lt) {
-  let c = FLY[0];
-  for (let i = 1; i < FLY.length; i++) { const k = FLY[i], prev = FLY[i - 1]; if (lt <= prev.t) break;
-    const p = (k.e || E.inOutQuart)(seg(lt, prev.t, k.t)); c = { x: lerp(c.x, k.x, p), y: lerp(c.y, k.y, p), z: lerp(c.z, k.z, p), rx: lerp(c.rx, k.rx, p), ry: lerp(c.ry, k.ry, p) }; }
-  return c;
-}
-const WORD_T = [0.5, 1.5, 2.5, 3.5];
+function camAt(lt) { let c = FLY[0];
+  for (let i = 1; i < FLY.length; i++) { const k = FLY[i], pr = FLY[i - 1]; if (lt <= pr.t) break; const p = (k.e || E.inOutQuart)(seg(lt, pr.t, k.t));
+    c = { x: lerp(c.x, k.x, p), y: lerp(c.y, k.y, p), z: lerp(c.z, k.z, p), rx: lerp(c.rx, k.rx, p), ry: lerp(c.ry, k.ry, p) }; }
+  return c; }
 function rFly(t) {
-  const lt = show('fly', t);
+  const lt = show('fly', t); reset(sc.fly); zoomIn(sc.fly, lt, 0, 1);
   const c = camAt(lt);
   $('#f-world').style.transform = `translate3d(${c.x}px,${c.y}px,${c.z}px) rotateX(${c.rx}deg) rotateY(${c.ry}deg)`;
-  const root = sc.fly; root.style.transform = ''; root.style.filter = ''; root.style.opacity = 1;
-  zoomIn(root, lt, 0, 1);
-  $$('#f-words .fw').forEach((w, i) => {
-    const a = WORD_T[i], b = (WORD_T[i + 1] ?? 5.2);
-    const on = lt >= a && lt < b;
-    w.style.opacity = on ? 1 : 0;
-    const p = E.outExpo(seg(lt, a, a + 0.45));
-    const tr = [`scale(${lerp(2.2, 1, p)})`, `translateX(${(1 - p) * -500}px) skewX(${(1 - p) * -20}deg)`,
-      `translateY(${(1 - p) * 180}px) rotate(${(1 - p) * -8}deg)`, `rotateX(${(1 - p) * 90}deg)`][i];
-    w.style.transform = tr; w.style.transformOrigin = 'left bottom'; w.style.filter = `blur(${(1 - p) * 10}px)`;
-  });
-  // çıkış: sağa kamçı (whip) — sahne aynı yönde çıkar, sıradaki aynı yönde girer
-  const wp = E.inExpo(seg(lt, 5.65, 6.0));
-  if (wp > 0) { root.style.transform = `translateX(${-wp * 1400}px)`; root.style.filter = `blur(${wp * 18}px)`; }
+  // uçuş 0–3,6 → Özet'e iniş (inverse zoom-through)
+  const fo = E.inExpo(seg(lt, 3.3, 3.7));
+  $('#f-flight').style.opacity = 1 - fo; $('#f-flight').style.filter = fo > 0 ? `blur(${fo * 18}px)` : 'none';
+  $('#f-line').style.opacity = P(lt, 0.4, 0.8) * (1 - seg(lt, 3.3, 3.6));
+  wordsIn('#f-line .w', lt, 0.5, 0.2);
+  const land = $('#f-land'), lp = E.outExpo(seg(lt, 3.7, 4.4));
+  land.style.opacity = lt > 3.7 ? 0.15 + 0.85 * lp : 0;
+  land.style.transform = `scale(${lerp(1.5, 1, lp)})`; land.style.filter = lp < 1 ? `blur(${(1 - lp) * 18}px)` : 'none';
+  $$('#f-chips .fc').forEach((ch, i) => { const a = 4.6 + i * 0.5, p = lt < a ? 0 : spring(lt - a, SPRING.bouncy);
+    ch.style.opacity = lt > a ? 1 : 0; ch.style.transform = `scale(${p})`; drawIcon(ch.querySelector('svg'), E.outExpo(seg(lt, a, a + 0.6))); });
+  const wp = E.inExpo(seg(lt, 7.65, 8.0));
+  if (wp > 0) { sc.fly.style.transform = `translateX(${-wp * 1400}px)`; sc.fly.style.filter = `blur(${wp * 18}px)`; }
 }
-WORD_T.forEach(w => hit(4 + w, 'impact', { g: 0.45 })); hit(4.0, 'impact', { g: 1 }); flashAt(4.0, 0.7, 0.35); shakeAt(4.0, 18);
-hit(9.65, 'whoosh', { pan: -1 });
+hit(5.0, 'impact', { g: 1 }); flashAt(5.0, 0.6, 0.35); shakeAt(5.0, 18); hit(8.7, 'whoosh', { pan: 0 });
+[9.6, 10.1, 10.6, 11.1].forEach(x => hit(x, 'pop', { g: 0.8 })); hit(12.65, 'whoosh', { pan: -1 });
 
-// ════════════════ S3 · Yörünge ════════════════
-const CATS = [['box', 'Kâğıt ürünleri'], ['flask', 'Temizlik kimyasalları'], ['cart', 'Mutfak & gıda servisi'], ['tag', 'Dispenser sistemleri'],
+// ════════════════ S3 · Kategori yörüngesi (13–20) ════════════════
+const CATS = [['box', 'Kâğıt ürünleri'], ['flask', 'Temizlik kimyasalları'], ['cart', 'Mutfak & gıda'], ['tag', 'Dispenser sistemleri'],
   ['bolt', 'Ekipman & makine'], ['shield', 'Kişisel bakım'], ['repeat', 'Atık & ortam']];
-scene('orbit', `<div class="full" style="perspective:1600px"><div id="ob-stage" class="full" style="transform-style:preserve-3d">
-  ${CATS.map(([ic, n], i) => `<div class="abs glass ob" style="left:0;top:0;padding:20px 28px 20px 20px;display:flex;align-items:center;gap:18px;transform-style:preserve-3d">
-    <div style="width:64px;height:64px;border-radius:18px;background:rgba(95,211,255,.15);display:grid;place-items:center">${ICON(ic, 38, '#5FD3FF', 2)}</div>
-    <div style="font-size:30px;font-weight:600;white-space:nowrap">${n}</div></div>`).join('')}
-  <div class="abs" id="ob-core" style="left:960px;top:590px;width:340px;height:340px;margin:-170px 0 0 -170px;border-radius:50%;background:#fff;display:grid;place-items:center;
-    box-shadow:0 0 0 14px rgba(95,211,255,.18),0 0 140px rgba(47,127,224,.75)"><img src="../kit/img/logo.png" style="width:240px"></div>
-  </div></div>
-  <div class="abs" id="ob-count" style="left:0;right:0;top:40px;text-align:center"><span class="grad" id="ob-num" style="font-size:150px;font-weight:700;letter-spacing:-.04em"></span>
-    <div class="mono" style="font-size:22px;color:var(--dim);margin-top:-6px">kurum güveniyor</div></div>
-  <div class="abs" id="ob-tag" style="left:0;right:0;bottom:90px;text-align:center;font-size:64px;font-weight:600;letter-spacing:-.03em">
-    ${['Tüm', 'hijyen', 'ihtiyaçları.', '<b style="color:var(--amber)">Tek</b>', '<b style="color:var(--amber)">katalog.</b>'].map(w => `<span class="w" style="display:inline-block;margin:0 .13em">${w}</span>`).join('')}</div>`);
+scene('orbit', `<div class="full" style="perspective:1600px"><div class="full" style="transform-style:preserve-3d">
+  ${CATS.map(([ic, n]) => `<div class="abs ob" style="left:0;top:0;padding:18px 30px 18px 18px;display:flex;align-items:center;gap:18px;border-radius:20px;
+      background:#0E2A4C;border:2px solid rgba(95,211,255,.45);box-shadow:0 20px 50px -20px rgba(0,0,0,.9)">
+    <div style="width:64px;height:64px;border-radius:16px;background:rgba(95,211,255,.18);display:grid;place-items:center">${ICON(ic, 40, '#5FD3FF', 2.2)}</div>
+    <div style="font-size:36px;font-weight:600;white-space:nowrap;color:#fff">${n}</div></div>`).join('')}
+  <div class="abs" id="ob-core" style="left:960px;top:600px;width:300px;height:300px;margin:-150px 0 0 -150px;border-radius:50%;background:#fff;display:grid;place-items:center;
+    box-shadow:0 0 0 14px rgba(95,211,255,.18),0 0 140px rgba(47,127,224,.75)"><img src="../kit/img/logo.png" style="width:212px"></div></div></div>
+  <div class="abs" id="ob-count" style="left:0;right:0;top:30px;text-align:center">
+    <div id="ob-num" style="font-size:150px;font-weight:700;letter-spacing:-.04em;color:#fff;line-height:1"></div>
+    <div style="font-size:40px;font-weight:600;color:var(--amber);margin-top:8px">kurum güveniyor</div></div>`);
 function rOrbit(t) {
-  const lt = show('orbit', t);
-  const root = sc.orbit; root.style.transform = ''; root.style.filter = ''; root.style.opacity = 1;
-  // giriş: soldan aynı yönde kamçı
+  const lt = show('orbit', t); reset(sc.orbit);
   const wi = E.outExpo(seg(lt, 0, 0.55));
-  if (lt < 0.55) { root.style.transform = `translateX(${(1 - wi) * 1400}px)`; root.style.filter = `blur(${(1 - wi) * 18}px)`; }
-  if (lt < 0) root.style.opacity = 0;
-  const spin = lt * 0.16;
+  if (lt < 0.55) { sc.orbit.style.transform = `translateX(${(1 - wi) * 1400}px)`; sc.orbit.style.filter = `blur(${(1 - wi) * 18}px)`; }
+  if (lt < 0) sc.orbit.style.opacity = 0;
+  const spin = lt * 0.055;
   $$('.ob').forEach((o, i) => {
-    const a = i / CATS.length * 6.283 + spin * 6.283;
-    const x = 960 + Math.cos(a) * 720, y = 590 + Math.sin(a) * 230, z = Math.sin(a) * 300;
-    const t0 = 0.35 + i * 0.12, p = E.outBack(seg(lt, t0, t0 + 0.7));
-    const w = o.offsetWidth, h = o.offsetHeight;
+    const a = i / CATS.length * 6.283 + spin * 6.283 + 0.5;
+    const x = 960 + Math.cos(a) * 690, y = 610 + Math.sin(a) * 250, z = Math.sin(a) * 220;
+    const t0 = 0.35 + i * 0.12, p = E.outBack(seg(lt, t0, t0 + 0.7)), w = o.offsetWidth, h = o.offsetHeight;
     o.style.transform = `translate3d(${x - w / 2}px,${y - h / 2}px,${z}px) rotateX(${(1 - p) * 80}deg) rotateY(${(1 - p) * -60}deg) scale(${0.6 + 0.4 * p})`;
-    o.style.opacity = lt > t0 ? Math.min(1, (lt - t0) * 5) : 0;
-    o.style.filter = z < -100 ? `blur(${(-z - 100) / 70}px)` : 'none';
-    o.style.zIndex = Math.round(z + 400);
+    o.style.opacity = lt > t0 ? Math.min(1, (lt - t0) * 5) * (z < 0 ? 0.75 : 1) : 0; o.style.zIndex = Math.round(z + 400);
   });
   const cp = lt < 0.2 ? 0 : spring(lt - 0.2, SPRING.bouncy);
   $('#ob-core').style.transform = `scale(${cp})`; $('#ob-core').style.zIndex = 400;
-  const n = Math.round(12000 * E.outExpo(seg(lt, 0.6, 2.6)));
-  $('#ob-num').textContent = n.toLocaleString('tr-TR') + (lt > 2.6 ? '+' : '');
-  $('#ob-num').style.fontSize = (90 + 60 * E.outExpo(seg(lt, 0.6, 2.6))) + 'px';
-  $('#ob-num').style.backgroundPosition = `${100 - seg(lt, 2.6, 4.2) * 100}% 0`;
+  const k = E.outExpo(seg(lt, 0.6, 2.4));
+  $('#ob-num').textContent = Math.round(12000 * k).toLocaleString('tr-TR') + (lt > 2.4 ? '+' : '');
+  $('#ob-num').style.transform = `scale(${0.7 + 0.3 * k})`;
   $('#ob-count').style.opacity = P(lt, 0.5, 1.0);
-  $$('#ob-tag .w').forEach((w, i) => { const a = 3.0 + i * 0.25, p = E.outExpo(seg(lt, a, a + 0.5));
-    w.style.opacity = lt > a ? 1 : 0; w.style.transform = `translateY(${(1 - p) * 60}px)`; w.style.filter = `blur(${(1 - p) * 8}px)`; });
-  zoomOut(root, lt, 6.0, 1, 18);
+  zoomOut(sc.orbit, lt, 7.0, 1, 18);
 }
-hit(10.0, 'impact', { g: 0.7 }); hit(10.2, 'pop'); hit(12.6, 'tick'); hit(13.0, 'impact', { g: 0.4 }); hit(15.65, 'whoosh', { pan: 0 });
+hit(13.0, 'impact', { g: 0.7 }); hit(13.2, 'pop'); hit(15.4, 'impact', { g: 0.4 }); hit(19.65, 'whoosh', { pan: 0 });
 
-// ════════════════ S4 · Size özel fiyat (3D sayfa + spot) ════════════════
-scene('price', `<div class="full" style="perspective:1800px">
-    <div id="pr-card" class="shotcard" style="left:880px;top:150px;width:1120px;height:630px;transform-origin:left center"><img src="../shots/urun.png">
-      <div id="pr-spot" class="full" style="background:radial-gradient(260px 160px at 38% 47%, transparent 0%, rgba(3,8,15,.82) 75%)"></div></div></div>
-  <div class="abs" style="left:110px;top:250px;width:760px">
-    <div class="mono" id="pr-eb" style="font-size:22px;color:var(--cyan)">Ürün kodu 555204</div>
-    <div class="grad" id="pr-h" style="font-size:150px;font-weight:700;letter-spacing:-.05em;line-height:.95;margin-top:16px">Size özel<br>fiyat.</div></div>
-  <div class="abs glowtxt" id="pr-price" style="left:1180px;top:420px;font-size:120px;font-weight:700;color:var(--amber);letter-spacing:-.04em;
-    text-shadow:0 0 60px rgba(245,176,25,.7)">₺420,00</div>
-  <div class="abs" id="pr-chips" style="left:110px;top:690px;display:flex;gap:18px;flex-wrap:wrap;width:820px">
+// ════════════════ S4 · Size özel fiyat (20–27) ════════════════
+const URUN = { x: 815, y: 296, w: 505, h: 450 };
+scene('price', `<div class="full" style="perspective:1800px"><div class="abs" id="pr-card" style="left:1000px;top:150px">${crop('urun', URUN, 1.6)}
+    <div class="abs" id="pr-ring" style="left:${(842 - URUN.x - 14) * 1.6}px;top:${(442 - URUN.y - 12) * 1.6}px;width:${(127 + 28) * 1.6}px;height:${(36 + 24) * 1.6}px;border:5px solid var(--amber);border-radius:14px;box-shadow:0 0 40px rgba(245,176,25,.7)"></div></div></div>
+  <div class="abs" style="left:110px;top:250px;width:820px">
+    <div class="mono" id="pr-eb" style="font-size:28px;color:var(--cyan)">Ürün kodu 555204</div>
+    <div id="pr-h" style="font-size:150px;font-weight:700;letter-spacing:-.05em;line-height:.95;margin-top:16px;color:#fff">Size özel<br><span style="color:var(--amber)">fiyat.</span></div></div>
+  <div class="abs" id="pr-chips" style="left:110px;top:650px;display:flex;gap:18px;flex-wrap:wrap;width:840px">
     ${[['box', 'Stok: 37 koli'], ['truck', '1 iş günü kargo'], ['star', '+4 puan'], ['percent', 'Kademeli iskonto']].map(([ic, t]) =>
-      `<div class="chip pc">${ICON(ic, 30, '#5FD3FF', 2.2)}${t}</div>`).join('')}</div>`);
+      `<div class="chip pc" style="font-size:34px;background:#0E2A4C;border:2px solid rgba(95,211,255,.5)">${ICON(ic, 34, '#5FD3FF', 2.2)}${t}</div>`).join('')}</div>`);
 function rPrice(t) {
-  const lt = show('price', t);
-  const root = sc.price; root.style.transform = ''; root.style.filter = ''; root.style.opacity = 1;
-  zoomIn(root, lt, 0, 1, 18);
-  const cp = E.outExpo(seg(lt, 0, 1.2));
-  const ry = lerp(-58, -16, cp) + Math.sin(lt * 0.9) * 2, rx = lerp(18, 6, cp);
-  $('#pr-card').style.transform = `translateX(${(1 - cp) * 600}px) rotateY(${ry}deg) rotateX(${rx}deg) scale(${1 + 0.06 * seg(lt, 1.2, 6)})`;
-  $('#pr-spot').style.opacity = P(lt, 1.6, 2.2);
-  const pp = lt < 2.0 ? 0 : spring(lt - 2.0, SPRING.bouncy);
-  $('#pr-price').style.transform = `translate(${(1 - pp) * 80}px,${(1 - pp) * -60}px) scale(${pp}) rotate(${(1 - pp) * -10}deg)`;
-  $('#pr-price').style.opacity = lt > 2.0 ? 1 : 0;
-  $('#pr-price').style.textShadow = `0 0 ${40 + 40 * (0.5 + 0.5 * Math.sin(lt * 6))}px rgba(245,176,25,.75)`;
+  const lt = show('price', t); reset(sc.price); zoomIn(sc.price, lt, 0, 1, 18);
+  const cp = E.outExpo(seg(lt, 0, 1.0));
+  $('#pr-card').style.transform = `translateX(${(1 - cp) * 600}px) rotateY(${lerp(-40, -6, cp)}deg) rotateX(${lerp(12, 3, cp)}deg)`;
+  const rp = lt < 1.8 ? 0 : spring(lt - 1.8, SPRING.bouncy);
+  $('#pr-ring').style.transform = `scale(${0.6 + 0.4 * rp})`; $('#pr-ring').style.opacity = lt > 1.8 ? 1 : 0;
   $('#pr-eb').style.opacity = P(lt, 0.4, 0.9);
-  const hp = E.outExpo(seg(lt, 0.5, 1.2));
-  $('#pr-h').style.transform = `translateY(${(1 - hp) * 120}px) skewY(${(1 - hp) * 6}deg)`; $('#pr-h').style.opacity = hp;
-  $('#pr-h').style.backgroundPosition = `${100 - seg(lt, 1.2, 3.2) * 100}% 0`;
-  $$('#pr-chips .pc').forEach((c, i) => { const a = 3.0 + i * 0.5, p = lt < a ? 0 : spring(lt - a, SPRING.bouncy);
-    c.style.transform = `scale(${p}) translateY(${(1 - p) * 30}px)`; c.style.opacity = lt > a ? 1 : 0; drawIcon(c.querySelector('svg'), E.outExpo(seg(lt, a, a + 0.6))); });
-  zoomOut(root, lt, 6.0, -1, 18);
+  const hp = E.outExpo(seg(lt, 0.5, 1.1));
+  $('#pr-h').style.transform = `translateY(${(1 - hp) * 100}px)`; $('#pr-h').style.opacity = hp;
+  $$('#pr-chips .pc').forEach((c, i) => { const a = 2.6 + i * 0.45, p = lt < a ? 0 : spring(lt - a, SPRING.bouncy);
+    c.style.transform = `scale(${p})`; c.style.opacity = lt > a ? 1 : 0; drawIcon(c.querySelector('svg'), E.outExpo(seg(lt, a, a + 0.6))); });
+  zoomOut(sc.price, lt, 7.0, -1, 18);
 }
-hit(16.0, 'impact', { g: 0.6 }); hit(18.0, 'stamp', { g: 0.5 }); [19, 19.5, 20, 20.5].forEach(x => hit(x, 'pop')); hit(21.65, 'whoosh', { pan: 1 });
+hit(20.0, 'impact', { g: 0.6 }); hit(21.8, 'stamp', { g: 0.5 }); [22.6, 23.05, 23.5, 23.95].forEach(x => hit(x, 'pop')); hit(26.65, 'whoosh', { pan: 1 });
 
-// ════════════════ S5 · Hızlı sipariş (uçan SKU'lar) ════════════════
+// ════════════════ S5 · Hızlı sipariş (27–34) ════════════════
 const SKU = [['555204', 'Wanda Soft Sensörlü Havlu 4 kg', '6', 2520], ['ST00560', 'Bez Mikrofiber Cam Bezi', '13', 1287], ['7906628', 'Selpak Prof. İçten Çekme', '2', 1794.6],
   ['MTSG610', 'Sap 150 cm Gürgen', '5', 261.9], ['KCG40GR', 'Toptel 40 gr', '19', 214.7]];
 scene('sku', `
-  <div class="abs" id="sk-h" style="left:0;right:0;top:70px;text-align:center;font-size:120px;font-weight:700;letter-spacing:-.045em">
-    <span class="grad" id="sk-hg">Saniyeler içinde.</span></div>
-  <div class="abs glass" id="sk-table" style="left:360px;top:280px;width:1200px;padding:30px 40px">
-    ${SKU.map((r, i) => `<div class="skr" style="display:flex;align-items:center;height:76px;border-top:1px solid rgba(255,255,255,.1);font-size:28px">
-      <div style="width:200px"></div><div class="nm" style="width:620px;color:var(--dim)">${r[1]}</div><div class="qt" style="width:120px;text-align:right">${r[2]}</div>
-      <div class="am" style="width:200px;text-align:right;font-weight:600">₺${r[3].toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</div></div>`).join('')}
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:20px;border-top:2px solid rgba(255,255,255,.5);padding-top:22px">
-      <div><div class="mono" style="font-size:16px;color:var(--dim)">Ara toplam</div><div id="sk-tot" style="font-size:64px;font-weight:300;color:var(--cyan)"></div></div>
-      <div id="sk-btn" style="background:var(--amber);color:#2B1E00;font-weight:700;font-size:30px;padding:22px 40px;border-radius:14px">Sepete Ekle</div></div></div>
-  ${SKU.map((r, i) => `<div class="abs sk mono" style="left:0;top:0;padding:14px 22px;border-radius:12px;background:var(--blue2);font-size:30px;text-transform:none;
-    letter-spacing:.05em;box-shadow:0 0 30px rgba(47,127,224,.7)">${r[0]}</div>`).join('')}
+  <div class="abs" style="left:0;right:0;top:60px;text-align:center;font-size:110px;font-weight:700;letter-spacing:-.045em;color:#fff">
+    Ürün koduyla, <span style="color:var(--amber)">saniyeler içinde.</span></div>
+  <div class="abs" id="sk-table" style="left:260px;top:240px;width:1400px;padding:30px 44px;border-radius:24px;background:#0B1F33;border:2px solid rgba(95,211,255,.35);box-shadow:0 40px 100px -30px rgba(0,0,0,.9)">
+    ${SKU.map(r => `<div class="skr" style="display:flex;align-items:center;height:96px;border-top:1px solid rgba(255,255,255,.14);font-size:36px">
+      <div style="width:240px"></div><div class="nm" style="width:660px;color:#E6EEF7">${r[1]}</div><div class="qt" style="width:140px;text-align:right">${r[2]}</div>
+      <div class="am" style="width:260px;text-align:right;font-weight:600">₺${r[3].toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</div></div>`).join('')}
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;border-top:2px solid rgba(255,255,255,.6);padding-top:20px">
+      <div><div style="font-size:26px;color:#C9D6E5">Ara toplam</div><div id="sk-tot" style="font-size:72px;font-weight:600;color:var(--cyan)"></div></div>
+      <div id="sk-btn" style="background:var(--amber);color:#2B1E00;font-weight:700;font-size:36px;padding:24px 44px;border-radius:14px">Sepete Ekle</div></div></div>
+  ${SKU.map(r => `<div class="abs sk mono" style="left:0;top:0;padding:16px 22px;border-radius:12px;background:var(--blue2);font-size:34px;text-transform:none;
+    letter-spacing:.04em;color:#fff;box-shadow:0 0 30px rgba(47,127,224,.7)">${r[0]}</div>`).join('')}
   <div class="abs" id="sk-ring" style="left:0;top:0;border-radius:50%;border:8px solid var(--amber)"></div>${burstHTML('sk-burst', 40)}`);
 function rSku(t) {
-  const lt = show('sku', t);
-  const root = sc.sku; root.style.transform = ''; root.style.filter = ''; root.style.opacity = 1;
-  zoomIn(root, lt, 0, -1, 18);
-  $('#sk-hg').style.backgroundPosition = `${100 - seg(lt, 0.4, 2.4) * 100}% 0`;
-  const tp = E.outExpo(seg(lt, 0.3, 1.0));
-  $('#sk-table').style.transform = `translateY(${(1 - tp) * 120}px) rotateX(${(1 - tp) * 30}deg)`; $('#sk-table').style.opacity = tp;
+  const lt = show('sku', t); reset(sc.sku); zoomIn(sc.sku, lt, 0, -1, 18);
+  const tp = E.outExpo(seg(lt, 0.2, 0.9));
+  $('#sk-table').style.transform = `translateY(${(1 - tp) * 120}px)`; $('#sk-table').style.opacity = tp;
   let sum = 0;
   $$('.sk').forEach((s, i) => {
-    const a = 0.9 + i * 0.42, p = E.inOutQuart(seg(lt, a, a + 0.55));
+    const a = 0.9 + i * 0.6, p = E.inOutQuart(seg(lt, a, a + 0.6));
     const ang = i * 1.3 + 0.6, sx = 960 + Math.cos(ang) * 1300, sy = 540 + Math.sin(ang) * 900;
-    const tx = 400 + 18, ty = 280 + 30 + i * 77 + 14;
-    const x = lerp(sx, tx, p), y = lerp(sy, ty, p) - Math.sin(Math.PI * p) * 220;
-    s.style.transform = `translate(${x}px,${y}px) rotate(${(1 - p) * (i % 2 ? 260 : -260)}deg) scale(${lerp(1.6, 1, p)})`;
+    const tx = 260 + 44 + 4, ty = 240 + 30 + i * 97 + 18;
+    s.style.transform = `translate(${lerp(sx, tx, p)}px,${lerp(sy, ty, p) - Math.sin(Math.PI * p) * 200}px) rotate(${(1 - p) * (i % 2 ? 220 : -220)}deg) scale(${lerp(1.5, 1, p)})`;
     s.style.opacity = lt > a ? 1 : 0;
-    const land = seg(lt, a + 0.55, a + 0.9);
-    const row = $$('.skr')[i];
-    row.querySelectorAll('.nm,.qt,.am').forEach(c => { c.style.opacity = land; c.style.transform = `translateX(${(1 - E.outExpo(land)) * 40}px)`; });
-    row.style.background = land > 0 && land < 1 ? `rgba(95,211,255,${0.18 * (1 - land)})` : 'transparent';
+    const land = seg(lt, a + 0.6, a + 0.9), row = $$('.skr')[i];
+    row.querySelectorAll('.nm,.qt,.am').forEach(c => { c.style.opacity = land; });
+    row.style.background = land > 0 && land < 1 ? `rgba(95,211,255,${0.2 * (1 - land)})` : 'transparent';
     sum += SKU[i][3] * E.outExpo(land);
   });
   $('#sk-tot').textContent = '₺' + sum.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  const bt = 4.6, bp = lt > bt ? 1 - 0.08 * Math.exp(-10 * (lt - bt)) * Math.cos((lt - bt) * 30) : 1;
+  const bt = 5.0, bp = lt > bt ? 1 - 0.08 * Math.exp(-10 * (lt - bt)) * Math.cos((lt - bt) * 30) : 1;
   $('#sk-btn').style.transform = `scale(${lt > bt && lt < bt + 0.12 ? 0.9 : bp})`;
-  $('#sk-btn').style.boxShadow = lt > bt ? `0 0 ${60 * Math.exp(-3 * (lt - bt))}px rgba(245,176,25,.9)` : 'none';
   const b = $('#sk-btn').getBoundingClientRect();
   ring($('#sk-ring'), lt, bt, 420); css('#sk-ring', { left: (b.x + b.width / 2) + 'px', top: (b.y + b.height / 2) + 'px' });
   burst($('#sk-burst'), lt, bt, b.x + b.width / 2, b.y + b.height / 2, 700, 900, 1.3);
-  // çıkış: aşağı kamçı
-  const wp = E.inExpo(seg(lt, 5.65, 6.0));
-  if (wp > 0) { root.style.transform = `translateY(${wp * 1200}px)`; root.style.filter = `blur(${wp * 18}px)`; }
+  const wp = E.inExpo(seg(lt, 6.65, 7.0));
+  if (wp > 0) { sc.sku.style.transform = `translateY(${wp * 1200}px)`; sc.sku.style.filter = `blur(${wp * 18}px)`; }
 }
-hit(22.0, 'impact', { g: 0.7 }); SKU.forEach((_, i) => hit(22 + 0.9 + i * 0.42, 'whoosh', { pan: 0, g: 0.35, d: 0.45 })); hit(26.6, 'pop', { g: 1 }); hit(26.6, 'impact', { g: 0.5 }); hit(27.65, 'whoosh', { pan: 0 });
+hit(27.0, 'impact', { g: 0.7 }); SKU.forEach((_, i) => hit(27 + 0.9 + i * 0.6, 'whoosh', { pan: 0, g: 0.35, d: 0.45 })); hit(32.0, 'pop', { g: 1 }); hit(32.0, 'impact', { g: 0.5 }); hit(33.65, 'whoosh', { pan: 0 });
 
-// ════════════════ S6 · Onay mührü ════════════════
-scene('stamp', `<div class="full" style="perspective:1600px">
-  <div id="st-card" class="shotcard" style="left:400px;top:170px;width:1120px;height:630px"><img src="../shots/onaylarim.png"></div></div>
-  <div class="abs" id="st-ghosts" style="left:960px;top:520px">
-    ${['#FF3B6B', '#3BE2FF', ''].map((c, i) => `<div class="stamp st" style="font-size:150px;left:0;top:0;${c ? `color:${c};border-color:${c};mix-blend-mode:screen;opacity:.8` : ''}">Onaylandı</div>`).join('')}</div>
-  <div class="abs" id="st-ring" style="left:960px;top:520px;border-radius:50%;border:10px solid var(--amber)"></div>${burstHTML('st-burst', 60)}
-  <div class="abs" id="st-tag" style="left:0;right:0;bottom:70px;text-align:center;font-size:72px;font-weight:700;letter-spacing:-.04em">
-    ${['Kurallar', 'sizin.', '<span style="color:var(--amber)">Onay</span>', '<span style="color:var(--amber)">tek</span>', '<span style="color:var(--amber)">tıkla.</span>'].map(w => `<span class="w" style="display:inline-block;margin:0 .13em">${w}</span>`).join('')}</div>`);
+// ════════════════ S6 · Onay (34–40) ════════════════
+const ONAY = { x: 565, y: 298, w: 1072, h: 232 };
+scene('stamp', `<div class="full" style="perspective:1600px"><div class="abs" id="st-card" style="left:102px;top:170px">${crop('onaylarim', ONAY, 1.6)}</div></div>
+  <div class="abs" id="st-ghosts" style="left:1340px;top:420px">
+    ${['#FF3B6B', '#3BE2FF', ''].map(c => `<div class="stamp st" style="font-size:120px;left:0;top:0;background:rgba(5,13,24,.55);${c ? `color:${c};border-color:${c};mix-blend-mode:screen;background:none` : ''}">Onaylandı</div>`).join('')}</div>
+  <div class="abs" id="st-ring" style="left:1340px;top:420px;border-radius:50%;border:10px solid var(--amber)"></div>${burstHTML('st-burst', 60)}
+  <div class="abs" id="st-tag" style="left:0;right:0;top:820px;text-align:center;font-size:90px;font-weight:700;letter-spacing:-.04em;color:#fff">
+    ${words(['Kurallar', 'sizin.', '<span style="color:var(--amber)">Onay</span>', '<span style="color:var(--amber)">tek</span>', '<span style="color:var(--amber)">tıkla.</span>'])}</div>`);
 function rStamp(t) {
-  const lt = show('stamp', t);
-  const root = sc.stamp; root.style.transform = ''; root.style.filter = ''; root.style.opacity = 1;
+  const lt = show('stamp', t); reset(sc.stamp);
   const wi = E.outExpo(seg(lt, 0, 0.55));
-  if (lt < 0.55) { root.style.transform = `translateY(${(1 - wi) * -1200}px)`; root.style.filter = `blur(${(1 - wi) * 18}px)`; }
-  if (lt < 0) root.style.opacity = 0;
+  if (lt < 0.55) { sc.stamp.style.transform = `translateY(${(1 - wi) * -1200}px)`; sc.stamp.style.filter = `blur(${(1 - wi) * 18}px)`; }
+  if (lt < 0) sc.stamp.style.opacity = 0;
   const cp = E.outExpo(seg(lt, 0, 1.0));
-  $('#st-card').style.transform = `rotateX(${lerp(40, 12, cp)}deg) rotateY(${Math.sin(lt * 0.8) * 4}deg) scale(${lerp(0.8, 1, cp)})`;
-  $('#st-card').style.filter = lt > 1.4 ? `brightness(${1 - 0.5 * seg(lt, 1.4, 1.7)})` : 'none';
-  const T0 = 1.6, sp = E.sharp(seg(lt, T0 - 0.22, T0));
-  const q = Math.floor(lt * 30), env = lt > T0 ? Math.exp(-5 * (lt - T0)) : 0;
+  $('#st-card').style.transform = `rotateX(${lerp(30, 4, cp)}deg) scale(${lerp(0.85, 1, cp)})`;
+  const T0 = 2.2, sp = E.sharp(seg(lt, T0 - 0.22, T0)), q = Math.floor(lt * 30), env = lt > T0 ? Math.exp(-5 * (lt - T0)) : 0;
   $$('#st-ghosts .st').forEach((s, i) => {
     const gx = i < 2 ? (rnd(q * 3 + i) - 0.5) * 60 * env : 0, gy = i < 2 ? (rnd(q * 5 + i + 9) - 0.5) * 24 * env : 0;
-    s.style.transform = `translate(-50%,-50%) translate(${gx}px,${gy}px) rotate(-8deg) scale(${lerp(3.2, 1, sp)})`;
+    s.style.transform = `translate(-50%,-50%) translate(${gx}px,${gy}px) rotate(-8deg) scale(${lerp(3.0, 1, sp)})`;
     s.style.opacity = lt > T0 - 0.22 ? (i < 2 ? 0.8 * env : Math.min(1, sp * 2)) : 0;
   });
-  ring($('#st-ring'), lt, T0, 1100);
-  burst($('#st-burst'), lt, T0, 960, 520, 1100, 1200, 1.8);
-  $$('#st-tag .w').forEach((w, i) => { const a = 2.4 + i * 0.25, p = E.outExpo(seg(lt, a, a + 0.45));
-    w.style.opacity = lt > a ? 1 : 0; w.style.transform = `translateY(${(1 - p) * 70}px) rotateX(${(1 - p) * 70}deg)`; });
-  zoomOut(root, lt, 5.0, 1, 18);
+  ring($('#st-ring'), lt, T0, 1000); burst($('#st-burst'), lt, T0, 1340, 420, 1000, 1200, 1.8);
+  wordsIn('#st-tag .w', lt, 2.8, 0.2);
+  zoomOut(sc.stamp, lt, 6.0, 1, 18);
 }
-hit(28.0, 'impact', { g: 0.6 }); hit(29.6, 'stamp', { g: 1.2 }); flashAt(29.6, 0.55, 0.3); shakeAt(29.6, 26); hit(32.65, 'whoosh', { pan: 0 });
+hit(34.0, 'impact', { g: 0.6 }); hit(36.2, 'stamp', { g: 1.2 }); flashAt(36.2, 0.4, 0.3); shakeAt(36.2, 24); hit(39.65, 'whoosh', { pan: 0 });
 
-// ════════════════ S7 · Teslimat koşusu ════════════════
+// ════════════════ S7 · Teslimat koşusu (40–48) ════════════════
 const STAT = ['Hazırlanıyor', 'Sevkiyatta', 'Teslim edildi.'];
 scene('rush', `<div class="full" style="perspective:900px"><div class="abs" id="ru-road" style="left:-4000px;top:640px;width:8000px;height:7000px;transform:rotateX(84deg);transform-origin:top;
     background-image:linear-gradient(rgba(95,211,255,.35) 3px,transparent 3px),linear-gradient(90deg,rgba(95,211,255,.35) 3px,transparent 3px);background-size:240px 240px;
     -webkit-mask-image:radial-gradient(closest-side,#000 25%,transparent)"></div></div>
   <div class="full" id="ru-lines"></div>
-  <div class="full" style="perspective:1200px"><div id="ru-box" style="position:absolute;left:960px;top:520px;transform-style:preserve-3d">
+  <div class="full" style="perspective:1200px"><div id="ru-box" style="position:absolute;left:960px;top:560px;transform-style:preserve-3d">
     ${['rotateY(0deg)', 'rotateY(90deg)', 'rotateY(180deg)', 'rotateY(-90deg)', 'rotateX(90deg)', 'rotateX(-90deg)'].map((r, i) =>
       `<div style="position:absolute;left:-120px;top:-120px;width:240px;height:240px;background:${i === 4 ? '#DDB487' : i === 5 ? '#A97B4F' : '#C99866'};
         transform:${r} translateZ(120px);display:grid;place-items:center;box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)">
         ${i < 4 ? `<div style="background:#FBF8F2;padding:10px 14px;border-radius:4px;transform:rotate(-3deg)"><img src="../kit/img/logo.png" style="width:110px;display:block"></div>` : `<div style="width:44px;height:240px;background:#EBD9B9"></div>`}</div>`).join('')}</div></div>
-  <div class="abs" id="ru-stat" style="left:0;right:0;top:120px;text-align:center;height:180px">${STAT.map(s => `<div class="abs rs glowtxt" style="left:0;right:0;top:0;font-size:160px;font-weight:700;letter-spacing:-.045em">${s}</div>`).join('')}</div>
+  <div class="abs" id="ru-stat" style="left:0;right:0;top:110px;height:190px">${STAT.map(s => `<div class="abs rs" style="left:0;right:0;top:0;text-align:center"><span style="display:inline-block;font-size:150px;font-weight:700;
+    letter-spacing:-.045em;background:rgba(3,8,15,.78);padding:0 50px 14px;border-radius:24px">${s}</span></div>`).join('')}</div>
   <svg class="abs" width="1920" height="1080" style="left:0;top:0"><g id="ru-scene" style="opacity:0">
     <g id="ru-van">${vanSVG().replace('kit/img/logo.png', '../kit/img/logo.png')}</g>
     <g id="ru-p1" transform="translate(760,940)">${personSVG('rp1', { shirt: '#1D5FA8', sleeve: '#1D5FA8', vest: '#0B1F33', pants: '#24364A', cap: '#0B1F33', logo: true })}</g>
@@ -408,110 +362,94 @@ scene('rush', `<div class="full" style="perspective:900px"><div class="abs" id="
   </g></svg>${burstHTML('ru-conf', 90)}`);
 let linesHTML = ''; for (let i = 0; i < 40; i++) linesHTML += `<i style="position:absolute;height:${2 + rnd(i) * 4}px;background:linear-gradient(90deg,transparent,rgba(150,210,255,.9));border-radius:4px"></i>`;
 $('#ru-lines').innerHTML = linesHTML;
+const ST = [0.3, 2.3, 4.6];   // her durum ≥ 1,7 sn sabit
 function rRush(t) {
-  const lt = show('rush', t);
-  const root = sc.rush; root.style.transform = ''; root.style.filter = ''; root.style.opacity = 1;
-  zoomIn(root, lt, 0, 1, 18);
-  const speed = lt < 4.4 ? 1 : 1 - E.outExpo(seg(lt, 4.4, 5.0));
-  const roadY = lt < 4.4 ? lt * 2400 : 4.4 * 2400 + (lt - 4.4) * 2400 * Math.max(0, 1 - seg(lt, 4.4, 5.0)) * 0.5;
+  const lt = show('rush', t); reset(sc.rush); zoomIn(sc.rush, lt, 0, 1, 18);
+  const stopT = 4.5, speed = lt < stopT ? 1 : 1 - E.outExpo(seg(lt, stopT, stopT + 0.6));
+  const roadY = lt < stopT ? lt * 2400 : stopT * 2400 + (lt - stopT) * 1200 * Math.max(0, 1 - seg(lt, stopT, stopT + 0.6));
   $('#ru-road').style.backgroundPosition = `0 ${-roadY}px, 0 0`;
   $$('#ru-lines i').forEach((l, i) => { const y = rnd(i * 4.3) * 1080, len = 200 + rnd(i * 2.2) * 500, v = 2600 + rnd(i * 9.1) * 2600;
-    const x = 1920 - ((lt * v + rnd(i) * 3000) % 3600); css(l, { left: x + 'px', top: y + 'px', width: len + 'px', opacity: speed * 0.7 }); });
-  // koli: dönerek uçar
-  const bx = lt < 4.2 ? 960 + Math.sin(lt * 2.2) * 120 : lerp(960 + Math.sin(4.2 * 2.2) * 120, 2600, E.inExpo(seg(lt, 4.2, 4.6)));
-  $('#ru-box').style.transform = `translate(${bx - 960}px,${Math.sin(lt * 3.1) * 40 + 40}px) rotateX(${-18 + Math.sin(lt * 1.3) * 10}deg) rotateY(${lt * 240}deg) rotateZ(${Math.sin(lt * 2) * 8}deg)`;
-  // durum kelimeleri: her vuruşta kamçı
-  const ST = [0.4, 2.2, 5.0];
-  $$('#ru-stat .rs').forEach((s, i) => { const a = ST[i], b = ST[i + 1] ?? 99; const on = lt >= a && lt < b;
+    css(l, { left: (1920 - ((lt * v + rnd(i) * 3000) % 3600)) + 'px', top: y + 'px', width: len + 'px', opacity: speed * 0.6 }); });
+  const bx = lt < 4.3 ? 960 + Math.sin(lt * 1.6) * 100 : lerp(960 + Math.sin(4.3 * 1.6) * 100, 2600, E.inExpo(seg(lt, 4.3, 4.7)));
+  $('#ru-box').style.transform = `translate(${bx - 960}px,${Math.sin(lt * 2.4) * 30 + 40}px) rotateX(${-18 + Math.sin(lt * 1.3) * 10}deg) rotateY(${lt * 140}deg)`;
+  $$('#ru-stat .rs').forEach((s, i) => { const a = ST[i], b = ST[i + 1] ?? 99, on = lt >= a && lt < b;
     const p = E.outExpo(seg(lt, a, a + 0.4)), out = E.inExpo(seg(lt, b - 0.3, b));
-    s.style.opacity = on ? 1 : 0; s.style.transform = `translateX(${(1 - p) * 900 - out * 900}px) skewX(${(1 - p) * -25 + out * 25}deg)`;
-    s.style.filter = `blur(${((1 - p) + out) * 12}px)`; s.style.color = i === 2 ? 'var(--amber)' : 'var(--white)'; });
-  // teslim sahnesi: araç gelir, fren yapar, tokalaşma, konfeti
-  const g = $('#ru-scene'); g.style.opacity = P(lt, 4.3, 4.7);
-  const vx = lerp(2100, 1000, E.outCirc(seg(lt, 4.3, 5.2))), pitch = lt > 5.2 ? wob(lt - 5.2, 14, 5) * -2.4 : 0;
+    s.style.opacity = on ? 1 : 0; s.style.transform = `translateX(${(1 - p) * 900 - out * 900}px)`;
+    s.style.filter = (1 - p) + out > 0.02 ? `blur(${((1 - p) + out) * 12}px)` : 'none';
+    s.querySelector('span').style.color = i === 2 ? 'var(--amber)' : '#fff'; });
+  const g = $('#ru-scene'); g.style.opacity = P(lt, 4.4, 4.8);
+  const vx = lerp(2100, 1000, E.outCirc(seg(lt, 4.4, 5.3))), pitch = lt > 5.3 ? wob(lt - 5.3, 14, 5) * -2.4 : 0;
   at($('#ru-van'), `translate(${vx},940)`); at($('#ru-van').querySelector('#vanBody'), `rotate(${pitch} 92 -46)`);
   $$('#ru-van .wheel').forEach(w => at(w.querySelector('.spk'), `rotate(${-(2100 - vx) / 48 * 57.3} ${w.dataset.cx} -46)`));
-  const p1 = $('#ru-p1'), cu = $('#ru-cu'), hs = E.outBack(seg(lt, 5.4, 5.8)), joy = E.outExpo(seg(lt, 5.5, 6.0));
-  at(p1, `translate(${lerp(980, 780, E.outExpo(seg(lt, 5.0, 5.5)))},940) scale(-1,1)`);
-  at(p1.querySelector('.armF'), `translate(40,-286) rotate(${-78 * hs + (lt > 5.8 ? Math.sin((lt - 5.8) * 12) * 6 * Math.exp(-(lt - 5.8) * 1.5) : 0)})`);
+  const p1 = $('#ru-p1'), cu = $('#ru-cu'), hs = E.outBack(seg(lt, 5.5, 5.9)), joy = E.outExpo(seg(lt, 5.6, 6.1));
+  at(p1, `translate(${lerp(980, 780, E.outExpo(seg(lt, 5.1, 5.6)))},940) scale(-1,1)`);
+  at(p1.querySelector('.armF'), `translate(40,-286) rotate(${-78 * hs + (lt > 5.9 ? Math.sin((lt - 5.9) * 12) * 6 * Math.exp(-(lt - 5.9) * 1.5) : 0)})`);
   at(cu.querySelector('.armF'), `translate(40,-286) rotate(${-78 * hs})`);
   smile(p1, joy); smile(cu, joy);
-  burst($('#ru-conf'), lt, 5.0, 960, 320, 1300, 1500, 2.0);
+  burst($('#ru-conf'), lt, 4.6, 960, 380, 1300, 1500, 2.2);
 }
-hit(33.0, 'impact', { g: 0.7 }); hit(33.4, 'whoosh', { pan: 1 }); hit(35.2, 'whoosh', { pan: 1 }); hit(37.2, 'whoosh', { pan: 1, d: 0.9 });
-hit(38.0, 'impact', { g: 1 }); hit(38.0, 'pop', { g: 1 }); flashAt(38.0, 0.45, 0.3); shakeAt(38.0, 16); hit(39.65, 'whoosh', { pan: 0 });
+hit(40.0, 'impact', { g: 0.7 }); hit(40.3, 'whoosh', { pan: 1 }); hit(42.3, 'whoosh', { pan: 1 }); hit(44.3, 'whoosh', { pan: 1, d: 0.9 });
+hit(44.6, 'impact', { g: 1 }); hit(44.6, 'pop', { g: 1 }); flashAt(44.6, 0.35, 0.3); shakeAt(44.6, 14); hit(47.65, 'whoosh', { pan: 0 });
 
-// ════════════════ S8 · Büyük sayılar (beat slam) ════════════════
+// ════════════════ S8 · Büyük sayılar (48–54) ════════════════
 const NUMS = [['9', 'adım.', 'Taslaktan faturaya'], ['1', 'panel.', 'Sipariş, onay, cari, fatura'], ['0', 'telefon.', 'Her şey kayıtlı, şeffaf']];
-scene('nums', `<div class="abs" id="nm-stack" style="left:150px;top:150px">
-    ${NUMS.map(([n, w, d]) => `<div class="nm" style="display:flex;align-items:baseline;gap:34px;height:250px">
-      <div class="nn grad" style="font-size:260px;font-weight:700;letter-spacing:-.06em;width:230px;text-align:right">${n}</div>
-      <div><div class="nw" style="font-size:150px;font-weight:700;letter-spacing:-.05em">${w}</div><div class="mono nd" style="font-size:22px;color:var(--dim);margin-top:-6px">${d}</div></div></div>`).join('')}</div>
-  <div class="abs" id="nm-met" style="right:150px;bottom:120px;display:flex;gap:14px">${Array.from({ length: 8 }, () => '<i style="width:8px;height:40px;background:var(--amber);border-radius:4px"></i>').join('')}</div>`);
+scene('nums', `<div class="abs" id="nm-stack" style="left:170px;top:120px">
+    ${NUMS.map(([n, w, d]) => `<div class="nm" style="display:flex;align-items:center;gap:40px;height:270px">
+      <div class="nn" style="font-size:250px;font-weight:700;letter-spacing:-.06em;width:220px;text-align:right;color:var(--amber)">${n}</div>
+      <div><div style="font-size:140px;font-weight:700;letter-spacing:-.05em;line-height:1;color:#fff">${w}</div>
+        <div style="font-size:38px;color:#C9D6E5;margin-top:8px;font-weight:500">${d}</div></div></div>`).join('')}</div>`);
 function rNums(t) {
-  const lt = show('nums', t);
-  const root = sc.nums; root.style.transform = ''; root.style.filter = ''; root.style.opacity = 1;
-  zoomIn(root, lt, 0, 1, 18);
+  const lt = show('nums', t); reset(sc.nums); zoomIn(sc.nums, lt, 0, 1, 18);
   $$('#nm-stack .nm').forEach((r, i) => {
-    const a = 0.5 + i * 1.0, p = E.sharp(seg(lt, a, a + 0.3));
-    const tr = [`scale(${lerp(2.4, 1, p)})`, `translateX(${(1 - p) * 700}px)`, `translateY(${(1 - p) * 300}px) rotate(${(1 - p) * 10}deg)`][i];
-    r.style.transform = tr; r.style.opacity = lt > a ? 1 : 0; r.style.filter = `blur(${(1 - p) * 12}px)`; r.style.transformOrigin = 'left center';
-    const nn = r.querySelector('.nn'); const target = Number(NUMS[i][0]);
+    const a = 0.5 + i * 1.3, p = E.sharp(seg(lt, a, a + 0.3));
+    r.style.transform = [`scale(${lerp(2.2, 1, p)})`, `translateX(${(1 - p) * 700}px)`, `translateY(${(1 - p) * 300}px)`][i];
+    r.style.opacity = lt > a ? 1 : 0; r.style.filter = p < 1 ? `blur(${(1 - p) * 12}px)` : 'none'; r.style.transformOrigin = 'left center';
+    const nn = r.querySelector('.nn'), target = Number(NUMS[i][0]);
     nn.textContent = lt < a + 0.3 && target > 0 ? Math.floor(rnd(Math.floor(lt * 30) + i) * 10) : target;
-    nn.style.backgroundPosition = `${100 - seg(lt, a, a + 1.6) * 100}% 0`;
   });
-  $$('#nm-met i').forEach((m, i) => { const beat = Math.floor((lt + 0.0001) / BEAT); m.style.opacity = (beat % 8 === i) ? 1 : 0.18;
-    m.style.transform = `scaleY(${beat % 8 === i ? 1.4 : 1})`; });
-  zoomOut(root, lt, 5.0, -1, 14);
+  zoomOut(sc.nums, lt, 6.0, -1, 14);
 }
-hit(40.0, 'impact', { g: 0.5 }); [40.5, 41.5, 42.5].forEach(x => (hit(x, 'impact', { g: 0.9 }), shakeAt(x, 10))); for (let b = 40; b < 45; b += BEAT) hit(b, 'tick');
-hit(43.0, 'riser', { d: 2.0 });
+hit(48.0, 'impact', { g: 0.5 }); [48.5, 49.8, 51.1].forEach(x => (hit(x, 'impact', { g: 0.9 }), shakeAt(x, 10))); hit(52.0, 'riser', { d: 2.0 });
 
-// ════════════════ S9 · Logo montajı ════════════════
+// ════════════════ S9 · Logo (54–60) ════════════════
 const WORD = 'MTS Hijyen B2B';
-scene('logo', `<div class="full" style="perspective:1500px"><div id="lg-w" class="abs" style="left:0;right:0;top:470px;text-align:center;transform-style:preserve-3d;
-      font-size:170px;font-weight:700;letter-spacing:-.04em">${[...WORD].map((c, i) => `<span class="lc" style="display:inline-block;white-space:pre;${i >= 11 ? 'color:var(--amber)' : ''}">${c}</span>`).join('')}</div></div>
-  <div class="abs" id="lg-badge" style="left:960px;top:290px;width:190px;height:190px;margin:-95px 0 0 -95px;border-radius:50%;background:#fff;display:grid;place-items:center;
-    box-shadow:0 0 0 10px rgba(95,211,255,.2),0 0 120px rgba(47,127,224,.8)"><img src="../kit/img/logo.png" style="width:140px"></div>
-  <div class="abs" id="lg-sweep" style="left:0;top:440px;width:300px;height:260px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);mix-blend-mode:overlay"></div>
-  <div class="abs" id="lg-tag" style="left:0;right:0;top:700px;text-align:center;font-size:58px;font-weight:500;letter-spacing:-.02em;color:var(--dim)">
-    ${['Hijyen', 'tedariğiniz', '<b style="color:#fff">tek</b>', '<b style="color:#fff">panelde.</b>'].map(w => `<span class="w" style="display:inline-block;margin:0 .13em">${w}</span>`).join('')}</div>
-  <div class="abs mono" id="lg-url" style="left:0;right:0;top:830px;text-align:center;font-size:28px;color:var(--cyan);text-transform:none;letter-spacing:.06em">panel.mtshijyen.com · +90 543 683 57 65</div>
+scene('logo', `<div class="full" style="perspective:1500px"><div id="lg-w" class="abs" style="left:0;right:0;top:440px;text-align:center;transform-style:preserve-3d;
+      font-size:170px;font-weight:700;letter-spacing:-.04em;color:#fff">${[...WORD].map((c, i) => `<span class="lc" style="display:inline-block;white-space:pre;${i >= 11 ? 'color:var(--amber)' : ''}">${c}</span>`).join('')}</div></div>
+  <div class="abs" id="lg-badge" style="left:960px;top:270px;width:200px;height:200px;margin:-100px 0 0 -100px;border-radius:50%;background:#fff;display:grid;place-items:center;
+    box-shadow:0 0 0 10px rgba(95,211,255,.2),0 0 120px rgba(47,127,224,.8)"><img src="../kit/img/logo.png" style="width:148px"></div>
+  <div class="abs" id="lg-sweep" style="left:0;top:420px;width:300px;height:260px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);mix-blend-mode:overlay"></div>
+  <div class="abs" id="lg-tag" style="left:0;right:0;top:690px;text-align:center;font-size:66px;font-weight:600;letter-spacing:-.02em;color:#fff">
+    ${words(['Hijyen', 'tedariğiniz', '<span style="color:var(--amber)">tek</span>', '<span style="color:var(--amber)">panelde.</span>'])}</div>
+  <div class="abs" id="lg-url" style="left:0;right:0;top:830px;text-align:center;font-size:40px;font-weight:600;color:var(--cyan)">panel.mtshijyen.com · +90 543 683 57 65</div>
   <div class="abs" id="lg-ring" style="left:960px;top:540px;border-radius:50%;border:8px solid var(--cyan)"></div>`);
 const GOLD = Math.PI * (3 - Math.sqrt(5));
 function rLogo(t) {
-  const lt = show('logo', t, 0.45, 0);
-  const root = sc.logo; root.style.transform = ''; root.style.filter = ''; root.style.opacity = 1;
-  zoomIn(root, lt, 0, -1, 14);
+  const lt = show('logo', t, 0.45, 0); reset(sc.logo); zoomIn(sc.logo, lt, 0, -1, 14);
   const n = WORD.length;
   $$('#lg-w .lc').forEach((c, i) => {
-    const a = i * GOLD, sx = Math.cos(a) * 900, sy = Math.sin(a) * 520, sz = 600 - (i / (n - 1)) * 1800;
-    const p = E.outExpo(seg(lt, 0.2 + i * 0.03, 1.6 + i * 0.03));
+    const a = i * GOLD, sx = Math.cos(a) * 900, sy = Math.sin(a) * 520, sz = 600 - (i / (n - 1)) * 1800, p = E.outExpo(seg(lt, 0.2 + i * 0.03, 1.5 + i * 0.03));
     c.style.transform = `translate3d(${sx * (1 - p)}px,${sy * (1 - p)}px,${sz * (1 - p)}px) rotateX(${Math.sin(a) * 180 * (1 - p)}deg) rotateY(${Math.cos(a) * 180 * (1 - p)}deg)`;
-    c.style.opacity = Math.min(1, lt * 3); c.style.filter = `blur(${(1 - p) * 8}px)`;
+    c.style.opacity = Math.min(1, lt * 3); c.style.filter = p < 0.99 ? `blur(${(1 - p) * 8}px)` : 'none';
   });
   const bp = lt < 1.8 ? 0 : spring(lt - 1.8, SPRING.bouncy);
   $('#lg-badge').style.transform = `scale(${bp}) rotate(${(1 - bp) * -90}deg)`;
   ring($('#lg-ring'), lt, 2.0, 1300);
   css('#lg-sweep', { transform: `translateX(${lerp(-300, 2100, E.inOutQuart(seg(lt, 2.2, 3.2)))}px) skewX(-20deg)` });
-  $$('#lg-tag .w').forEach((w, i) => { const a = 2.6 + i * 0.22, p = E.outExpo(seg(lt, a, a + 0.5));
-    w.style.opacity = lt > a ? 1 : 0; w.style.transform = `translateY(${(1 - p) * 40}px)`; });
-  const up = E.outExpo(seg(lt, 3.6, 4.3)); $('#lg-url').style.opacity = up; $('#lg-url').style.transform = `translateY(${(1 - up) * 20}px)`;
-  root.style.opacity = 1 - seg(lt, 6.2, 7.0);
+  wordsIn('#lg-tag .w', lt, 2.4, 0.2);
+  const up = E.outExpo(seg(lt, 3.2, 3.8)); $('#lg-url').style.opacity = up; $('#lg-url').style.transform = `translateY(${(1 - up) * 20}px)`;
+  sc.logo.style.opacity = 1 - seg(lt, 5.4, 6.0);
 }
-hit(45.0, 'impact', { g: 0.6 }); hit(47.0, 'impact', { g: 1.3 }); flashAt(47.0, 0.5, 0.35); shakeAt(47.0, 12); hit(47.2, 'pop');
+hit(54.0, 'impact', { g: 0.6 }); hit(56.0, 'impact', { g: 1.3 }); flashAt(56.0, 0.4, 0.35); shakeAt(56.0, 12); hit(56.2, 'pop');
 
 // ── Ana render ───────────────────────────────────────────────────
-const SPEED = t => { // arka plan hız çizgileri: geçişlerde ve koşuda artar
-  let v = 0; for (const h of HITS) if (h.type === 'whoosh') { const u = t - h.t; if (u > -0.2 && u < 0.5) v = Math.max(v, 1 - Math.abs(u - 0.15) / 0.35); }
-  if (t > S.rush[0] && t < S.rush[0] + 4.4) v = Math.max(v, 0.6);
-  return clamp(v);
-};
+const SPEED = t => { let v = 0;
+  for (const h of HITS) if (h.type === 'whoosh') { const u = t - h.t; if (u > -0.2 && u < 0.5) v = Math.max(v, 1 - Math.abs(u - 0.15) / 0.35); }
+  if (t > S.rush[0] && t < S.rush[0] + 4.5) v = Math.max(v, 0.5);
+  return clamp(v); };
 window.render = function (t) {
   drawBG(t, SPEED(t));
   rOpen(t); rFly(t); rOrbit(t); rPrice(t); rSku(t); rStamp(t); rRush(t); rNums(t); rLogo(t);
-  const sh = shake(t);
-  cam.style.transform = `translate(${sh.x}px,${sh.y}px) rotate(${sh.r}deg)`;
+  const sh = shake(t); cam.style.transform = `translate(${sh.x}px,${sh.y}px) rotate(${sh.r}deg)`;
   $('#flash').style.opacity = flash(t);
   drawGrain(t);
 };

@@ -1,0 +1,21 @@
+kare 0/450 · 22:28:53
+[out#0/mp4 @ 0x5567555c0280] Error opening output /home/user/cancatma-hola/tanitim-videolari/motion/hype/hype/seg-45.mp4: No such file or directory
+Error opening output file /home/user/cancatma-hola/tanitim-videolari/motion/hype/hype/seg-45.mp4.
+Error opening output files: No such file or directory
+node:events:497
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: write EPIPE
+    at WriteWrap.onWriteComplete [as oncomplete] (node:internal/stream_base_commons:87:19)
+    at WriteWrap.callbackTrampoline (node:internal/async_hooks:130:17)
+Emitted 'error' event on Socket instance at:
+    at emitErrorNT (node:internal/streams/destroy:170:8)
+    at emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+  errno: -32,
+  code: 'EPIPE',
+  syscall: 'write'
+}
+
+Node.js v22.22.0

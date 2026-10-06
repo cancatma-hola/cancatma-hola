@@ -10,7 +10,10 @@ from scipy.io import wavfile
 SR = 48000
 hits = json.load(open(sys.argv[1]))
 out = sys.argv[2]
-DUR = float(sys.argv[3]) if len(sys.argv) > 3 else 52.0
+META = next((h for h in hits if h.get('type') == 'meta'), {})
+DUR = float(sys.argv[3]) if len(sys.argv) > 3 else META.get('dur', 52.0)
+D0, D1 = META.get('drop', 4.0), META.get('stop', 45.0)       # davul başlangıç/bitiş
+ROLL, LOGO = META.get('roll', 36.0), META.get('logo', 47.0)   # snare rulosu, logo çanları
 N = int(SR * DUR)
 L = np.zeros(N); R = np.zeros(N)
 rng = np.random.default_rng(11)
@@ -54,27 +57,26 @@ def chord_at(t): return PROG[int(t // (BAR * 2)) % 4]
 
 # sidechain zarfı (kick vuruşlarında pompalama)
 side = np.ones(N)
-def drums_on(t): return (4.0 <= t < 45.0)
-for b in np.arange(4.0, 45.0, BEAT):
+for b in np.arange(D0, D1, BEAT):
     i = int(b * SR); n = int(0.42 * SR)
     seg = side[i:i + n]; seg *= 1 - 0.75 * np.exp(-np.arange(len(seg)) / SR * 9)
 
 # ── davul dizisi
-for b in np.arange(4.0, 45.0, BEAT):
-    beat_in_bar = int(round((b - 4.0) / BEAT)) % 4
-    big = 33 <= b < 40
+for b in np.arange(D0, D1, BEAT):
+    beat_in_bar = int(round((b - D0) / BEAT)) % 4
+    big = ROLL - 3 <= b < ROLL + 4
     add(K, b, 0.95)
     if beat_in_bar in (1, 3): add(C, b, 0.55 if not big else 0.7, 0.05)
-    add(HO, b + BEAT / 2, 0.22 if not (40 <= b) else 0.12, 0.3)
+    add(HO, b + BEAT / 2, 0.22 if not (ROLL + 4 <= b) else 0.12, 0.3)
     for s16 in range(4):
-        if 10 <= b < 40: add(HC, b + s16 * BEAT / 4, 0.12 + (0.06 if s16 == 2 else 0), -0.35)
-# snare rulosu (33 → 38 öncesi yükselen)
-for k, b in enumerate(np.arange(36.0, 38.0, BEAT / 4)):
+        if D0 + 6 <= b < ROLL + 4: add(HC, b + s16 * BEAT / 4, 0.12 + (0.06 if s16 == 2 else 0), -0.35)
+# snare rulosu (yükselen)
+for k, b in enumerate(np.arange(ROLL, ROLL + 2.0, BEAT / 4)):
     add(C, b, 0.15 + 0.35 * k / 16, 0.0)
 
 # ── bas (8'likler, sidechain)
 bass = np.zeros(N)
-for b in np.arange(4.0, 45.0, BEAT / 2):
+for b in np.arange(D0, D1, BEAT / 2):
     root = chord_at(b)[0] - 24; t = tt(0.24)
     f = hz(root)
     s = (np.sign(np.sin(2 * np.pi * f * t)) * 0.35 + np.sin(2 * np.pi * f * t)) * np.exp(-t * 5)
@@ -94,7 +96,7 @@ L += pad * 0.05; R += pad * 0.05
 
 # ── pluck arpej (16'lık, 10 sn sonra; filtre açılır)
 arp = np.zeros(N)
-for k, b in enumerate(np.arange(10.0, 45.0, BEAT / 2)):
+for k, b in enumerate(np.arange(D0 + 6, D1, BEAT / 2)):
     ch = chord_at(b); m = ch[[0, 1, 2, 1][k % 4]] + 12 + (12 if k % 8 >= 6 else 0)
     t = tt(0.3); s = (np.sin(2 * np.pi * hz(m) * t) + 0.5 * np.sign(np.sin(2 * np.pi * hz(m) * t))) * np.exp(-t * 14)
     i = int(b * SR); j = min(N, i + len(s)); arp[i:j] += s[:j - i]
@@ -102,7 +104,7 @@ arp = lp(arp, 3800) * side
 L += arp * 0.07; R += np.roll(arp, int(0.012 * SR)) * 0.07   # hafif stereo
 
 # ── outro: logo bölümü (çan + geniş pad)
-for k, b in enumerate([47.0, 47.75, 48.5, 49.25]):
+for k, b in enumerate([LOGO + 0.75 * i for i in range(4)]):
     t = tt(3.0); m = [76, 79, 83, 84][k]
     s = (np.sin(2 * np.pi * hz(m) * t) + 0.3 * np.sin(2 * np.pi * hz(m) * 2.76 * t) * np.exp(-t * 4)) * np.exp(-t * 1.4)
     add(s, b, 0.12, [-0.4, 0.4, -0.2, 0.2][k])
@@ -142,6 +144,7 @@ def stamp(g=1.0):
     return np.tanh((thud + crunch) * 1.8) * g
 
 for h in hits:
+    if 'type' not in h or 't' not in h: continue
     t0, ty, g = h['t'], h['type'], h.get('g', 1.0)
     if ty == 'impact': add(impact(g * 0.55), t0, 1.0)
     elif ty == 'whoosh':
