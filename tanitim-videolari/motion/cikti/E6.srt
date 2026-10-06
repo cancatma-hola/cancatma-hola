@@ -1,0 +1,43 @@
+1
+00:00:00,250 --> 00:00:04,931
+Bu eğitimde ekibinizden gelen siparişleri onaylamayı ve onay kurallarını kurmayı öğreneceksiniz.
+
+2
+00:00:07,381 --> 00:00:11,211
+Ekibinizin açtığı ve onayınızı bekleyen siparişler Onaylarım ekranında listelenir.
+
+3
+00:00:15,331 --> 00:00:20,012
+Kartta siparişi kimin açtığını, departmanı, onay seviyesini ve tüm kalemleri görürsünüz.
+
+4
+00:00:23,906 --> 00:00:26,885
+Uygunsa Onayla’ya basın; sipariş MTS Hijyen’e iletilir.
+
+5
+00:00:27,185 --> 00:00:32,291
+Değişiklik gerekiyorsa, Revize için Geri Yolla ile siparişi açan kişiye geri gönderin.
+
+6
+00:00:34,741 --> 00:00:38,996
+Onay Kuralları ekranında, hangi siparişin kimin onayına düşeceğini siz belirlersiniz.
+
+7
+00:00:42,691 --> 00:00:46,946
+Yeni kural için ad verin, tutar aralığını ve departmanı seçin.
+
+8
+00:00:47,246 --> 00:00:51,076
+Ardından onaylayıcı zincirini belirleyin; üç seviyeye kadar onaylayıcı tanımlayabilirsiniz.
+
+9
+00:00:56,891 --> 00:01:00,721
+Kural eşiğinin altında kalan siparişler otomatik onaylanır; kimse beklemez.
+
+10
+00:01:03,591 --> 00:01:07,846
+İpucu: kademeli kurallar kurarak büyük tutarlı siparişlere ek onaylayıcı ekleyin.
+
+11
+00:01:10,296 --> 00:01:13,701
+Sıradaki eğitimde kullanıcıları, yetkileri ve departman bütçelerini göreceğiz.

@@ -1,0 +1,35 @@
+1
+00:00:00,250 --> 00:00:04,505
+Bu eğitimde panele nasıl giriş yapacağınızı ve özet ekranını tanıyacaksınız.
+
+2
+00:00:06,905 --> 00:00:09,884
+Kurumsal e-posta adresiniz ve şifrenizle giriş yapın.
+
+3
+00:00:10,184 --> 00:00:13,588
+Dilerseniz Google hesabınızla da tek tıkla devam edebilirsiniz.
+
+4
+00:00:17,105 --> 00:00:24,339
+Özet ekranında bu ayki harcamanızı, açık bakiyenizi, kredi limiti kullanımınızı ve onay bekleyen siparişlerinizi bir bakışta görürsünüz.
+
+5
+00:00:26,539 --> 00:00:31,220
+Yeni sipariş, şablonlar ve sık kullandığınız listelere buradan tek tıkla ulaşırsınız.
+
+6
+00:00:33,439 --> 00:00:38,120
+Aylık harcama trendiniz ve hangi kategoriye ne kadar harcadığınız grafiklerle hazır.
+
+7
+00:00:40,339 --> 00:00:45,020
+Son siparişleriniz ve tüm durum değişiklikleri, etkinlik akışında anlık olarak listelenir.
+
+8
+00:00:47,039 --> 00:00:51,720
+İpucu: üst menüdeki zilde görünen kırmızı sayı, sizi bekleyen bildirimleri gösterir.
+
+9
+00:00:53,570 --> 00:00:56,123
+Sıradaki eğitimde katalogdan sipariş vermeyi göreceğiz.
