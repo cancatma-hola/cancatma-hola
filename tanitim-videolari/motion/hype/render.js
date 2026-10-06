@@ -21,7 +21,7 @@ const D = __dirname, FPS = Number(arg('--fps', 30)), MB = Number(arg('--mb', 4))
     await b.close(); return;
   }
   const from = Number(arg('--from', 0)), to = Number(arg('--to', total));
-  const out = path.join(D, 'build-video.mp4');
+  const out = path.join(D, arg('--out', 'build-video.mp4'));
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS * MB), '-i', '-',
     '-vf', MB > 1 ? `tmix=frames=${MB},select='not(mod(n+1\\,${MB}))',setpts=N/${FPS}/TB` : 'null',
     '-r', String(FPS), '-c:v', 'libx264', '-preset', 'medium', '-crf', '16', '-pix_fmt', 'yuv420p', out], { stdio: ['pipe', 'inherit', 'inherit'] });
@@ -30,10 +30,14 @@ const D = __dirname, FPS = Number(arg('--fps', 30)), MB = Number(arg('--mb', 4))
     for (let k = 0; k < MB; k++) {
       const t = from + (i + (MB > 1 ? (k / MB) * 0.5 - 0.25 : 0)) / FPS;   // kare merkezli yarım obtüratör
       await p.evaluate(t => window.render(t), Math.max(0, t));
-      const buf = await p.screenshot({ type: 'jpeg', quality: 92 });
+      let buf;
+      for (let tr = 0; tr < 3 && !buf; tr++) {
+        try { buf = await p.screenshot({ type: 'jpeg', quality: 92, timeout: 180000 }); }
+        catch (e) { console.error('yeniden deneniyor', t.toFixed(3), e.message.split('\n')[0]); await p.evaluate(t => window.render(t), Math.max(0, t)); }
+      }
       if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
     }
-    if (i % 150 === 0) console.log(`kare ${i}/${frames}`);
+    if (i % 60 === 0) console.log(`kare ${i}/${frames} · ${new Date().toISOString().slice(11, 19)}`);
   }
   ff.stdin.end(); await new Promise(r => ff.on('close', r)); await b.close();
   console.log('görüntü hazır', out);
