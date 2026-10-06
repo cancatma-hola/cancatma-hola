@@ -1,3 +1,7 @@
 node_modules/
 cikti/*.png
+cikti/kareler/
 !cikti/ornek-karsilastirma.png
+.panel-state.json
+build/
+muzik/*.wav
