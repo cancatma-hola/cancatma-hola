@@ -12,9 +12,12 @@ const VIDEO = {
       lines: [{ t: 'Artık' }, { t: 'tek panel.', accent: true }],
       vo: [{ id: 'v1-02', text: 'Artık her şey tek panelde.' }] },
 
+    { type: 'explain', d: 6.5, eyebrow: 'Neden MTS Hijyen B2B?', title: ['Dört sebep.'],
+      items: [{ icon: 'search', t: 'Tek katalog', d: 'Kâğıttan kimyasala her şey.' }, { icon: 'tag', t: 'Size özel fiyat', d: 'Kademeli iskonto otomatik.' }, { icon: 'approve', t: 'Kurallı onay', d: 'Harcama kontrol altında.' }, { icon: 'truck', t: 'Aynı gün kargo', d: '14:00’a kadar verilen siparişte.' }],
+      vo: [{ id: 'v1-x', text: 'Tek katalog, size özel fiyat, kurallı onay ve aynı gün kargo.', at: 0.9 }] },
     { type: 'screen', shot: 'kategori', full: true, d: 5,
       cam: [{ at: 1.2, rect: { x: 283, y: 40, w: 1360, h: 130 }, pad: 40 }],
-      focus: [{ at: 1.9, rect: { x: 283, y: 120, w: 1360, h: 40 }, label: 'Tüm kategoriler', pad: 6 }],
+      focus: [{ at: 1.9, rect: { x: 283, y: 120, w: 1360, h: 40 }, label: 'Tüm kategoriler', desc: 'Kâğıttan kimyasala tüm ürün grupları tek menüde.', pad: 6 }],
       vo: [{ id: 'v1-03', text: 'MTS Hijyen B2B ile tüm hijyen ihtiyaçlarınız tek adreste.', at: 0.9 }] },
 
     { type: 'screen', shot: 'kategori', d: 5, head: { eb: '89 ürün · 11 marka', ttl: 'Kâğıttan kimyasala, hepsi burada' },
@@ -23,8 +26,8 @@ const VIDEO = {
 
     { type: 'screen', shot: 'urun', d: 5.5, head: { eb: 'Ürün kodu 555204', ttl: 'Fiyat, stok ve teslim süresi anında' },
       cam: [{ at: 0.8, rect: { x: 820, y: 290, w: 500, h: 420 }, pad: 40 }],
-      focus: [{ at: 1.6, end: 3.4, key: 'fiyat', label: 'Size özel fiyat', pad: 10 },
-              { at: 3.4, key: 'stok', label: '1 iş günü içinde kargo', pad: 8 }],
+      focus: [{ at: 1.6, end: 3.4, key: 'fiyat', label: 'Size özel fiyat', desc: 'Firmanıza tanımlı fiyat, KDV hariç ve dahil.', pad: 10 },
+              { at: 3.4, key: 'stok', label: '1 iş günü içinde kargo', desc: 'Stokta olan ürün ertesi iş günü kargoya verilir.', pad: 8 }],
       vo: [{ id: 'v1-05', text: 'Size özel fiyatı, stok durumunu ve teslim süresini anında görün.', at: 1.0 }] },
 
     { type: 'list', d: 6.5, eyebrow: 'Hızlı sipariş', title: ['Ürün koduyla,', 'saniyeler içinde.'],
@@ -39,7 +42,7 @@ const VIDEO = {
 
     { type: 'screen', shot: 'onaylarim', d: 6, head: { eb: 'Onaylarım', ttl: 'Onay zinciri, sizin kurallarınızla' },
       cam: [{ at: 0.8, rect: { x: 565, y: 298, w: 1072, h: 232 }, pad: 40 }],
-      focus: [{ at: 1.5, end: 3.2, rect: { x: 583, y: 316, w: 330, h: 56 }, label: 'Zeynep Kaya · İdari İşler', pad: 8 }],
+      focus: [{ at: 1.5, end: 3.2, rect: { x: 583, y: 316, w: 330, h: 56 }, label: 'Zeynep Kaya · İdari İşler', desc: 'Sipariş, kurala göre sizin onayınıza düştü.', pad: 8 }],
       cursor: [{ at: 3.6, key: 'onayla', click: true }], cursorHide: 5.2,
       stamp: [{ at: 3.75, rect: { x: 1150, y: 380, w: 300, h: 80 }, text: 'Onaylandı', size: 46 }],
       toast: [{ at: 4.0, title: 'Sipariş onaylandı', sub: 'MTS-2026-0026 · MTS’ye iletildi' }],

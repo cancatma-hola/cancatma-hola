@@ -65,14 +65,38 @@ body { font-family: 'Inter Tight', sans-serif; -webkit-font-smoothing: antialias
   font-weight: 700; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; padding: 6px 26px; filter: url(#ink); }
 
 /* adım başlığı (eğitim) */
-.stephead { left: 150px; top: 44px; height: 80px; display: flex; align-items: center; gap: 26px; }
+.stephead { left: 249px; top: 44px; height: 80px; display: flex; align-items: center; gap: 26px; }
 .stephead .num { font-weight: 300; font-size: 76px; letter-spacing: -.05em; color: var(--blue); width: 92px; height: 80px; overflow: hidden; line-height: 80px; }
 .stephead .num .col > div { height: 80px; }
 .stephead .ttl { font-size: 40px; font-weight: 600; letter-spacing: -.03em; }
 .stephead .of { font-size: 16px; color: var(--ink3); }
-.head { left: 150px; top: 52px; }
+.head { left: 249px; top: 52px; }
 .head .ttl { font-size: 44px; font-weight: 600; letter-spacing: -.03em; }
 .head .eb { font-size: 16px; color: var(--ink2); margin-bottom: 8px; }
 
 /* kapanış */
 .endlogo { display: flex; align-items: center; gap: 22px; }
+
+/* açıklamalı vurgu kartı */
+.flabel.callout { background: #fff; color: var(--ink); font-family: 'Inter Tight', sans-serif; text-transform: none; letter-spacing: 0;
+  white-space: normal; border-radius: 14px; padding: 18px 22px 20px 24px; border-left: 6px solid var(--blue); z-index: 20;
+  box-shadow: 0 24px 60px -18px rgba(11, 31, 51, .55); }
+.flabel.callout b { display: block; font-size: 25px; font-weight: 600; letter-spacing: -.01em; }
+.flabel.callout span { display: block; font-size: 20px; color: var(--ink2); margin-top: 6px; line-height: 1.4; }
+.cline { position: absolute; background: var(--blue); z-index: 19; }
+
+/* altyazı bandı */
+#cap { position: absolute; left: 0; right: 0; bottom: 30px; display: flex; justify-content: center; z-index: 60; opacity: 0; pointer-events: none; }
+#cap span { max-width: 1480px; background: rgba(11, 31, 51, .92); color: #fff; font-size: 30px; font-weight: 500; letter-spacing: -.005em;
+  padding: 14px 30px; border-radius: 14px; text-align: center; line-height: 1.35; }
+
+/* açıklama ve akış sahneleri */
+.xcard { position: absolute; background: #fff; border-radius: 22px; padding: 38px 36px; box-shadow: 0 26px 70px -26px rgba(11, 31, 51, .35), 0 0 0 1px rgba(11, 31, 51, .06); }
+.xic { width: 92px; height: 92px; border-radius: 26px; background: #E7EFF9; display: grid; place-items: center; }
+.xcard .xn { position: absolute; right: 30px; top: 30px; font-size: 16px; color: var(--ink3); }
+.xcard .xt { font-size: 36px; font-weight: 600; letter-spacing: -.02em; margin-top: 30px; line-height: 1.1; }
+.xcard .xd { font-size: 24px; color: var(--ink2); margin-top: 14px; line-height: 1.4; }
+.fnode { position: absolute; width: 132px; height: 132px; border-radius: 50%; display: grid; place-items: center; border: 3px solid var(--ink3); background: #fff; }
+.flbl { position: absolute; width: 320px; text-align: center; }
+.flbl b { display: block; font-size: 30px; font-weight: 600; letter-spacing: -.02em; }
+.flbl span { display: block; font-size: 22px; color: var(--ink2); margin-top: 8px; line-height: 1.4; }

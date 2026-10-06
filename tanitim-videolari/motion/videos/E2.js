@@ -10,6 +10,9 @@ const VIDEO = {
       lines: [{ t: 'Katalogdan' }, { t: 'sipariş verme.', accent: true }],
       vo: [{ id: 'e2-01', text: 'Bu eğitimde katalogdan ürün bulup siparişinizi göndermeyi öğreneceksiniz.' }] },
 
+    { type: 'explain', d: 7, eyebrow: 'Bu eğitimde', title: ['Dört adımda sipariş.'],
+      items: [{ icon: 'search', t: 'Ürünü bulun', d: 'Ad, kod ya da barkodla arayın.' }, { icon: 'tag', t: 'Fiyatı okuyun', d: 'KDV, puan, stok ve teslim süresi.' }, { icon: 'cart', t: 'Sepeti hazırlayın', d: 'Adet, adres ve proje seçin.' }, { icon: 'check', t: 'Gönderin', d: 'Kurala göre onaya ya da MTS’ye.' }],
+      vo: [{ id: 'e2-x', text: 'Sipariş dört adımda tamamlanır: ürünü bulun, fiyatı okuyun, sepeti hazırlayın ve gönderin.', at: 0.9 }] },
     { type: 'screen', shot: 'anasayfa', d: 4.2, step: { n: 1, of: 6, ttl: 'Ürünü bulun' },
       cam: [{ at: 0.6, rect: { x: 400, y: 40, w: 720, h: 500 }, pad: 0 }],
       typing: [{ at: 1.6, rect: { x: 446, y: 60, w: 560, h: 30 }, text: 'kağıt havlu', size: 15, dur: 1.0 }],
@@ -18,27 +21,27 @@ const VIDEO = {
 
     { type: 'screen', shot: 'anasayfa-arama', d: 4.5, tr: 'cut', noEnter: true, step: { n: 1, of: 6, ttl: 'Ürünü bulun' },
       cam: [{ at: 0, rect: { x: 400, y: 40, w: 720, h: 500 }, pad: 0, d: 0.01 }],
-      focus: [{ at: 0.5, rect: { x: 407, y: 98, w: 695, h: 440 }, label: 'Anlık öneriler', pad: 2 }],
+      focus: [{ at: 0.5, rect: { x: 407, y: 98, w: 695, h: 440 }, label: 'Anlık öneriler', desc: 'Yazdıkça eşleşen ürünler listelenir; tıklayıp ürüne gidin.', pad: 2 }],
       vo: [{ id: 'e2-03', text: 'Öneriler siz yazarken anında listelenir.', at: 0.4 }] },
 
     { type: 'screen', shot: 'kategori', d: 7, step: { n: 2, of: 6, ttl: 'Kategoride filtreleyin' },
       cam: [{ at: 0.8, rect: { x: 283, y: 170, w: 1360, h: 760 }, pad: 0 }],
-      focus: [{ at: 1.5, end: 3.8, rect: { x: 283, y: 290, w: 258, h: 640 }, label: 'Marka · birim · fiyat · stok', pad: 4 },
-              { at: 3.8, rect: { x: 1300, y: 286, w: 340, h: 46 }, label: 'Sıralama', pad: 4 }],
+      focus: [{ at: 1.5, end: 3.8, rect: { x: 283, y: 290, w: 258, h: 640 }, label: 'Marka · birim · fiyat · stok', desc: 'Filtreleri işaretleyerek listeyi daraltın.', pad: 4 },
+              { at: 3.8, rect: { x: 1300, y: 286, w: 340, h: 46 }, label: 'Sıralama', desc: 'Fiyata, isme ya da önerilene göre sıralayın.', pad: 4 }],
       vo: [{ id: 'e2-04', text: 'Ya da kategoriden ilerleyin; marka, satış birimi, fiyat ve stok durumuna göre filtreleyin.', at: 1.0 }] },
 
     { type: 'screen', shot: 'urun', d: 9, step: { n: 3, of: 6, ttl: 'Ürün sayfasını okuyun' },
       cam: [{ at: 0.8, rect: { x: 820, y: 290, w: 500, h: 440 }, pad: 40 }],
-      focus: [{ at: 1.6, end: 3.6, rect: { x: 836, y: 420, w: 300, h: 84 }, label: 'KDV hariç ve dahil fiyat', pad: 6 },
-              { at: 3.6, end: 5.6, key: 'puan', label: 'Kazanacağınız puan', pad: 8 },
-              { at: 5.6, key: 'stok', label: 'Stok ve teslim süresi', pad: 8 }],
+      focus: [{ at: 1.6, end: 3.6, rect: { x: 836, y: 420, w: 300, h: 84 }, label: 'KDV hariç ve dahil fiyat', desc: 'Size tanımlı fiyat; satış birimi koli bazında.', pad: 6 },
+              { at: 3.6, end: 5.6, key: 'puan', label: 'Kazanacağınız puan', desc: 'Her alışveriş sadakat puanı kazandırır.', pad: 8 },
+              { at: 5.6, key: 'stok', label: 'Stok ve teslim süresi', desc: 'Stok adedi ve kargoya veriliş süresi.', pad: 8 }],
       vo: [{ id: 'e2-05', text: 'Ürün sayfasında KDV hariç ve dahil fiyatı, kazanacağınız puanı, stok durumunu ve teslim süresini görürsünüz.', at: 1.0 }] },
 
     { type: 'screen', shot: 'urun', d: 8, step: { n: 4, of: 6, ttl: 'Toplu alım ve abonelik' },
       cam: [{ at: 0.6, rect: { x: 820, y: 560, w: 500, h: 190 }, pad: 60 }],
-      focus: [{ at: 1.4, end: 3.6, key: 'toplu', label: 'Özel fiyat iste', pad: 8 },
-              { at: 3.6, end: 5.6, key: 'liste', label: 'Listeye ekle', pad: 8 },
-              { at: 5.6, key: 'abonelik', label: 'Aboneliğe çevir', pad: 6 }],
+      focus: [{ at: 1.4, end: 3.6, key: 'toplu', label: 'Özel fiyat iste', desc: 'Toplu alımda kademeli fiyat için talep oluşturun.', pad: 8 },
+              { at: 3.6, end: 5.6, key: 'liste', label: 'Listeye ekle', desc: 'Sık aldığınız ürünü listeye kaydedin.', pad: 8 },
+              { at: 5.6, key: 'abonelik', label: 'Aboneliğe çevir', desc: 'Bu ürün her ay otomatik siparişe eklenir.', pad: 6 }],
       vo: [{ id: 'e2-06', text: 'Büyük miktarlar için özel fiyat isteyin. Sık aldığınız ürünü listeye ekleyin ya da aboneliğe çevirin.', at: 1.0 }] },
 
     { type: 'list', d: 9, eyebrow: 'Adım 5 / 6 · Sepet', title: ['Sepeti', 'gözden geçirin.'],
@@ -57,7 +60,7 @@ const VIDEO = {
 
     { type: 'screen', shot: 'siparisler', d: 6, step: { n: 6, of: 6, ttl: 'Siparişlerim’den izleyin' },
       cam: [{ at: 0.8, rect: { x: 565, y: 300, w: 1072, h: 420 }, pad: 20 }],
-      focus: [{ at: 1.4, rect: { x: 1150, y: 440, w: 150, h: 300 }, label: 'Durum', pad: 6 }],
+      focus: [{ at: 1.4, rect: { x: 1150, y: 440, w: 150, h: 300 }, label: 'Durum', desc: 'Her siparişin güncel aşaması renkli etiketle görünür.', pad: 6 }],
       vo: [{ id: 'e2-09', text: 'Durumunu Siparişlerim ekranından anlık takip edin.', at: 1.0 }] },
 
     { type: 'title', d: 5.5, tip: true, eyebrow: 'İpucu', size: 104, y: 380,
