@@ -3,41 +3,45 @@
 Bu eğitimde katalogdan ürün bulup siparişinizi göndermeyi öğreneceksiniz.
 
 2
-00:00:06,004 --> 00:00:10,260
-Arama kutusuna ürün adını, ürün kodunu ya da barkodu yazın.
+00:00:06,004 --> 00:00:11,111
+Sipariş dört adımda tamamlanır: ürünü bulun, fiyatı okuyun, sepeti hazırlayın ve gönderin.
 
 3
-00:00:12,760 --> 00:00:14,887
-Öneriler siz yazarken anında listelenir.
+00:00:13,604 --> 00:00:17,860
+Arama kutusuna ürün adını, ürün kodunu ya da barkodu yazın.
 
 4
-00:00:18,010 --> 00:00:23,541
-Ya da kategoriden ilerleyin; marka, satış birimi, fiyat ve stok durumuna göre filtreleyin.
+00:00:20,360 --> 00:00:22,487
+Öneriler siz yazarken anında listelenir.
 
 5
-00:00:25,891 --> 00:00:32,274
-Ürün sayfasında KDV hariç ve dahil fiyatı, kazanacağınız puanı, stok durumunu ve teslim süresini görürsünüz.
+00:00:25,610 --> 00:00:31,141
+Ya da kategoriden ilerleyin; marka, satış birimi, fiyat ve stok durumuna göre filtreleyin.
 
 6
-00:00:35,891 --> 00:00:42,274
-Büyük miktarlar için özel fiyat isteyin. Sık aldığınız ürünü listeye ekleyin ya da aboneliğe çevirin.
+00:00:33,491 --> 00:00:39,874
+Ürün sayfasında KDV hariç ve dahil fiyatı, kazanacağınız puanı, stok durumunu ve teslim süresini görürsünüz.
 
 7
-00:00:44,691 --> 00:00:49,798
-Sepette adetleri kontrol edin, teslimat adresini ve projeyi seçin, ardından siparişi gönderin.
+00:00:43,491 --> 00:00:49,874
+Büyük miktarlar için özel fiyat isteyin. Sık aldığınız ürünü listeye ekleyin ya da aboneliğe çevirin.
 
 8
-00:00:54,691 --> 00:01:00,223
-Siparişiniz onay kurallarınıza göre ya onaya düşer ya da doğrudan MTS Hijyen’e iletilir.
+00:00:52,291 --> 00:00:57,398
+Sepette adetleri kontrol edin, teslimat adresini ve projeyi seçin, ardından siparişi gönderin.
 
 9
-00:01:02,573 --> 00:01:05,127
-Durumunu Siparişlerim ekranından anlık takip edin.
+00:01:02,291 --> 00:01:07,823
+Siparişiniz onay kurallarınıza göre ya onaya düşer ya da doğrudan MTS Hijyen’e iletilir.
 
 10
-00:01:08,973 --> 00:01:13,654
-İpucu: saat on dörde kadar verilen siparişler aynı gün kargoya verilir.
+00:01:10,173 --> 00:01:12,727
+Durumunu Siparişlerim ekranından anlık takip edin.
 
 11
-00:01:16,004 --> 00:01:19,409
+00:01:16,573 --> 00:01:21,254
+İpucu: saat on dörde kadar verilen siparişler aynı gün kargoya verilir.
+
+12
+00:01:23,604 --> 00:01:27,009
 Sıradaki eğitimde onay ekranını ve onay kurallarını göreceğiz.

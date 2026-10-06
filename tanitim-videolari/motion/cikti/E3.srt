@@ -3,25 +3,29 @@
 Ürün kodlarını biliyorsanız, sepeti saniyeler içinde doldurabilirsiniz.
 
 2
-00:00:06,100 --> 00:00:10,355
-Hızlı Sipariş ekranında her satıra ürün kodu ve miktar girin.
+00:00:06,100 --> 00:00:12,057
+Ürün kodlarını biliyorsanız en hızlı yol budur: yazın ya da yapıştırın, doğrulayın, sepete ekleyin.
 
 3
-00:00:13,100 --> 00:00:17,781
-Kodu yazdığınızda ürün adı, birim fiyat ve satır toplamı otomatik gelir.
+00:00:14,607 --> 00:00:18,863
+Hızlı Sipariş ekranında her satıra ürün kodu ve miktar girin.
 
 4
-00:00:22,700 --> 00:00:28,657
-Uzun listeler için Excel’den kopyalayıp CSV Yapıştır ile tek seferde aktarın, ardından Doğrula’ya basın.
+00:00:21,607 --> 00:00:26,288
+Kodu yazdığınızda ürün adı, birim fiyat ve satır toplamı otomatik gelir.
 
 5
-00:00:31,207 --> 00:00:35,888
-Hatalı kod varsa işaretlenir; her şey doğruysa tek tıkla sepete ekleyin.
+00:00:31,207 --> 00:00:37,165
+Uzun listeler için Excel’den kopyalayıp CSV Yapıştır ile tek seferde aktarın, ardından Doğrula’ya basın.
 
 6
-00:00:39,507 --> 00:00:45,039
-İpucu: tek seferde yüz satıra kadar ekleyebilirsiniz; miktara göre kademeli iskonto otomatik uygulanır.
+00:00:39,715 --> 00:00:44,396
+Hatalı kod varsa işaretlenir; her şey doğruysa tek tıkla sepete ekleyin.
 
 7
-00:00:47,589 --> 00:00:50,568
+00:00:48,015 --> 00:00:53,547
+İpucu: tek seferde yüz satıra kadar ekleyebilirsiniz; miktara göre kademeli iskonto otomatik uygulanır.
+
+8
+00:00:56,097 --> 00:00:59,076
 Sıradaki eğitimde periyodik siparişleri ve listeleri göreceğiz.
