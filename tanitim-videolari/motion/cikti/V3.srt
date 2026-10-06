@@ -1,0 +1,39 @@
+1
+00:00:00,600 --> 00:00:04,855
+Birden fazla departman, onlarca kullanıcı… Harcamalar gerçekten kontrol altında mı?
+
+2
+00:00:09,000 --> 00:00:14,106
+Kullanıcılar ve Yetkiler ekranında her çalışana rol, departman ve onay limiti verin.
+
+3
+00:00:16,356 --> 00:00:20,186
+Departmanlara aylık bütçe tanımlayın; her sipariş bütçeye anında işlenir.
+
+4
+00:00:23,056 --> 00:00:26,035
+Tutar eşiklerine göre onay zincirini siz belirleyin.
+
+5
+00:00:29,756 --> 00:00:33,586
+İdari İşler’den gelen sipariş, kurala göre doğrudan onayınıza düşer.
+
+6
+00:00:38,331 --> 00:00:42,161
+Tek tıkla onaylayın ya da revize için geri gönderin.
+
+7
+00:00:45,031 --> 00:00:48,436
+Eşiğin altındaki siparişler ise otomatik onaylanır; kimse beklemez.
+
+8
+00:00:51,106 --> 00:00:56,638
+Bütçe Panosu’nda departman bütçelerini, kullanıcı limitlerini ve kredi kullanımını anlık izleyin; sürpriz yok.
+
+9
+00:00:59,206 --> 00:01:00,909
+Kontrol sizde, teslimat bizde.
+
+10
+00:01:03,506 --> 00:01:04,783
+MTS Hijyen B2B.
