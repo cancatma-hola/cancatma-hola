@@ -1,0 +1,31 @@
+1
+00:00:00,250 --> 00:00:05,782
+Bu eğitimde özel fiyat teklifi istemeyi, numune talep etmeyi ve iade açmayı öğreneceksiniz.
+
+2
+00:00:08,232 --> 00:00:12,062
+Fiyat Tekliflerim ekranında tüm teklif taleplerinizi ve durumlarını görürsünüz.
+
+3
+00:00:16,532 --> 00:00:21,638
+Ürünü ve miktarı girip talebi gönderin; MTS ekibi size özel fiyatı hazırlar.
+
+4
+00:00:27,432 --> 00:00:30,836
+Teklif hazır olduğunda durumu güncellenir; inceleyip siparişe çevirin.
+
+5
+00:00:34,432 --> 00:00:39,538
+Yeni bir ürünü denemek isterseniz ücretsiz numune talep edin; durumunu buradan izleyin.
+
+6
+00:00:41,988 --> 00:00:47,946
+Hasarlı ya da hatalı teslimatta siparişi seçip iade açın; talebin her adımını takip edin.
+
+7
+00:00:50,396 --> 00:00:55,928
+İpucu: beş yüz adedin üzerindeki alımlarda önce teklif isteyin; özel fiyat avantajı kazanın.
+
+8
+00:00:58,378 --> 00:01:02,207
+Sıradaki eğitimde sadakat programını, kuponları ve davet sistemini göreceğiz.
