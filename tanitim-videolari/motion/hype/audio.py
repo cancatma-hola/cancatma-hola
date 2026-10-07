@@ -52,7 +52,8 @@ def tick():
 K, C, HC, HO = kick(), clap(), hat(), hat(True)
 
 # ── akorlar: Am – F – C – G (her biri 2 ölçü = 4 sn)
-PROG = [[57, 60, 64], [53, 57, 60], [48, 52, 55], [55, 59, 62]]
+SHIFT = int(META.get('shift', 0))   # videoya göre ton kaydırma (yarım ses)
+PROG = [[m + SHIFT for m in c] for c in [[57, 60, 64], [53, 57, 60], [48, 52, 55], [55, 59, 62]]]
 def chord_at(t): return PROG[int(t // (BAR * 2)) % 4]
 
 # sidechain zarfı (kick vuruşlarında pompalama)

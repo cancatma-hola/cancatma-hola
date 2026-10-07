@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>D4 · Her siparişte kazanın (dikey)</title>
+    <link rel="stylesheet" href="assets/kit.css" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/hyper-shader.js"></script>
+    <script src="assets/parts.js"></script>
+    <script src="assets/kit.js"></script>
+    <style>html, body { width: 1080px; height: 1920px; }
+      .coin { position: absolute; left: 0; top: 0; width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #FFE08A, #F5B019 60%, #C9860A);
+        color: #5A3A00; font-size: 42px; font-weight: 800; display: grid; place-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.4); opacity: 0; }</style>
+  </head>
+  <body>
+    <div id="main" data-composition-id="main" data-width="1080" data-height="1920" data-start="0" data-duration="15">
+      <audio id="muzik" src="assets/muzik-d4.m4a" data-start="0" data-duration="15"></audio>
+      <section id="s1" class="scene first clip" data-start="0" data-duration="15"></section>
+      <section id="s2" class="scene clip" data-start="0" data-duration="15"></section>
+      <section id="s3" class="scene clip" data-start="0" data-duration="15"></section>
+    </div>
+    <script type="application/json" id="hits">
+      [{"t":0,"type":"meta","drop":4,"stop":10,"roll":7.5,"logo":10.4,"dur":15,"shift":3},
+       {"t":0,"type":"riser","d":4},{"t":0.8,"type":"impact","g":0.6},{"t":0.9,"type":"pop"},{"t":1.1,"type":"pop"},{"t":1.3,"type":"pop"},{"t":1.5,"type":"pop"},{"t":1.7,"type":"pop"},
+       {"t":4,"type":"impact","g":1},{"t":5.75,"type":"stamp","g":0.7},{"t":7.6,"type":"pop"},
+       {"t":9.6,"type":"whoosh","pan":0},{"t":10.4,"type":"impact","g":1.2},{"t":10.5,"type":"pop"}]
+    </script>
+    <script>
+      // D4 · Her siparişte kazanın (15 sn, 1080×1920)
+      $("#s1").innerHTML = ambient(1) + `<div class="abs" id="s1box" style="left:440px;top:1200px;width:200px;height:170px;border-radius:14px;background:#C99866;display:grid;place-items:center">
+          <div style="background:#FBF8F2;padding:8px 12px;border-radius:4px"><img src="assets/logo.png" style="width:110px;display:block"></div></div>
+        ${Array.from({ length: 10 }, () => `<div class="coin">P</div>`).join("")}
+        <div class="abs" style="left:70px;right:70px;top:250px;text-align:center"><div id="s1a" class="h1" style="font-size:118px">${words("Her sipariş puan kazandırır.", 2)}</div></div>
+        <div class="abs" style="left:0;right:0;top:1500px;text-align:center"><div class="chip" id="s1c" style="font-size:46px;border-color:${AMBER}">${icon("star", 46, AMBER)}Bu ay +575 puan</div></div>`;
+
+      $("#s2").innerHTML = ambient(2) + `<div class="abs" style="left:70px;right:70px;top:170px;text-align:center"><div id="s2t" class="h1" style="font-size:104px">${words("Puan biriktikçe kademeniz yükselir.", 2)}</div></div>
+        <div class="abs card" id="s2c" style="left:70px;right:70px;top:720px;padding:50px 50px">
+          <div class="soft" style="font-size:38px;font-weight:600">Toplam bakiye</div>
+          <div style="display:flex;align-items:baseline;gap:20px"><div id="s2n" style="font-size:150px;font-weight:800;letter-spacing:-0.04em">0</div><div class="soft" style="font-size:48px;font-weight:600">puan</div></div>
+          <div class="chip" id="s2b" style="margin-top:20px;font-size:48px;padding:24px 40px;background:${AMBER};color:#3A2600;border-color:${AMBER}">${icon("star", 48, "#3A2600", 2.6)}Altın Müşteri</div>
+          <div style="margin-top:50px;display:flex;justify-content:space-between;font-size:36px;font-weight:600"><span class="soft">Sonraki: <b style="color:#fff">Platin</b></span><span id="s2r" class="amber">167 puan kaldı</span></div>
+          <div class="bar-bg" style="margin-top:20px;height:40px"><div class="bar-fg" id="s2f" style="width:100%;background:linear-gradient(90deg,#C9860A,${AMBER})"></div></div></div>`;
+
+      $("#s3").innerHTML = endHTML(words("Her siparişte kazanın.", 2));
+      const tl = seriBaslat([[4, "cinematic-zoom", 0.6], [10, "cross-warp-morph", 0.8]]);
+
+      tl.fromTo("#s1box", { y: 300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "back.out(1.8)" }, 0.2);
+      shake(tl, "#s1box", 0.8, 10);
+      $$("#s1 .coin").forEach((c, i) => { const t = 0.85 + i * 0.12, x = 120 + (i % 5) * 190 + rnd(i) * 40, y = 720 + Math.floor(i / 5) * 200 + rnd(i * 3) * 60;
+        tl.fromTo(c, { x: 495, y: 1230, scale: 0.3, opacity: 0, rotationY: 0 }, { x, y, scale: 1, opacity: 1, rotationY: 720, duration: 0.8, ease: "power3.out" }, t);
+        tl.to(c, { y: y - 30, duration: 2, ease: "sine.inOut" }, t + 0.8); });
+      rise(tl, $$("#s1a .w"), 0.5, 0.12);
+      popIn(tl, "#s1c", 2.3);
+
+      rise(tl, $$("#s2t .w"), 4.3, 0.1);
+      tl.fromTo("#s2c", { y: 120, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "expo.out" }, 4.4);
+      countTo(tl, $("#s2n"), 4.7, 49833, 1.8);
+      tl.fromTo("#s2b", { scale: 2.6, rotation: -10, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.25, ease: "power4.in" }, 5.5);
+      tl.fromTo("#s2f", { scaleX: 0 }, { scaleX: 0.996, duration: 1.6, ease: "expo.out" }, 6.6);
+      tl.fromTo("#s2r", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 7.6);
+
+      endAnim(tl, 10, 15);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

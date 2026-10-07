@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>P2 · Bir kez kurun</title>
+    <link rel="stylesheet" href="assets/kit.css" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/hyper-shader.js"></script>
+    <script src="assets/parts.js"></script>
+    <script src="assets/kit.js"></script>
+    <style>html, body { width: 1920px; height: 1080px; }</style>
+  </head>
+  <body>
+    <div id="main" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="30">
+      <audio id="muzik" src="assets/muzik-p2.m4a" data-start="0" data-duration="30"></audio>
+      <section id="s1" class="scene first clip" data-start="0" data-duration="30"></section>
+      <section id="s2" class="scene clip" data-start="0" data-duration="30"></section>
+      <section id="s3" class="scene clip" data-start="0" data-duration="30"></section>
+      <section id="s4" class="scene clip" data-start="0" data-duration="30"></section>
+      <section id="s5" class="scene clip" data-start="0" data-duration="30"></section>
+    </div>
+    <script type="application/json" id="hits">
+      [{"t":0,"type":"meta","drop":4.5,"stop":24.5,"roll":22,"logo":24.9,"dur":30,"shift":2},
+       {"t":0,"type":"riser","d":4.5},{"t":0.4,"type":"impact","g":0.35},{"t":0.9,"type":"impact","g":0.35},{"t":1.4,"type":"impact","g":0.4},{"t":1.9,"type":"impact","g":0.45},{"t":2.6,"type":"impact","g":0.5},
+       {"t":4.5,"type":"impact","g":1},{"t":6.6,"type":"stamp","g":0.6},{"t":7.6,"type":"stamp","g":0.6},{"t":6.9,"type":"pop"},{"t":7.9,"type":"pop"},
+       {"t":11.25,"type":"whoosh","pan":-1},{"t":11.5,"type":"impact","g":0.7},{"t":13.0,"type":"pop"},{"t":13.4,"type":"pop"},
+       {"t":17.75,"type":"whoosh","pan":1},{"t":18,"type":"impact","g":0.6},{"t":20.15,"type":"tick"},{"t":20.3,"type":"pop","g":1},{"t":20.3,"type":"impact","g":0.5},
+       {"t":24.25,"type":"whoosh","pan":0},{"t":24.9,"type":"impact","g":1.2},{"t":25.0,"type":"pop"}]
+    </script>
+    <script>
+      // P2 · Bir kez kurun (30 sn) — periyodik siparişler ve sipariş listeleri
+
+      // S1 · Soru (0–4,5): aynı sipariş her ay yeniden yazılıyor
+      const AYLAR = ["Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim"];
+      $("#s1").innerHTML = ambient(1) + `<div class="abs" data-layout-allow-overlap style="left:1180px;top:250px;width:560px;height:560px">
+          ${AYLAR.map((a, i) => `<div class="abs card s1k" data-layout-allow-overlap style="left:0;top:0;width:520px;padding:34px 40px">
+            <div class="mono cyan" style="font-size:26px">${a} 2026</div>
+            <div style="font-size:44px;font-weight:700;margin-top:12px">Sipariş</div>
+            ${[0, 1, 2].map(() => `<div style="height:16px;border-radius:8px;background:#1f4a75;margin-top:18px"></div>`).join("")}</div>`).join("")}</div>
+        <div class="abs" style="left:150px;top:330px;width:960px">
+          <div id="s1a" class="h1" style="font-size:108px">${words("Her ay aynı siparişi mi veriyorsunuz?", 3)}</div></div>`;
+
+      // S2 · Takvim (4,5–11,5): kurallı günlerde koli kendiliğinden düşer
+      const GUN = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"], OFF = 6, CW = 118, CH = 92;   // 1 Kasım 2026 = Pazar
+      let cells = GUN.map((g, i) => `<div class="abs soft" style="left:${i * CW}px;top:0;width:${CW - 10}px;text-align:center;font-size:28px;font-weight:600">${g}</div>`).join("");
+      for (let d = 1; d <= 30; d++) { const k = d - 1 + OFF, c = k % 7, r = Math.floor(k / 7);
+        cells += `<div class="abs cal${d === 1 || d === 5 ? " calx" : ""}" data-d="${d}" style="left:${c * CW}px;top:${50 + r * CH}px;width:${CW - 10}px;height:${CH - 10}px;border-radius:14px;
+          background:#0e2a4c;border:2px solid rgba(95,211,255,0.25);font-size:34px;font-weight:700;display:grid;place-items:center">${d}</div>`; }
+      $("#s2").innerHTML = ambient(2) + `<div class="abs" style="left:110px;top:90px;width:820px">
+          <div id="s2t" class="h1" style="font-size:96px">${words("Periyodik siparişi bir kez kurun.", 2)}</div>
+          <div id="s2s" class="soft" style="font-size:44px;font-weight:600;margin-top:28px">Sistem siparişi her ay kendisi oluşturur.</div>
+          <div style="margin-top:56px;display:flex;flex-direction:column;gap:22px">
+            <div class="chip s2c" style="font-size:36px;align-self:flex-start">${icon("calendar", 36, AMBER)}Her ayın 1. günü · Aylık periyodik sipariş</div>
+            <div class="chip s2c" style="font-size:36px;align-self:flex-start">${icon("calendar", 36, AMBER)}Her ayın 5. günü · Temizlik sarf aboneliği</div></div></div>
+        <div class="abs card" id="s2cal" style="left:970px;top:150px;width:${7 * CW + 60}px;padding:30px">
+          <div style="font-size:44px;font-weight:800;margin-bottom:24px">Kasım 2026</div>
+          <div style="position:relative;height:${50 + 6 * CH}px">${cells}
+            ${[1, 5].map((d) => { const k = d - 1 + OFF; return `<div class="abs s2box" style="left:${(k % 7) * CW + 20}px;top:${50 + Math.floor(k / 7) * CH + 6}px;width:68px;height:68px;border-radius:12px;background:${AMBER};display:grid;place-items:center">${icon("box", 44, NAVY, 2.4)}</div>`; }).join("")}
+          </div></div>`;
+
+      // S3 · Periyodik siparişler ekranı (11,5–18)
+      const PERI = { x: 565, y: 290, w: 1072, h: 270 }, K = 1.6;
+      $("#s3").innerHTML = ambient(3) + `<div class="full" style="perspective:1600px">${device("s3d", "periyodik", PERI, K, 102, 110)}</div>
+        <div class="abs" style="left:0;right:0;top:720px;text-align:center"><div id="s3t" class="h1" style="font-size:96px">${words("Tüm periyodik siparişleriniz tek ekranda.", 3)}</div></div>
+        <div class="sweep" data-layout-allow-overflow id="s3w"></div>`;
+
+      // S4 · Sipariş listeleri: tek tıkla sepete ekle (18–24,5)
+      const LIST = { x: 565, y: 375, w: 1072, h: 145 }, LT = 330;
+      const BTN = onDevice(LIST, K, 102, LT, 1036, 478);
+      $("#s4").innerHTML = ambient(4) + `<div class="abs" style="left:0;right:0;top:100px;text-align:center"><div id="s4t" class="h1" style="font-size:92px">${words("Sık aldıklarınızı tek tıkla sepete ekleyin.", 3)}</div></div>
+        <div class="full" style="perspective:1600px">${device("s4d", "listeler", LIST, K, 102, LT)}</div>${cursorSVG("s4c")}
+        <div class="abs toast" id="s4o" style="left:740px;top:830px">${icon("check", 40, "#1E9E5A", 2.6)}5 ürün sepete eklendi</div>
+        <div class="ring" id="s4r" style="left:${BTN.x}px;top:${BTN.y}px"></div>${burstHTML("s4b", 40)}`;
+
+      // S5 · Kapanış
+      $("#s5").innerHTML = endHTML(words("Bir kez kurun, sistem hatırlasın.", 3));
+
+      const tl = seriBaslat([[4.5, "cinematic-zoom", 0.6], [11.5, "whip-pan", 0.5], [18, "whip-pan", 0.5], [24.5, "cross-warp-morph", 0.8]]);
+
+      // S1: kartlar her vuruşta üst üste düşer
+      $$(".s1k").forEach((k, i) => tl.fromTo(k, { y: -700, rotation: (i % 2 ? 8 : -8), opacity: 0 }, { y: i * 26, rotation: (i % 2 ? 3 : -3) * (i / 4), opacity: 1, duration: 0.45, ease: "power3.in" }, [0.0, 0.45, 0.95, 1.45, 2.15][i]));
+      rise(tl, $$("#s1a .w"), 0.6, 0.1);
+
+      // S2
+      rise(tl, $$("#s2t .w"), 4.8, 0.1);
+      tl.fromTo("#s2s", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, 5.6);
+      tl.fromTo("#s2cal", { x: 300, rotationY: -30, opacity: 0 }, { x: 0, rotationY: 0, opacity: 1, duration: 0.9, ease: "expo.out" }, 4.8);
+      tl.fromTo($$("#s2cal .cal"), { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, stagger: 0.02, ease: "back.out(2)" }, 5.1);
+      $$(".s2box").forEach((b, i) => { const t = 6.4 + i;
+        tl.fromTo(b, { y: -500, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25, ease: "power3.in" }, t);
+        tl.to($$(".calx")[i], { backgroundColor: "#2F5E8F", borderColor: AMBER, duration: 0.2 }, t + 0.25);
+        popIn(tl, $$(".s2c")[i], t + 0.5); draw(tl, $("svg", $$(".s2c")[i]), t + 0.5); });
+
+      // S3
+      tl.fromTo("#s3d", { rotationX: 28, scale: 0.86 }, { rotationX: 3, scale: 1, duration: 1.0, ease: "expo.out" }, 11.5);
+      sweep(tl, "#s3w", 12.4, -400, 2300, 1.0);
+      rise(tl, $$("#s3t .w"), 12.6, 0.1);
+
+      // S4
+      rise(tl, $$("#s4t .w"), 18.2, 0.08);
+      tl.fromTo("#s4d", { y: 120, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "expo.out" }, 18.0);
+      const tc = clickAt(tl, "#s4c", 19.2, BTN.x, BTN.y);
+      ring(tl, "#s4r", tc + 0.15, 500, 0.8); burst(tl, "s4b", tc + 0.15, BTN.x, BTN.y, 0.7, 1.3);
+      tl.fromTo("#s4o", { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "back.out(2)" }, tc + 0.2);
+      tl.to("#s4c", { opacity: 0, duration: 0.3 }, 22.0);
+
+      endAnim(tl, 24.5, 30);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

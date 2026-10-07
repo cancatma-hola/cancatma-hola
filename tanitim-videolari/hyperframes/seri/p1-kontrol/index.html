@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>P1 · Kontrol sizde</title>
+    <link rel="stylesheet" href="assets/kit.css" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/hyper-shader.js"></script>
+    <script src="assets/parts.js"></script>
+    <script src="assets/kit.js"></script>
+    <style>html, body { width: 1920px; height: 1080px; }</style>
+  </head>
+  <body>
+    <div id="main" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="30">
+      <audio id="muzik" src="assets/muzik-p1.m4a" data-start="0" data-duration="30"></audio>
+      <section id="s1" class="scene first clip" data-start="0" data-duration="30"></section>
+      <section id="s2" class="scene clip" data-start="0" data-duration="30"></section>
+      <section id="s3" class="scene clip" data-start="0" data-duration="30"></section>
+      <section id="s4" class="scene clip" data-start="0" data-duration="30"></section>
+      <section id="s5" class="scene clip" data-start="0" data-duration="30"></section>
+    </div>
+    <!-- Ses efektleri ve müzik yapısı (sesler/olustur.mjs okur) -->
+    <script type="application/json" id="hits">
+      [{"t":0,"type":"meta","drop":4.5,"stop":24.5,"roll":22,"logo":24.9,"dur":30},
+       {"t":0,"type":"riser","d":4.5},{"t":0.3,"type":"pop"},{"t":0.5,"type":"pop"},{"t":0.7,"type":"pop"},{"t":0.9,"type":"pop"},{"t":1.0,"type":"impact","g":0.4},{"t":2.2,"type":"impact","g":0.5},
+       {"t":4.5,"type":"impact","g":1},{"t":5.4,"type":"pop"},{"t":5.65,"type":"pop"},{"t":5.9,"type":"pop"},{"t":6.15,"type":"pop"},{"t":9.0,"type":"impact","g":0.4},
+       {"t":11.25,"type":"whoosh","pan":-1},{"t":11.5,"type":"impact","g":0.7},{"t":12.2,"type":"impact","g":0.5},{"t":12.7,"type":"impact","g":0.6},{"t":13.2,"type":"impact","g":0.7},
+       {"t":17.75,"type":"whoosh","pan":1},{"t":18,"type":"impact","g":0.6},{"t":20.15,"type":"tick"},{"t":20.3,"type":"stamp","g":1.1},
+       {"t":24.25,"type":"whoosh","pan":0},{"t":24.9,"type":"impact","g":1.2},{"t":25.0,"type":"pop"}]
+    </script>
+    <script>
+      // P1 · Kontrol sizde (30 sn) — departman bütçesi, onay kuralları, tek tıkla onay
+      const DEPS = [["Satın Alma", 3727.32, 150000], ["Üretim", 13351.63, 90000], ["İdari İşler", 10413.93, 45000], ["Depo ve Lojistik", 1855.68, 60000]];
+
+      // S1 · Soru (0–4,5)
+      const POS = [[180, 170], [1420, 190], [200, 800], [1400, 820]];
+      $("#s1").innerHTML = ambient(1) + DEPS.map(([n], i) => `<div class="abs chip s1c" style="left:${POS[i][0]}px;top:${POS[i][1]}px;font-size:36px">${icon("building", 36)}${n}</div>`).join("")
+        + Array.from({ length: 8 }, (_, i) => `<div class="abs s1b" style="left:0;top:0;width:64px;height:64px;border-radius:14px;background:#164069;display:grid;place-items:center">${icon("box", 38, AMBER)}</div>`).join("")
+        + `<div class="full center" style="gap:26px">
+            <div id="s1a" class="h1" style="font-size:112px">${words("Her departman sipariş veriyor.")}</div>
+            <div id="s1q" class="h1 amber" style="font-size:112px">${words("Bütçeyi kim takip ediyor?")}</div></div>`;
+
+      // S2 · Bütçe çubukları (4,5–11,5)
+      $("#s2").innerHTML = ambient(2) + `<div class="abs" style="left:150px;top:90px;width:1620px">
+          <div id="s2t" class="h1" style="font-size:92px">${words("Her departmana aylık bütçe tanımlayın.", 3)}</div>
+          <div style="margin-top:70px;display:flex;flex-direction:column;gap:44px">
+          ${DEPS.map(([n, u, b], i) => `<div class="card s2r" style="padding:36px 44px;display:grid;grid-template-columns:400px 1fr 470px;align-items:center;gap:40px">
+              <div style="font-size:46px;font-weight:700">${n}</div>
+              <div class="bar-bg"><div class="bar-fg" style="width:100%"></div></div>
+              <div style="text-align:right;font-size:42px;font-weight:600"><span class="s2u">₺0,00</span><span class="soft"> / ${fmt(b).replace(",00", "")}</span></div></div>`).join("")}
+          </div></div>
+        <div class="abs chip" id="s2k" style="left:1150px;top:950px;font-size:38px;border-color:${AMBER}">${icon("wallet", 38, AMBER)}İdari İşler · kalan ${fmt(45000 - 10413.93)}</div>`;
+
+      // S3 · Onay merdiveni (11,5–18)
+      const STEPS = [["10.000 TL", 240], ["50.000 TL", 380], ["100.000 TL", 520]];
+      $("#s3").innerHTML = ambient(3) + `<div class="abs" style="left:0;right:0;top:90px;text-align:center">
+          <div id="s3t" class="h1" style="font-size:96px">${words("Büyük siparişler onayınıza düşer.", 2)}</div></div>
+        <div class="abs" style="left:300px;top:${980 - 520}px;width:1320px;height:520px">
+          ${STEPS.map(([v, h], i) => `<div class="abs card s3s" style="left:${i * 450}px;bottom:0;width:420px;height:${h}px;padding:34px;display:flex;flex-direction:column;justify-content:flex-start;gap:14px;transform-origin:50% 100%">
+              <div style="display:flex;align-items:center;gap:14px">${icon("shield", 44, AMBER)}<span style="font-size:32px;font-weight:600" class="soft">Onay kuralı</span></div>
+              <div style="font-size:60px;font-weight:800;letter-spacing:-0.03em">${v}</div><div style="font-size:34px;font-weight:600" class="cyan">üzeri siparişler</div></div>`).join("")}
+        </div>
+        <div class="abs soft" id="s3n" style="left:0;right:0;top:300px;text-align:center;font-size:44px;font-weight:600">Küçük siparişler beklemeden ilerler.</div>`;
+
+      // S4 · Tek tıkla onay (18–24,5)
+      const ONAY = { x: 565, y: 298, w: 1072, h: 232 }, K = 1.6, DL = 102, DT = 170;
+      const BTN = onDevice(ONAY, K, DL, DT, 622, 494);
+      $("#s4").innerHTML = ambient(4) + `<div class="full" style="perspective:1600px">${device("s4d", "onaylarim", ONAY, K, DL, DT)}</div>${cursorSVG("s4c")}
+        <div class="abs" id="s4m" data-layout-allow-overlap style="left:1080px;top:330px;width:680px;height:190px;display:grid;place-items:center;border:14px solid ${AMBER};border-radius:22px;
+          color:${AMBER};font-size:100px;font-weight:800;letter-spacing:0.08em;background:#0B1F33">ONAYLANDI</div>
+        <div class="ring" id="s4r" style="left:1420px;top:425px"></div>${burstHTML("s4b", 50)}
+        <div class="abs" style="left:0;right:0;top:800px;text-align:center"><div id="s4t" class="h1" style="font-size:104px">${words("Tek tıkla onaylayın.", 1)}</div></div>
+        <div class="flash" id="s4f"></div>`;
+
+      // S5 · Kapanış (24,5–30)
+      $("#s5").innerHTML = endHTML(words("Kontrol sizde.", 1));
+
+      const tl = seriBaslat([[4.5, "cinematic-zoom", 0.6], [11.5, "whip-pan", 0.5], [18, "whip-pan", 0.5], [24.5, "cross-warp-morph", 0.8]]);
+
+      // S1
+      $$(".s1c").forEach((c, i) => popIn(tl, c, 0.3 + i * 0.2));
+      $$(".s1b").forEach((b, i) => { const [px, py] = POS[i % 4];
+        tl.fromTo(b, { x: px + 120, y: py + 20, scale: 0.4, opacity: 0 }, { x: 928, y: 508, scale: 1, opacity: 1, duration: 1.1, ease: "power2.in" }, 0.9 + i * 0.32);
+        tl.to(b, { opacity: 0, scale: 0.3, duration: 0.2 }, 2.0 + i * 0.32); });
+      rise(tl, $$("#s1a .w"), 1.0, 0.1); rise(tl, $$("#s1q .w"), 2.2, 0.12);
+
+      // S2
+      rise(tl, $$("#s2t .w"), 4.8, 0.08);
+      $$(".s2r").forEach((r, i) => { const t = 5.4 + i * 0.25, [, u, b] = DEPS[i];
+        tl.fromTo(r, { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "expo.out" }, t);
+        tl.fromTo($(".bar-fg", r), { scaleX: 0 }, { scaleX: Math.max(0.02, u / b), duration: 1.4, ease: "expo.out" }, t + 0.6);
+        countTo(tl, $(".s2u", r), t + 0.6, u, 1.4, fmt); });
+      tl.fromTo($$(".s2r")[2], { boxShadow: "0 0 0 0 rgba(245,176,25,0)" }, { boxShadow: "0 0 0 6px rgba(245,176,25,0.9)", duration: 0.4 }, 9.0);
+      popIn(tl, "#s2k", 9.0);
+
+      // S3
+      rise(tl, $$("#s3t .w"), 11.8, 0.1);
+      $$(".s3s").forEach((s, i) => { const t = 12.2 + i * 0.5;
+        tl.fromTo(s, { scaleY: 0, opacity: 0 }, { scaleY: 1, opacity: 1, duration: 0.6, ease: "back.out(1.6)" }, t); draw(tl, $("svg", s), t + 0.2); });
+      tl.fromTo("#s3n", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, 14.4);
+
+      // S4
+      tl.fromTo("#s4d", { rotationX: 30, scale: 0.86 }, { rotationX: 3, scale: 1, duration: 1.0, ease: "expo.out" }, 18.0);
+      const tc = clickAt(tl, "#s4c", 19.2, BTN.x, BTN.y);
+      tl.to("#s4c", { opacity: 0, duration: 0.3 }, 21.2);
+      tl.fromTo("#s4m", { scale: 3, rotation: -8, opacity: 0 }, { scale: 1, rotation: -8, opacity: 1, duration: 0.2, ease: "power4.in" }, tc + 0.15);
+      ring(tl, "#s4r", tc + 0.35, 1000); burst(tl, "s4b", tc + 0.35, 1420, 425, 1.0, 1.6); flash(tl, "#s4f", tc + 0.35, 0.35); shake(tl, "#s4d", tc + 0.35, 18);
+      rise(tl, $$("#s4t .w"), 20.8, 0.12);
+
+      // S5
+      endAnim(tl, 24.5, 30);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

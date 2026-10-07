@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>P3 · Cari ve fatura</title>
+    <link rel="stylesheet" href="assets/kit.css" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/hyper-shader.js"></script>
+    <script src="assets/parts.js"></script>
+    <script src="assets/kit.js"></script>
+    <style>html, body { width: 1920px; height: 1080px; }</style>
+  </head>
+  <body>
+    <div id="main" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="30">
+      <audio id="muzik" src="assets/muzik-p3.m4a" data-start="0" data-duration="30"></audio>
+      <section id="s1" class="scene first clip" data-start="0" data-duration="30"></section>
+      <section id="s2" class="scene clip" data-start="0" data-duration="30"></section>
+      <section id="s3" class="scene clip" data-start="0" data-duration="30"></section>
+      <section id="s4" class="scene clip" data-start="0" data-duration="30"></section>
+      <section id="s5" class="scene clip" data-start="0" data-duration="30"></section>
+    </div>
+    <script type="application/json" id="hits">
+      [{"t":0,"type":"meta","drop":4.5,"stop":24.5,"roll":22,"logo":24.9,"dur":30,"shift":-2},
+       {"t":0,"type":"riser","d":4.5},{"t":0.2,"type":"whoosh","pan":-1,"d":0.8},{"t":1.0,"type":"whoosh","pan":1,"d":0.8},{"t":2.4,"type":"impact","g":0.5},
+       {"t":4.5,"type":"impact","g":1},{"t":5.6,"type":"pop"},{"t":6.0,"type":"pop"},{"t":6.4,"type":"pop"},{"t":8.6,"type":"impact","g":0.4},
+       {"t":11.25,"type":"whoosh","pan":-1},{"t":11.5,"type":"impact","g":0.7},{"t":12.6,"type":"tick"},{"t":13.0,"type":"tick"},{"t":13.4,"type":"tick"},{"t":13.8,"type":"tick"},
+       {"t":17.75,"type":"whoosh","pan":1},{"t":18,"type":"impact","g":0.6},{"t":20.15,"type":"tick"},{"t":20.4,"type":"pop","g":1},{"t":20.9,"type":"impact","g":0.5},
+       {"t":24.25,"type":"whoosh","pan":0},{"t":24.9,"type":"impact","g":1.2},{"t":25.0,"type":"pop"}]
+    </script>
+    <script>
+      // P3 · Cari ve fatura (30 sn) — açık bakiye, kredi limiti, cari ekstre, e-fatura
+
+      // S1 · Dağınık evrak (0–4,5)
+      const KAGIT = ["Fatura", "Ekstre", "Fatura", "İrsaliye", "Fatura", "Ekstre", "Fatura", "Dekont", "Fatura", "Ekstre"];
+      $("#s1").innerHTML = ambient(1) + `<div class="full" data-layout-allow-overlap style="perspective:1400px">${KAGIT.map((k) => `<div class="abs s1p" style="left:0;top:0;width:230px;height:300px;border-radius:12px;background:#F4F7FB;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,0.5)">
+          <div style="font-size:30px;font-weight:800;color:${NAVY}">${k}</div>
+          ${[0, 1, 2, 3, 4].map((j) => `<div style="height:12px;border-radius:6px;background:#C9D6E5;margin-top:${j ? 14 : 22}px;width:${[100, 80, 92, 60, 74][j]}%"></div>`).join("")}</div>`).join("")}</div>
+        <div class="full center"><div class="scrim"><div id="s1a" class="h1" style="font-size:112px">${words("Ekstre ve fatura takibi zor mu?", 3)}</div></div></div>`;
+
+      // S2 · Kredi halkası + bakiye (4,5–11,5)
+      const R = 190, C = 2 * Math.PI * R;
+      $("#s2").innerHTML = ambient(2) + `<div class="abs" style="left:0;right:0;top:90px;text-align:center"><div id="s2t" class="h1" style="font-size:100px">${words("Cari durumunuzu anlık görün.", 2)}</div></div>
+        <div class="abs" id="s2ring" style="left:200px;top:330px;width:500px;height:500px">
+          <svg width="500" height="500" viewBox="0 0 500 500"><circle cx="250" cy="250" r="${R}" fill="none" stroke="#12304f" stroke-width="44"/>
+            <circle id="s2arc" cx="250" cy="250" r="${R}" fill="none" stroke="${AMBER}" stroke-width="44" stroke-linecap="round" transform="rotate(-90 250 250)" stroke-dasharray="${C}" stroke-dashoffset="${C}"/></svg>
+          <div class="full center"><div id="s2p" style="font-size:120px;font-weight:800;letter-spacing:-0.04em">%0</div><div class="soft" style="font-size:34px;font-weight:600">kredi kullanımı</div></div></div>
+        <div class="abs" style="left:820px;top:350px;width:900px;display:flex;flex-direction:column;gap:34px">
+          ${[["Açık bakiye", 15405.55, "wallet"], ["Kullanılabilir kredi", 234594.45, "check"]].map(([n, v, ic]) => `<div class="card s2k" style="padding:34px 44px;display:flex;align-items:center;gap:30px">
+            <div style="width:96px;height:96px;border-radius:22px;background:#164069;display:grid;place-items:center">${icon(ic, 56)}</div>
+            <div><div class="soft" style="font-size:36px;font-weight:600">${n}</div><div class="s2v" style="font-size:76px;font-weight:800;letter-spacing:-0.03em">₺0,00</div></div></div>`).join("")}</div>`;
+
+      // S3 · Cari ekstre ekranı (11,5–18)
+      const EKS = { x: 565, y: 372, w: 1072, h: 284 }, K = 1.6;
+      $("#s3").innerHTML = ambient(3) + `<div class="abs" style="left:0;right:0;top:60px;text-align:center"><div id="s3t" class="h1" style="font-size:96px">${words("Tüm hareketleriniz tek ekstrede.", 2)}</div></div>
+        <div class="full" style="perspective:1600px">${device("s3d", "ekstre", EKS, K, 102, 230)}</div>
+        ${[0, 1, 2, 3].map((i) => `<div class="abs s3h" style="left:102px;top:${230 + 54 + (492 - EKS.y + i * 40.5) * K}px;width:${EKS.w * K}px;height:${40 * K}px;background:rgba(245,176,25,0.22);border-left:8px solid ${AMBER};opacity:0"></div>`).join("")}`;
+
+      // S4 · e-Fatura indir (18–24,5)
+      const FAT = { x: 565, y: 296, w: 1072, h: 168 }, FT = 330;
+      const PDF = onDevice(FAT, K, 102, FT, 1462, 355);
+      $("#s4").innerHTML = ambient(4) + `<div class="abs" style="left:0;right:0;top:80px;text-align:center">
+          <div id="s4t" class="h1" style="font-size:96px">${words("e-Faturalarınızı tek tıkla indirin.", 1)}</div></div>
+        <div class="full" style="perspective:1600px">${device("s4d", "faturalar", FAT, K, 102, FT)}</div>${cursorSVG("s4c")}
+        <div class="abs" id="s4dl" style="left:${PDF.x - 50}px;top:${PDF.y}px;width:100px;height:100px;border-radius:24px;background:${AMBER};display:grid;place-items:center;opacity:0">${icon("doc", 60, NAVY, 2.4)}</div>
+        <div class="abs soft" id="s4s" style="left:0;right:0;top:880px;text-align:center;font-size:44px;font-weight:600">Faturalar Logo ERP üzerinden otomatik düzenlenir.</div>`;
+
+      $("#s5").innerHTML = endHTML(words("Cari takibi artık çok kolay.", 2));
+
+      const tl = seriBaslat([[4.5, "cinematic-zoom", 0.6], [11.5, "whip-pan", 0.5], [18, "whip-pan", 0.5], [24.5, "cross-warp-morph", 0.8]]);
+
+      // S1: kâğıtlar savrulur, yazı ortada sabit kalır
+      $$(".s1p").forEach((p, i) => { const a = rnd(i * 3.7) * Math.PI * 2, x0 = 960 + Math.cos(a) * 1400, y0 = 540 + Math.sin(a) * 900;
+        const x1 = 60 + (i / 9) * 1600 + rnd(i * 5.1) * 60, y1 = i % 2 ? 20 + rnd(i * 8.3) * 90 : 740 + rnd(i * 8.3) * 60;
+        tl.fromTo(p, { x: x0, y: y0, rotation: rnd(i) * 360, rotationY: 60, opacity: 1 }, { x: x1, y: y1, rotation: -30 + rnd(i * 2) * 60, rotationY: 0, duration: 1.6, ease: "power3.out" }, 0.1 + i * 0.08);
+        tl.to(p, { y: `+=${30 + rnd(i) * 40}`, rotation: `+=${-8 + rnd(i * 4) * 16}`, duration: 2.8, ease: "sine.inOut" }, 1.8); });
+      rise(tl, $$("#s1a .w"), 1.2, 0.1);
+
+      // S2
+      rise(tl, $$("#s2t .w"), 4.8, 0.1);
+      tl.fromTo("#s2ring", { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.6)" }, 5.0);
+      tl.fromTo("#s2arc", { strokeDashoffset: C }, { strokeDashoffset: C * (1 - 0.06), duration: 1.6, ease: "expo.out" }, 5.6);
+      countTo(tl, $("#s2p"), 5.6, 6, 1.6, (v) => "%" + Math.round(v));
+      $$(".s2k").forEach((k, i) => { tl.fromTo(k, { x: 120, opacity: 0 }, { x: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 6.0 + i * 0.4);
+        countTo(tl, $(".s2v", k), 6.2 + i * 0.4, [15405.55, 234594.45][i], 1.6, fmt); });
+      tl.fromTo($$(".s2k")[0], { boxShadow: "0 0 0 0 rgba(245,176,25,0)" }, { boxShadow: "0 0 0 6px rgba(245,176,25,0.9)", duration: 0.4 }, 8.6);
+
+      // S3
+      rise(tl, $$("#s3t .w"), 11.8, 0.1);
+      tl.fromTo("#s3d", { rotationX: 26, y: 60 }, { rotationX: 3, y: 0, duration: 1.0, ease: "expo.out" }, 11.5);
+      $$(".s3h").forEach((h, i) => { tl.fromTo(h, { opacity: 0, scaleX: 0.2, transformOrigin: "0 50%" }, { opacity: 1, scaleX: 1, duration: 0.35, ease: "expo.out" }, 12.6 + i * 0.4);
+        tl.to(h, { opacity: 0, duration: 0.4 }, 12.6 + i * 0.4 + 0.9); });
+
+      // S4
+      rise(tl, $$("#s4t .w"), 18.2, 0.1);
+      tl.fromTo("#s4d", { y: 120, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "expo.out" }, 18.0);
+      const tc = clickAt(tl, "#s4c", 19.2, PDF.x, PDF.y);
+      tl.fromTo("#s4dl", { y: PDF.y - PDF.y, scale: 0.4, opacity: 0 }, { keyframes: [{ scale: 1.1, opacity: 1, y: -30, duration: 0.3 }, { y: 1080 - PDF.y, scale: 0.6, opacity: 0, duration: 0.6, ease: "power3.in" }] }, tc + 0.25);
+      tl.to("#s4c", { opacity: 0, duration: 0.3 }, 21.4);
+      tl.fromTo("#s4s", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, 21.0);
+
+      endAnim(tl, 24.5, 30);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
