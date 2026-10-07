@@ -21,4 +21,6 @@ Kullanım verisi göndermemek için: `npx hyperframes telemetry disable`.
 ## Notlar
 - Bu ortamda jsdelivr CDN kapalı olduğu için GSAP ve shader paketi `assets/vendor/` altında yerel kopya.
 - `assets/parts.js`: ikonlar ve teslimat illüstrasyonu (araç, personel, müşteri) `motion/kit/` içinden.
+- `HyperShader.init` mutlaka kendi `gsap.timeline({ paused: true })` nesnemizle (`timeline: tl`) çağrılmalı; aksi halde render sırasında her geçişten sonra eski sahne ~0,4 sn geri görünüyor.
+- Render süresi: 4 işçiyle ~4 dk (eski motorda ~10 dk). Çıktı: `motion/cikti/HYPE-promo-hyperframes.mp4`.
 - Shader geçişleri sahneleri dokuya çevirdiği için sahnelerde `var()` ve `transparent` kullanılmıyor; her `.scene` düz arka plan renginde.

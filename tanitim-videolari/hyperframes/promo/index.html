@@ -251,8 +251,9 @@
 
       // ═══════════ Shader geçişleri (kesme anları vuruşlarda; geçiş kesmenin etrafında ortalanır) ═══════════
       const CUT = (t, shader, d) => ({ time: t - d / 2, shader, duration: d });
-      const tl = HyperShader.init({
-        bgColor: "#050d18", accentColor: CYAN, compositionId: "main",
+      const tl = gsap.timeline({ paused: true });
+      HyperShader.init({
+        bgColor: "#050d18", accentColor: CYAN, compositionId: "main", timeline: tl,
         scenes: ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"],
         transitions: [CUT(5, "cinematic-zoom", 0.6), CUT(13, "whip-pan", 0.5), CUT(20, "cinematic-zoom", 0.5), CUT(27, "whip-pan", 0.5),
           CUT(34, "chromatic-split", 0.5), CUT(40, "whip-pan", 0.5), CUT(48, "flash-through-white", 0.5), CUT(54, "cross-warp-morph", 0.8)],
