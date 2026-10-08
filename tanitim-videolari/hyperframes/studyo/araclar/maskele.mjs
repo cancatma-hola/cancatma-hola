@@ -1,7 +1,7 @@
 // Ekran haritalarındaki kişisel e-posta ve telefonları maskeler (gizle işareti b=1 korunur): node araclar/maskele.mjs
 import fs from "node:fs";
 const D = new URL("../assets/ekran/", import.meta.url);
-const R = /[\w.+-]+@(gmail|hotmail|outlook|yahoo)\.[a-z.]+|05\d{2}\s?\d{3}\s?\d{2}\s?\d{2}/gi;
+const R = /[\w.+-]+@(gmail|hotmail|outlook|yahoo)\.[a-z.]+|05(?!43\s?683)\d{2}\s?\d{3}\s?\d{2}\s?\d{2}/gi;
 let n = 0;
 for (const f of fs.readdirSync(D).filter((f) => f.endsWith(".json"))) {
   const m = JSON.parse(fs.readFileSync(new URL(f, D), "utf8"));

@@ -57,9 +57,9 @@ export function bul(ekran, q) {
   return oge(o);
 }
 // Kişisel veriler ve test kayıtları: gri bantla kapatılır
-const GIZLI = /@(gmail|hotmail|outlook|yahoo)\.|\basd\b|05\d{2}\s?\d{3}\s?\d{2}\s?\d{2}|^0533/i;
+const GIZLI = /@(gmail|hotmail|outlook|yahoo)\.|\basd\b|05(?!43\s?683)\d{2}\s?\d{3}\s?\d{2}\s?\d{2}|^0533/i;
 function gizle(ekran) {
-  return harita(ekran).ogeler.filter((o) => o.t && !o.k && (o.b || GIZLI.test(o.t)) && o.w < 900).map(oge);
+  return harita(ekran).ogeler.filter((o) => o.t && (o.c || !o.k) && (o.b || GIZLI.test(o.t)) && o.w < 1100).map(oge);
 }
 const VARSAYILAN = { hesap: { x: 555, y: 205, w: 1095, h: 840 }, magaza: { x: 270, y: 200, w: 1380, h: 860 } };
 
