@@ -67,7 +67,11 @@
 
       $("#s5").innerHTML = endHTML(words("Cari takibi artık çok kolay.", 2));
 
-      const tl = seriBaslat([[4.5, "cinematic-zoom", 0.6], [11.5, "whip-pan", 0.5], [18, "whip-pan", 0.5], [24.5, "cross-warp-morph", 0.8]]);
+      const CUTS = [[4.5, "cinematic-zoom", 0.6], [11.5, "whip-pan", 0.5], [18, "whip-pan", 0.5], [24.5, "cross-warp-morph", 0.8]];
+      const tl = gsap.timeline({ paused: true });
+      const g = seriGecis(CUTS);
+      HyperShader.init({ bgColor: "#050d18", accentColor: CYAN, compositionId: "main", timeline: tl, scenes: g.scenes, transitions: g.transitions });
+      seriOrtam(tl, CUTS);
 
       // S1: kâğıtlar savrulur, yazı ortada sabit kalır
       $$(".s1p").forEach((p, i) => { const a = rnd(i * 3.7) * Math.PI * 2, x0 = 960 + Math.cos(a) * 1400, y0 = 540 + Math.sin(a) * 900;

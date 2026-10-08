@@ -52,27 +52,33 @@ def tick():
 K, C, HC, HO = kick(), clap(), hat(), hat(True)
 
 # ── akorlar: Am – F – C – G (her biri 2 ölçü = 4 sn)
+SAKIN = META.get('mod') == 'sakin'   # eğitim videoları: hafif ritim, davul rulosu yok
 SHIFT = int(META.get('shift', 0))   # videoya göre ton kaydırma (yarım ses)
 PROG = [[m + SHIFT for m in c] for c in [[57, 60, 64], [53, 57, 60], [48, 52, 55], [55, 59, 62]]]
 def chord_at(t): return PROG[int(t // (BAR * 2)) % 4]
 
 # sidechain zarfı (kick vuruşlarında pompalama)
 side = np.ones(N)
-for b in np.arange(D0, D1, BEAT):
+for b in np.arange(D0, D1, BEAT * (2 if SAKIN else 1)):
     i = int(b * SR); n = int(0.42 * SR)
-    seg = side[i:i + n]; seg *= 1 - 0.75 * np.exp(-np.arange(len(seg)) / SR * 9)
+    seg = side[i:i + n]; seg *= 1 - (0.4 if SAKIN else 0.75) * np.exp(-np.arange(len(seg)) / SR * 9)
 
 # ── davul dizisi
 for b in np.arange(D0, D1, BEAT):
     beat_in_bar = int(round((b - D0) / BEAT)) % 4
     big = ROLL - 3 <= b < ROLL + 4
+    if SAKIN:
+        if beat_in_bar in (0, 2): add(K, b, 0.5)
+        if beat_in_bar == 3: add(C, b, 0.16, 0.05)
+        add(HO, b + BEAT / 2, 0.08, 0.3)
+        continue
     add(K, b, 0.95)
     if beat_in_bar in (1, 3): add(C, b, 0.55 if not big else 0.7, 0.05)
     add(HO, b + BEAT / 2, 0.22 if not (ROLL + 4 <= b) else 0.12, 0.3)
     for s16 in range(4):
         if D0 + 6 <= b < ROLL + 4: add(HC, b + s16 * BEAT / 4, 0.12 + (0.06 if s16 == 2 else 0), -0.35)
 # snare rulosu (yükselen)
-for k, b in enumerate(np.arange(ROLL, ROLL + 2.0, BEAT / 4)):
+for k, b in enumerate(np.arange(ROLL, ROLL + 2.0, BEAT / 4) if not SAKIN else []):
     add(C, b, 0.15 + 0.35 * k / 16, 0.0)
 
 # ── bas (8'likler, sidechain)
@@ -83,7 +89,8 @@ for b in np.arange(D0, D1, BEAT / 2):
     s = (np.sign(np.sin(2 * np.pi * f * t)) * 0.35 + np.sin(2 * np.pi * f * t)) * np.exp(-t * 5)
     i = int(b * SR); j = min(N, i + len(s)); bass[i:j] += s[:j - i]
 bass = lp(bass, 900) * side
-L += bass * 0.42; R += bass * 0.42
+BG = 0.28 if SAKIN else 0.42
+L += bass * BG; R += bass * BG
 
 # ── pad (tüm parça, yumuşak; sidechain)
 pad = np.zeros(N)
@@ -93,7 +100,8 @@ for b in np.arange(0, DUR, BAR * 2):
     s = sum(np.sin(2 * np.pi * hz(m) * t) + 0.4 * np.sin(2 * np.pi * hz(m) * 1.004 * t) for m in ch)
     i = int(b * SR); j = min(N, i + len(s)); pad[i:j] += (s * env)[:j - i]
 pad = lp(pad, 2400) * (0.5 + 0.5 * side)
-L += pad * 0.05; R += pad * 0.05
+PG = 0.075 if SAKIN else 0.05
+L += pad * PG; R += pad * PG
 
 # ── pluck arpej (16'lık, 10 sn sonra; filtre açılır)
 arp = np.zeros(N)

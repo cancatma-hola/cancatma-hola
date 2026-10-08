@@ -42,7 +42,11 @@
               <div style="margin-top:16px;font-size:40px;font-weight:700" class="cyan s2u">₺0,00</div></div>`).join("")}</div></div>`;
 
       $("#s3").innerHTML = endHTML(words("Kontrol sizde.", 1));
-      const tl = seriBaslat([[4, "cinematic-zoom", 0.6], [10, "cross-warp-morph", 0.8]]);
+      const CUTS = [[4, "cinematic-zoom", 0.6], [10, "cross-warp-morph", 0.8]];
+      const tl = gsap.timeline({ paused: true });
+      const g = seriGecis(CUTS);
+      HyperShader.init({ bgColor: "#050d18", accentColor: CYAN, compositionId: "main", timeline: tl, scenes: g.scenes, transitions: g.transitions });
+      seriOrtam(tl, CUTS);
 
       $$(".s1c").forEach((c, i) => popIn(tl, c, 0.3 + i * 0.2));
       rise(tl, $$("#s1a .w"), 0.9, 0.1); rise(tl, $$("#s1q .w"), 1.8, 0.12);

@@ -44,7 +44,11 @@
             <div><div class="soft" style="font-size:36px;font-weight:600">${n}</div><div class="s2v" style="font-size:72px;font-weight:800;letter-spacing:-0.03em">₺0,00</div></div></div>`).join("")}</div>`;
 
       $("#s3").innerHTML = endHTML(words("Cari takibi artık çok kolay.", 2));
-      const tl = seriBaslat([[4, "cinematic-zoom", 0.6], [10, "cross-warp-morph", 0.8]]);
+      const CUTS = [[4, "cinematic-zoom", 0.6], [10, "cross-warp-morph", 0.8]];
+      const tl = gsap.timeline({ paused: true });
+      const g = seriGecis(CUTS);
+      HyperShader.init({ bgColor: "#050d18", accentColor: CYAN, compositionId: "main", timeline: tl, scenes: g.scenes, transitions: g.transitions });
+      seriOrtam(tl, CUTS);
 
       $$(".s1p").forEach((p, i) => { const a = rnd(i * 3.7) * Math.PI * 2, x0 = 540 + Math.cos(a) * 1200, y0 = 960 + Math.sin(a) * 1300;
         const x1 = 40 + (i % 4) * 250 + rnd(i) * 30, y1 = i < 4 ? 80 + rnd(i * 8.3) * 120 : 1450 + rnd(i * 8.3) * 120;

@@ -43,7 +43,11 @@
           <div class="bar-bg" style="margin-top:20px;height:40px"><div class="bar-fg" id="s2f" style="width:100%;background:linear-gradient(90deg,#C9860A,${AMBER})"></div></div></div>`;
 
       $("#s3").innerHTML = endHTML(words("Her siparişte kazanın.", 2));
-      const tl = seriBaslat([[4, "cinematic-zoom", 0.6], [10, "cross-warp-morph", 0.8]]);
+      const CUTS = [[4, "cinematic-zoom", 0.6], [10, "cross-warp-morph", 0.8]];
+      const tl = gsap.timeline({ paused: true });
+      const g = seriGecis(CUTS);
+      HyperShader.init({ bgColor: "#050d18", accentColor: CYAN, compositionId: "main", timeline: tl, scenes: g.scenes, transitions: g.transitions });
+      seriOrtam(tl, CUTS);
 
       tl.fromTo("#s1box", { y: 300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "back.out(1.8)" }, 0.2);
       shake(tl, "#s1box", 0.8, 10);

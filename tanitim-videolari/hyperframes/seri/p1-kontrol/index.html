@@ -76,7 +76,11 @@
       // S5 · Kapanış (24,5–30)
       $("#s5").innerHTML = endHTML(words("Kontrol sizde.", 1));
 
-      const tl = seriBaslat([[4.5, "cinematic-zoom", 0.6], [11.5, "whip-pan", 0.5], [18, "whip-pan", 0.5], [24.5, "cross-warp-morph", 0.8]]);
+      const CUTS = [[4.5, "cinematic-zoom", 0.6], [11.5, "whip-pan", 0.5], [18, "whip-pan", 0.5], [24.5, "cross-warp-morph", 0.8]];
+      const tl = gsap.timeline({ paused: true });
+      const g = seriGecis(CUTS);
+      HyperShader.init({ bgColor: "#050d18", accentColor: CYAN, compositionId: "main", timeline: tl, scenes: g.scenes, transitions: g.transitions });
+      seriOrtam(tl, CUTS);
 
       // S1
       $$(".s1c").forEach((c, i) => popIn(tl, c, 0.3 + i * 0.2));

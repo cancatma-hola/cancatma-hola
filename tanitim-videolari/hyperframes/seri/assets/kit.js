@@ -1,5 +1,5 @@
 // MTS Hijyen tanıtım serisi · ortak yardımcılar (HyperFrames + GSAP + HyperShader).
-// Kullanım: sahne HTML'lerini kur → const tl = seriBaslat(cuts) → animasyonları tl.ye ekle → window.__timelines["main"] = tl.
+// Kullanım: sahne HTML'lerini kur → HyperShader.init (satır içi, seriGecis ile) → seriOrtam → animasyonlar → window.__timelines["main"] = tl.
 const AMBER = "#F5B019", CYAN = "#5FD3FF", BLUE = "#2F7FE0", NAVY = "#0B1F33";
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -25,7 +25,7 @@ function device(id, shot, r, k, left, top) {
   const w = Math.round(r.w * k), h = Math.round(r.h * k);
   return `<div class="device" id="${id}" style="left:${left}px;top:${top}px;width:${w}px">
     <div class="bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><div class="url">panel.mtshijyen.com</div></div>
-    <div class="view" style="width:${w}px;height:${h}px"><img data-layout-allow-overflow src="assets/shots/${shot}.png" style="left:${-r.x * k}px;top:${-r.y * k}px;width:${1920 * k}px"></div></div>`;
+    <div class="view" style="width:${w}px;height:${h}px"><img data-layout-allow-overflow decoding="sync" src="assets/shots/${shot}.png" style="left:${-r.x * k}px;top:${-r.y * k}px;width:${1920 * k}px"></div></div>`;
 }
 // Kırpılmış ekrandaki bir noktanın sahnedeki konumu (device üst çubuğu 54 px)
 const onDevice = (r, k, left, top, x, y) => ({ x: left + (x - r.x) * k, y: top + 54 + (y - r.y) * k });
@@ -89,19 +89,18 @@ function endAnim(tl, t0, total) {
   tl.fromTo("#end-black", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.in" }, total - 0.6);
 }
 
-// Zaman çizelgesi + shader geçişleri. cuts: [[zaman, shader, süre], ...] (geçiş kesmenin etrafında ortalanır)
-function seriBaslat(cuts) {
-  const scenes = $$("#main > .scene").map((s) => s.id);
-  const tl = gsap.timeline({ paused: true });
-  HyperShader.init({ bgColor: "#050d18", accentColor: CYAN, compositionId: "main", timeline: tl, scenes,
-    transitions: cuts.map(([t, shader, d]) => ({ time: t - d / 2, shader, duration: d })) });
-  // ortam ışıkları her sahnede yavaşça süzülür
-  const total = Number($("#main").dataset.duration);
+// Shader geçişleri: HyperShader.init çağrısı index.html içinde satır içi olmalı (render motoru geçişleri oradan tanır).
+// Kullanım: const tl = gsap.timeline({ paused: true }); const g = seriGecis(CUTS);
+//           HyperShader.init({ ..., timeline: tl, scenes: g.scenes, transitions: g.transitions }); seriOrtam(tl, CUTS);
+function seriGecis(cuts) {
+  return { scenes: $$("#main > .scene").map((s) => s.id), transitions: cuts.map(([t, shader, d]) => ({ time: t - d / 2, shader, duration: d })) };
+}
+function seriOrtam(tl, cuts) {
+  const scenes = $$("#main > .scene").map((s) => s.id), total = Number($("#main").dataset.duration);
   const bounds = [0, ...cuts.map((c) => c[0]), total];
   scenes.forEach((id, i) => {
     const a = bounds[i], b = bounds[i + 1];
     tl.fromTo(`#${id} .amb-a`, { x: 0, y: 0 }, { x: 160, y: 60, duration: b - a + 1, ease: "none" }, Math.max(0, a - 0.5));
     tl.fromTo(`#${id} .amb-b`, { x: 0, y: 0 }, { x: -140, y: -50, duration: b - a + 1, ease: "none" }, Math.max(0, a - 0.5));
   });
-  return tl;
 }
