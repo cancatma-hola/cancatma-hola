@@ -1,0 +1,14 @@
+{
+  "name": "mts-b2b-motion",
+  "private": true,
+  "description": "MTS Hijyen B2B tanıtım videoları – zaman tabanlı HTML sahneleri ve MP4 render",
+  "scripts": {
+    "render": "node render.js"
+  },
+  "dependencies": {
+    "@fontsource/fraunces": "^5.0.0",
+    "@fontsource/inter-tight": "^5.0.0",
+    "@fontsource/jetbrains-mono": "^5.0.0",
+    "@fontsource/space-grotesk": "^5.0.0"
+  }
+}

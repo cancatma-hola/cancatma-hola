@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>P4 · Her siparişte kazanın</title>
+    <link rel="stylesheet" href="assets/kit.css" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/hyper-shader.js"></script>
+    <script src="assets/parts.js"></script>
+    <script src="assets/kit.js"></script>
+    <style>html, body { width: 1920px; height: 1080px; }
+      .coin { position: absolute; left: 0; top: 0; width: 84px; height: 84px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #FFE08A, #F5B019 60%, #C9860A);
+        color: #5A3A00; font-size: 40px; font-weight: 800; display: grid; place-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.4); opacity: 0; }</style>
+  </head>
+  <body>
+    <div id="main" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="25">
+      <audio id="muzik" src="assets/muzik-p4.m4a" data-start="0" data-duration="25"></audio>
+      <section id="s1" class="scene first clip" data-start="0" data-duration="25"></section>
+      <section id="s2" class="scene clip" data-start="0" data-duration="25"></section>
+      <section id="s3" class="scene clip" data-start="0" data-duration="25"></section>
+      <section id="s4" class="scene clip" data-start="0" data-duration="25"></section>
+    </div>
+    <script type="application/json" id="hits">
+      [{"t":0,"type":"meta","drop":4,"stop":18,"roll":15.5,"logo":18.4,"dur":25,"shift":3},
+       {"t":0,"type":"riser","d":4},{"t":0.8,"type":"impact","g":0.6},{"t":0.9,"type":"pop"},{"t":1.1,"type":"pop"},{"t":1.3,"type":"pop"},{"t":1.5,"type":"pop"},{"t":1.7,"type":"pop"},{"t":2.0,"type":"pop"},
+       {"t":4,"type":"impact","g":1},{"t":6.0,"type":"stamp","g":0.7},{"t":7.4,"type":"pop"},{"t":8.8,"type":"impact","g":0.5},
+       {"t":10.75,"type":"whoosh","pan":-1},{"t":11,"type":"impact","g":0.7},{"t":12.6,"type":"pop"},{"t":13.2,"type":"pop"},
+       {"t":17.6,"type":"whoosh","pan":0},{"t":18.4,"type":"impact","g":1.2},{"t":18.5,"type":"pop"}]
+    </script>
+    <script>
+      // P4 · Her siparişte kazanın (25 sn) — sadakat puanı, kademe, kuponlar
+
+      // S1 · Koliden puan çıkar (0–4)
+      $("#s1").innerHTML = ambient(1) + `<div class="abs" id="s1box" style="left:860px;top:600px;width:200px;height:170px;border-radius:14px;background:#C99866;display:grid;place-items:center">
+          <div style="background:#FBF8F2;padding:8px 12px;border-radius:4px"><img src="assets/logo.png" style="width:110px;display:block"></div></div>
+        ${Array.from({ length: 12 }, () => `<div class="coin">P</div>`).join("")}
+        <div class="abs" style="left:0;right:0;top:170px;text-align:center"><div id="s1a" class="h1" style="font-size:120px">${words("Her sipariş puan kazandırır.", 2)}</div></div>
+        <div class="abs chip" id="s1c" style="left:740px;top:850px;font-size:44px;border-color:${AMBER}">${icon("star", 44, AMBER)}Bu ay +575 puan</div>`;
+
+      // S2 · Puan ve kademe (4–11)
+      $("#s2").innerHTML = ambient(2) + `<div class="abs" style="left:0;right:0;top:80px;text-align:center"><div id="s2t" class="h1" style="font-size:96px">${words("Puan biriktikçe kademeniz yükselir.", 2)}</div></div>
+        <div class="abs card" id="s2c" style="left:260px;top:290px;width:1400px;padding:50px 60px">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div><div class="soft" style="font-size:36px;font-weight:600">Toplam bakiye</div>
+              <div style="display:flex;align-items:baseline;gap:20px"><div id="s2n" style="font-size:150px;font-weight:800;letter-spacing:-0.04em">0</div><div class="soft" style="font-size:48px;font-weight:600">puan</div></div></div>
+            <div class="chip" id="s2b" style="font-size:46px;padding:24px 40px;background:${AMBER};color:#3A2600;border-color:${AMBER}">${icon("star", 46, "#3A2600", 2.6)}Altın Müşteri</div></div>
+          <div style="margin-top:40px;display:flex;justify-content:space-between;font-size:36px;font-weight:600"><span class="soft">Sonraki kademe: <b style="color:#fff">Platin</b></span><span id="s2r" class="amber">167 puan kaldı</span></div>
+          <div class="bar-bg" style="margin-top:20px;height:40px"><div class="bar-fg" id="s2f" style="width:100%;background:linear-gradient(90deg,#C9860A,${AMBER})"></div></div></div>`;
+
+      // S3 · Kuponlar (11–18)
+      const KUP = { x: 565, y: 296, w: 1072, h: 224 }, K = 1.6, KT = 300;
+      const C1 = onDevice(KUP, K, 102, KT, 580, 383), C2 = onDevice(KUP, K, 102, KT, 580, 472);
+      $("#s3").innerHTML = ambient(3) + `<div class="abs" style="left:0;right:0;top:70px;text-align:center">
+          <div id="s3t" class="h1" style="font-size:96px">${words("Puanlarınızı kupona dönüştürün.", 1)}</div></div>
+        <div class="full" style="perspective:1600px">${device("s3d", "kuponlar", KUP, K, 102, KT)}</div>
+        ${[C1, C2].map((c, i) => `<div class="abs s3r" style="left:${c.x - 6}px;top:${c.y - 34}px;width:290px;height:68px;border:6px solid ${AMBER};border-radius:14px;box-shadow:0 0 40px rgba(245,176,25,0.7);opacity:0"></div>`).join("")}
+        <div class="abs chip" id="s3v" style="left:640px;top:${KT + 54 + KUP.h * K + 50}px;font-size:42px;border-color:${AMBER}">${icon("gift", 42, AMBER)}49.833 puan ≈ ₺4.980 kupon değeri</div>`;
+
+      $("#s4").innerHTML = endHTML(words("Her siparişte kazanın.", 2));
+
+      const CUTS = [[4, "cinematic-zoom", 0.6], [11, "whip-pan", 0.5], [18, "cross-warp-morph", 0.8]];
+      const tl = gsap.timeline({ paused: true });
+      const g = seriGecis(CUTS);
+      HyperShader.init({ bgColor: "#050d18", accentColor: CYAN, compositionId: "main", timeline: tl, scenes: g.scenes, transitions: g.transitions });
+      seriOrtam(tl, CUTS);
+
+      // S1
+      tl.fromTo("#s1box", { y: 300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "back.out(1.8)" }, 0.2);
+      shake(tl, "#s1box", 0.8, 10);
+      $$("#s1 .coin").forEach((c, i) => { const t = 0.85 + i * 0.12, x = 300 + (i / 11) * 1320 + rnd(i) * 40, y = 420 + rnd(i * 3) * 240;
+        tl.fromTo(c, { x: 918, y: 620, scale: 0.3, opacity: 0, rotationY: 0 }, { x, y, scale: 1, opacity: 1, rotationY: 720, duration: 0.8, ease: "power3.out" }, t);
+        tl.to(c, { y: y - 30, duration: 2, ease: "sine.inOut" }, t + 0.8); });
+      rise(tl, $$("#s1a .w"), 0.5, 0.12);
+      popIn(tl, "#s1c", 2.4); draw(tl, $("#s1c svg"), 2.4);
+
+      // S2
+      rise(tl, $$("#s2t .w"), 4.3, 0.1);
+      tl.fromTo("#s2c", { y: 120, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "expo.out" }, 4.4);
+      countTo(tl, $("#s2n"), 4.8, 49833, 2.0);
+      tl.fromTo("#s2b", { scale: 2.6, rotation: -10, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.25, ease: "power4.in" }, 5.75);
+      tl.fromTo("#s2f", { scaleX: 0 }, { scaleX: 0.996, duration: 1.6, ease: "expo.out" }, 7.2);
+      tl.fromTo("#s2r", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 8.6);
+
+      // S3
+      rise(tl, $$("#s3t .w"), 11.3, 0.12);
+      tl.fromTo("#s3d", { rotationX: 26, scale: 0.88 }, { rotationX: 3, scale: 1, duration: 1.0, ease: "expo.out" }, 11.0);
+      $$(".s3r").forEach((r, i) => tl.fromTo(r, { scale: 1.3, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2.2)" }, 12.6 + i * 0.6));
+      popIn(tl, "#s3v", 14.2); draw(tl, $("#s3v svg"), 14.2);
+
+      endAnim(tl, 18, 25);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

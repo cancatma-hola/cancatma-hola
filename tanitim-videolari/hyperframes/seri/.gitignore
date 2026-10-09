@@ -1,0 +1,7 @@
+node_modules/
+renders/
+.hyperframes/
+snapshots/
+*.log
+sesler/*.wav
+.yeniden-render-tamam

@@ -1,0 +1,39 @@
+1
+00:00:00,250 --> 00:00:05,782
+Bu eğitimde ekibinizi panele davet etmeyi, yetki vermeyi ve departman bütçelerini yönetmeyi öğreneceksiniz.
+
+2
+00:00:08,332 --> 00:00:12,162
+Ekibinizi davet edeceğiz, yetki vereceğiz, bütçe ve proje tanımlayacağız.
+
+3
+00:00:16,982 --> 00:00:23,365
+Kullanıcılar ve Yetkiler ekranında firmanızın tüm kullanıcılarını görürsünüz. Yeni biri için Kullanıcı Davet Et’e basın.
+
+4
+00:00:25,915 --> 00:00:31,021
+Davet ederken rolü, departmanı ve kişinin onay limitini belirleyin; davet e-postayla gider.
+
+5
+00:00:37,265 --> 00:00:42,371
+Roller yetkileri belirler. Ayrılan bir çalışanı silmeden, devre dışı bırakarak erişimini kapatın.
+
+6
+00:00:45,915 --> 00:00:50,596
+Her departmana aylık bütçe tanımlayın; harcanan tutar siparişlerle birlikte anında güncellenir.
+
+7
+00:00:54,565 --> 00:00:58,820
+Bütçe Panosu’nda kalan bütçeyi, kullanım oranını ve kullanıcı limitlerini izleyin.
+
+8
+00:01:03,215 --> 00:01:09,598
+Şube açılışı ya da şantiye gibi işler için proje açın; harcamayı proje bütçesine göre izleyin.
+
+9
+00:01:12,148 --> 00:01:16,829
+İpucu: muhasebe gibi yalnızca raporları izlemesi gereken kişilere Görüntüleyici rolü verin.
+
+10
+00:01:19,379 --> 00:01:22,357
+Sıradaki eğitimde cari ekstreyi ve faturaları göreceğiz.

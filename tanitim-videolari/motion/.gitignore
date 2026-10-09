@@ -1,0 +1,5 @@
+node_modules/
+cikti/
+.panel-state.json
+build/
+muzik/*.wav

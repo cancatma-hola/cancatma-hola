@@ -1,0 +1,31 @@
+1
+00:00:00,250 --> 00:00:04,080
+Siparişleriniz size puan, kupon ve indirim olarak geri döner.
+
+2
+00:00:06,230 --> 00:00:09,634
+Puan kazanmayı, kupon kullanmayı ve davet sistemini göreceğiz.
+
+3
+00:00:14,180 --> 00:00:19,286
+Sadakat Programı’nda kademenizi, puan bakiyenizi ve bir üst kademeye kalan puanı görürsünüz.
+
+4
+00:00:21,505 --> 00:00:25,335
+Her siparişin puanı teslim edildiğinde otomatik olarak bakiyenize eklenir.
+
+5
+00:00:28,205 --> 00:00:31,609
+Kuponlarınızı kopyalayıp sepette kullanın; indirim tutardan otomatik düşer.
+
+6
+00:00:34,905 --> 00:00:41,288
+Davet ettiğiniz firma kayıt olup ilk siparişini verdiğinde ikinize de yüzde beş indirim kuponu tanımlanır.
+
+7
+00:00:43,438 --> 00:00:49,395
+Bir firmayı davet edin; ilk siparişinde iki firma da yüzde beş indirim kuponu kazanır.
+
+8
+00:00:51,545 --> 00:00:55,375
+MTS Hijyen B2B. Eğitim serisinin sonuna geldiniz; iyi alışverişler!

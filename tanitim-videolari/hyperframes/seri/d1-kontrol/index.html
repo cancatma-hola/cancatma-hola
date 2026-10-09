@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>D1 · Kontrol sizde (dikey)</title>
+    <link rel="stylesheet" href="assets/kit.css" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/hyper-shader.js"></script>
+    <script src="assets/parts.js"></script>
+    <script src="assets/kit.js"></script>
+    <style>html, body { width: 1080px; height: 1920px; }</style>
+  </head>
+  <body>
+    <div id="main" data-composition-id="main" data-width="1080" data-height="1920" data-start="0" data-duration="15">
+      <audio id="muzik" src="assets/muzik-d1.m4a" data-start="0" data-duration="15"></audio>
+      <section id="s1" class="scene first clip" data-start="0" data-duration="15"></section>
+      <section id="s2" class="scene clip" data-start="0" data-duration="15"></section>
+      <section id="s3" class="scene clip" data-start="0" data-duration="15"></section>
+    </div>
+    <script type="application/json" id="hits">
+      [{"t":0,"type":"meta","drop":4,"stop":10,"roll":7.5,"logo":10.4,"dur":15},
+       {"t":0,"type":"riser","d":4},{"t":0.3,"type":"pop"},{"t":0.5,"type":"pop"},{"t":0.7,"type":"pop"},{"t":0.9,"type":"pop"},{"t":1.8,"type":"impact","g":0.5},
+       {"t":4,"type":"impact","g":1},{"t":4.9,"type":"pop"},{"t":5.15,"type":"pop"},{"t":5.4,"type":"pop"},{"t":5.65,"type":"pop"},{"t":8.2,"type":"impact","g":0.4},
+       {"t":9.6,"type":"whoosh","pan":0},{"t":10.4,"type":"impact","g":1.2},{"t":10.5,"type":"pop"}]
+    </script>
+    <script>
+      // D1 · Kontrol sizde (15 sn, 1080×1920)
+      const DEPS = [["Satın Alma", 3727.32, 150000], ["Üretim", 13351.63, 90000], ["İdari İşler", 10413.93, 45000], ["Depo ve Lojistik", 1855.68, 60000]];
+      $("#s1").innerHTML = ambient(1) + `<div class="abs" style="left:60px;right:60px;top:300px;display:flex;flex-wrap:wrap;gap:22px;justify-content:center">
+          ${DEPS.map(([n]) => `<div class="chip s1c" style="font-size:40px">${icon("building", 40)}${n}</div>`).join("")}</div>
+        <div class="abs" style="left:70px;right:70px;top:760px;text-align:center">
+          <div id="s1a" class="h1" style="font-size:104px">${words("Her departman sipariş veriyor.")}</div>
+          <div id="s1q" class="h1 amber" style="font-size:104px;margin-top:40px">${words("Bütçeyi kim takip ediyor?")}</div></div>`;
+
+      $("#s2").innerHTML = ambient(2) + `<div class="abs" style="left:70px;right:70px;top:170px">
+          <div id="s2t" class="h1" style="font-size:96px">${words("Her departmana aylık bütçe tanımlayın.", 3)}</div>
+          <div style="margin-top:80px;display:flex;flex-direction:column;gap:36px">
+          ${DEPS.map(([n, u, b]) => `<div class="card s2r" style="padding:34px 40px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-size:46px;font-weight:700">${n}</div><div class="soft" style="font-size:34px;font-weight:600">${fmt(b).replace(",00", "")}</div></div>
+              <div class="bar-bg" style="margin-top:22px"><div class="bar-fg" style="width:100%"></div></div>
+              <div style="margin-top:16px;font-size:40px;font-weight:700" class="cyan s2u">₺0,00</div></div>`).join("")}</div></div>`;
+
+      $("#s3").innerHTML = endHTML(words("Kontrol sizde.", 1));
+      const CUTS = [[4, "cinematic-zoom", 0.6], [10, "cross-warp-morph", 0.8]];
+      const tl = gsap.timeline({ paused: true });
+      const g = seriGecis(CUTS);
+      HyperShader.init({ bgColor: "#050d18", accentColor: CYAN, compositionId: "main", timeline: tl, scenes: g.scenes, transitions: g.transitions });
+      seriOrtam(tl, CUTS);
+
+      $$(".s1c").forEach((c, i) => popIn(tl, c, 0.3 + i * 0.2));
+      rise(tl, $$("#s1a .w"), 0.9, 0.1); rise(tl, $$("#s1q .w"), 1.8, 0.12);
+
+      rise(tl, $$("#s2t .w"), 4.3, 0.08);
+      $$(".s2r").forEach((r, i) => { const t = 4.9 + i * 0.25, [, u, b] = DEPS[i];
+        tl.fromTo(r, { x: -80, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6, ease: "expo.out" }, t);
+        tl.fromTo($(".bar-fg", r), { scaleX: 0 }, { scaleX: Math.max(0.02, u / b), duration: 1.4, ease: "expo.out" }, t + 0.5);
+        countTo(tl, $(".s2u", r), t + 0.5, u, 1.4, (v) => fmt(v) + " harcandı"); });
+      tl.fromTo($$(".s2r")[2], { boxShadow: "0 0 0 0 rgba(245,176,25,0)" }, { boxShadow: "0 0 0 6px rgba(245,176,25,0.9)", duration: 0.4 }, 8.2);
+
+      endAnim(tl, 10, 15);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

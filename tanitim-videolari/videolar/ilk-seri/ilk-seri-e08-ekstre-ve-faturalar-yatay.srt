@@ -1,0 +1,31 @@
+1
+00:00:00,250 --> 00:00:04,505
+Bu eğitimde bakiyenizi, vadelerinizi ve faturalarınızı nasıl takip edeceğinizi göreceksiniz.
+
+2
+00:00:07,055 --> 00:00:11,736
+Açık bakiye, vade, e-Fatura ve sadakat puanınızı tek ekranda takip edeceğiz.
+
+3
+00:00:15,355 --> 00:00:20,462
+Cari Ekstre ekranında açık bakiyenizi ve borcun hangi vade diliminde olduğunu görürsünüz.
+
+4
+00:00:23,655 --> 00:00:28,762
+Tarih aralığı seçerek dönemin tüm sipariş ve tahsilat hareketlerini, vade tarihleriyle listeleyin.
+
+5
+00:00:31,955 --> 00:00:37,062
+Faturalarınız Logo ERP üzerinden otomatik düzenlenir; PDF olarak indirin ya da yazdırın.
+
+6
+00:00:40,255 --> 00:00:43,660
+Ekstrede sadakat puanınızı ve kullanabileceğiniz tutarı da görürsünüz.
+
+7
+00:00:47,255 --> 00:00:52,362
+İpucu: dönem sonu mutabakatı için tarih filtresini kullanın; dakikalar değil, saniyeler sürer.
+
+8
+00:00:54,912 --> 00:00:58,316
+Sıradaki eğitimde teklif, numune ve iade süreçlerini göreceğiz.

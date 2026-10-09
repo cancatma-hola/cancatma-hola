@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>MTS Hijyen B2B · Hype Promo (HyperFrames)</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/hyper-shader.js"></script>
+    <script src="assets/parts.js"></script>
+    <style>
+      @font-face { font-family: "Inter Tight"; font-weight: 500; src: url(assets/fonts/inter-tight-latin-500-normal.woff2) format("woff2"); unicode-range: U+0000-00FF; }
+      @font-face { font-family: "Inter Tight"; font-weight: 500; src: url(assets/fonts/inter-tight-latin-ext-500-normal.woff2) format("woff2"); unicode-range: U+0100-024F, U+20BA; }
+      @font-face { font-family: "Inter Tight"; font-weight: 600; src: url(assets/fonts/inter-tight-latin-600-normal.woff2) format("woff2"); unicode-range: U+0000-00FF; }
+      @font-face { font-family: "Inter Tight"; font-weight: 600; src: url(assets/fonts/inter-tight-latin-ext-600-normal.woff2) format("woff2"); unicode-range: U+0100-024F, U+20BA; }
+      @font-face { font-family: "Inter Tight"; font-weight: 700; src: url(assets/fonts/inter-tight-latin-700-normal.woff2) format("woff2"); unicode-range: U+0000-00FF; }
+      @font-face { font-family: "Inter Tight"; font-weight: 700; src: url(assets/fonts/inter-tight-latin-ext-700-normal.woff2) format("woff2"); unicode-range: U+0100-024F, U+20BA; }
+      @font-face { font-family: "Inter Tight"; font-weight: 800; src: url(assets/fonts/inter-tight-latin-800-normal.woff2) format("woff2"); unicode-range: U+0000-00FF; }
+      @font-face { font-family: "Inter Tight"; font-weight: 800; src: url(assets/fonts/inter-tight-latin-ext-800-normal.woff2) format("woff2"); unicode-range: U+0100-024F, U+20BA; }
+      @font-face { font-family: "JetBrains Mono"; font-weight: 500; src: url(assets/fonts/jetbrains-mono-latin-500-normal.woff2) format("woff2"); unicode-range: U+0000-00FF; }
+      @font-face { font-family: "JetBrains Mono"; font-weight: 500; src: url(assets/fonts/jetbrains-mono-latin-ext-500-normal.woff2) format("woff2"); unicode-range: U+0100-024F; }
+
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #050d18; }
+      #main { position: relative; width: 100%; height: 100%; overflow: hidden; background: #050d18;
+        font-family: "Inter Tight", sans-serif; color: #ffffff; -webkit-font-smoothing: antialiased; }
+      /* Shader geçişleri sahneleri dokuya çevirir: her sahnede düz arka plan rengi, var() ve "transparent" yok. */
+      .scene { position: absolute; inset: 0; overflow: hidden; background-color: #050d18; opacity: 0; }
+      #s1 { opacity: 1; }
+      .abs { position: absolute; }
+      .full { position: absolute; inset: 0; }
+      .mono { font-family: "JetBrains Mono", monospace; letter-spacing: 0.14em; text-transform: uppercase; }
+      .ch, .w { display: inline-block; white-space: pre; }
+      .glow { position: absolute; border-radius: 50%; }
+      .star { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #9fc6ee; }
+      .scrim { background: rgba(3, 8, 15, 0.82); border-radius: 26px; padding: 22px 44px 30px; }
+      .chip { display: inline-flex; align-items: center; gap: 16px; padding: 18px 32px; border-radius: 999px; font-weight: 600;
+        background: #0e2a4c; border: 2px solid rgba(95, 211, 255, 0.6); color: #ffffff; white-space: nowrap; }
+      .flash { position: absolute; inset: 0; background: #ffffff; opacity: 0; }
+      .sweep { position: absolute; top: -200px; width: 260px; height: 1480px; opacity: 0.55;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0)); }
+
+      /* Tarayıcı çerçevesi (browser-device-stage fikri, marka renkleriyle) */
+      .device { position: absolute; border-radius: 22px; overflow: hidden; background: #ffffff;
+        box-shadow: 0 50px 120px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(95, 211, 255, 0.35); }
+      .device .bar { height: 54px; background: #0b1f33; display: flex; align-items: center; gap: 12px; padding: 0 22px; }
+      .device .dot { width: 14px; height: 14px; border-radius: 50%; background: #3a5675; }
+      .device .url { margin-left: 18px; height: 32px; padding: 0 22px; border-radius: 16px; background: #13314f; color: #c9d6e5;
+        font-size: 19px; font-weight: 500; display: flex; align-items: center; letter-spacing: 0.01em; }
+      .device .view { position: relative; overflow: hidden; }
+      .device .view img { position: absolute; display: block; }
+    </style>
+  </head>
+  <body>
+    <div id="main" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="60">
+      <audio id="muzik" src="assets/muzik.m4a" data-start="0" data-duration="60"></audio>
+      <section id="s1" class="scene clip" data-start="0" data-duration="60"></section>
+      <section id="s2" class="scene clip" data-start="0" data-duration="60"></section>
+      <section id="s3" class="scene clip" data-start="0" data-duration="60"></section>
+      <section id="s4" class="scene clip" data-start="0" data-duration="60"></section>
+      <section id="s5" class="scene clip" data-start="0" data-duration="60"></section>
+      <section id="s6" class="scene clip" data-start="0" data-duration="60"></section>
+      <section id="s7" class="scene clip" data-start="0" data-duration="60"></section>
+      <section id="s8" class="scene clip" data-start="0" data-duration="60"></section>
+      <section id="s9" class="scene clip" data-start="0" data-duration="60"></section>
+    </div>
+
+    <script>
+      // ── Zaman çizelgesi: v2 ile aynı vuruş ızgarası (120 BPM), müzik ve efektler bu anlara senkron.
+      // open 0–5 · fly 5–13 · orbit 13–20 · price 20–27 · sku 27–34 · stamp 34–40 · rush 40–48 · nums 48–54 · logo 54–60
+      const AMBER = "#F5B019", CYAN = "#5FD3FF", BLUE = "#2F7FE0", NAVY = "#0B1F33";
+      const $ = (s, r = document) => r.querySelector(s);
+      const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+      const rnd = (s) => { const x = Math.sin(s * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
+      const chars = (str, cls = "ch") => [...str].map((c) => `<span class="${cls}">${c}</span>`).join("");
+      const words = (arr) => arr.map((w) => `<span class="w">${w}</span>`).join(" ");
+      const fmt = (v) => "₺" + v.toLocaleString("tr-TR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+      // Her sahneye ortak ortam katmanı: yumuşak ışık kümeleri + yıldız tozu (sabit tohumlu).
+      function ambient(seed) {
+        let h = `<div class="glow amb-a" data-layout-allow-overflow style="left:${-300 + rnd(seed) * 600}px;top:${-400 + rnd(seed + 1) * 300}px;width:1300px;height:1300px;
+          background:radial-gradient(closest-side, rgba(29,95,168,0.55), rgba(29,95,168,0))"></div>
+          <div class="glow amb-b" data-layout-allow-overflow style="left:${1000 + rnd(seed + 2) * 400}px;top:${300 + rnd(seed + 3) * 300}px;width:1100px;height:1100px;
+          background:radial-gradient(closest-side, rgba(11,86,119,0.6), rgba(11,86,119,0))"></div>`;
+        for (let i = 0; i < 46; i++) h += `<i class="star" style="left:${rnd(seed * 97 + i) * 1920}px;top:${rnd(seed * 31 + i * 7) * 1080}px;opacity:${0.15 + rnd(i + seed) * 0.5}"></i>`;
+        return `<div class="full amb">${h}</div>`;
+      }
+      // Panel ekranından bölge kırp, k kat büyüt, tarayıcı çerçevesine koy.
+      function device(id, shot, r, k, left, top, url = "panel.mtshijyen.com") {
+        const w = Math.round(r.w * k), h = Math.round(r.h * k);
+        return `<div class="device" id="${id}" style="left:${left}px;top:${top}px;width:${w}px">
+          <div class="bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><div class="url">${url}</div></div>
+          <div class="view" style="width:${w}px;height:${h}px"><img data-layout-allow-overflow src="assets/shots/${shot}.png" style="left:${-r.x * k}px;top:${-r.y * k}px;width:${1920 * k}px"></div></div>`;
+      }
+      // Belirlenimci parçacık patlaması: konum = zamanın saf fonksiyonu.
+      const BURSTS = [];
+      function burstHTML(id, n) {
+        let h = "";
+        for (let i = 0; i < n; i++) {
+          const c = [AMBER, CYAN, "#FFFFFF", BLUE][i % 4];
+          h += `<i style="position:absolute;left:0;top:0;width:${10 + rnd(i * 3.1) * 12}px;height:${6 + rnd(i * 5.7) * 8}px;background:${c};border-radius:2px;opacity:0"></i>`;
+        }
+        return `<div class="full" id="${id}">${h}</div>`;
+      }
+      function burst(tl, id, t0, cx, cy, power = 1, dur = 1.6) {
+        const ps = $$(`#${id} i`), st = { t: 0 };
+        tl.fromTo(st, { t: 0 }, { t: dur, duration: dur, ease: "none", onUpdate: () => {
+          const t = st.t;
+          ps.forEach((p, i) => {
+            const a = rnd(i * 7.3) * Math.PI * 2, v = (500 + rnd(i * 2.9) * 900) * power;
+            const x = cx + Math.cos(a) * v * t * (1 - t / (dur * 2.2)), y = cy + Math.sin(a) * v * 0.8 * t + 900 * t * t;
+            p.style.transform = `translate(${x}px,${y}px) rotate(${(rnd(i) - 0.5) * 1440 * t}deg)`;
+            p.style.opacity = t <= 0.001 ? 0 : Math.max(0, 1 - t / dur);
+          });
+        } }, t0);
+      }
+      const shake = (tl, el, t, a = 14) => tl.to(el, { keyframes: [{ x: -a, y: a * 0.4 }, { x: a * 0.8, y: -a * 0.5 }, { x: -a * 0.4, y: a * 0.2 }, { x: 0, y: 0 }], duration: 0.26, ease: "none" }, t);
+      const flash = (tl, el, t, peak = 0.6) => tl.fromTo(el, { opacity: 0 }, { keyframes: [{ opacity: peak, duration: 0.04 }, { opacity: 0, duration: 0.3 }] }, t);
+      const draw = (tl, svg, t) => tl.fromTo($$("path,circle", svg), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, t);
+      const sweep = (tl, el, t, from = -400, to = 2200, d = 0.9) => tl.fromTo(el, { x: from, skewX: -20 }, { x: to, skewX: -20, duration: d, ease: "power2.inOut" }, t);
+      const drift = (tl, sc, a, b) => { tl.fromTo($(`#${sc} .amb-a`), { x: 0, y: 0 }, { x: 160, y: 60, duration: b - a + 1, ease: "none" }, a - 0.5);
+        tl.fromTo($(`#${sc} .amb-b`), { x: 0, y: 0 }, { x: -140, y: -50, duration: b - a + 1, ease: "none" }, a - 0.5); };
+
+      // ═══════════ Sahne içerikleri ═══════════
+      $("#s1").innerHTML = ambient(1) + `
+        <div class="full" id="o-wrap" style="display:flex;flex-direction:column;align-items:center;justify-content:center;perspective:1200px">
+          <div class="mono" id="o-eb" style="font-size:30px;color:${CYAN};margin-bottom:34px">${chars("MTS Hijyen · B2B", "ch")}</div>
+          <div id="o-l1" style="font-size:176px;font-weight:800;letter-spacing:-0.045em;line-height:1">${chars("Hijyen tedariği")}</div>
+          <div id="o-l2" style="font-size:176px;font-weight:800;letter-spacing:-0.045em;line-height:1.1;color:${AMBER}">yeniden tasarlandı.</div>
+        </div><div class="sweep" data-layout-allow-overflow id="o-sw"></div><div class="flash" id="o-fl"></div>`;
+
+      const OZET = { x: 565, y: 182, w: 1072, h: 281 };
+      const CARDS = [["kategori", -1150, -380, -900], ["urun", 1150, -360, -1300], ["onaylarim", -1250, 420, -1700], ["siparis-detay", 1200, 440, -2200],
+        ["butce", -300, -720, -2600], ["faturalar", 420, 760, -3000], ["sadakat", -1400, -40, -3500], ["analitik", 1400, 0, -3900]];
+      $("#s2").innerHTML = ambient(2) + `
+        <div class="full" id="f-flight" style="perspective:1400px"><div id="f-world" style="position:absolute;left:960px;top:540px;transform-style:preserve-3d">
+          <div style="position:absolute;left:-4000px;top:600px;width:8000px;height:8000px;transform:rotateX(90deg);transform-origin:top;opacity:0.5;
+            background-image:linear-gradient(rgba(95,211,255,0.4) 2px, rgba(95,211,255,0) 2px),linear-gradient(90deg, rgba(95,211,255,0.4) 2px, rgba(95,211,255,0) 2px);background-size:200px 200px"></div>
+          ${CARDS.map(([s, x, y, z]) => `<div style="position:absolute;left:-480px;top:-298px;width:960px;border-radius:16px;overflow:hidden;background:#fff;
+              box-shadow:0 40px 100px rgba(0,0,0,0.7);transform:translate3d(${x}px,${y}px,${z}px) rotateY(${x > 0 ? -18 : 18}deg)">
+              <div style="height:36px;background:${NAVY};display:flex;gap:9px;align-items:center;padding:0 16px"><i class="dot" style="width:11px;height:11px;border-radius:50%;background:#3a5675"></i><i style="width:11px;height:11px;border-radius:50%;background:#3a5675"></i><i style="width:11px;height:11px;border-radius:50%;background:#3a5675"></i></div>
+              <img src="assets/shots/${s}.png" style="display:block;width:960px"></div>`).join("")}
+        </div></div>
+        <div class="abs scrim" id="f-line" style="left:110px;top:380px">
+          <div style="font-size:124px;font-weight:800;letter-spacing:-0.045em;line-height:1.02">${words(["Tüm", "süreç"])}</div>
+          <div style="font-size:124px;font-weight:800;letter-spacing:-0.045em;line-height:1.02;color:${AMBER}">${words(["tek", "panelde."])}</div></div>
+        <div class="full" id="f-land">${device("f-dev", "ozet", OZET, 1.6, 102, 120)}
+          <div class="abs" id="f-chips" style="left:0;right:0;top:700px;display:flex;justify-content:center;gap:26px">
+          ${[["cart", "Sipariş"], ["approve", "Onay"], ["truck", "Teslimat"], ["doc", "Fatura"]].map(([ic, w]) => `<div class="chip fc" style="font-size:46px;padding:22px 40px">${ICON(ic, 46, CYAN, 2.4)}${w}</div>`).join("")}</div></div>
+        <div class="flash" id="f-fl"></div>`;
+
+      const CATS = [["box", "Kâğıt ürünleri"], ["flask", "Temizlik kimyasalları"], ["cart", "Mutfak & gıda"], ["tag", "Dispenser sistemleri"],
+        ["bolt", "Ekipman & makine"], ["shield", "Kişisel bakım"], ["repeat", "Atık & ortam"]];
+      $("#s3").innerHTML = ambient(3) + `
+        <div class="full" style="perspective:1600px"><div class="full" id="ob-world" style="transform-style:preserve-3d">
+          ${CATS.map(([ic, n]) => `<div class="abs ob" style="left:0;top:0"><div class="ob-in" style="padding:18px 34px 18px 18px;display:flex;align-items:center;gap:18px;border-radius:22px;
+              background:#0e2a4c;border:2px solid rgba(95,211,255,0.55);box-shadow:0 24px 60px rgba(0,0,0,0.6)">
+              <div style="width:68px;height:68px;border-radius:16px;background:#164069;display:grid;place-items:center">${ICON(ic, 42, CYAN, 2.2)}</div>
+              <div style="font-size:40px;font-weight:600;white-space:nowrap">${n}</div></div></div>`).join("")}
+          <div class="abs" id="ob-core" style="left:810px;top:470px;width:300px;height:300px;border-radius:50%;background:#fff;display:grid;place-items:center;
+            box-shadow:0 0 0 14px rgba(95,211,255,0.2),0 0 140px rgba(47,127,224,0.8)"><img src="assets/logo.png" style="width:212px"></div></div></div>
+        <div class="abs" id="ob-count" style="left:0;right:0;top:36px;text-align:center">
+          <div id="ob-num" style="font-size:156px;font-weight:800;letter-spacing:-0.04em;line-height:1">0</div>
+          <div style="font-size:46px;font-weight:600;color:${AMBER};margin-top:6px">kurum güveniyor</div></div>`;
+
+      const URUN = { x: 815, y: 296, w: 505, h: 450 };
+      $("#s4").innerHTML = ambient(4) + `
+        <div class="full" style="perspective:1800px">${device("pr-card", "urun", URUN, 1.62, 1010, 130)}</div>
+        <div class="abs" id="pr-ring" style="left:${1010 + (842 - URUN.x - 14) * 1.62}px;top:${130 + 54 + (442 - URUN.y - 12) * 1.62}px;width:${155 * 1.62}px;height:${60 * 1.62}px;
+          border:6px solid ${AMBER};border-radius:16px;box-shadow:0 0 50px rgba(245,176,25,0.8)"></div>
+        <div class="abs" style="left:110px;top:230px;width:840px">
+          <div class="mono" id="pr-eb" style="font-size:30px;color:${CYAN}">Ürün kodu 555204</div>
+          <div id="pr-h1" style="font-size:156px;font-weight:800;letter-spacing:-0.05em;line-height:0.95;margin-top:18px">Size özel</div>
+          <div id="pr-h2" style="font-size:156px;font-weight:800;letter-spacing:-0.05em;line-height:1.05;color:${AMBER}">fiyat.</div></div>
+        <div class="abs" id="pr-chips" style="left:110px;top:660px;display:flex;gap:18px;flex-wrap:wrap;width:860px">
+          ${[["box", "Stok: 37 koli"], ["truck", "1 iş günü kargo"], ["star", "+4 puan"], ["percent", "Kademeli iskonto"]].map(([ic, t]) =>
+            `<div class="chip pc" style="font-size:36px">${ICON(ic, 36, CYAN, 2.2)}${t}</div>`).join("")}</div>
+        <div class="sweep" data-layout-allow-overflow id="pr-sw"></div>`;
+
+      const SKU = [["555204", "Wanda Soft Sensörlü Havlu 4 kg", "6", 2520], ["ST00560", "Bez Mikrofiber Cam Bezi", "13", 1287], ["7906628", "Selpak Prof. İçten Çekme", "2", 1794.6],
+        ["MTSG610", "Sap 150 cm Gürgen", "5", 261.9], ["KCG40GR", "Toptel 40 gr", "19", 214.7]];
+      const TB = { x: 260, y: 250, rowH: 98, pad: 34 };
+      $("#s5").innerHTML = ambient(5) + `
+        <div class="abs" id="sk-h" style="left:0;right:0;top:64px;text-align:center;font-size:112px;font-weight:800;letter-spacing:-0.045em">
+          ${words(["Ürün", "koduyla,", `<span style="color:${AMBER}">saniyeler</span>`, `<span style="color:${AMBER}">içinde.</span>`])}</div>
+        <div class="abs" id="sk-table" style="left:${TB.x}px;top:${TB.y}px;width:1400px;padding:${TB.pad}px 46px;border-radius:26px;background:${NAVY};border:2px solid rgba(95,211,255,0.4);box-shadow:0 40px 100px rgba(0,0,0,0.7)">
+          ${SKU.map((r) => `<div class="skr" style="display:flex;align-items:center;height:${TB.rowH}px;border-top:1px solid rgba(255,255,255,0.16);font-size:38px">
+            <div style="width:250px"></div><div class="cell" style="width:640px;color:#e6eef7">${r[1]}</div><div class="cell" style="width:140px;text-align:right">${r[2]}</div>
+            <div class="cell" style="width:270px;text-align:right;font-weight:600">${fmt(r[3])}</div></div>`).join("")}
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px;border-top:2px solid rgba(255,255,255,0.6);padding-top:20px">
+            <div><div style="font-size:28px;color:#c9d6e5">Ara toplam</div><div id="sk-tot" style="font-size:76px;font-weight:700;color:${CYAN}">₺0,00</div></div>
+            <div id="sk-btn" style="background:${AMBER};color:#2b1e00;font-weight:800;font-size:38px;padding:24px 46px;border-radius:16px">Sepete Ekle</div></div></div>
+        ${SKU.map((r) => `<div class="abs sk mono" style="left:0;top:0;padding:16px 22px;border-radius:12px;background:#2563c4;font-size:36px;text-transform:none;
+          letter-spacing:0.04em;box-shadow:0 0 34px rgba(47,127,224,0.8)">${r[0]}</div>`).join("")}
+        <div class="abs" id="sk-ring" style="left:1440px;top:820px;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;border:8px solid ${AMBER};opacity:0"></div>
+        ${burstHTML("sk-burst", 46)}`;
+
+      const ONAY = { x: 565, y: 298, w: 1072, h: 232 };
+      const BTN = { x: 102 + (622 - 565) * 1.6, y: 160 + 54 + (494 - 298) * 1.6 };   // "Onayla" düğmesinin ekran konumu
+      $("#s6").innerHTML = ambient(6) + `
+        <div class="full" style="perspective:1600px">${device("st-card", "onaylarim", ONAY, 1.6, 102, 160)}</div>
+        <svg class="abs" id="st-cur" width="64" height="64" viewBox="0 0 24 24" style="left:0;top:0"><path d="M4 2 L4 19 L8.5 15 L11.5 21.5 L14 20.4 L11 14 L17 14 Z" fill="#fff" stroke="#0B1F33" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        <div class="abs" id="st-stamps" data-layout-allow-overlap style="left:1060px;top:340px;width:700px;height:200px">
+          ${["#FF3B6B", "#3BE2FF", AMBER].map((c, i) => `<div class="full stp" style="display:grid;place-items:center;border:14px solid ${c};border-radius:22px;color:${c};
+            font-size:104px;font-weight:800;letter-spacing:0.08em;${i === 2 ? "background:rgba(5,13,24,0.7)" : "mix-blend-mode:screen"}">ONAYLANDI</div>`).join("")}</div>
+        <div class="abs" id="st-ring" style="left:1410px;top:440px;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;border:10px solid ${AMBER};opacity:0"></div>
+        ${burstHTML("st-burst", 60)}
+        <div class="abs" id="st-tag" style="left:0;right:0;top:800px;text-align:center;font-size:96px;font-weight:800;letter-spacing:-0.04em">
+          ${words(["Kurallar", "sizin.", `<span style="color:${AMBER}">Onay</span>`, `<span style="color:${AMBER}">tek</span>`, `<span style="color:${AMBER}">tıkla.</span>`])}</div>
+        <div class="flash" id="st-fl"></div>`;
+
+      const STAT = ["Hazırlanıyor", "Sevkiyatta", "Teslim edildi."];
+      let lines = ""; for (let i = 0; i < 40; i++) lines += `<i class="ln" data-layout-allow-overflow style="position:absolute;left:0;top:${rnd(i * 4.3) * 1080}px;width:${200 + rnd(i * 2.2) * 500}px;height:${2 + rnd(i) * 4}px;border-radius:4px;
+        background:linear-gradient(90deg, rgba(150,210,255,0), rgba(150,210,255,0.9))"></i>`;
+      $("#s7").innerHTML = ambient(7) + `
+        <div class="full" style="perspective:900px"><div class="abs" id="ru-road" style="left:-4000px;top:640px;width:8000px;height:7000px;transform:rotateX(84deg);transform-origin:top;opacity:0.7;
+          background-image:linear-gradient(rgba(95,211,255,0.45) 3px, rgba(95,211,255,0) 3px),linear-gradient(90deg, rgba(95,211,255,0.45) 3px, rgba(95,211,255,0) 3px);background-size:240px 240px"></div></div>
+        <div class="full" id="ru-lines">${lines}</div>
+        <div class="full" style="perspective:1200px"><div id="ru-box" style="position:absolute;left:960px;top:600px;transform-style:preserve-3d">
+          ${["rotateY(0deg)", "rotateY(90deg)", "rotateY(180deg)", "rotateY(-90deg)", "rotateX(90deg)", "rotateX(-90deg)"].map((r, i) =>
+            `<div style="position:absolute;left:-120px;top:-120px;width:240px;height:240px;background:${i === 4 ? "#DDB487" : i === 5 ? "#A97B4F" : "#C99866"};
+              transform:${r} translateZ(120px);display:grid;place-items:center">
+              ${i < 4 ? `<div style="background:#FBF8F2;padding:10px 14px;border-radius:4px;transform:rotate(-3deg)"><img src="assets/logo.png" style="width:110px;display:block"></div>` : `<div style="width:44px;height:240px;background:#EBD9B9"></div>`}</div>`).join("")}</div></div>
+        <div class="abs" style="left:0;right:0;top:100px;height:200px">${STAT.map((s, i) => `<div class="abs rs" style="left:0;right:0;top:0;text-align:center"><span style="display:inline-block;font-size:150px;font-weight:800;
+          letter-spacing:-0.045em;background:rgba(3,8,15,0.82);padding:0 54px 16px;border-radius:26px;color:${i === 2 ? AMBER : "#fff"}">${s}</span></div>`).join("")}</div>
+        <svg class="abs" width="1920" height="1080" style="left:0;top:0"><g id="ru-scene" opacity="0">
+          <g id="ru-van">${vanSVG()}</g>
+          <g id="ru-p1">${personSVG("rp1", { shirt: "#1D5FA8", sleeve: "#1D5FA8", vest: "#0B1F33", pants: "#24364A", cap: "#0B1F33", logo: true })}</g>
+          <g id="ru-cu">${personSVG("rcu", { shirt: "#2E3B4E", pants: "#2E3B4E", skin: "#F1CBAE", tie: "#F5B019", hair: "M-42 -356 Q-44 -400 0 -402 Q44 -400 42 -352 Q34 -380 0 -382 Q-30 -380 -42 -356 Z", hairC: "#3B2A20" })}</g>
+        </g></svg>${burstHTML("ru-conf", 90)}<div class="flash" id="ru-fl"></div>`;
+
+      const NUMS = [["9", "adım.", "Taslaktan faturaya"], ["1", "panel.", "Sipariş, onay, cari, fatura"], ["0", "telefon.", "Her şey kayıtlı, şeffaf"]];
+      $("#s8").innerHTML = ambient(8) + `<div class="abs" style="left:190px;top:120px">
+        ${NUMS.map(([n, w, d]) => `<div class="nm" style="display:flex;align-items:center;gap:44px;height:280px;transform-origin:left center">
+          <div class="nn" style="font-size:260px;font-weight:800;letter-spacing:-0.06em;width:230px;text-align:right;color:${AMBER}">${n}</div>
+          <div><div style="font-size:150px;font-weight:800;letter-spacing:-0.05em;line-height:1">${w}</div>
+            <div style="font-size:42px;color:#d5e1ee;margin-top:10px;font-weight:500">${d}</div></div></div>`).join("")}</div>
+        <div class="flash" id="nm-fl"></div>`;
+
+      const WORD = "MTS Hijyen B2B";
+      $("#s9").innerHTML = ambient(9) + `
+        <div class="full" style="perspective:1500px"><div id="lg-w" data-layout-allow-overlap class="abs" style="left:0;right:0;top:450px;text-align:center;transform-style:preserve-3d;font-size:180px;font-weight:800;letter-spacing:-0.04em">
+          ${[...WORD].map((c, i) => `<span class="lc ch" style="${i >= 11 ? `color:${AMBER}` : ""}">${c}</span>`).join("")}</div></div>
+        <div class="abs" id="lg-badge" style="left:860px;top:170px;width:200px;height:200px;border-radius:50%;background:#fff;display:grid;place-items:center;
+          box-shadow:0 0 0 10px rgba(95,211,255,0.22),0 0 120px rgba(47,127,224,0.85)"><img src="assets/logo.png" style="width:148px"></div>
+        <div class="abs" id="lg-ring" style="left:960px;top:270px;width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;border:8px solid ${CYAN};opacity:0"></div>
+        <div class="sweep" data-layout-allow-overflow id="lg-sw" style="top:-200px"></div>
+        <div class="abs" id="lg-tag" style="left:0;right:0;top:700px;text-align:center;font-size:70px;font-weight:700;letter-spacing:-0.02em">
+          ${words(["Hijyen", "tedariğiniz", `<span style="color:${AMBER}">tek</span>`, `<span style="color:${AMBER}">panelde.</span>`])}</div>
+        <div class="abs" id="lg-url" style="left:0;right:0;top:840px;text-align:center;font-size:44px;font-weight:600;color:${CYAN}">panel.mtshijyen.com · +90 543 683 57 65</div>
+        <div class="flash" id="lg-fl"></div><div class="full" id="lg-black" style="background:#000;opacity:0"></div>`;
+
+      // ═══════════ Shader geçişleri (kesme anları vuruşlarda; geçiş kesmenin etrafında ortalanır) ═══════════
+      const CUT = (t, shader, d) => ({ time: t - d / 2, shader, duration: d });
+      const tl = gsap.timeline({ paused: true });
+      HyperShader.init({
+        bgColor: "#050d18", accentColor: CYAN, compositionId: "main", timeline: tl,
+        scenes: ["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9"],
+        transitions: [CUT(5, "cinematic-zoom", 0.6), CUT(13, "whip-pan", 0.5), CUT(20, "cinematic-zoom", 0.5), CUT(27, "whip-pan", 0.5),
+          CUT(34, "chromatic-split", 0.5), CUT(40, "whip-pan", 0.5), CUT(48, "flash-through-white", 0.5), CUT(54, "cross-warp-morph", 0.8)],
+      });
+      [["s1", 0, 5], ["s2", 5, 13], ["s3", 13, 20], ["s4", 20, 27], ["s5", 27, 34], ["s6", 34, 40], ["s7", 40, 48], ["s8", 48, 54], ["s9", 54, 60]].forEach(([s, a, b]) => drift(tl, s, a, b));
+
+      // S1 · Açılış (0–5): harfler menteşeden döner, ikinci satır darbeyle oturur, ışık geçer
+      tl.fromTo($$("#o-eb .ch"), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.03, ease: "power3.out" }, 0.3);
+      tl.fromTo($$("#o-l1 .ch"), { rotationX: -95, y: 60, opacity: 0, transformOrigin: "50% 100%" }, { rotationX: 0, y: 0, opacity: 1, duration: 0.7, stagger: 0.035, ease: "back.out(1.6)" }, 1.0);
+      tl.fromTo("#o-l2", { scale: 1.9, opacity: 0, filter: "blur(16px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.32, ease: "expo.in" }, 2.18);
+      shake(tl, "#o-wrap", 2.5, 16); flash(tl, "#o-fl", 2.5, 0.35);
+      sweep(tl, "#o-sw", 3.1, -400, 2200, 1.0);
+      tl.fromTo("#o-wrap", { scale: 1 }, { scale: 1.07, duration: 5, ease: "none" }, 0);
+
+      // S2 · 3D uçuş (5–13) → Özet ekranına iniş + 4 süreç çipi
+      tl.fromTo("#f-world", { x: 0, y: -60, z: -4800, rotationX: 22, rotationY: -26 }, { x: 260, y: 120, z: 1100, rotationX: 10, rotationY: -14, duration: 1.4, ease: "expo.out" }, 5.0);
+      tl.to("#f-world", { x: -900, y: -240, z: 1900, rotationX: 4, rotationY: 16, duration: 1.2, ease: "power3.inOut" }, 6.4);
+      tl.to("#f-world", { x: 620, y: 140, z: 2700, rotationX: -6, rotationY: -12, duration: 1.0, ease: "power3.inOut" }, 7.6);
+      tl.fromTo("#f-line", { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, 5.4);
+      tl.fromTo($$("#f-line .w"), { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.18, ease: "expo.out" }, 5.5);
+      tl.to("#f-line", { opacity: 0, duration: 0.3 }, 8.3);
+      tl.fromTo("#f-flight", { opacity: 1, filter: "blur(0px)" }, { opacity: 0, filter: "blur(18px)", duration: 0.4, ease: "expo.in" }, 8.3);
+      tl.fromTo("#f-land", { opacity: 0, scale: 1.5, filter: "blur(18px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.7, ease: "expo.out" }, 8.7);
+      $$("#f-chips .fc").forEach((c, i) => { const t = 9.6 + i * 0.5;
+        tl.fromTo(c, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(2.6)" }, t); draw(tl, $("svg", c), t); });
+
+      // S3 · Kategori yörüngesi (13–20) + değerle büyüyen sayaç
+      const orb = { a: 0 }, OBS = $$(".ob");
+      tl.fromTo(orb, { a: 0 }, { a: 1, duration: 7.5, ease: "none", onUpdate: () => {
+        OBS.forEach((o, i) => { const a = (i / CATS.length) * 6.283 + orb.a * 2.6 + 0.5;
+          const x = 960 + Math.cos(a) * 700, y = 620 + Math.sin(a) * 250, z = Math.sin(a) * 240;
+          o.style.transform = `translate3d(${x}px,${y}px,${z}px) translate(-50%,-50%)`; o.style.zIndex = Math.round(z + 400); o.style.opacity = z < -60 ? 0.7 : 1; });
+      } }, 12.5);
+      $$(".ob-in").forEach((o, i) => tl.fromTo(o, { rotationX: 80, rotationY: -60, scale: 0.5, opacity: 0 }, { rotationX: 0, rotationY: 0, scale: 1, opacity: 1, duration: 0.8, ease: "back.out(1.4)" }, 13.35 + i * 0.12));
+      tl.fromTo("#ob-core", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 1.0, ease: "elastic.out(1, 0.5)" }, 13.2);
+      const cnt = { v: 0 };
+      tl.fromTo(cnt, { v: 0 }, { v: 12000, duration: 1.8, ease: "expo.out", onUpdate: () => { $("#ob-num").textContent = Math.round(cnt.v).toLocaleString("tr-TR") + (cnt.v > 11999 ? "+" : ""); } }, 13.6);
+      tl.fromTo("#ob-num", { scale: 0.7 }, { scale: 1, duration: 1.8, ease: "expo.out" }, 13.6);
+      tl.fromTo("#ob-count", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, 13.5);
+
+      // S4 · Size özel fiyat (20–27): 3D kart, ışık geçişi, fiyata halka
+      tl.fromTo("#pr-card", { x: 600, rotationY: -40, rotationX: 12 }, { x: 0, rotationY: -7, rotationX: 3, duration: 1.1, ease: "expo.out" }, 20.0);
+      tl.to("#pr-card", { rotationY: -3, rotationX: 1, duration: 5.5, ease: "none" }, 21.1);
+      sweep(tl, "#pr-sw", 21.0, 900, 2100, 0.8);
+      tl.fromTo("#pr-ring", { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(3)" }, 21.8);
+      tl.fromTo("#pr-eb", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5 }, 20.4);
+      tl.fromTo("#pr-h1", { y: 110, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 20.5);
+      tl.fromTo("#pr-h2", { y: 110, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 20.7);
+      $$("#pr-chips .pc").forEach((c, i) => { const t = 22.6 + i * 0.45;
+        tl.fromTo(c, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.55, ease: "back.out(2.4)" }, t); draw(tl, $("svg", c), t); });
+
+      // S5 · Ürün koduyla hızlı sipariş (27–34): kodlar yaylarla uçup satırlara oturur, toplam sayar, sepete ekle patlar
+      tl.fromTo($$("#sk-h .w"), { y: -70, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, stagger: 0.12, ease: "expo.out" }, 27.1);
+      tl.fromTo("#sk-table", { y: 130, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "expo.out" }, 27.2);
+      $$(".skr .cell").forEach((c) => tl.set(c, { opacity: 0 }, 27));
+      const tot = { v: 0 }; let acc = 0;
+      $$(".sk").forEach((s, i) => {
+        const a = 27.9 + i * 0.6, ang = i * 1.3 + 0.6, sx = 960 + Math.cos(ang) * 1300, sy = 540 + Math.sin(ang) * 900;
+        const tx = TB.x + 46, ty = TB.y + TB.pad + i * TB.rowH + 16;
+        tl.fromTo(s, { x: sx, y: sy, rotation: i % 2 ? 220 : -220, scale: 1.5, opacity: 0 }, { x: tx, rotation: 0, scale: 1, opacity: 1, duration: 0.6, ease: "power3.inOut" }, a);
+        tl.fromTo(s, { y: sy }, { y: ty, duration: 0.6, ease: "back.out(1.2)" }, a);
+        const row = $$(".skr")[i];
+        tl.to($$(".cell", row), { opacity: 1, duration: 0.3, stagger: 0.05 }, a + 0.6);
+        tl.fromTo(row, { backgroundColor: "rgba(95,211,255,0.28)" }, { backgroundColor: "rgba(95,211,255,0)", duration: 0.6 }, a + 0.6);
+        const from = acc; acc += SKU[i][3]; const to = acc;
+        tl.fromTo(tot, { v: from }, { v: to, duration: 0.5, ease: "power2.out", immediateRender: false, onUpdate: () => { $("#sk-tot").textContent = fmt(tot.v); } }, a + 0.6);
+      });
+      tl.fromTo("#sk-btn", { scale: 1 }, { keyframes: [{ scale: 0.88, duration: 0.08 }, { scale: 1.06, duration: 0.18 }, { scale: 1, duration: 0.3 }] }, 31.95);
+      tl.fromTo("#sk-ring", { width: 20, height: 20, marginLeft: -10, marginTop: -10, opacity: 1 }, { width: 520, height: 520, marginLeft: -260, marginTop: -260, opacity: 0, duration: 0.8, ease: "expo.out" }, 32.0);
+      burst(tl, "sk-burst", 32.0, 1440, 820, 0.9, 1.4);
+
+      // S6 · Onay (34–40): imleç "Onayla"ya gider, mühür darbesi + kromatik titreme
+      tl.fromTo("#st-card", { rotationX: 30, scale: 0.86 }, { rotationX: 4, scale: 1, duration: 1.0, ease: "expo.out" }, 34.0);
+      tl.fromTo("#st-cur", { x: 1500, y: 900, opacity: 0 }, { x: BTN.x, y: BTN.y, opacity: 1, duration: 1.0, ease: "power3.inOut" }, 34.9);
+      tl.to("#st-cur", { keyframes: [{ scale: 0.8, duration: 0.08 }, { scale: 1, duration: 0.15 }] }, 35.95);
+      tl.to("#st-cur", { opacity: 0, duration: 0.3 }, 36.6);
+      const stp = $$("#st-stamps .stp"), gl = { t: 0 };
+      tl.fromTo("#st-stamps", { scale: 3, rotation: -8, opacity: 0 }, { scale: 1, rotation: -8, opacity: 1, duration: 0.22, ease: "power4.in" }, 35.98);
+      tl.fromTo(gl, { t: 0 }, { t: 1.2, duration: 1.2, ease: "none", onUpdate: () => {
+        const q = Math.floor(gl.t * 30), env = Math.exp(-5 * gl.t);
+        stp.forEach((s, i) => { if (i === 2) return; s.style.transform = `translate(${(rnd(q * 3 + i) - 0.5) * 70 * env}px,${(rnd(q * 5 + i + 9) - 0.5) * 28 * env}px)`; s.style.opacity = 0.85 * env; });
+      } }, 36.2);
+      tl.fromTo("#st-ring", { width: 20, height: 20, marginLeft: -10, marginTop: -10, opacity: 1 }, { width: 1100, height: 1100, marginLeft: -550, marginTop: -550, opacity: 0, duration: 1.0, ease: "expo.out" }, 36.2);
+      burst(tl, "st-burst", 36.2, 1410, 440, 1.1, 1.8);
+      flash(tl, "#st-fl", 36.2, 0.4); shake(tl, "#st-card", 36.2, 22);
+      tl.fromTo($$("#st-tag .w"), { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.16, ease: "expo.out" }, 36.8);
+
+      // S7 · Teslimat koşusu (40–48): yol akar, koli döner, durumlar değişir, araç gelir, el sıkışma
+      tl.fromTo("#ru-road", { backgroundPosition: "0px 0px" }, { backgroundPosition: "0px -10800px", duration: 4.5, ease: "none" }, 40);
+      tl.to("#ru-road", { backgroundPosition: "0px -11200px", duration: 0.7, ease: "expo.out" }, 44.5);
+      const sp = { t: 0 }, LNS = $$("#ru-lines .ln");
+      tl.fromTo(sp, { t: 0 }, { t: 5.2, duration: 5.2, ease: "none", onUpdate: () => {
+        const k = sp.t < 4.5 ? 1 : Math.max(0, 1 - (sp.t - 4.5) / 0.6);
+        LNS.forEach((l, i) => { const v = 2600 + rnd(i * 9.1) * 2600; l.style.transform = `translateX(${1920 - ((sp.t * v + rnd(i) * 3000) % 3600)}px)`; l.style.opacity = 0.6 * k; });
+      } }, 40);
+      const bx = { t: 0 };
+      tl.fromTo(bx, { t: 0 }, { t: 4.7, duration: 4.7, ease: "none", onUpdate: () => {
+        const t = bx.t, x = t < 4.3 ? Math.sin(t * 1.6) * 100 : Math.sin(4.3 * 1.6) * 100 + Math.pow((t - 4.3) / 0.4, 3) * 1700;
+        $("#ru-box").style.transform = `translate(${x}px,${Math.sin(t * 2.4) * 30}px) rotateX(${-18 + Math.sin(t * 1.3) * 10}deg) rotateY(${t * 140}deg)`;
+      } }, 40);
+      const RS = $$("#s7 .rs"), ST = [40.3, 42.3, 44.6];
+      RS.forEach((r, i) => { tl.fromTo(r, { x: 900, opacity: 0, filter: "blur(12px)" }, { x: 0, opacity: 1, filter: "blur(0px)", duration: 0.4, ease: "expo.out" }, ST[i]);
+        if (i < 2) tl.to(r, { x: -900, opacity: 0, filter: "blur(12px)", duration: 0.3, ease: "expo.in" }, ST[i + 1] - 0.3); });
+      tl.fromTo("#ru-scene", { opacity: 0 }, { opacity: 1, duration: 0.4 }, 44.4);
+      const van = $("#ru-van"), p1 = $("#ru-p1"), cu = $("#ru-cu"), dl = { t: 0 };
+      // at() ve wob() assets/parts.js içinde
+      const eo = (p) => (p >= 1 ? 1 : 1 - Math.pow(2, -10 * p)), cl = (v) => Math.min(1, Math.max(0, v));
+      tl.fromTo(dl, { t: 0 }, { t: 3.6, duration: 3.6, ease: "none", onUpdate: () => {
+        const t = dl.t, vx = 2100 - 1100 * (1 - Math.pow(1 - cl(t / 0.9), 3));
+        at(van, `translate(${vx},960)`); at($("#vanBody", van), `rotate(${t > 0.9 ? wob(t - 0.9, 14, 5) * -2.4 : 0} 92 -46)`);
+        $$(".wheel", van).forEach((w) => at($(".spk", w), `rotate(${(-(2100 - vx) / 48) * 57.3} ${w.dataset.cx} -46)`));
+        const hs = cl((t - 1.1) / 0.4), joy = eo(cl((t - 1.2) / 0.5));
+        at(p1, `translate(${980 - 200 * eo(cl((t - 0.7) / 0.5))},960) scale(-1,1)`); at(cu, "translate(560,960) scale(-1,1)");
+        const wave = t > 1.5 ? Math.sin((t - 1.5) * 12) * 6 * Math.exp(-(t - 1.5) * 1.5) : 0;
+        at($(".armF", p1), `translate(40,-286) rotate(${-78 * hs + wave})`); at($(".armF", cu), `translate(40,-286) rotate(${-78 * hs})`);
+        smile(p1, joy); smile(cu, joy);
+      } }, 44.4);
+      burst(tl, "ru-conf", 44.6, 960, 380, 1.3, 2.2); flash(tl, "#ru-fl", 44.6, 0.35);
+
+      // S8 · Büyük sayılar (48–54): her satır farklı girişle çarpar, rakamlar karışıp oturur
+      $$("#s8 .nm").forEach((r, i) => {
+        const t = 48.5 + i * 1.3, from = [{ scale: 2.3 }, { x: 760 }, { y: 320 }][i];
+        tl.fromTo(r, { ...from, opacity: 0, filter: "blur(14px)" }, { scale: 1, x: 0, y: 0, opacity: 1, filter: "blur(0px)", duration: 0.3, ease: "power4.in" }, t - 0.3);
+        shake(tl, r, t, 12);
+        const nn = $(".nn", r), sc = { t: 0 }, target = NUMS[i][0];
+        tl.fromTo(sc, { t: 0 }, { t: 1, duration: 0.35, ease: "none", onUpdate: () => { nn.textContent = sc.t < 1 ? String(Math.floor(rnd(Math.floor(sc.t * 12) + i * 7) * 10)) : target; } }, t - 0.3);
+      });
+
+      // S9 · Logo (54–60): harfler altın açıyla dağılımdan toplanır, rozet + halka + beyaz kare, slogan
+      const GOLD = Math.PI * (3 - Math.sqrt(5)), LC = $$("#lg-w .lc");
+      LC.forEach((c, i) => { const a = i * GOLD;
+        tl.fromTo(c, { x: Math.cos(a) * 900, y: Math.sin(a) * 520, z: 600 - (i / (LC.length - 1)) * 1800, rotationX: Math.sin(a) * 180, rotationY: Math.cos(a) * 180, opacity: 0, filter: "blur(8px)" },
+          { x: 0, y: 0, z: 0, rotationX: 0, rotationY: 0, opacity: 1, filter: "blur(0px)", duration: 1.3, ease: "power3.out" }, 54.2 + i * 0.03); });
+      tl.fromTo("#lg-badge", { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.9, ease: "elastic.out(1, 0.45)" }, 55.8);
+      tl.fromTo("#lg-ring", { width: 20, height: 20, marginLeft: -10, marginTop: -10, opacity: 1 }, { width: 1300, height: 1300, marginLeft: -650, marginTop: -650, opacity: 0, duration: 1.1, ease: "expo.out" }, 56.0);
+      flash(tl, "#lg-fl", 56.0, 0.45); shake(tl, "#lg-w", 56.0, 10);
+      sweep(tl, "#lg-sw", 56.2, -400, 2200, 1.0);
+      tl.fromTo($$("#lg-tag .w"), { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.2, ease: "expo.out" }, 56.4);
+      tl.fromTo("#lg-url", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "expo.out" }, 57.2);
+      tl.fromTo("#lg-black", { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.in" }, 59.4);
+
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>

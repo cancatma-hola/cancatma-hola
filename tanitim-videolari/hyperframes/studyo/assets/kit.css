@@ -1,0 +1,66 @@
+/* MTS Hijyen tanıtım serisi · ortak stil (HyperFrames). Shader geçişleri için: var() ve "transparent" yok. */
+@font-face { font-family: "Inter Tight"; font-weight: 500; src: url(fonts/inter-tight-latin-500-normal.woff2) format("woff2"); unicode-range: U+0000-00FF; }
+@font-face { font-family: "Inter Tight"; font-weight: 500; src: url(fonts/inter-tight-latin-ext-500-normal.woff2) format("woff2"); unicode-range: U+0100-024F, U+20BA; }
+@font-face { font-family: "Inter Tight"; font-weight: 600; src: url(fonts/inter-tight-latin-600-normal.woff2) format("woff2"); unicode-range: U+0000-00FF; }
+@font-face { font-family: "Inter Tight"; font-weight: 600; src: url(fonts/inter-tight-latin-ext-600-normal.woff2) format("woff2"); unicode-range: U+0100-024F, U+20BA; }
+@font-face { font-family: "Inter Tight"; font-weight: 700; src: url(fonts/inter-tight-latin-700-normal.woff2) format("woff2"); unicode-range: U+0000-00FF; }
+@font-face { font-family: "Inter Tight"; font-weight: 700; src: url(fonts/inter-tight-latin-ext-700-normal.woff2) format("woff2"); unicode-range: U+0100-024F, U+20BA; }
+@font-face { font-family: "Inter Tight"; font-weight: 800; src: url(fonts/inter-tight-latin-800-normal.woff2) format("woff2"); unicode-range: U+0000-00FF; }
+@font-face { font-family: "Inter Tight"; font-weight: 800; src: url(fonts/inter-tight-latin-ext-800-normal.woff2) format("woff2"); unicode-range: U+0100-024F, U+20BA; }
+@font-face { font-family: "JetBrains Mono"; font-weight: 500; src: url(fonts/jetbrains-mono-latin-500-normal.woff2) format("woff2"); unicode-range: U+0000-00FF; }
+@font-face { font-family: "JetBrains Mono"; font-weight: 500; src: url(fonts/jetbrains-mono-latin-ext-500-normal.woff2) format("woff2"); unicode-range: U+0100-024F; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; background: #050d18; }
+#main { position: relative; width: 100%; height: 100%; overflow: hidden; background: #050d18;
+  font-family: "Inter Tight", sans-serif; color: #ffffff; -webkit-font-smoothing: antialiased; }
+.scene { position: absolute; inset: 0; overflow: hidden; background-color: #050d18; opacity: 0; }
+.scene.first { opacity: 1; }
+.abs { position: absolute; }
+.full { position: absolute; inset: 0; }
+.center { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.mono { font-family: "JetBrains Mono", monospace; letter-spacing: 0.14em; text-transform: uppercase; }
+.ch, .w { display: inline-block; white-space: pre; }
+.glow { position: absolute; border-radius: 50%; }
+.star { position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #9fc6ee; }
+.h1 { font-weight: 800; letter-spacing: -0.045em; line-height: 1.02; }
+.amber { color: #f5b019; }
+.cyan { color: #5fd3ff; }
+.soft { color: #d5e1ee; }
+.scrim { background: rgba(3, 8, 15, 0.82); border-radius: 26px; padding: 22px 44px 30px; }
+.card { background: #0e2a4c; border: 2px solid rgba(95, 211, 255, 0.5); border-radius: 24px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55); }
+.chip { display: inline-flex; align-items: center; gap: 16px; padding: 18px 32px; border-radius: 999px; font-weight: 600;
+  background: #0e2a4c; border: 2px solid rgba(95, 211, 255, 0.6); color: #ffffff; white-space: nowrap; }
+.flash { position: absolute; inset: 0; background: #ffffff; opacity: 0; }
+.sweep { position: absolute; top: -300px; width: 260px; height: 2600px; opacity: 0.5;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0)); }
+.ring { position: absolute; width: 20px; height: 20px; margin: -10px 0 0 -10px; border-radius: 50%; border: 8px solid #f5b019; opacity: 0; }
+.bar-bg { height: 34px; border-radius: 17px; background: #12304f; overflow: hidden; }
+.bar-fg { height: 100%; border-radius: 17px; background: linear-gradient(90deg, #2f7fe0, #5fd3ff); transform-origin: 0 50%; }
+
+/* Tarayıcı çerçevesi: panel ekranından kırpılmış bölge */
+.device { position: absolute; border-radius: 22px; overflow: hidden; background: #ffffff;
+  box-shadow: 0 50px 120px rgba(0, 0, 0, 0.6), 0 0 0 2px rgba(95, 211, 255, 0.35); }
+.device .bar { height: 54px; background: #0b1f33; display: flex; align-items: center; gap: 12px; padding: 0 22px; }
+.device .dot { width: 14px; height: 14px; border-radius: 50%; background: #3a5675; }
+.device .url { margin-left: 18px; height: 32px; padding: 0 22px; border-radius: 16px; background: #13314f; color: #c9d6e5;
+  font-size: 19px; font-weight: 500; display: flex; align-items: center; }
+.device .view { position: relative; overflow: hidden; }
+.device .view img { position: absolute; display: block; }
+.cursor { position: absolute; left: 0; top: 0; width: 64px; height: 64px; }
+.toast { display: flex; align-items: center; gap: 18px; padding: 22px 34px; border-radius: 20px; background: #ffffff; color: #0b1f33;
+  font-size: 34px; font-weight: 700; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); }
+
+/* ── Stüdyo motoru ek sınıfları */
+.h2 { font-weight: 700; letter-spacing: -0.03em; line-height: 1.14; }
+.tile { display: grid; place-items: center; background: #164069; border: 2px solid rgba(95, 211, 255, 0.35); }
+.badge { display: grid; place-items: center; flex: none; border-radius: 50%; background: #F5B019; color: #2B1E00; font-weight: 800; }
+.cam { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform-origin: 0 0; }
+.spot { position: absolute; border-style: solid; border-color: #F5B019; box-shadow: 0 0 0 9999px rgba(5, 13, 24, 0.56); }
+.note { position: absolute; display: flex; align-items: center; gap: 18px; padding: 20px 30px; border-radius: 20px; background: #0B1F33;
+  border: 2px solid rgba(245, 176, 25, 0.8); color: #fff; font-weight: 600; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5); }
+.note .nb { display: grid; place-items: center; flex: none; width: 1.4em; height: 1.4em; border-radius: 50%; background: #F5B019; color: #2B1E00; font-weight: 800; font-size: 0.85em; }
+.view .cursor { position: absolute; left: 0; top: 0; width: 60px; height: 60px; }
+.view .ring { border-color: #F5B019; }
+.wm { font-size: 22px; font-weight: 600; color: #8FA6BF; letter-spacing: 0.01em; }
+.karart { background: #000; opacity: 0; }

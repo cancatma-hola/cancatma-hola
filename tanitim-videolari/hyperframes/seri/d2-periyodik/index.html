@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <title>D2 · Bir kez kurun (dikey)</title>
+    <link rel="stylesheet" href="assets/kit.css" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/hyper-shader.js"></script>
+    <script src="assets/parts.js"></script>
+    <script src="assets/kit.js"></script>
+    <style>html, body { width: 1080px; height: 1920px; }</style>
+  </head>
+  <body>
+    <div id="main" data-composition-id="main" data-width="1080" data-height="1920" data-start="0" data-duration="15">
+      <audio id="muzik" src="assets/muzik-d2.m4a" data-start="0" data-duration="15"></audio>
+      <section id="s1" class="scene first clip" data-start="0" data-duration="15"></section>
+      <section id="s2" class="scene clip" data-start="0" data-duration="15"></section>
+      <section id="s3" class="scene clip" data-start="0" data-duration="15"></section>
+    </div>
+    <script type="application/json" id="hits">
+      [{"t":0,"type":"meta","drop":4,"stop":10,"roll":7.5,"logo":10.4,"dur":15,"shift":2},
+       {"t":0,"type":"riser","d":4},{"t":0.4,"type":"impact","g":0.35},{"t":0.9,"type":"impact","g":0.35},{"t":1.4,"type":"impact","g":0.4},{"t":1.9,"type":"impact","g":0.45},
+       {"t":4,"type":"impact","g":1},{"t":6.4,"type":"stamp","g":0.6},{"t":7.4,"type":"stamp","g":0.6},
+       {"t":9.6,"type":"whoosh","pan":0},{"t":10.4,"type":"impact","g":1.2},{"t":10.5,"type":"pop"}]
+    </script>
+    <script>
+      // D2 · Bir kez kurun (15 sn, 1080×1920)
+      const AYLAR = ["Temmuz", "Ağustos", "Eylül", "Ekim"];
+      $("#s1").innerHTML = ambient(1) + `<div class="abs" data-layout-allow-overlap style="left:260px;top:260px;width:560px;height:520px">
+          ${AYLAR.map((a) => `<div class="abs card s1k" data-layout-allow-overlap style="left:0;top:0;width:560px;padding:34px 40px">
+            <div class="mono cyan" style="font-size:28px">${a} 2026</div><div style="font-size:48px;font-weight:700;margin-top:12px">Sipariş</div>
+            ${[0, 1, 2].map(() => `<div style="height:16px;border-radius:8px;background:#1f4a75;margin-top:18px"></div>`).join("")}</div>`).join("")}</div>
+        <div class="abs" style="left:70px;right:70px;top:960px;text-align:center"><div id="s1a" class="h1" style="font-size:108px">${words("Her ay aynı siparişi mi veriyorsunuz?", 3)}</div></div>`;
+
+      const GUN = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"], OFF = 6, CW = 128, CH = 100;
+      let cells = GUN.map((g, i) => `<div class="abs soft" style="left:${i * CW}px;top:0;width:${CW - 10}px;text-align:center;font-size:30px;font-weight:600">${g}</div>`).join("");
+      for (let d = 1; d <= 30; d++) { const k = d - 1 + OFF;
+        cells += `<div class="abs cal${d === 1 || d === 5 ? " calx" : ""}" style="left:${(k % 7) * CW}px;top:${54 + Math.floor(k / 7) * CH}px;width:${CW - 10}px;height:${CH - 10}px;border-radius:14px;
+          background:#0e2a4c;border:2px solid rgba(95,211,255,0.25);font-size:36px;font-weight:700;display:grid;place-items:center">${d}</div>`; }
+      $("#s2").innerHTML = ambient(2) + `<div class="abs" style="left:70px;right:70px;top:150px">
+          <div id="s2t" class="h1" style="font-size:100px">${words("Periyodik siparişi bir kez kurun.", 2)}</div>
+          <div id="s2s" class="soft" style="font-size:46px;font-weight:600;margin-top:30px">Sistem siparişi her ay kendisi oluşturur.</div></div>
+        <div class="abs card" id="s2cal" style="left:${(1080 - (7 * CW + 50)) / 2}px;top:720px;width:${7 * CW + 50}px;padding:26px">
+          <div style="font-size:46px;font-weight:800;margin-bottom:24px">Kasım 2026</div>
+          <div style="position:relative;height:${54 + 6 * CH}px">${cells}
+            ${[1, 5].map((d) => { const k = d - 1 + OFF; return `<div class="abs s2box" style="left:${(k % 7) * CW + 22}px;top:${54 + Math.floor(k / 7) * CH + 8}px;width:74px;height:74px;border-radius:12px;background:${AMBER};display:grid;place-items:center">${icon("box", 46, NAVY, 2.4)}</div>`; }).join("")}
+          </div></div>`;
+
+      $("#s3").innerHTML = endHTML(words("Bir kez kurun, sistem hatırlasın.", 3));
+      const CUTS = [[4, "cinematic-zoom", 0.6], [10, "cross-warp-morph", 0.8]];
+      const tl = gsap.timeline({ paused: true });
+      const g = seriGecis(CUTS);
+      HyperShader.init({ bgColor: "#050d18", accentColor: CYAN, compositionId: "main", timeline: tl, scenes: g.scenes, transitions: g.transitions });
+      seriOrtam(tl, CUTS);
+
+      $$(".s1k").forEach((k, i) => tl.fromTo(k, { y: -900, rotation: i % 2 ? 8 : -8, opacity: 0 }, { y: i * 28, rotation: (i % 2 ? 3 : -3) * (i / 3), opacity: 1, duration: 0.45, ease: "power3.in" }, [0.0, 0.45, 0.95, 1.45][i]));
+      rise(tl, $$("#s1a .w"), 0.6, 0.1);
+
+      rise(tl, $$("#s2t .w"), 4.3, 0.1);
+      tl.fromTo("#s2s", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6 }, 5.0);
+      tl.fromTo("#s2cal", { y: 300, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: "expo.out" }, 4.4);
+      tl.fromTo($$("#s2cal .cal"), { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, stagger: 0.02, ease: "back.out(2)" }, 4.7);
+      $$(".s2box").forEach((b, i) => { const t = 6.15 + i;
+        tl.fromTo(b, { y: -600, opacity: 0 }, { y: 0, opacity: 1, duration: 0.25, ease: "power3.in" }, t);
+        tl.to($$(".calx")[i], { backgroundColor: "#2F5E8F", borderColor: AMBER, duration: 0.2 }, t + 0.25); });
+
+      endAnim(tl, 10, 15);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
