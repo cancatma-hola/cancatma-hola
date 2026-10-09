@@ -1,19 +1,28 @@
 #!/bin/bash
-# Tarihli seri kuyruğu: videolar/<klasör>/*.mjs dosyaları hazır oldukça (yanında <dosya>.hazir işareti) üretir ve render eder.
-# Kullanım: araclar/kuyruk-tarih.sh 2026-10-09 [beklenen dosya sayısı]
-# Biten videoları atlar; kesilirse yeniden başlatılabilir. Tüm dosyalar işlendiğinde "KUYRUK BİTTİ" yazar.
+# Tarihli seri kuyruğu: videolar/<klasör>/*.mjs dosyalarını üretir ve render eder.
+# 1) Taslak geçişi: her dosya bir kez hemen render edilir (CPU boş beklemesin).
+# 2) Onay geçişi: dosyanın yanında <dosya>.hazir işareti oluşunca yeniden üretilir; yalnız değişen videolar yeniden render edilir (render.md5).
+# Kullanım: araclar/kuyruk-tarih.sh 2026-10-09 [beklenen dosya sayısı]   · kesilirse yeniden başlatılabilir
 cd "$(dirname "$0")/.."
 K=$1; N=${2:-8}; export HF=${HF:-npx --yes hyperframes@0.8.139}
-mkdir -p "videolar/$K/.islendi"
+D="videolar/$K/.islendi"; mkdir -p "$D"
+isle() {   # $1 = dosya adı (uzantısız)
+  local f="videolar/$K/$1.mjs" ids
+  ids=$(node -e "import('./$f?t='+Date.now()).then(m=>console.log(m.default.map(v=>v.id).join(' '))).catch(e=>process.exit(1))") || return 1
+  echo "== $1 ($2): $ids"
+  node araclar/uret.mjs $ids && araclar/render.sh $ids
+}
 while :; do
   for f in videolar/$K/*.mjs; do
-    b=$(basename "$f" .mjs); [ -f "videolar/$K/$b.hazir" ] || continue
-    [ -f "videolar/$K/.islendi/$b" ] && [ ! "videolar/$K/$b.hazir" -nt "videolar/$K/.islendi/$b" ] && continue
-    ids=$(node -e "import('./$f').then(m=>console.log(m.default.map(v=>v.id).join(' ')))")
-    echo "== $b: $ids"
-    node araclar/uret.mjs $ids && araclar/render.sh $ids && touch "videolar/$K/.islendi/$b"
+    b=$(basename "$f" .mjs)
+    if [ -f "videolar/$K/$b.hazir" ]; then
+      [ -f "$D/$b" ] && [ ! "videolar/$K/$b.hazir" -nt "$D/$b" ] && continue
+      isle "$b" onay && touch "$D/$b"
+    elif [ ! -f "$D/$b.taslak" ]; then
+      isle "$b" taslak && touch "$D/$b.taslak"
+    fi
   done
-  n=$(ls videolar/$K/.islendi | wc -l)
+  n=$(ls "$D" | grep -vc taslak)
   [ "$n" -ge "$N" ] && { echo "KUYRUK BİTTİ"; break; }
   sleep 60
 done
