@@ -33,7 +33,7 @@ export default [
     kapak(58, "Havale yaptım, sipariş neden ilerlemiyor?", "Havale ödemesinin siparişle nasıl eşleştiğini öğrenin.", "wallet"),
     { tip: "soru", metin: "Havale yaptınız ama sipariş *ilerlemiyor* mu?", alt: "Cevap sipariş detayında yazar.", sure: 4,
       cipler: [["wallet", "Havale / EFT"], ["clock", "Ödeme Bekleniyor"]] },
-    ek("siparis-odeme", 1, "Sipariş *Ödeme Bekleniyor* durumunda bekler.", { bolge: B(560, 190, 1090, 482),
+    ek("siparis-odeme", 1, "Sipariş detayında *Ödeme Bekleniyor* durumuna bakın.", { bolge: B(560, 172, 1090, 482),
       vurgu: [{ hedef: "Ödeme Bekleniyor", not: "Ödeme hesaba geçince sipariş hazırlığa alınır." }],
       dikey: tel("m-siparis-odeme", { vurgu: [{ hedef: "Ödeme Bekleniyor", not: "Ödeme hesaba geçince sipariş hazırlığa alınır." }] }) }),
     // Kamera vurguya yaklaşınca ekranın altındaki kesik "Havale açıklamasına yazınız" satırı görünüyor: gri bantla kapatılır
@@ -62,10 +62,12 @@ export default [
       tikla: { hedef: "Siparişi İptal Et", sonuc: "Sipariş iptal edilir" },
       dikey: tel("m-siparis-odeme", { vurgu: [{ hedef: "Ödeme Bekleniyor", not: "Bu durumda sipariş henüz işleme alınmadı." }],
         tikla: { hedef: "Siparişi İptal Et", sonuc: "Sipariş iptal edilir" } }) }),
-    ek("destek-yeni", 2, "Hazırlık başladıysa *destek talebi* açın.", { bolge: B(570, 362, 680, 376), bolgeD: B(575, 360, 640, 640),
+    // Dikeyde masaüstü form okunmuyor: mobil Destek sayfasında "+ Yeni Destek Talebi" dokunuşu gösterilir
+    ek("destek-yeni", 2, "Hazırlık başladıysa *destek talebi* açın.", { bolge: B(570, 362, 680, 376),
       yaz: { hedef: "Destek talebinizin konusunu girin", metin: "MTS-2026-0020 iptal talebi" },
-      tikla: { hedef: "Talebi Oluştur", sonuc: "Destek talebiniz oluşturuldu" } }),
-    kontrol(["Sipariş detayında durumu kontrol edin.", "İşleme alınmadan Siparişi İptal Et düğmesine basın.", "Hazırlık başladıysa destek talebi açın."]),
+      tikla: { hedef: "Talebi Oluştur", sonuc: "Destek talebiniz oluşturuldu" },
+      dikey: tel("m-destek", { tikla: { hedef: "+ Yeni Destek Talebi", sonuc: "Destek talebi formu açılır" } }) }),
+    kontrol(["Sipariş detayında durumu kontrol edin.", "İşleme alınmamış siparişte Siparişi İptal Et düğmesine basın.", "Hazırlık başladıysa destek talebi açın."]),
     { tip: "son", metin: "Şimdi *Siparişlerim* sayfasını açın.", sonraki: "Teklifiniz hazır: detayı okuyun" },
   ]),
 
@@ -76,17 +78,22 @@ export default [
       cipler: [["tag", "Birim fiyat"], ["chat", "Admin notu"], ["calendar", "Son tarih"]] },
     // TKF-2026-0002 (test kaydı) satırı ekranlar.js `ortu` ile her sahnede kapalı.
     // m-teklifler kullanılmadı: ekranlar.js `ortu` ("[]TKF-2026-0002") orada tüm tabloyu kapatıyor; ayrıca Durum sütunu yana taşıyor.
-    ek("teklifler", 1, "*Teklif Hazır* yazan teklifi açın.", { bolge: B(290, 180, 1360, 602), bolgeD: B(560, 280, 640, 640),
-      vurgu: [{ hedef: ["TKF-2026-0003", "Teklif Hazır#2"], not: "Fiyatı hazırlanan teklifler bu durumla görünür.", kaydir: true }],
-      tikla: { hedef: "TKF-2026-0003", sonuc: "Teklif detayı açılır" } }),
+    // Dikeyde satır vurgusu dar kadraja sığmıyor (numara ve durum görünmüyordu): yalnız durum rozeti vurgulanır, sonra numaraya tıklanır
+    ek("teklifler", 1, "*Teklif Hazır* yazan teklifi açın.", { bolge: B(290, 180, 1360, 602),
+      vurgu: [{ hedef: ["TKF-2026-0003", "Teklif Hazır#2"], not: "Fiyatı hazırlanan teklifler bu durumla görünür." }],
+      tikla: { hedef: "TKF-2026-0003", sonuc: "Teklif detayı açılır" },
+      dikey: { tip: "ekran", ekran: "teklifler", bolge: B(560, 190, 640, 640),
+        vurgu: [{ hedef: "Teklif Hazır#2", not: "Fiyatı hazırlanan teklifler bu durumla görünür." }],
+        tikla: { hedef: "TKF-2026-0003", sonuc: "Teklif detayı açılır" } } }),
     // m-teklif-hazir tablosu yana taşıyor (Toplam sütunu kesik): dikeyde tek satır vurgulanır, kamera kesik sütunu dışarıda bırakır
     ek("teklif-hazir", 2, "Admin notunu ve *birim fiyatları* okuyun.", { bolge: B(560, 400, 1090, 482),
-      vurgu: [{ hedef: B(597, 415, 380, 40), not: "İndirimin nedeni admin notunda yazar." },   // not satırı tam genişlik: yalnız yazılı kısım
-        { hedef: ["Birim Fiyat", "92,07 ₺"], not: "Her kalemin birim fiyatı ayrı satırda yazar." }],
+      vurgu: [{ hedef: B(597, 415, 380, 40), not: "Fiyatla ilgili açıklama bu notta yazar." },   // not satırı tam genişlik: yalnız yazılı kısım
+        { hedef: ["SELPAK PROF. BUTİK KUTU MENDİL (18X21)", "28,27 ₺"], not: "Her kalemin birim fiyatı kendi satırında yazar." }],
       dikey: tel("m-teklif-hazir", {
-        vurgu: [{ hedef: ["Admin Notu", "Sözleşmeli müşteri — liste fiyatından %7 iskonto uygulandı."], not: "İndirimin nedeni admin notunda yazar." },
-          { hedef: ["7906666", "28,27 ₺"], not: "Her kalemin birim fiyatı ayrı satırda yazar." }] }) }),
-    ek("teklif-hazir", 3, "Son tarihten önce *Teklifi Kabul Et* düğmesine basın.", { bolge: B(560, 180, 1090, 482),
+        vurgu: [{ hedef: ["Admin Notu", "Sözleşmeli müşteri — liste fiyatından %7 iskonto uygulandı."], not: "Fiyatla ilgili açıklama bu notta yazar." },
+          { hedef: ["7906666", "28,27 ₺"], not: "Her kalemin birim fiyatı kendi satırında yazar." }] }) }),
+    // Dar kadraj: tıklama kamerası düğmeye yaklaşır, site başlığı ve boş kenar daha az görünür
+    ek("teklif-hazir", 3, "Son tarihten önce *Teklifi Kabul Et* düğmesine basın.", { bolge: B(560, 180, 800, 355),
       vurgu: [{ hedef: ["Teklif Hazır", "Son: 14 Ekim 2026"], not: "Teklif bu tarihe kadar geçerlidir." }],
       tikla: { hedef: "Teklifi Kabul Et", sonuc: "Teklif siparişe çevrilir" },
       dikey: tel("m-teklif-hazir", { vurgu: [{ hedef: ["Teklif Hazır", "Son: 14 Ekim 2026"], not: "Teklif bu tarihe kadar geçerlidir." }],
@@ -100,17 +107,22 @@ export default [
     kapak(61, "Fiyat teklifi mi, toplu alım mı?", "İhtiyacınıza uygun teklif formunu seçin.", "help"),
     // İki seçenek de olumlu: karsilastir sol kartı ✕ ile çizdiği için tarafsız ikonlu ipucu kartı kullanıldı.
     // Metinler formların kendi açıklamalarından: "Fiyat teklifi almak istediğiniz ürünleri ve miktarları girin." / "500+ adet veya yıllık sözleşme talepleri için satış ekibimizden hızlı teklif alın."
-    { tip: "ipucu", baslik: "İki form, *iki ihtiyaç*",
-      maddeler: [["tag", "Fiyat teklifi: ürün ve miktarı panelde girin"], ["building", "Toplu alım: 500+ adet için satış ekibinden teklif alın"]] },
+    { tip: "ipucu", baslik: "Hangi form *ne zaman* kullanılır?",
+      maddeler: [["tag", "Fiyat teklifi: ürünü ve miktarı panelde girin"], ["building", "Toplu alım: 500+ adet için satış ekibinden teklif alın"]] },
     ek("teklif-yeni", 1, "*Yeni Fiyat Teklifi* formuna ürünü ve miktarı yazın.", { bolge: B(570, 300, 680, 380), bolgeD: B(575, 300, 670, 670),
       yaz: { hedef: "Ürün ara (ad veya kod)", metin: "kağıt havlu" },
       tikla: { hedef: "Teklif Oluştur", sonuc: "Fiyatı admin ekibi hazırlar" } }),
-    ek("teklif-iste", 2, "500+ adet için *Teklif İste* formunu doldurun.", { bolge: B(610, 180, 700, 640), bolgeD: B(625, 190, 670, 670),
+    // Dar kadraj: tıklama kamerası formun altındaki İngilizce "Choose File No file chosen" yazısını dışarıda bırakır
+    ek("teklif-iste", 2, "500+ adet için *Teklif İste* formunu doldurun.", { bolge: B(600, 190, 820, 363),
       vurgu: [{ hedef: "~500+ adet veya yıllık sözleşme", not: "Toplu alım talebi satış ekibine gider." }],
-      tikla: { hedef: "Teklif Talep Et", sonuc: "Talebiniz satış ekibine iletilir" } }),
+      tikla: { hedef: "Teklif Talep Et", sonuc: "Talebiniz satış ekibine iletilir" },
+      // Dikeyde uzun açıklama satırı küçük kalıyordu: yalnız "500+ adet veya yıllık sözleşme" kısmı vurgulanır
+      dikey: { tip: "ekran", ekran: "teklif-iste", bolge: B(610, 180, 640, 640),
+        vurgu: [{ hedef: B(626, 247, 194, 22), not: "Toplu alım talebi satış ekibine gider." }],
+        tikla: { hedef: "Teklif Talep Et", sonuc: "Talebiniz satış ekibine iletilir" } } }),
     { tip: "test", ust: "Mini test", soru: "500+ adetlik alım için hangi formu doldurursunuz?",
       secenekler: ["Toplu Alım Teklifi", "Hızlı Sipariş", "Numune Talebi"], dogru: 0, aciklama: "*Toplu Alım Teklifi* 500+ adet içindir." },
-    kontrol(["Ürün ve miktarı Yeni Fiyat Teklifi formuna yazın.", "500+ adet için Teklif İste formunu kullanın.", "Teklif Talep Et düğmesiyle talebi gönderin."]),
+    kontrol(["Ürünü ve miktarı Yeni Fiyat Teklifi formuna yazın.", "500+ adet için Teklif İste formunu kullanın.", "Teklif Talep Et düğmesiyle talebi gönderin."]),
     { tip: "son", metin: "Şimdi *Teklif İste* sayfasını açın.", sonraki: "Hesabı 4 adımda kurun" },
   ]),
 
@@ -119,8 +131,9 @@ export default [
     kapak(62, "Hesabı 4 adımda kurun", "Departman, kullanıcı ve onay kuralını sırayla kurun.", "gear"),
     { tip: "gundem", ust: "Eğitim 62", baslik: "Bu videoda", ikon: "list",
       maddeler: ["Departman ekleyin", "Kullanıcı davet edin", "Onay kuralı kurun", "Onay eşiğini kontrol edin"] },
+    // Yatayda formun kendi bütçe alanı vurgulanır (mevcut bir departmanın harcama satırı yerine)
     ek("departman-yeni", 1, "*Departman & Bütçe* sayfasında yeni departman ekleyin.", { bolge: B(560, 180, 1090, 482),
-      vurgu: [{ hedef: ["Bu ay harcama", "/ ₺60.000,00"], not: "Her departmanın harcaması bütçesiyle birlikte görünür." }],
+      vurgu: [{ hedef: ["Aylık Bütçe (₺) isteğe bağlı", "0.00"], not: "Bütçe girerseniz harcama bu tutarla izlenir." }],
       yaz: { hedef: "örn. Satın Alma", metin: "Kat Hizmetleri" },
       tikla: { hedef: "Kaydet", sonuc: "Departman eklendi" },
       dikey: tel("m-departmanlar", { vurgu: [{ hedef: ["Bu ay harcama", "/ ₺60.000,00"], not: "Her departmanın harcaması bütçesiyle birlikte görünür." }],
@@ -131,10 +144,11 @@ export default [
         { hedef: B(583, 452, 310, 56), not: "Onay limitini boş bırakırsanız limit sınırsız olur." }],   // etiket + kutunun sol kısmı
       tikla: { hedef: "Kullanıcıyı Davet Et", sonuc: "Kullanıcı davet edildi" } }),
     ek("onay-kural-yeni", 3, "*Yeni Onay Kuralı* ile tutar sınırını belirleyin.", { bolge: B(200, 285, 1440, 640), bolgeD: B(570, 280, 680, 680),
-      vurgu: [{ hedef: B(583, 581, 310, 61), not: "Koşula uyan siparişler bu kişinin onayını bekler." }],   // "Seviye 1" etiketi + seçim kutusunun sol kısmı
+      vurgu: [{ hedef: B(583, 581, 310, 61), not: "Siparişi ilk onaylayacak kişiyi burada seçersiniz." }],   // "Seviye 1" etiketi + seçim kutusunun sol kısmı (kutu boş: "yok")
       yaz: { hedef: "örn: 10000", metin: "25000" },
       tikla: { hedef: "Kuralı Oluştur", sonuc: "Onay kuralı oluşturuldu" } }),
-    ek("sozlesme", 4, "*Sözleşme & Fiyat* sayfasında otomatik onay eşiğini kontrol edin.", { bolge: B(285, 330, 1360, 602),
+    // Kısa başlık: dikeyde üç satıra taşan metin telefonun arkasında kalıyordu (konum çipte yazar)
+    ek("sozlesme", 4, "*Otomatik onay eşiğini* kontrol edin.", { bolge: B(285, 330, 1360, 602),
       vurgu: [{ hedef: B(583, 605, 180, 44), not: "₺5.000 altındaki siparişler onay beklemeden onaylanır." }],
       dikey: tel("m-sozlesme", { vurgu: [{ hedef: ["Otomatik Onay Eşiği", "₺5.000,00"], not: "₺5.000 altındaki siparişler onay beklemeden onaylanır." }] }) }),
     kontrol(["Departman ekleyip kullanıcıları davet edin.", "Tutar sınırıyla onay kuralı oluşturun.", "Otomatik onay eşiğini kontrol edin."]),
