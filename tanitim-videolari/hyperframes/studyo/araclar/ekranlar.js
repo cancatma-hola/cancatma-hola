@@ -63,4 +63,43 @@ module.exports = [
   { ad: 'destek-yeni', url: '/tr/hesap/destek/yeni' },
   { ad: 'ayarlar', url: '/tr/hesap/ayarlar' },
   { ad: 'ayarlar-alt', url: '/tr/hesap/ayarlar', once: kaydir(560) },
+  // Mobil (430 px, DPR 3): telefon sahneleri için
+  { ad: 'm-ozet', url: '/tr/hesap/ozet', mobil: true, boy: 2000 },
+  { ad: 'm-siparisler', url: '/tr/hesap/siparisler', mobil: true, boy: 2000 },
+  { ad: 'm-siparis-sevkiyat', url: '/tr/hesap/siparisler/cmuwo1dte003t60vgrstxfcbf', mobil: true, boy: 2200 },
+  { ad: 'm-onaylarim', url: '/tr/hesap/onaylarim', mobil: true, boy: 1800 },
+  { ad: 'm-hizli', url: '/tr/hesap/hizli-siparis', mobil: true, boy: 932 },
+  { ad: 'm-periyodik', url: '/tr/hesap/periyodik-siparisler', mobil: true, boy: 1600 },
+  { ad: 'm-sadakat', url: '/tr/hesap/sadakat', mobil: true, boy: 1600 },
+  { ad: 'm-faturalar', url: '/tr/hesap/faturalar', mobil: true, boy: 600 },
+  { ad: 'm-ekstre', url: '/tr/hesap/ekstre', mobil: true, boy: 1600 },
+  { ad: 'm-butce', url: '/tr/hesap/butce', mobil: true, boy: 700 },
+  { ad: 'm-kategori', url: '/tr/c/kagit-urunleri', mobil: true, boy: 1800 },
+  { ad: 'm-urun', url: '/tr/p/wanda-soft-extra-automotion-kagit-havlu-4-kg', mobil: true, boy: 1800 },
+  // Menüler: yalnızca açılır menü düğmesine dokunulur, içindeki bağlantılara basılmaz
+  { ad: 'm-menu-hesap', url: '/tr/hesap/ozet', mobil: true, boy: 932, once: async (p) => { await p.click('button[aria-label^="Hesap menüsü"]'); await p.waitForTimeout(900); } },
+  { ad: 'm-menu-bolum', url: '/tr/hesap/ozet', mobil: true, boy: 1400, once: async (p) => {
+    await p.evaluate(() => [...document.querySelectorAll('button')].find((b) => /^Özet/.test(b.innerText.trim()))?.click()); await p.waitForTimeout(900); } },
 ];
+
+// Menü yolu: videoda tarayıcı çubuğunda "konum çipi" olarak görünür (müşteri ekranı nereden açacağını görür)
+const H = (b) => `Hesabım › ${b}`;
+const YOL = {
+  anasayfa: 'Ana sayfa', 'anasayfa-alt': 'Ana sayfa', arama: 'Ana sayfa › Arama', kategori: 'Kategoriler › Kağıt Ürünleri',
+  urun: 'Kağıt Ürünleri › Ürün', 'urun-alt': 'Kağıt Ürünleri › Ürün', sepet: 'Sepetim', kampanyalar: 'Vitrin › Kampanyalar',
+  'teklif-iste': 'Kurumsal › Teklif İste', yardim: 'Kurumsal › Yardım',
+  ozet: H('Özet'), 'ozet-alt': H('Özet'), siparisler: H('Siparişlerim'),
+  'siparis-hazirlaniyor': 'Siparişlerim › Detay', 'siparis-hazirlaniyor-alt': 'Siparişlerim › Detay', 'siparis-taslak': 'Siparişlerim › Detay',
+  'siparis-odeme': 'Siparişlerim › Detay', 'siparis-onay': 'Siparişlerim › Detay', 'siparis-sevkiyat': 'Siparişlerim › Detay',
+  hizli: H('Hızlı Sipariş'), periyodik: H('Periyodik Siparişler'), 'periyodik-yeni': H('Periyodik Siparişler'),
+  teklifler: H('Fiyat Tekliflerim'), 'teklif-yeni': H('Fiyat Tekliflerim'), analitik: H('Analitik'), 'analitik-alt': H('Analitik'),
+  sozlesme: H('Sözleşme & Fiyat'), butce: H('Bütçe Panosu'), 'butce-alt': H('Bütçe Panosu'), onaylarim: H('Onaylarım'),
+  'onay-kurallari': H('Onay Kuralları'), 'onay-kural-yeni': H('Onay Kuralları'), ekstre: H('Cari Ekstre'), 'ekstre-alt': H('Cari Ekstre'),
+  faturalar: H('Faturalarım'), kullanicilar: H('Kullanıcılar & Yetkiler'), 'kullanici-davet': H('Kullanıcılar & Yetkiler'),
+  departmanlar: H('Departman & Bütçe'), 'departman-yeni': H('Departman & Bütçe'), projeler: H('Projeler / Şantiyeler'), 'proje-yeni': H('Projeler / Şantiyeler'),
+  adresler: H('Adres Defteri'), listeler: H('Sipariş Listelerim'), 'listeler-firma': H('Sipariş Listelerim'), favoriler: H('Favorilerim'),
+  iadeler: H('İade Taleplerim'), numune: H('Numune Taleplerim'), 'numune-yeni': H('Numune Taleplerim'), 'ai-oneri': H('AI Ürün Asistanı'),
+  sadakat: H('Sadakat Programı'), 'sadakat-alt': H('Sadakat Programı'), kuponlar: H('Kuponlarım'), davet: H('Arkadaşını Davet Et'),
+  bildirimler: H('Bildirimler'), destek: H('Destek'), 'destek-yeni': H('Destek'), ayarlar: H('Ayarlar'), 'ayarlar-alt': H('Ayarlar'),
+};
+module.exports.forEach((e) => { const y = YOL[e.ad] || YOL[e.ad.replace(/^m-/, '')]; if (y) e.yol = y; });

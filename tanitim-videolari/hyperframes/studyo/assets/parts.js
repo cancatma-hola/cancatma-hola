@@ -106,3 +106,45 @@ function vanSVG() {
     </g>
     ${wheel(92)}${wheel(498)}</g>`;
 }
+
+// Portre avatar (karakter sahnesi). o: {ten, sac: kisa|uzun|topuz|kivircik|kel, sacRenk, giysi, yaka, sakal, gozluk, ruh: mutlu|dertli|notr, bg}
+// Gerçek bir kişiyi temsil etmez; sade, düz renkli illüstrasyon.
+const TEN = { acik: '#F1CBAE', bugday: '#E0A97E', esmer: '#C68B5E', koyu: '#8D5A3B' };
+function AVATAR(o = {}, size = 400) {
+  const ten = TEN[o.ten] || o.ten || TEN.bugday, sacR = o.sacRenk || '#2A1E17', giysi = o.giysi || '#2F7FE0';
+  const ruh = o.ruh || 'mutlu';
+  const agiz = ruh === 'mutlu' ? 'M88 104 Q100 116 112 104' : ruh === 'dertli' ? 'M89 110 Q100 101 111 110' : 'M90 107 L110 107';
+  const kas = ruh === 'dertli' ? '<path d="M80 78 L94 72" /><path d="M120 78 L106 72" />' : '<path d="M80 76 Q87 72 94 75" /><path d="M106 75 Q113 72 120 76" />';
+  const arka = o.sac === 'uzun' ? `<path d="M60 84 Q56 38 100 37 Q144 38 140 84 L146 158 Q124 146 100 146 Q76 146 54 158 Z" fill="${sacR}"/>` : '';
+  const ust = {
+    kisa: `<path d="M64 86 Q60 42 100 41 Q141 42 136 86 Q131 63 100 61 Q72 62 64 86 Z" fill="${sacR}"/>`,
+    uzun: `<path d="M65 82 Q66 47 100 47 Q134 47 135 82 Q122 60 100 62 Q78 60 65 82 Z" fill="${sacR}"/>`,
+    topuz: `<circle cx="100" cy="36" r="17" fill="${sacR}"/><path d="M65 84 Q63 48 100 47 Q137 48 135 84 Q126 62 100 62 Q74 62 65 84 Z" fill="${sacR}"/>`,
+    kivircik: [[70, 66], [80, 52], [94, 46], [108, 46], [122, 52], [132, 66], [66, 80], [134, 80]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="13" fill="${sacR}"/>`).join(''),
+    kel: '',
+  }[o.sac || 'kisa'];
+  const sakal = o.sakal ? `<path d="M67 92 Q69 132 100 132 Q131 132 133 92 Q126 118 100 120 Q74 118 67 92 Z" fill="${sacR}"/><path class="agiz" d="${agiz}" stroke="#F4E6DA" stroke-width="4" fill="none" stroke-linecap="round"/>` : '';
+  const gozluk = o.gozluk ? `<g fill="none" stroke="#0B1F33" stroke-width="3.2"><rect x="76" y="78" width="21" height="16" rx="6"/><rect x="103" y="78" width="21" height="16" rx="6"/><path d="M97 85 L103 85"/></g>` : '';
+  const yaka = o.yaka === 'gomlek' ? `<path d="M84 140 L100 162 L94 168 L78 146 Z M116 140 L100 162 L106 168 L122 146 Z" fill="#FFFFFF"/>`
+    : o.yaka === 'kravat' ? `<path d="M84 140 L100 160 L116 140 Z" fill="#FFFFFF"/><path d="M100 158 L94 170 L100 198 L106 170 Z" fill="${o.kravatRenk || '#F5B019'}"/>`
+    : o.yaka === 'yelek' ? `<path d="M40 200 Q42 158 78 144 L96 200 Z M160 200 Q158 158 122 144 L104 200 Z" fill="${o.yelekRenk || '#F5B019'}"/>`
+    : `<path d="M86 139 L100 156 L114 139 Z" fill="${ten}"/>`;
+  return `<svg class="avatar" width="${size}" height="${size}" viewBox="0 0 200 200">
+    <defs><clipPath id="avk${size}"><circle cx="100" cy="100" r="96"/></clipPath></defs>
+    <circle cx="100" cy="100" r="96" fill="${o.bg || '#164069'}"/>
+    <g clip-path="url(#avk${size})">
+      ${arka}
+      <path d="M28 204 Q30 146 100 138 Q170 146 172 204 Z" fill="${giysi}"/>
+      <rect x="89" y="112" width="22" height="30" rx="8" fill="${ten}"/>
+      ${yaka}
+      <circle cx="65" cy="90" r="7" fill="${ten}"/><circle cx="135" cy="90" r="7" fill="${ten}"/>
+      <ellipse cx="100" cy="86" rx="35" ry="39" fill="${ten}"/>
+      ${ust}${sakal}
+      <circle cx="88" cy="88" r="3.6" fill="#1A2330"/><circle cx="112" cy="88" r="3.6" fill="#1A2330"/>
+      <g fill="none" stroke="${sacR}" stroke-width="3.4" stroke-linecap="round">${kas}</g>
+      ${gozluk}
+      ${o.sakal ? '' : `<path class="agiz" d="${agiz}" stroke="#7A3B2E" stroke-width="4" fill="none" stroke-linecap="round"/>`}
+    </g>
+    <circle cx="100" cy="100" r="96" fill="none" stroke="rgba(95,211,255,0.55)" stroke-width="3"/>
+  </svg>`;
+}

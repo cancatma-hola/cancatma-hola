@@ -1,5 +1,6 @@
 // Panel ekranlarını 2x çözünürlükte (3840×2160 JPEG) çeker ve her ekranın öğe haritasını kaydeder.
 // Kullanım: node araclar/cek.js [ad ...]   (oturum: motion/.panel-state.json; yoksa PANEL_USER/PANEL_PASS ile giriş)
+// mobil: true olan ekranlar 430 px genişlikte (DPR 3) çekilir; görüntü sayfanın üstünden `boy` px yüksekliğe kadar uzanır.
 // Yalnızca görüntüleme yapar: form açılabilir, yazı yazılabilir; kayıt değiştiren hiçbir butona basılmaz.
 const fs = require('fs'), path = require('path'), { execSync } = require('child_process');
 const { chromium } = require(path.join(execSync('npm root -g').toString().trim(), 'playwright'));
@@ -15,7 +16,7 @@ function clean() {
     if (s.position === 'fixed' && (txt.includes('çerez') || el.matches('button.fixed'))) hide(el);
   }
   for (const el of document.querySelectorAll('body div')) {
-    if ((el.innerText || '').includes('İLK SİPARİŞİNİZE ÖZEL %10 İNDİRİM ●')) {
+    if ((el.innerText || '').replace(/\s+/g, ' ').includes('İLK SİPARİŞİNİZE ÖZEL %10 İNDİRİM')) {
       let top = el; while (top.parentElement && top.parentElement !== document.body && top.parentElement.offsetHeight < 60) top = top.parentElement;
       if (top.offsetHeight < 60) { hide(top); break; }
     }
@@ -38,9 +39,10 @@ function harita() {
     if (ctl) t = (el.innerText || el.value || el.placeholder || '').trim();
     t = t.replace(/\s+/g, ' ').slice(0, 100);
     const bg = s.backgroundColor !== 'rgba(0, 0, 0, 0)', bd = parseFloat(s.borderTopWidth) > 0 || parseFloat(s.borderLeftWidth) > 0 || s.boxShadow !== 'none';
-    const kutu = (bg || bd) && r.width >= 120 && r.height >= 28 && !(r.width > 1850 && r.height > 900);
+    const kutu = (bg || bd) && r.width >= 120 && r.height >= 28 && !(r.width > W * 0.96 && r.height > H * 0.8);
     if (!t && !kutu) continue;
-    const o = { t, g: tag, x: Math.round(r.x), y: Math.round(r.y), w: Math.round(r.width), h: Math.round(r.height) };
+    // yatay kayan tablolarda ekran dışına taşan genişliği kırp (mobil)
+    const o = { t, g: tag, x: Math.round(r.x), y: Math.round(r.y), w: Math.round(Math.min(r.width, W - Math.max(0, r.x))), h: Math.round(r.height) };
     if (ctl) o.c = 1;
     if (el.dataset.bulanik) o.b = 1;
     if (kutu) { o.k = 1; o.f = (el.innerText || '').trim().replace(/\s+/g, ' ').slice(0, 300); }
@@ -54,6 +56,7 @@ function harita() {
   const only = process.argv.slice(2);
   const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--no-sandbox'] });
   const opts = { viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 2, locale: 'tr-TR' };
+  const mopts = { viewport: { width: 430, height: 932 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true, locale: 'tr-TR' };
   const guest = await browser.newContext(opts);
   let auth;
   if (fs.existsSync(STATE)) auth = await browser.newContext({ ...opts, storageState: STATE });
@@ -65,17 +68,24 @@ function harita() {
     await p.click('button[type=submit]:has-text("Giriş Yap")'); await p.waitForURL(/hesap/, { timeout: 30000 });
     await auth.storageState({ path: STATE }); await p.close();
   }
+  const mguest = await browser.newContext(mopts), mauth = await browser.newContext({ ...mopts, storageState: STATE });
   for (const e of LIST) {
     if (only.length && !only.includes(e.ad)) continue;
-    const page = await (e.misafir ? guest : auth).newPage();
+    const page = await (e.mobil ? (e.misafir ? mguest : mauth) : (e.misafir ? guest : auth)).newPage();
     try {
       await page.goto(BASE + e.url, { waitUntil: 'networkidle', timeout: 60000 });
       await page.waitForTimeout(1500); await page.evaluate(clean);
       if (e.once) await e.once(page);
       await page.waitForTimeout(e.bekle || 900); await page.evaluate(clean);
+      let ek = {};
+      if (e.mobil) {   // sayfanın üst kısmını tek görüntüde al: görünüm yüksekliğini sayfa boyuna aç
+        const ph = Math.min(e.boy || 2200, await page.evaluate(() => document.documentElement.scrollHeight));
+        await page.setViewportSize({ width: 430, height: ph }); await page.waitForTimeout(900); await page.evaluate(clean);
+        ek = { vw: 430, ph };
+      }
       const map = await page.evaluate(harita);
       await page.screenshot({ path: path.join(OUT, e.ad + '.jpg'), type: 'jpeg', quality: 86 });
-      fs.writeFileSync(path.join(OUT, e.ad + '.json'), JSON.stringify({ url: e.url, son: page.url().replace(BASE, ''), ogeler: map }));
+      fs.writeFileSync(path.join(OUT, e.ad + '.json'), JSON.stringify({ url: e.url, son: page.url().replace(BASE, ''), ...ek, ogeler: map }));
       execSync(`node ${path.join(__dirname, "maskele.mjs")}`);
       console.log(e.ad.padEnd(22), String(map.length).padStart(4), 'öğe', page.url().replace(BASE, ''));
     } catch (err) { console.log(e.ad, 'HATA', err.message.split('\n')[0]); }

@@ -44,7 +44,9 @@ html, body { overflow: hidden; background: #050d18; }
 .device .bar { height: 54px; background: #0b1f33; display: flex; align-items: center; gap: 12px; padding: 0 22px; }
 .device .dot { width: 14px; height: 14px; border-radius: 50%; background: #3a5675; }
 .device .url { margin-left: 18px; height: 32px; padding: 0 22px; border-radius: 16px; background: #13314f; color: #c9d6e5;
-  font-size: 19px; font-weight: 500; display: flex; align-items: center; }
+  font-size: 19px; font-weight: 500; display: block; line-height: 32px; min-width: 0; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.device .yolcip { margin-left: auto; flex: none; display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 18px; border-radius: 20px;
+  background: #F5B019; color: #2B1E00; font-weight: 700; white-space: nowrap; }
 .device .view { position: relative; overflow: hidden; }
 .device .view img { position: absolute; display: block; }
 .cursor { position: absolute; left: 0; top: 0; width: 64px; height: 64px; }
@@ -64,3 +66,15 @@ html, body { overflow: hidden; background: #050d18; }
 .view .ring { border-color: #F5B019; }
 .wm { font-size: 22px; font-weight: 600; color: #8FA6BF; letter-spacing: 0.01em; }
 .karart { background: #000; opacity: 0; }
+
+/* Konuşma balonu kuyruğu (karakter sahnesi) */
+.balon { position: relative; }
+.balon .kuyruk { position: absolute; width: 44px; height: 44px; background: #0e2a4c; border-style: solid; border-width: 0; border-color: inherit; transform: rotate(45deg); }
+.balon .kuyruk.sol { left: -24px; top: 50%; margin-top: -22px; border-left-width: 2px; border-bottom-width: 2px; }
+.balon .kuyruk.ust { top: -24px; left: 50%; margin-left: -22px; border-left-width: 2px; border-top-width: 2px; }
+
+/* Telefon çerçevesi (mobil ekran sahnesi) */
+.telefon { background: #0B1420; box-shadow: 0 60px 140px rgba(0, 0, 0, 0.65), 0 0 0 3px #2a3b4f, inset 0 0 0 2px #3a5675; }
+.telefon .ekr { position: relative; overflow: hidden; background: #ffffff; }
+.dokun { position: absolute; left: 0; top: 0; margin: -42px 0 0 -42px; border-radius: 50%; background: rgba(255, 255, 255, 0.55); border: 4px solid #ffffff;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35); }

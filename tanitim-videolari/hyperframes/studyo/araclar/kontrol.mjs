@@ -16,7 +16,7 @@ const OUT = path.join(KOK, "kontrol"); fs.mkdirSync(OUT, { recursive: true });
 function anlar(v) {
   const p = ZAMAN.zamanla(v), t = [];
   p.sahneler.forEach((z) => {
-    if (z.tip === "ekran") { z.vurgu.forEach((x) => t.push(z.bas + x + 1.8)); if (z.yaz) t.push(z.bas + z.yaz.bit + 0.3); if (z.tikla) t.push(z.bas + z.tikla.sonuc + 0.6); if (!z.vurgu.length && !z.tikla && !z.yaz) t.push(z.bas + z.dur * 0.6); }
+    if (z.tip === "ekran" || z.tip === "telefon") { z.vurgu.forEach((x) => t.push(z.bas + x + 1.8)); if (z.yaz) t.push(z.bas + z.yaz.bit + 0.3); if (z.tikla) t.push(z.bas + z.tikla.sonuc + 0.6); if (!z.vurgu.length && !z.tikla && !z.yaz) t.push(z.bas + z.dur * 0.6); }
     else t.push(z.bas + z.dur * 0.75);
   });
   return t.map((x) => +x.toFixed(2));

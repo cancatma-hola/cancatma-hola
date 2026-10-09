@@ -12,15 +12,22 @@ const KOK = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ZAMAN = require(path.join(KOK, "assets/zaman.js"));
 const AUDIO = path.resolve(KOK, "../../motion/hype/audio.py");
 
-// ── Video tanımlarını yükle
+// ── Video tanımlarını yükle: videolar/*.mjs ve videolar/<klasör>/*.mjs (klasör adı çıktı klasörü olur, ör. 2026-10-09)
 export async function videolar() {
-  const out = [];
-  for (const f of fs.readdirSync(path.join(KOK, "videolar")).filter((f) => f.endsWith(".mjs")).sort()) {
-    const m = await import(pathToFileURL(path.join(KOK, "videolar", f)).href);
-    out.push(...(Array.isArray(m.default) ? m.default : [m.default]));
+  const out = [], kok = path.join(KOK, "videolar");
+  const yukle = async (f, klasor) => {
+    const m = await import(pathToFileURL(f).href);
+    for (const v of Array.isArray(m.default) ? m.default : [m.default]) out.push(klasor ? { klasor, ...v } : v);
+  };
+  for (const f of fs.readdirSync(kok).sort()) {
+    const p = path.join(kok, f);
+    if (f.endsWith(".mjs")) await yukle(p);
+    else if (fs.statSync(p).isDirectory()) for (const g of fs.readdirSync(p).filter((g) => g.endsWith(".mjs")).sort()) await yukle(path.join(p, g), f);
   }
   return out;
 }
+// Çıktı klasörü (tanitim-videolari/videolar/ altında): <klasör>/<tür> ya da <tür>
+export const hedef = (v) => (v.klasor ? `${v.klasor}/${v.tur}` : v.tur);
 
 // ── Ekran haritaları ve hedef çözümleme
 const HARITA = {};
@@ -61,14 +68,34 @@ const GIZLI = /@(gmail|hotmail|outlook|yahoo)\.|\basd\b|05(?!43\s?683)\d{2}\s?\d
 function gizle(ekran) {
   return harita(ekran).ogeler.filter((o) => o.t && (o.c || !o.k) && (o.b || GIZLI.test(o.t)) && o.w < 1100).map(oge);
 }
+// Menü yolu (konum çipi): araclar/ekranlar.js içindeki `yol` alanı; tanımda `yol` verilirse o kullanılır, `yol: null` çipi kapatır
+const YOL = Object.fromEntries(require("./ekranlar.js").filter((e) => e.yol).map((e) => [e.ad, e.yol]));
 const VARSAYILAN = { hesap: { x: 555, y: 205, w: 1095, h: 840 }, magaza: { x: 270, y: 200, w: 1380, h: 860 } };
 
 function coz(video, yon) {
   const v = structuredClone(video);
   v.yon = yon;
   v.sahneler.forEach((s) => {
+    if (s.tip === "cihaz") {   // masaüstü kırpım + telefon görüntüsü
+      const hm = harita(s.masa.ekran), ht = harita(s.tel.ekran);
+      Object.assign(s.masa, { dosya: `assets/ekran/${s.masa.ekran}.jpg`, url: hm.son.replace(/^\/tr/, "").replace(/\?.*$/, ""), gizle: gizle(s.masa.ekran) });
+      s.masa.r = typeof s.masa.bolge === "string" || Array.isArray(s.masa.bolge) ? bul(s.masa.ekran, s.masa.bolge) : s.masa.bolge || VARSAYILAN.hesap;
+      Object.assign(s.tel, { dosya: `assets/ekran/${s.tel.ekran}.jpg`, _pw: ht.vw || 430, gizle: gizle(s.tel.ekran) });
+      return;
+    }
+    if (s.tip === "telefon") {   // mobil çekim: hedefler 430 px genişlikteki sayfa koordinatında
+      const e = s.ekran, h = harita(e);
+      if (!h.vw) throw new Error(`[${e}] mobil çekim değil (telefon sahnesi mobil ekran ister)`);
+      Object.assign(s, { dosya: `assets/ekran/${e}.jpg`, url: h.son.replace(/^\/tr/, "").replace(/\?.*$/, "") || "", _pw: h.vw, _ph: h.ph, yol: s.yol ?? YOL[e] });
+      (s.vurgu || []).forEach((x) => { x.r = bul(e, x.hedef); });
+      if (s.yaz) s.yaz.r = bul(e, s.yaz.hedef);
+      if (s.tikla) s.tikla.r = bul(e, s.tikla.hedef);
+      s.gizle = gizle(e);
+      return;
+    }
     if (s.tip !== "ekran") return;
     const e = s.ekran, h = harita(e);
+    if (s.yol === undefined && YOL[e]) s.yol = YOL[e];
     s.dosya = `assets/ekran/${e}.jpg`;
     s.url = h.son.replace(/^\/tr/, "").replace(/\?.*$/, "") || "";
     const b = (yon === "dikey" && s.bolgeD) || s.bolge || (h.son.startsWith("/tr/hesap") ? VARSAYILAN.hesap : VARSAYILAN.magaza);
@@ -149,6 +176,10 @@ export async function uret(ids) {
       fs.writeFileSync(path.join(d, "meta.json"), JSON.stringify({ id: `${video.id}-${yon}`, name: `${video.baslik} (${yon})` }));
     }
     fs.rmSync(m4a);
+    fs.writeFileSync(path.join(kl, "hedef"), hedef(video));
+    // Kapak görseli anı: eğitimde kapak sahnesinin sonu, tanıtımda ilk sahnenin sonu (metin tam görünür)
+    const p0 = ZAMAN.zamanla(video).sahneler[0];
+    fs.writeFileSync(path.join(kl, "kapak_t"), String(+(p0.bas + p0.dur - 0.7).toFixed(2)));
     console.log(`${video.id.padEnd(28)} ${ZAMAN.zamanla(video).total.toFixed(1).padStart(5)} sn  ${video.baslik}`);
   }
 }
