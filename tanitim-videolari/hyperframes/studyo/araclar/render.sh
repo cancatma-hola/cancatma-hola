@@ -28,6 +28,7 @@ for id in "${ids[@]}"; do
         ffmpeg -nostdin -v error -y -ss "$kt" -i "$out" -frames:v 1 -q:v 3 "$HEDEF/$tur/kapaklar/$id-$yon.jpg"
       fi
       echo "tamam $out $(du -h "$out" | cut -f1)"
-    else echo "HATA $id $yon (bkz. $d/render.log)"; fi
+    else echo "HATA $id $yon (bkz. $d/render.log)"; hata=1; fi
   done
 done
+exit ${hata:-0}
