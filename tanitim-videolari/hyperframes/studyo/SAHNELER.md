@@ -17,7 +17,10 @@ Süreler otomatik hesaplanır (0,5 sn ızgarası). Okuma süresi kelime başına
   vurgu: [{ hedef: "[]MTS-2026-0027", not: "Her satırda durum yazar", kaydir?: true }],   // her vurgu 2,8 sn
   yaz: { hedef: "Ürün ara (ad veya kod)", metin: "555204" },                        // isteğe bağlı
   tikla: { hedef: "Sepete Ekle", sonuc: "Ürün sepete eklendi" },                    // yalnız canlandırılır
-  yol?: "Hesabım › Siparişlerim" }                     // konum çipi; verilmezse ekranlar.js'ten gelir, null kapatır
+  yol?: "Hesabım › Siparişlerim",                      // konum çipi; verilmezse ekranlar.js'ten gelir, null kapatır
+  ortu?: ["[]TKF-2026-0002"],                           // ayrıca gri bantla kapatılacak öğeler (test kayıtları)
+  saat?: "09:00",                                       // çubukta saat çipi ("bir gün" kurgusu); telefonda durum çubuğu saati
+  dikey?: { tip: "telefon", ekran: "m-...", vurgu: [...] } }   // dikey sürümde bu sahnenin yerine geçer
 ```
 - `adim` verilirse başlıkta numara ve "ADIM x / n" etiketi çıkar; verilmezse büyük orta başlık (tanıtım).
 - Hedef yazımı: `"Metin"` birebir, `"~parça"` içerir, `"[]metin"` o metni içeren en küçük kutu, `"#2"` ikinci eşleşme, dizi = birleşim, `{x,y,w,h}` ham kutu.
@@ -32,7 +35,7 @@ Süreler otomatik hesaplanır (0,5 sn ızgarası). Okuma süresi kelime başına
 - Yalnızca `m-` ile başlayan mobil çekimler (430 px genişlik). Hedef koordinatları CSS px.
 - Kamera hedefe kaydırır ve yakınlaştırır; panelin üst çubuğu sabit kalır.
 - Dikeyde telefon büyük ve alttan taşar; yatayda sağda, başlık ve notlar solda durur.
-- Mobil ekranlar: m-ozet, m-siparisler, m-siparis-sevkiyat, m-onaylarim, m-hizli, m-periyodik, m-sadakat, m-faturalar, m-ekstre, m-butce, m-kategori, m-urun, m-menu-hesap (hesap menüsü açık), m-menu-bolum (bölüm listesi açık).
+- Mobil ekranlar: m-ozet, m-siparisler, m-siparis-sevkiyat, m-onaylarim, m-hizli, m-periyodik, m-sadakat, m-faturalar, m-ekstre, m-butce, m-kategori, m-urun, m-teklifler, m-teklif-hazir, m-analitik, m-sozlesme, m-onay-kurallari, m-kullanicilar, m-departmanlar, m-projeler, m-listeler, m-favoriler, m-iadeler, m-iade-yeni, m-numune, m-kuponlar, m-davet, m-bildirimler, m-destek, m-ayarlar, m-kampanyalar, m-paketler, m-paket-ofis, m-katalog-tekrar, m-siparis-teslim, m-siparis-odeme, m-yardim, m-giris, m-menu-hesap, m-menu-bolum. (m-menu-hesap: hesap menüsü açık, m-menu-bolum: bölüm listesi açık)
 
 ### `cihaz` (aynı panel masaüstünde ve telefonda)
 ```js

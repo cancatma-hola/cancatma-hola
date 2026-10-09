@@ -51,14 +51,15 @@
     { width: size, height: size, marginLeft: -size / 2, marginTop: -size / 2, opacity: 0, duration: d, ease: "expo.out" }, t);
   const flash = (tl, el, t, peak = 0.35) => tl.fromTo(el, { opacity: 0 }, { keyframes: [{ opacity: peak, duration: 0.04 }, { opacity: 0, duration: 0.3 }] }, t);
   const countTo = (tl, el, t, to, d, f) => { const o = { v: 0 }; tl.fromTo(o, { v: 0 }, { v: to, duration: d, ease: "expo.out", onUpdate: () => { el.textContent = f(o.v); } }, t); };
+  const NB = `<svg width="0.62em" height="0.62em" viewBox="0 0 24 24" fill="none" stroke="#2B1E00" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>`;
   const marka = () => `<span>MTS Hijyen</span> <span class="amber">B2B</span>`;
 
   // ── Dikey güvenli alan: Reels/TikTok/Shorts arayüzü üstte ~200 px, altta ~400 px yer kaplar; önemli metin bu aralıkta kalır
-  const SAFE = { top: 210, bottom: 1510 };
+  const SAFE = { top: 250, bottom: 1480 };
   // ── Yerleşim ölçüleri (yön bazlı)
   function olcu() {
     return DIKEY
-      ? { pad: 60, hdrY: SAFE.top, hdrFs: 58, promoFs: 74, box: { x: 60, y: 470, w: 960, h: 1040 }, noteY: null, noteFs: 44, wmY: 1846 }
+      ? { pad: 60, hdrY: SAFE.top, hdrFs: 58, promoFs: 74, box: { x: 60, y: 500, w: 960, h: 1010 }, noteY: null, noteFs: 44, wmY: 1846 }
       : { pad: 110, hdrY: 58, hdrFs: 56, promoFs: 68, box: { x: 110, y: 222, w: 1700, h: 806 }, noteY: null, noteFs: 40, wmY: 1046 };
   }
   // Bölgeyi görünüm oranına genişlet (ekran sınırları içinde)
@@ -111,8 +112,9 @@
         return { s: sc, x: tx, y: ty, q, pan };
       };
       s._cams = (s.vurgu || []).map((v) => camFor(v.r, !!v.kaydir));
-      if (s.yaz) s._camYaz = camFor(s.yaz.r, false);
-      if (s.tikla) s._camTik = camFor(s.tikla.r, false);
+      const genis = (t) => { const x = Math.max(0, t.x - 260), y = Math.max(0, t.y - 110); return { x, y, w: Math.min(1920, t.x + t.w + 260) - x, h: Math.min(1080, t.y + t.h + 110) - y }; };
+      if (s.yaz) s._camYaz = camFor(genis(s.yaz.r), false);
+      if (s.tikla) s._camTik = camFor(genis(s.tikla.r), false);
       const etiket = s.adim && s._toplam > 1 ? `<div class="mono cyan" id="${id}-e" style="font-size:${DIKEY ? 28 : 24}px;margin-bottom:${DIKEY ? 10 : 4}px">Adım ${s.adim} / ${s._toplam}</div>` : "";
       const hdr = s.adim
         ? `<div class="abs" style="left:${O.pad}px;top:${O.hdrY}px;right:${O.pad}px;display:flex;gap:${DIKEY ? 28 : 30}px;align-items:flex-start">
@@ -128,13 +130,13 @@
           display:flex;align-items:center;padding:0 ${10 * k}px;font-size:${Math.min(q.h * 0.5, 15 * k)}px;color:#0B1F33;font-family:'Inter Tight';opacity:0;overflow:hidden;white-space:nowrap">
           ${[...s.yaz.metin].map((c) => `<span class="yc" style="opacity:0">${c === " " ? "&nbsp;" : c}</span>`).join("")}<span class="caret" style="width:${2 * k}px;height:${q.h * 0.5}px;background:${BLUE};margin-left:2px"></span></div>`; }
       const altKutu = (ic2) => `<div class="abs" style="left:${dl}px;width:${vw}px;top:${dt + 54 + vh - 326}px;height:300px">${ic2}</div>`;
-      const yer = `left:0;right:0;bottom:0;margin:0 auto;width:fit-content;max-width:${Math.min(vw - 60, 1500)}px`;
+      const yer = DIKEY ? `left:30px;bottom:0;width:fit-content;max-width:${Math.min(vw - 60, 820)}px` : `left:0;right:0;bottom:0;margin:0 auto;width:fit-content;max-width:${Math.min(vw - 60, 1500)}px`;
       const notes = altKutu((s.vurgu || []).map((v, i) => v.not ? `<div class="note" id="${id}-o${i}" style="${yer};font-size:${O.noteFs}px;opacity:0">
-          <span class="nb">${i + 1}</span><span>${v.not}</span></div>` : "").join(""));
+          <span class="nb">${NB}</span><span>${v.not}</span></div>` : "").join(""));
       const toast = s.tikla && s.tikla.sonuc ? altKutu(`<div class="abs toast" id="${id}-t" style="${yer};justify-content:center;font-size:${DIKEY ? 44 : 38}px;opacity:0">${icon("check", DIKEY ? 46 : 40, "#1E9E5A", 2.6)}${s.tikla.sonuc}</div>`) : "";
       return `${hdr}
         <div class="full" style="perspective:1800px"><div class="device" id="${id}-d" style="left:${dl}px;top:${dt}px;width:${vw}px">
-          <div class="bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><div class="url">panel.mtshijyen.com${s.url || ""}</div>${s.yol ? `<div class="yolcip" id="${id}-yl" style="font-size:${DIKEY ? 24 : 22}px">${icon("pin", DIKEY ? 26 : 24, "#2B1E00", 2.4)}<span>${s.yol}</span></div>` : ""}</div>
+          <div class="bar"><i class="dot"></i><i class="dot"></i><i class="dot"></i><div class="url">panel.mtshijyen.com${s.url || ""}</div>${s.saat ? `<div class="yolcip" id="${id}-sa" style="font-size:${DIKEY ? 24 : 22}px;background:#5FD3FF;margin-right:-6px">${icon("clock", DIKEY ? 26 : 24, "#06243a", 2.4)}<span>${s.saat}</span></div>` : ""}${s.yol ? `<div class="yolcip" id="${id}-yl" style="font-size:${DIKEY ? 24 : 22}px">${icon("pin", DIKEY ? 26 : 24, "#2B1E00", 2.4)}<span>${s.yol}</span></div>` : ""}</div>
           <div class="view" style="width:${vw}px;height:${vh}px"><div class="cam" id="${id}-c">
             <img data-layout-allow-overflow decoding="sync" loading="eager" src="${s.dosya}" style="left:${-r.x * k}px;top:${-r.y * k}px;width:${1920 * k}px">${gz}${rings}${yaz}</div>
             <svg class="cursor" id="${id}-k" viewBox="0 0 24 24" style="opacity:0"><path d="M4 2 L4 19 L8.5 15 L11.5 21.5 L14 20.4 L11 14 L17 14 Z" fill="#fff" stroke="#0B1F33" stroke-width="1.4" stroke-linejoin="round"/></svg>
@@ -146,6 +148,7 @@
       if ($(`#${id}-n`)) popIn(tl, `#${id}-n`, b + 0.15);
       if ($(`#${id}-e`)) tl.fromTo(`#${id}-e`, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4 }, b + 0.2);
       if ($(`#${id}-yl`)) popIn(tl, `#${id}-yl`, b + 0.7, 0.5);
+      if ($(`#${id}-sa`)) popIn(tl, `#${id}-sa`, b + 0.5, 0.5);
       rise(tl, $$(`#${id}-m .w`), b + z.metin, 0.05, 40);
       const cam = `#${id}-c`, go = (c, t, d = 0.75) => tl.to(cam, { x: c.x, y: c.y, scale: c.s, duration: d, ease: "power3.inOut" }, t);
       tl.set(cam, { x: 0, y: 0, scale: 1, transformOrigin: "0 0" }, b);
@@ -165,7 +168,7 @@
         const t = b + z.yaz.bas, c = s._camYaz; go(c, t);
         const p = viewPt(c, s.yaz.r);
         tl.fromTo(cur, { x: s._vw * 0.9, y: s._vh * 0.95, opacity: 0 }, { x: p.x - 30, y: p.y - 6, opacity: 1, duration: 0.8, ease: "power3.inOut" }, t + 0.1);
-        tl.fromTo(`#${id}-y`, { opacity: 0 }, { opacity: 1, duration: 0.2 }, b + z.yaz.yazi - 0.15);
+        tl.set(`#${id}-y`, { opacity: 1 }, b);
         const cs = $$(`#${id}-y .yc`), step = (z.yaz.bit - z.yaz.yazi) / Math.max(1, cs.length);
         cs.forEach((ch, i) => tl.set(ch, { opacity: 1 }, b + z.yaz.yazi + i * step));
         tl.to(cur, { opacity: 0, duration: 0.3 }, b + z.yaz.bit + 0.4);
@@ -220,11 +223,11 @@
           display:flex;align-items:center;padding:0 ${8 * k}px;font-size:${Math.min(q.h * 0.5, 15 * k)}px;color:#0B1F33;font-family:'Inter Tight';opacity:0;overflow:hidden;white-space:nowrap">
           ${[...s.yaz.metin].map((c) => `<span class="yc" style="opacity:0">${c === " " ? "&nbsp;" : c}</span>`).join("")}<span class="caret" style="width:${1.5 * k}px;height:${q.h * 0.5}px;background:${BLUE};margin-left:2px"></span></div>`; }
       // notlar: dikeyde telefonun üstünde güvenli alanın altında, yatayda sol sütunda
-      const notYer = DIKEY ? `left:0;right:0;margin:0 auto;width:fit-content;max-width:900px;top:${SAFE.bottom - 140}px` : `left:120px;max-width:880px;top:640px`;
-      const notes = (s.vurgu || []).map((v, i) => v.not ? `<div class="note" id="${id}-o${i}" style="${notYer};font-size:${DIKEY ? 44 : 42}px;opacity:0"><span class="nb">${i + 1}</span><span>${v.not}</span></div>` : "").join("");
+      const notYer = DIKEY ? `left:60px;max-width:820px;top:${SAFE.bottom - 140}px` : `left:120px;max-width:880px;top:640px`;
+      const notes = (s.vurgu || []).map((v, i) => v.not ? `<div class="note" id="${id}-o${i}" style="${notYer};font-size:${DIKEY ? 44 : 42}px;opacity:0"><span class="nb">${NB}</span><span>${v.not}</span></div>` : "").join("");
       const toast = s.tikla && s.tikla.sonuc ? `<div class="abs toast" id="${id}-t" style="${notYer};font-size:${DIKEY ? 44 : 40}px;opacity:0">${icon("check", DIKEY ? 46 : 42, "#1E9E5A", 2.6)}${s.tikla.sonuc}</div>` : "";
       const saat = `<div class="abs" style="left:0;right:0;top:0;height:${sb}px;background:#ffffff;display:flex;align-items:center;justify-content:space-between;padding:0 ${DIKEY ? 44 : 30}px;font-size:${DIKEY ? 24 : 17}px;font-weight:700;color:#0B1F33;z-index:2">
-          <span>09:41</span><span style="display:flex;gap:${DIKEY ? 10 : 7}px;align-items:center">
+          <span>${s.saat || "09:41"}</span><span style="display:flex;gap:${DIKEY ? 10 : 7}px;align-items:center">
           <svg width="${DIKEY ? 30 : 21}" height="${DIKEY ? 20 : 14}" viewBox="0 0 30 20"><rect x="0" y="13" width="5" height="7" rx="1" fill="#0B1F33"/><rect x="8" y="9" width="5" height="11" rx="1" fill="#0B1F33"/><rect x="16" y="5" width="5" height="15" rx="1" fill="#0B1F33"/><rect x="24" y="0" width="5" height="20" rx="1" fill="#0B1F33"/></svg>
           <svg width="${DIKEY ? 44 : 31}" height="${DIKEY ? 22 : 15}" viewBox="0 0 44 22"><rect x="1" y="1" width="38" height="20" rx="6" fill="none" stroke="#0B1F33" stroke-width="2"/><rect x="4" y="4" width="28" height="14" rx="3" fill="#0B1F33"/><rect x="40" y="7" width="3" height="8" rx="1.5" fill="#0B1F33"/></svg></span></div>
           <div class="abs" style="left:50%;top:${DIKEY ? 10 : 7}px;width:${DIKEY ? 190 : 124}px;margin-left:-${DIKEY ? 95 : 62}px;height:${DIKEY ? 34 : 24}px;border-radius:20px;background:#05080d;z-index:3"></div>`;
@@ -264,7 +267,7 @@
         tl.set(dokun, { left: p.x, top: p.y }, b);
         tl.fromTo(dokun, { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "power2.out" }, t + 0.6);
         tl.to(dokun, { opacity: 0, duration: 0.3 }, t + 1.1);
-        tl.fromTo(`#${id}-y`, { opacity: 0 }, { opacity: 1, duration: 0.2 }, b + z.yaz.yazi - 0.15);
+        tl.set(`#${id}-y`, { opacity: 1 }, b);
         const cs = $$(`#${id}-y .yc`), step = (z.yaz.bit - z.yaz.yazi) / Math.max(1, cs.length);
         cs.forEach((ch, i) => tl.set(ch, { opacity: 1 }, b + z.yaz.yazi + i * step));
       }
@@ -569,7 +572,8 @@
         <div id="${id}-l" style="width:${DIKEY ? 260 : 210}px;height:${DIKEY ? 260 : 210}px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 0 0 12px rgba(95,211,255,0.22),0 0 120px rgba(47,127,224,0.85)"><img src="assets/logo.png" style="width:${DIKEY ? 190 : 156}px"></div>
         <div class="h1" id="${id}-s" style="font-size:${DIKEY ? 112 : 124}px">${yazi(s.slogan)}</div>
         <div id="${id}-m" style="font-size:${DIKEY ? 56 : 54}px;font-weight:700">${marka()}</div>
-        <div class="cyan" id="${id}-u" style="font-size:40px;font-weight:600">panel.mtshijyen.com${DIKEY ? "<br>" : " · "}+90 543 683 57 65</div></div>
+        <div class="cyan" id="${id}-u" style="font-size:40px;font-weight:600">panel.mtshijyen.com${DIKEY ? "<br>" : " · "}+90 543 683 57 65</div>
+        ${s.cta ? `<div class="chip" id="${id}-c" style="font-size:${DIKEY ? 42 : 38}px;padding:20px 38px;background:${AMBER};color:#2B1E00;border-color:${AMBER};font-weight:800"><span>${s.cta}</span>${icon("ileri", DIKEY ? 42 : 38, "#2B1E00", 2.6)}</div>` : ""}</div>
       <div class="ring" id="${id}-r" style="left:${W / 2}px;top:${DIKEY ? 700 : 300}px;border-color:${CYAN}"></div><div class="flash" id="${id}-f"></div>`,
     anim: (tl, s, z, id, b) => {
       tl.fromTo(`#${id}-l`, { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.9, ease: "elastic.out(1, 0.5)" }, b + z.logo);
@@ -577,14 +581,15 @@
       rise(tl, $$(`#${id}-s .w`), b + z.slogan, 0.12);
       tl.fromTo(`#${id}-m`, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6 }, b + z.marka);
       tl.fromTo(`#${id}-u`, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6 }, b + z.url);
+      if ($(`#${id}-c`)) { popIn(tl, `#${id}-c`, b + z.url + 0.5); draw(tl, $(`#${id}-c svg`), b + z.url + 0.7); }
     },
   };
 
   SAHNE.son = {
     html: (s, z, id) => `<div class="full center" style="gap:${DIKEY ? 40 : 28}px;padding:0 70px">
-        <div class="tile" id="${id}-i" style="width:${DIKEY ? 200 : 170}px;height:${DIKEY ? 200 : 170}px;border-radius:50%;background:#1E9E5A">${icon("check", DIKEY ? 120 : 100, "#fff", 2.6)}</div>
-        <div class="h1" id="${id}-b" style="font-size:${DIKEY ? 100 : 104}px">${yazi(s.metin || "Eğitim *tamamlandı.*")}</div>
-        ${s.sonraki ? `<div class="chip" id="${id}-n" style="font-size:${DIKEY ? 42 : 40}px;padding:22px 40px">${icon("back", DIKEY ? 42 : 40, AMBER)}<span>Sıradaki: ${s.sonraki}</span></div>` : ""}
+        <div class="tile" id="${id}-i" style="width:${DIKEY ? 200 : 170}px;height:${DIKEY ? 200 : 170}px;border-radius:50%;background:${s.metin ? AMBER : "#1E9E5A"}">${icon(s.metin ? "ileri" : "check", DIKEY ? 120 : 100, s.metin ? "#2B1E00" : "#fff", 2.6)}</div>
+        <div class="h1" id="${id}-b" style="font-size:${DIKEY ? 96 : 100}px;max-width:${DIKEY ? 960 : 1500}px">${yazi(s.metin || "Eğitim *tamamlandı.*")}</div>
+        ${s.sonraki ? `<div class="chip" id="${id}-n" style="font-size:${DIKEY ? 40 : 38}px;padding:20px 38px"><span>Sıradaki: ${s.sonraki}</span>${icon("ileri", DIKEY ? 40 : 38, AMBER)}</div>` : ""}
         <div id="${id}-m" style="margin-top:${DIKEY ? 40 : 20}px;display:flex;flex-direction:column;align-items:center;gap:12px">
           <img src="assets/logo.png" style="width:${DIKEY ? 210 : 180}px;background:#fff;border-radius:16px;padding:10px 16px">
           <div class="cyan" style="font-size:${DIKEY ? 38 : 36}px;font-weight:600">panel.mtshijyen.com</div></div></div>
@@ -603,11 +608,11 @@
     VID = video; DIKEY = video.yon === "dikey"; W = DIKEY ? 1080 : 1920; H = DIKEY ? 1920 : 1080;
     const plan = ZAMAN.zamanla(video), O = olcu();
     const toplam = video.sahneler.filter((s) => (s.tip === "ekran" || s.tip === "telefon") && s.adim).length;
-    video.sahneler.forEach((s) => { s._toplam = toplam; });
+    video.sahneler.forEach((s) => { s._toplam = toplam; if (s.tip === "kapak" && s.sure === "auto") s.sure = `${Math.max(10, Math.round(plan.total / 5) * 5)} saniye`; });
     video.sahneler.forEach((s, i) => {
       const id = `s${i + 1}`, z = plan.sahneler[i], el = $(`#${id}`);
       const egitim = video.tur === "egitim";
-      const wm = egitim && s.tip !== "kapak" && s.tip !== "son"
+      const wm = egitim && !DIKEY && s.tip !== "kapak" && s.tip !== "son"
         ? `<div class="abs wm" style="${DIKEY ? `left:0;right:0;top:${O.wmY}px;text-align:center` : `left:${O.pad}px;top:${O.wmY}px`}">${marka()} · ${video.etiket || "Eğitim"}</div>` : "";
       const pr = egitim ? `<div class="abs prog" style="left:0;bottom:0;width:${W}px;height:8px;background:#0e2a4c"><div id="${id}-pg" style="width:100%;height:100%;background:${AMBER};transform-origin:0 50%"></div></div>` : "";
       const son = i === video.sahneler.length - 1 ? `<div class="full karart"></div>` : "";

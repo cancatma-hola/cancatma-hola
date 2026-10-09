@@ -21,7 +21,16 @@ function metinler(v) {
     if (s.tip === "cubuk") out.push(`${temiz(s.baslik)} (${s.satirlar.map((r) => r[0]).join(", ")})`);
     if (s.tip === "akis") out.push(`${temiz(s.baslik)} ${s.adimlar.map((a) => a[1]).join(" → ")}`);
     if (s.tip === "karsilastir") out.push(`${temiz(s.baslik)} ${s.once}: ${s.sol.join(", ")} / ${s.sonra}: ${s.sag.join(", ")}`);
-    if (s.tip === "kapanis") out.push(`Kapanış: ${temiz(s.slogan)}`);
+    if (s.tip === "telefon") { out.push(`${s.adim ? s.adim + ". " : ""}${temiz(s.metin)} (telefon)`); (s.vurgu || []).forEach((x) => x.not && out.push(`   · ${x.not}`)); if (s.tikla?.sonuc) out.push(`   ✓ ${s.tikla.sonuc}`); }
+    if (s.tip === "cihaz") out.push(`${temiz(s.metin)}${s.alt ? " — " + s.alt : ""}`);
+    if (s.tip === "kelime") out.push(`${s.kelimeler.join(" ")} → ${temiz(s.son)}`);
+    if (s.tip === "karakter") out.push(`${s.ad ? s.ad + (s.rol ? " (" + s.rol + ")" : "") + ": " : ""}${temiz(s.metin)}`);
+    if (s.tip === "gundem") out.push(`${temiz(s.baslik || "Bu videoda")}: ${s.maddeler.join(" · ")}`);
+    if (s.tip === "kontrol") out.push(`${temiz(s.baslik)}: ${s.maddeler.join(" · ")}`);
+    if (s.tip === "test") out.push(`Test: ${temiz(s.soru)} (${s.secenekler.map((o, i) => (i === s.dogru ? "✓ " : "") + o).join(" / ")})${s.aciklama ? " — " + temiz(s.aciklama) : ""}`);
+    if (s.tip === "rakamlar") out.push(`${temiz(s.baslik)}: ${s.kartlar.map((c) => `${c.para ? "₺" : c.onek || ""}${c.deger.toLocaleString("tr-TR")}${c.sonek ? " " + c.sonek : ""} ${c.etiket}`).join(" · ")}`);
+    if (s.tip === "son" && s.metin) out.push(`Kapanış: ${temiz(s.metin)}`);
+    if (s.tip === "kapanis") out.push(`Kapanış: ${temiz(s.slogan)}${s.cta ? " · " + s.cta : ""}`);
   }
   return out;
 }
@@ -73,6 +82,7 @@ Tüm videolar \`videolar/\` klasöründedir. Dosya adı: \`<tür>-<no>-<konu>-<y
 
 \`\`\`
 videolar/
+├── 2026-10-09/ 9 Ekim serisi: egitim/ ve tanitim/ (yatay + dikey, kapaklar/)
 ├── egitim/     eğitim videoları (yatay + dikey)
 ├── tanitim/    tanıtım ve promo videoları (yatay + dikey)
 ├── ilk-seri/   ilk üretilen eğitim ve süreç videoları (yatay + altyazı)
@@ -82,7 +92,7 @@ Stüdyo videolarının kaynak tanımları: \`hyperframes/studyo/videolar/\`. Yen
 
 `;
 for (const [tur, ad] of [["egitim", "Eğitim videoları"], ["tanitim", "Tanıtım videoları"]]) {
-  const l = hepsi.filter((v) => v.tur === tur);
+  const l = hepsi.filter((v) => v.tur === tur && !v.klasor);
   const satir = [
     ...l.map((v) => ({ id: v.id, baslik: v.baslik, y: ZAMAN.zamanla(v).total, d: ZAMAN.zamanla(v).total })),
     ...(EK[tur] || []).map(([id, baslik]) => ({ id, baslik, y: dosyaSure(tur, id, "yatay"), d: dosyaSure(tur, id, "dikey") })),
@@ -96,6 +106,17 @@ for (const [tur, ad] of [["egitim", "Eğitim videoları"], ["tanitim", "Tanıtı
   md += `\n### Ekrandaki metinler\n\n`;
   if (EK[tur]) md += `Tanıtım 01–04 (P1–P4) ve dikey kesimleri: \`07-tanitim-serisi.md\`. Hype promo: \`06-arastirma-ve-hype-promo.md\`.\n\n`;
   for (const v of l) md += `**${v.baslik}** (\`${v.id}\`)\n\n` + metinler(v).map((m) => (m.startsWith("   ") ? `  - ${m.trim()}` : `- ${m}`)).join("\n") + "\n\n";
+}
+for (const k of [...new Set(hepsi.filter((v) => v.klasor && !v.klasor.startsWith("_")).map((v) => v.klasor))].sort()) {
+  md += `## ${k} serisi\n\nDosyalar \`videolar/${k}/egitim/\` ve \`videolar/${k}/tanitim/\` altında; kapak görselleri \`kapaklar/\` klasöründe. Plan: \`09-seri-${k}.md\`.\n\n`;
+  for (const [tur, ad] of [["egitim", "Eğitim videoları"], ["tanitim", "Tanıtım videoları"]]) {
+    const l = hepsi.filter((v) => v.klasor === k && v.tur === tur), top = l.reduce((a, v) => a + ZAMAN.zamanla(v).total, 0);
+    if (!l.length) continue;
+    md += `### ${ad} (${l.length} video · toplam ${sure(top)})\n\n| No | Video | Süre | Dosya |\n|---|---|---|---|\n`;
+    l.forEach((v) => { md += `| ${no(v.id)} | ${v.baslik} | ${sure(ZAMAN.zamanla(v).total)} | \`${k}/${tur}/${v.id}\` |\n`; });
+    md += `\n#### Ekrandaki metinler\n\n`;
+    for (const v of l) md += `**${v.baslik}** (\`${v.id}\`)\n\n` + metinler(v).map((m) => (m.startsWith("   ") ? `  - ${m.trim()}` : `- ${m}`)).join("\n") + "\n\n";
+  }
 }
 {
   const l = EK["ilk-seri"].map(([id, baslik]) => ({ id, baslik, y: dosyaSure("ilk-seri", id, "yatay") }));

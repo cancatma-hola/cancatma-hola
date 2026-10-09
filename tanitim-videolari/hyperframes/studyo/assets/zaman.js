@@ -8,7 +8,8 @@
 
   // Her sahne tipi: süre + iç olay zamanları (sahne başına göre saniye)
   const TIP = {
-    kapak: () => ({ dur: 4.5, ikon: 0.3, baslik: 0.8, alt: 1.6 }),
+    // Sürüm 2 (2026-10-09 serisi): kısa kapak ve kapanış; ekran payı artar
+    kapak: (s) => (s._v2 ? { dur: 3.5, ikon: 0.1, baslik: 0.4, alt: 1.1 } : { dur: 4.5, ikon: 0.3, baslik: 0.8, alt: 1.6 }),
     ekran: (s) => {
       const t = { giris: 0, metin: 0.3, vurgu: [], dur: 0 };
       let c = 1.4;
@@ -27,7 +28,7 @@
     akis: (s) => { const t = { baslik: 0.3, adim: [] }; s.adimlar.forEach((_, i) => t.adim.push(1.1 + i * 0.75)); t.dur = R(1.1 + n(s.adimlar) * 0.75 + 2.2); return t; },
     karsilastir: (s) => ({ baslik: 0.3, sol: 1.0, sag: 2.4, dur: s.sure || 6.5 }),
     // Kinetik kelimeler: her kelime bir vuruşta gelir, sonra ana cümle
-    kelime: (s) => { const t = { kelime: s.kelimeler.map((_, i) => 0.3 + i * 0.5) }; t.ciz = 0.3 + n(s.kelimeler) * 0.5 + 0.2; t.son = t.ciz + (s.ciz ? 0.6 : 0.1); t.dur = s.sure || R(t.son + oku(s.son) + 0.6); return t; },
+    kelime: (s) => { const t = { kelime: s.kelimeler.map((_, i) => 0.1 + i * 0.5) }; t.ciz = 0.1 + n(s.kelimeler) * 0.5 + 0.2; t.son = t.ciz + (s.ciz ? 0.6 : 0.1); t.dur = s.sure || R(t.son + oku(s.son) + 0.6); return t; },
     // Karakter: avatar, ad/rol, konuşma balonu
     karakter: (s) => ({ avatar: 0.2, ad: 0.6, balon: 1.0, dur: s.sure || R(1.0 + oku(s.metin) + 0.8) }),
     // Gündem: "Bu videoda" + numaralı maddeler
@@ -39,7 +40,7 @@
     // Rakamlar: 2–4 sayaç kartı
     rakamlar: (s) => { const t = { baslik: 0.3, kart: s.kartlar.map((_, i) => 0.9 + i * 0.3) }; t.dur = s.sure || R(0.9 + n(s.kartlar) * 0.3 + 3.4); return t; },
     kapanis: () => ({ logo: 0.2, halka: 0.4, slogan: 0.7, marka: 1.5, url: 1.9, dur: 6 }),
-    son: () => ({ ikon: 0.2, baslik: 0.6, sonraki: 1.6, marka: 2.2, dur: 5.5 }),
+    son: (s) => (s._v2 ? { ikon: 0.1, baslik: 0.3, sonraki: 1.2, marka: 1.6, dur: Math.max(4, R(0.3 + oku(s.metin) + 1.2)) } : { ikon: 0.2, baslik: 0.6, sonraki: 1.6, marka: 2.2, dur: 5.5 }),
   };
 
   // Geçiş seçimi: eğitimde ekran→ekran yumuşak geçiş, diğerleri shader; tanıtımda sırayla shader
@@ -57,8 +58,9 @@
   function zamanla(video) {
     const sah = [], hits = [], egitim = video.tur === 'egitim';
     let t0 = 0;
+    const v2 = (video.surum || 1) >= 2;
     video.sahneler.forEach((s, i) => {
-      const z = TIP[s.tip](s);
+      const z = TIP[s.tip](v2 ? { ...s, _v2: true } : s);
       sah.push({ ...z, bas: t0, tip: s.tip });
       t0 += z.dur;
     });

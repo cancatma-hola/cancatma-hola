@@ -86,7 +86,7 @@ function harita() {
       const map = await page.evaluate(harita);
       await page.screenshot({ path: path.join(OUT, e.ad + '.jpg'), type: 'jpeg', quality: 86 });
       fs.writeFileSync(path.join(OUT, e.ad + '.json'), JSON.stringify({ url: e.url, son: page.url().replace(BASE, ''), ...ek, ogeler: map }));
-      execSync(`node ${path.join(__dirname, "maskele.mjs")}`);
+      if (process.env.MASKELE !== '0') execSync(`node ${path.join(__dirname, "maskele.mjs")}`);
       console.log(e.ad.padEnd(22), String(map.length).padStart(4), 'öğe', page.url().replace(BASE, ''));
     } catch (err) { console.log(e.ad, 'HATA', err.message.split('\n')[0]); }
     await page.close(); await new Promise((r) => setTimeout(r, 1200));

@@ -16,7 +16,9 @@ const AUDIO = path.resolve(KOK, "../../motion/hype/audio.py");
 export async function videolar() {
   const out = [], kok = path.join(KOK, "videolar");
   const yukle = async (f, klasor) => {
-    const m = await import(pathToFileURL(f).href);
+    let m;
+    try { m = await import(pathToFileURL(f).href + "?t=" + fs.statSync(f).mtimeMs); }
+    catch (e) { console.error(`uyarı: ${path.relative(KOK, f)} yüklenemedi: ${e.message.split("\n")[0]}`); return; }
     for (const v of Array.isArray(m.default) ? m.default : [m.default]) out.push(klasor ? { klasor, ...v } : v);
   };
   for (const f of fs.readdirSync(kok).sort()) {
@@ -70,11 +72,16 @@ function gizle(ekran) {
 }
 // Menü yolu (konum çipi): araclar/ekranlar.js içindeki `yol` alanı; tanımda `yol` verilirse o kullanılır, `yol: null` çipi kapatır
 const YOL = Object.fromEntries(require("./ekranlar.js").filter((e) => e.yol).map((e) => [e.ad, e.yol]));
+// Ekran bazında her sahnede kapatılacak test kayıtları (ekranlar.js `ortu`)
+const ORTU = Object.fromEntries(require("./ekranlar.js").filter((e) => e.ortu).map((e) => [e.ad, e.ortu]));
 const VARSAYILAN = { hesap: { x: 555, y: 205, w: 1095, h: 840 }, magaza: { x: 270, y: 200, w: 1380, h: 860 } };
 
+const UYARI = [];
 function coz(video, yon) {
   const v = structuredClone(video);
   v.yon = yon;
+  // Dikey sürüm için sahnenin yerine geçecek tanım (ör. masaüstü ekran → telefon ekranı)
+  v.sahneler = v.sahneler.map((s) => (yon === "dikey" && s.dikey ? { adim: s.adim, metin: s.metin, ...s.dikey } : (({ dikey, ...r }) => r)(s)));
   v.sahneler.forEach((s) => {
     if (s.tip === "cihaz") {   // masaüstü kırpım + telefon görüntüsü
       const hm = harita(s.masa.ekran), ht = harita(s.tel.ekran);
@@ -90,7 +97,7 @@ function coz(video, yon) {
       (s.vurgu || []).forEach((x) => { x.r = bul(e, x.hedef); });
       if (s.yaz) s.yaz.r = bul(e, s.yaz.hedef);
       if (s.tikla) s.tikla.r = bul(e, s.tikla.hedef);
-      s.gizle = gizle(e);
+      s.gizle = [...gizle(e), ...[...(ORTU[e] || []), ...(s.ortu || [])].map((q) => bul(e, q))];
       return;
     }
     if (s.tip !== "ekran") return;
@@ -101,10 +108,11 @@ function coz(video, yon) {
     const b = (yon === "dikey" && s.bolgeD) || s.bolge || (h.son.startsWith("/tr/hesap") ? VARSAYILAN.hesap : VARSAYILAN.magaza);
     s.r = typeof b === "string" || Array.isArray(b) ? bul(e, b) : b;
     if (s.pay) s.r = { x: s.r.x - s.pay, y: s.r.y - s.pay, w: s.r.w + 2 * s.pay, h: s.r.h + 2 * s.pay };
-    (s.vurgu || []).forEach((x) => { x.r = bul(e, x.hedef); });
+    (s.vurgu || []).forEach((x) => { x.r = bul(e, x.hedef);
+      if (x.r.w * x.r.h > 0.4 * s.r.w * s.r.h) UYARI.push(`${v.id} [${e}] vurgu kadrajın %${Math.round((100 * x.r.w * x.r.h) / (s.r.w * s.r.h))}'i: ${JSON.stringify(x.hedef)} (daha küçük hedef seçin)`); });
     if (s.yaz) s.yaz.r = bul(e, s.yaz.hedef);
     if (s.tikla) s.tikla.r = bul(e, s.tikla.hedef);
-    s.gizle = gizle(e);
+    s.gizle = [...gizle(e), ...[...(ORTU[e] || []), ...(s.ortu || [])].map((q) => bul(e, q))];   // ortu: tanımda ayrıca kapatılacak test kayıtları
   });
   return v;
 }
@@ -163,19 +171,17 @@ export async function uret(ids) {
   for (const video of sec) {
     const kl = path.join(KOK, "cikti", video.id);
     fs.mkdirSync(kl, { recursive: true });
-    const m4a = ses(video, kl);
     for (const yon of ["yatay", "dikey"]) {
       const d = path.join(kl, yon);
       fs.mkdirSync(d, { recursive: true });
       const v = coz(video, yon);
       fs.writeFileSync(path.join(d, "index.html"), html(v));
-      fs.copyFileSync(m4a, path.join(d, "ses.m4a"));
+      ses(v, d);   // müzik ve efektler her yön için kendi zamanlamasıyla (dikey sahne değişebilir)
       const ln = path.join(d, "assets");
       if (!fs.existsSync(ln)) fs.symlinkSync("../../../assets", ln);
       fs.writeFileSync(path.join(d, "hyperframes.json"), JSON.stringify({ paths: { blocks: "compositions", components: "compositions/components", assets: "assets" } }));
       fs.writeFileSync(path.join(d, "meta.json"), JSON.stringify({ id: `${video.id}-${yon}`, name: `${video.baslik} (${yon})` }));
     }
-    fs.rmSync(m4a);
     fs.writeFileSync(path.join(kl, "hedef"), hedef(video));
     // Kapak görseli anı: eğitimde kapak sahnesinin sonu, tanıtımda ilk sahnenin sonu (metin tam görünür)
     const p0 = ZAMAN.zamanla(video).sahneler[0];
@@ -188,8 +194,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
   if (args[0] === "--dogrula") {
     let hata = 0;
-    for (const v of await videolar()) for (const yon of ["yatay", "dikey"]) { try { coz(v, yon); } catch (e) { hata++; if (yon === "yatay") console.log(`${v.id}: ${e.message}`); } }
-    console.log(hata ? `${hata / 2} hata` : "tüm hedefler bulundu");
+    const sec = args.slice(1);
+    for (const v of (await videolar()).filter((v) => !sec.length || sec.includes(v.id))) for (const yon of ["yatay", "dikey"]) { try { coz(v, yon); } catch (e) { hata++; console.log(`${v.id} (${yon}): ${e.message}`); } }
+    UYARI.forEach((u) => console.log("uyarı:", u));
+    console.log(hata ? `${hata} hata` : "tüm hedefler bulundu");
   } else if (args[0] === "--liste") {
     const hepsi = await videolar(); let top = 0;
     for (const v of hepsi) { const d = ZAMAN.zamanla(v).total; top += d; console.log(`${v.id.padEnd(28)} ${d.toFixed(1).padStart(5)} sn  ${v.baslik}`); }

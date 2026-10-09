@@ -17,8 +17,10 @@ for id in "${ids[@]}"; do
         -af "loudnorm=I=-14:TP=-1:LRA=9" -c:a aac -b:a 160k -ar 48000 -movflags +faststart "$out.tmp.mp4" && mv "$out.tmp.mp4" "$out"
       rm -rf "$d/renders"
       # YouTube / sosyal medya kapak görseli: <hedef>/kapaklar/<id>-<yön>.jpg
-      kt=$(cat "cikti/$id/kapak_t" 2>/dev/null || echo 3); mkdir -p "$HEDEF/$tur/kapaklar"
-      ffmpeg -nostdin -v error -y -ss "$kt" -i "$out" -frames:v 1 -q:v 3 "$HEDEF/$tur/kapaklar/$id-$yon.jpg"
+      if [[ "$tur" == */* ]]; then   # yalnız tarihli serilerde
+        kt=$(cat "cikti/$id/kapak_t" 2>/dev/null || echo 3); mkdir -p "$HEDEF/$tur/kapaklar"
+        ffmpeg -nostdin -v error -y -ss "$kt" -i "$out" -frames:v 1 -q:v 3 "$HEDEF/$tur/kapaklar/$id-$yon.jpg"
+      fi
       echo "tamam $out $(du -h "$out" | cut -f1)"
     else echo "HATA $id $yon (bkz. $d/render.log)"; fi
   done

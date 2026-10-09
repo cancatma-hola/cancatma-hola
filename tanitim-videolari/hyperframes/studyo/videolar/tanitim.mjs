@@ -28,7 +28,7 @@ export default [
     { tip: "ekran", ekran: "teklif-yeni", metin: "Ürün ve miktarı yazın, *teklif* isteyin.", bolge: B(555, 320, 1095, 400),
       yaz: { hedef: "Ürün ara (ad veya kod)", metin: "555204" }, tikla: { hedef: "Teklif Oluştur", sonuc: "Teklif talebiniz iletildi" } },
     { tip: "ekran", ekran: "teklifler", metin: "Teklif hazır olunca *panelde* görün.", bolge: B(555, 205, 1095, 320),
-      vurgu: [{ hedef: "[]TKF-2026-0002", not: "Teklif hazır: 525.000,00 ₺" }] },
+      vurgu: [{ hedef: "[]TKF-2026-0003", not: "Teklif hazır: 19.055,50 ₺" }], ortu: ["[]TKF-2026-0002"] },
     { tip: "kapanis", slogan: "Toplu alımda *size özel* fiyat." },
   ], -1),
 
@@ -69,10 +69,10 @@ export default [
 
   T(12, "kademeli-iskonto", "Çok alın, az ödeyin", [
     { tip: "cubuk", baslik: "Adet arttıkça *birim fiyat* düşer.", para: true, ek: "koli başı", vurgu: 3,
-      satirlar: [["1 koli", 420, 420], ["5+ koli", 399, 420], ["30+ koli", 365.4, 420], ["40+ koli", 357, 420]] },
+      satirlar: [["1 koli", 420, 420], ["5+ koli", 399, 420], ["30+ koli", 386.4, 420], ["40+ koli", 378, 420]] },
     { tip: "ekran", ekran: "urun", metin: "*FIRSAT* tablosu indirimi gösterir.", bolge: B(810, 600, 840, 300),
-      vurgu: [{ hedef: "[]FIRSAT Kademeli iskonto", not: "40 koli üzerinde %15 indirim" }] },
-    { tip: "ekran", ekran: "kampanyalar", metin: "Kupon gerekmez, indirim *otomatik.*", bolge: B(270, 340, 1380, 200),
+      vurgu: [{ hedef: "[]FIRSAT Kademeli iskonto", not: "40 koliden itibaren %10 indirim" }] },
+    { tip: "ekran", ekran: "kampanyalar", metin: "Kupon gerekmez, indirim *otomatik* uygulanır.", bolge: B(270, 340, 1380, 200),
       vurgu: [{ hedef: "[]Çok Al Az Öde Kademeli", not: "Uygun adette otomatik uygulanır" }] },
     { tip: "kapanis", slogan: "Çok alın, *az ödeyin.*" },
   ], 1),

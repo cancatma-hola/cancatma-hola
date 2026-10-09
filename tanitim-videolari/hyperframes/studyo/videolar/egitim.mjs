@@ -64,7 +64,7 @@ E("urun-sayfasi", "Ürün sayfası", "box", "Fiyatı, stoğu ve kargo süresini 
 
 E("kademeli-iskonto", "Kademeli iskonto", "percent", "Çok alın, birim fiyatınız düşsün.", [
   ek("urun", 1, "*FIRSAT* tablosu adet arttıkça düşen fiyatı gösterir.", { bolge: B(810, 600, 840, 300),
-    vurgu: [{ hedef: "[]FIRSAT Kademeli iskonto", not: "5, 30 ve 40 adet üzerinde ek indirim" }] }),
+    vurgu: [{ hedef: "[]FIRSAT Kademeli iskonto", not: "5 koliden %5, 30 koliden %8, 40 koliden %10" }] }),
   ek("urun", 2, "*Toplu Alım Hesaplayıcı* ile toplam tutarı görün.", { bolge: B(270, 620, 560, 300),
     vurgu: [{ hedef: ["30", "120"], not: "Hazır adet seçenekleri" }, { hedef: "[]Birim Fiyat ₺420,00 Ara Toplam", not: "Birim fiyat, KDV ve genel toplam" }] }),
 ], ["Adet arttıkça birim fiyat düşer", "Hesaplayıcı toplamı anında gösterir", "İndirim sepette otomatik uygulanır"]);
@@ -151,10 +151,10 @@ E("favoriler", "Favorilerim", "heart", "Sık aldığınız ürünlere hızlı ul
 // ── Fiyat ve teklif
 E("fiyat-teklifleri", "Fiyat teklifleri", "tag", "Özel fiyat isteyin, teklifinizi takip edin.", [
   ek("teklifler", 1, "*Fiyat Tekliflerim* sayfası tüm taleplerinizi listeler.", { bolge: B(555, 205, 1095, 320),
-    vurgu: [{ hedef: "[]TKF-2026-0002", not: "Teklif hazır: 525.000,00 ₺" }, { hedef: "[]TKF-2026-0004", not: "Fiyat bekleniyor" }] }),
+    vurgu: [{ hedef: "[]TKF-2026-0003", not: "Teklif hazır: 19.055,50 ₺" }, { hedef: "[]TKF-2026-0004", not: "Fiyat bekleniyor" }], ortu: ["[]TKF-2026-0002"] }),
   ek("teklifler", 2, "Yeni talep için *Yeni Teklif Talebi* butonuna basın.", { bolge: B(555, 205, 1095, 320),
     tikla: { hedef: "Yeni Teklif Talebi", sonuc: "Teklif formu açılır" } }),
-], ["Teklif hazır olunca bildirim gelir", "Hazır teklifi siparişe dönüştürün", "Durum sütunu süreci gösterir"]);
+], ["Teklif hazır olunca bildirim gelir", "Hazır teklifi Teklifi Kabul Et ile onaylayın", "Teklif Hazır yazınca teklifi açın"]);
 
 E("yeni-teklif", "Yeni fiyat teklifi", "edit", "Ürün ve miktarı yazın, fiyatı MTS hazırlasın.", [
   ek("teklif-yeni", 1, "Ürün kodunu ve *miktarı* yazın.", { bolge: B(555, 320, 1095, 400),
