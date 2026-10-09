@@ -1,7 +1,7 @@
 # Tasarım Yönleri – Örnek Videolar (Karar Aşaması)
 
 Tam kurguyu yazmadan önce görsel dili netleştirmek için **aynı hikâye** (bir siparişin 5 adımı) üç farklı art direction ile 10’ar saniyelik örnek olarak üretildi.
-Videolar: `motion/cikti/A-klinik-beyaz.mp4`, `B-gece-vardiyasi.mp4`, `C-koli-muhur.mp4` · Karşılaştırma: `motion/cikti/ornek-karsilastirma.png`
+Videolar: `videolar/arsiv/stil-a-klinik-beyaz-yatay.mp4`, `stil-b-gece-vardiyasi-yatay.mp4`, `stil-c-koli-muhur-yatay.mp4` · Karşılaştırma: `videolar/arsiv/stil-karsilastirma.png`
 
 ## motion-web reposundan ne aldık, ne almadık
 - **Lisans:** repo *CC BY-NC 4.0* (ticari kullanım yasak). Bu yüzden kodu/görselleri **kullanılmadı**; yalnızca yöntemleri referans alındı ve tüm sahneler sıfırdan yazıldı.

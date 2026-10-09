@@ -1,54 +1,63 @@
 # Video kataloğu
 
-Tüm videolar hem **yatay (1920×1080)** hem **dikey (1080×1920, Reels/Shorts)** olarak üretilir. Dosyalar `videolar/egitim/` ve `videolar/tanitim/` klasörlerindedir: `<ad>-yatay.mp4`, `<ad>-dikey.mp4`.
-Kaynak tanımlar: `hyperframes/studyo/videolar/`. Yeniden üretmek için: `node araclar/uret.mjs <ad>` → `araclar/render.sh <ad>`.
+Tüm videolar `videolar/` klasöründedir. Dosya adı: `<tür>-<no>-<konu>-<yatay|dikey>.mp4`.
+- **yatay** 1920×1080 (web sitesi, YouTube, sunum) · **dikey** 1080×1920 (Reels, Shorts, TikTok, WhatsApp durum)
+
+```
+videolar/
+├── egitim/     eğitim videoları (yatay + dikey)
+├── tanitim/    tanıtım ve promo videoları (yatay + dikey)
+├── ilk-seri/   ilk üretilen eğitim ve süreç videoları (yatay + altyazı)
+└── arsiv/      ilk hype promo ve stil denemeleri
+```
+Stüdyo videolarının kaynak tanımları: `hyperframes/studyo/videolar/`. Yeniden üretmek için: `node araclar/uret.mjs <ad>` → `araclar/render.sh <ad>`.
 
 ## Eğitim videoları (42 video · toplam 22:58)
 
-| # | Video | Süre | Dosya |
+| No | Video | Süre | Dosya |
 |---|---|---|---|
-| 1 | Panele giriş | 0:41 | `egitim-01-giris` |
-| 2 | Özet ekranı | 0:47 | `egitim-02-ozet` |
-| 3 | Ürün arama | 0:35 | `egitim-03-urun-arama` |
-| 4 | Kategoriler ve filtreler | 0:37 | `egitim-04-kategoriler` |
-| 5 | Ürün sayfası | 0:35 | `egitim-05-urun-sayfasi` |
-| 6 | Kademeli iskonto | 0:30 | `egitim-06-kademeli-iskonto` |
-| 7 | Hızlı sipariş | 0:40 | `egitim-07-hizli-siparis` |
-| 8 | Siparişlerim | 0:38 | `egitim-08-siparislerim` |
-| 9 | Sipariş detayı | 0:40 | `egitim-09-siparis-detayi` |
-| 10 | Onay bekleyen sipariş | 0:32 | `egitim-10-onay-bekleyen-siparis` |
-| 11 | Ödeme bekleyen sipariş | 0:27 | `egitim-11-odeme-bekleyen-siparis` |
-| 12 | Periyodik siparişler | 0:30 | `egitim-12-periyodik-siparisler` |
-| 13 | Periyodik şablon oluşturma | 0:38 | `egitim-13-periyodik-sablon` |
-| 14 | Sipariş listeleri | 0:35 | `egitim-14-siparis-listeleri` |
-| 15 | Favorilerim | 0:27 | `egitim-15-favoriler` |
-| 16 | Fiyat teklifleri | 0:30 | `egitim-16-fiyat-teklifleri` |
-| 17 | Yeni fiyat teklifi | 0:34 | `egitim-17-yeni-teklif` |
-| 18 | Toplu alım teklifi | 0:31 | `egitim-18-toplu-alim-teklifi` |
-| 19 | Sözleşme ve fiyat | 0:30 | `egitim-19-sozlesme-fiyat` |
-| 20 | Onaylarım | 0:33 | `egitim-20-onaylarim` |
-| 21 | Onay kuralları | 0:30 | `egitim-21-onay-kurallari` |
-| 22 | Yeni onay kuralı | 0:33 | `egitim-22-yeni-onay-kurali` |
-| 23 | Kullanıcılar ve yetkiler | 0:30 | `egitim-23-kullanicilar` |
-| 24 | Kullanıcı davet etme | 0:35 | `egitim-24-kullanici-davet` |
-| 25 | Departman ve bütçe | 0:30 | `egitim-25-departmanlar` |
-| 26 | Bütçe panosu | 0:35 | `egitim-26-butce-panosu` |
-| 27 | Projeler ve şantiyeler | 0:30 | `egitim-27-projeler` |
-| 28 | Adres defteri | 0:34 | `egitim-28-adres-defteri` |
-| 29 | Cari ekstre | 0:35 | `egitim-29-cari-ekstre` |
-| 30 | Faturalarım | 0:27 | `egitim-30-faturalar` |
-| 31 | Satın alma analitiği | 0:37 | `egitim-31-analitik` |
-| 32 | İade talebi | 0:30 | `egitim-32-iade-talebi` |
-| 33 | Numune talebi | 0:30 | `egitim-33-numune-talebi` |
-| 34 | AI ürün asistanı | 0:31 | `egitim-34-ai-asistan` |
-| 35 | Sadakat programı | 0:30 | `egitim-35-sadakat` |
-| 36 | Kuponlarım | 0:30 | `egitim-36-kuponlar` |
-| 37 | Arkadaşını davet et | 0:33 | `egitim-37-arkadasini-davet-et` |
-| 38 | Kampanyalar | 0:28 | `egitim-38-kampanyalar` |
-| 39 | Bildirimler | 0:30 | `egitim-39-bildirimler` |
-| 40 | Destek talebi | 0:36 | `egitim-40-destek-talebi` |
-| 41 | Hesap ayarları | 0:35 | `egitim-41-hesap-ayarlari` |
-| 42 | Yardım merkezi | 0:30 | `egitim-42-yardim-merkezi` |
+| 1 | Panele giriş | 0:41 | `egitim/egitim-01-giris` |
+| 2 | Özet ekranı | 0:47 | `egitim/egitim-02-ozet` |
+| 3 | Ürün arama | 0:35 | `egitim/egitim-03-urun-arama` |
+| 4 | Kategoriler ve filtreler | 0:37 | `egitim/egitim-04-kategoriler` |
+| 5 | Ürün sayfası | 0:35 | `egitim/egitim-05-urun-sayfasi` |
+| 6 | Kademeli iskonto | 0:30 | `egitim/egitim-06-kademeli-iskonto` |
+| 7 | Hızlı sipariş | 0:40 | `egitim/egitim-07-hizli-siparis` |
+| 8 | Siparişlerim | 0:38 | `egitim/egitim-08-siparislerim` |
+| 9 | Sipariş detayı | 0:40 | `egitim/egitim-09-siparis-detayi` |
+| 10 | Onay bekleyen sipariş | 0:32 | `egitim/egitim-10-onay-bekleyen-siparis` |
+| 11 | Ödeme bekleyen sipariş | 0:27 | `egitim/egitim-11-odeme-bekleyen-siparis` |
+| 12 | Periyodik siparişler | 0:30 | `egitim/egitim-12-periyodik-siparisler` |
+| 13 | Periyodik şablon oluşturma | 0:38 | `egitim/egitim-13-periyodik-sablon` |
+| 14 | Sipariş listeleri | 0:35 | `egitim/egitim-14-siparis-listeleri` |
+| 15 | Favorilerim | 0:27 | `egitim/egitim-15-favoriler` |
+| 16 | Fiyat teklifleri | 0:30 | `egitim/egitim-16-fiyat-teklifleri` |
+| 17 | Yeni fiyat teklifi | 0:34 | `egitim/egitim-17-yeni-teklif` |
+| 18 | Toplu alım teklifi | 0:31 | `egitim/egitim-18-toplu-alim-teklifi` |
+| 19 | Sözleşme ve fiyat | 0:30 | `egitim/egitim-19-sozlesme-fiyat` |
+| 20 | Onaylarım | 0:33 | `egitim/egitim-20-onaylarim` |
+| 21 | Onay kuralları | 0:30 | `egitim/egitim-21-onay-kurallari` |
+| 22 | Yeni onay kuralı | 0:33 | `egitim/egitim-22-yeni-onay-kurali` |
+| 23 | Kullanıcılar ve yetkiler | 0:30 | `egitim/egitim-23-kullanicilar` |
+| 24 | Kullanıcı davet etme | 0:35 | `egitim/egitim-24-kullanici-davet` |
+| 25 | Departman ve bütçe | 0:30 | `egitim/egitim-25-departmanlar` |
+| 26 | Bütçe panosu | 0:35 | `egitim/egitim-26-butce-panosu` |
+| 27 | Projeler ve şantiyeler | 0:30 | `egitim/egitim-27-projeler` |
+| 28 | Adres defteri | 0:34 | `egitim/egitim-28-adres-defteri` |
+| 29 | Cari ekstre | 0:35 | `egitim/egitim-29-cari-ekstre` |
+| 30 | Faturalarım | 0:27 | `egitim/egitim-30-faturalar` |
+| 31 | Satın alma analitiği | 0:37 | `egitim/egitim-31-analitik` |
+| 32 | İade talebi | 0:30 | `egitim/egitim-32-iade-talebi` |
+| 33 | Numune talebi | 0:30 | `egitim/egitim-33-numune-talebi` |
+| 34 | AI ürün asistanı | 0:31 | `egitim/egitim-34-ai-asistan` |
+| 35 | Sadakat programı | 0:30 | `egitim/egitim-35-sadakat` |
+| 36 | Kuponlarım | 0:30 | `egitim/egitim-36-kuponlar` |
+| 37 | Arkadaşını davet et | 0:33 | `egitim/egitim-37-arkadasini-davet-et` |
+| 38 | Kampanyalar | 0:28 | `egitim/egitim-38-kampanyalar` |
+| 39 | Bildirimler | 0:30 | `egitim/egitim-39-bildirimler` |
+| 40 | Destek talebi | 0:36 | `egitim/egitim-40-destek-talebi` |
+| 41 | Hesap ayarları | 0:35 | `egitim/egitim-41-hesap-ayarlari` |
+| 42 | Yardım merkezi | 0:30 | `egitim/egitim-42-yardim-merkezi` |
 
 ### Ekrandaki metinler
 
@@ -500,27 +509,34 @@ Kaynak tanımlar: `hyperframes/studyo/videolar/`. Yeniden üretmek için: `node 
 - 2. Aradığınız konuyu arama kutusuna yazın.
 - Unutmayın: Cevap bulamazsanız destek talebi açın · Kurumsal hat: +90 543 683 57 65 · Hafta içi 08:00–18:00 hizmet
 
-## Tanıtım videoları (15 video · toplam 6:04)
+## Tanıtım videoları (20 video · toplam 8:59)
 
-| # | Video | Süre | Dosya |
+| No | Video | Süre | Dosya |
 |---|---|---|---|
-| 1 | Siparişiniz nerede? | 0:31 | `tanitim-05-siparis-takibi` |
-| 2 | Ürün koduyla hızlı sipariş | 0:30 | `tanitim-06-hizli-siparis` |
-| 3 | Toplu alımda özel fiyat | 0:23 | `tanitim-07-toplu-alim-teklifi` |
-| 4 | Harcamanızı rakamlarla görün | 0:22 | `tanitim-08-analitik` |
-| 5 | AI ürün asistanı | 0:26 | `tanitim-09-ai-asistan` |
-| 6 | Projeler ve şantiyeler | 0:21 | `tanitim-10-projeler` |
-| 7 | Ekip ve yetkiler | 0:26 | `tanitim-11-ekip-ve-yetkiler` |
-| 8 | Çok alın, az ödeyin | 0:23 | `tanitim-12-kademeli-iskonto` |
-| 9 | Numune ve iade | 0:25 | `tanitim-13-numune-ve-iade` |
-| 10 | Sık aldıklarınız bir tık uzakta | 0:21 | `tanitim-14-listeler-favoriler` |
-| 11 | Davet edin, birlikte kazanın | 0:25 | `tanitim-15-arkadasini-davet-et` |
-| 12 | Satın almayı panele taşıyın | 0:24 | `tanitim-16-once-sonra` |
-| 13 | Neden MTS Hijyen B2B? | 0:26 | `tanitim-17-neden-mts-hijyen` |
-| 14 | Net koşullar, şeffaf fiyat | 0:19 | `tanitim-18-sozlesme-ve-vade` |
-| 15 | Destek ekibimiz yanınızda | 0:25 | `tanitim-19-destek` |
+| 0 | Hype promo | 1:00 · yalnız yatay | `tanitim/tanitim-00-hype-promo` |
+| 1 | Kontrol sizde | 0:30 · dikey 0:15 | `tanitim/tanitim-01-kontrol` |
+| 2 | Bir kez kurun | 0:30 · dikey 0:15 | `tanitim/tanitim-02-periyodik` |
+| 3 | Cari ve fatura | 0:30 · dikey 0:15 | `tanitim/tanitim-03-cari` |
+| 4 | Her siparişte kazanın | 0:25 · dikey 0:15 | `tanitim/tanitim-04-sadakat` |
+| 5 | Siparişiniz nerede? | 0:31 | `tanitim/tanitim-05-siparis-takibi` |
+| 6 | Ürün koduyla hızlı sipariş | 0:30 | `tanitim/tanitim-06-hizli-siparis` |
+| 7 | Toplu alımda özel fiyat | 0:23 | `tanitim/tanitim-07-toplu-alim-teklifi` |
+| 8 | Harcamanızı rakamlarla görün | 0:22 | `tanitim/tanitim-08-analitik` |
+| 9 | AI ürün asistanı | 0:26 | `tanitim/tanitim-09-ai-asistan` |
+| 10 | Projeler ve şantiyeler | 0:21 | `tanitim/tanitim-10-projeler` |
+| 11 | Ekip ve yetkiler | 0:26 | `tanitim/tanitim-11-ekip-ve-yetkiler` |
+| 12 | Çok alın, az ödeyin | 0:23 | `tanitim/tanitim-12-kademeli-iskonto` |
+| 13 | Numune ve iade | 0:25 | `tanitim/tanitim-13-numune-ve-iade` |
+| 14 | Sık aldıklarınız bir tık uzakta | 0:21 | `tanitim/tanitim-14-listeler-favoriler` |
+| 15 | Davet edin, birlikte kazanın | 0:25 | `tanitim/tanitim-15-arkadasini-davet-et` |
+| 16 | Satın almayı panele taşıyın | 0:24 | `tanitim/tanitim-16-once-sonra` |
+| 17 | Neden MTS Hijyen B2B? | 0:26 | `tanitim/tanitim-17-neden-mts-hijyen` |
+| 18 | Net koşullar, şeffaf fiyat | 0:19 | `tanitim/tanitim-18-sozlesme-ve-vade` |
+| 19 | Destek ekibimiz yanınızda | 0:25 | `tanitim/tanitim-19-destek` |
 
 ### Ekrandaki metinler
+
+Tanıtım 01–04 (P1–P4) ve dikey kesimleri: `07-tanitim-serisi.md`. Hype promo: `06-arastirma-ve-hype-promo.md`.
 
 **Siparişiniz nerede?** (`tanitim-05-siparis-takibi`)
 
@@ -653,3 +669,33 @@ Kaynak tanımlar: `hyperframes/studyo/videolar/`. Yeniden üretmek için: `node 
   - ✓ Destek talebiniz oluşturuldu
 - Kapanış: Destek ekibimiz yanınızda.
 
+## İlk seri (14 video · toplam 17:02)
+
+İlk motorla üretilen videolar. Yalnız yatay; dış ses yok. Her videonun altyazısı aynı adla `.srt` dosyasında. Kurgu: `04-video-plani.md`.
+
+| No | Video | Süre | Dosya |
+|---|---|---|---|
+| V1 | Hijyen tedariğiniz tek panelde | 1:05 | `ilk-seri/ilk-seri-v1-tek-panel` |
+| V2 | Bir siparişin yolculuğu | 1:19 | `ilk-seri/ilk-seri-v2-siparisin-yolculugu` |
+| V3 | Kurumsal kontrol: onay, bütçe, yetki | 1:15 | `ilk-seri/ilk-seri-v3-kurumsal-kontrol` |
+| V4 | Cari ve finans şeffaflığı | 0:54 | `ilk-seri/ilk-seri-v4-cari-ve-finans` |
+| E1 | Panele giriş ve özet ekranı | 1:05 | `ilk-seri/ilk-seri-e01-giris-ve-ozet` |
+| E2 | Katalogdan sipariş verme | 1:29 | `ilk-seri/ilk-seri-e02-katalogdan-siparis` |
+| E3 | Hızlı sipariş: SKU ve Excel/CSV | 1:01 | `ilk-seri/ilk-seri-e03-hizli-siparis` |
+| E4 | Periyodik siparişler ve listeler | 1:12 | `ilk-seri/ilk-seri-e04-periyodik-ve-listeler` |
+| E5 | Siparişlerimi takip etmek | 1:17 | `ilk-seri/ilk-seri-e05-siparis-takibi` |
+| E6 | Onaylarım ve onay kuralları | 1:33 | `ilk-seri/ilk-seri-e06-onaylar-ve-kurallar` |
+| E7 | Kullanıcılar, yetkiler, departman bütçeleri | 1:25 | `ilk-seri/ilk-seri-e07-kullanicilar-ve-butceler` |
+| E8 | Cari ekstre ve faturalar | 1:01 | `ilk-seri/ilk-seri-e08-ekstre-ve-faturalar` |
+| E9 | Teklif iste, paketler, numune ve iade | 1:29 | `ilk-seri/ilk-seri-e09-teklif-numune-iade` |
+| E10 | Sadakat, kupon ve davet | 0:57 | `ilk-seri/ilk-seri-e10-sadakat-kupon-davet` |
+
+## Arşiv
+
+| Video | Süre | Dosya |
+|---|---|---|
+| Hype promo · ilk sürüm (eski motor) | 1:00 | `arsiv/hype-promo-ilk-surum` |
+| Stil denemesi A · Klinik beyaz (seçilen stil) | 0:10 | `arsiv/stil-a-klinik-beyaz` |
+| Stil denemesi B · Gece vardiyası | 0:10 | `arsiv/stil-b-gece-vardiyasi` |
+| Stil denemesi C · Koli ve mühür (seçilen anlar) | 0:10 | `arsiv/stil-c-koli-muhur` |
+| Stil karşılaştırma görseli | — | `arsiv/stil-karsilastirma.png` |

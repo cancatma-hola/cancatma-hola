@@ -10,7 +10,7 @@ Zaman tabanlı HTML sahneler → Playwright ile kare kare render → ffmpeg ile 
 | `videos/*.js` | Video tanımları (sahne sırası, kamera, odak, imleç, dış ses metni) |
 | `seslendir.js`, `tts.py` | Türkçe nöral dış ses (edge-tts, `tr-TR-AhmetNeural`) |
 | `music.py` | Telifsiz müzik yatağı sentezi (`muzik/promo.wav`, `muzik/egitim.wav`) |
-| `build.js` | Render + miksaj → `cikti/<video>.mp4` ve `cikti/<video>.srt` |
+| `build.js` | Render + miksaj → `cikti/<video>.mp4` ve `cikti/<video>.srt` (çalışma çıktısı; son hâlleri `../videolar/ilk-seri/`) |
 | `metin.js` | Dış ses metin belgesini üretir (`../05-dis-ses-metinleri.md`) |
 
 ## Komutlar

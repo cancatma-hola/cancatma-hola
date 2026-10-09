@@ -14,4 +14,4 @@ Dikey kesimler (D1–D4) aynı hikâyeyi üç sahnede anlatır: soru → ana gö
 ## Dosyalar
 - Kaynak: `hyperframes/seri/<video>/index.html`, ortak parçalar `hyperframes/seri/assets/kit.js` ve `kit.css`
 - Ses: `node sesler/olustur.mjs <video>` (HTML içindeki vuruş listesinden müzik ve efekt üretir)
-- Render: `HF=<hyperframes yolu> ./render.sh p1-kontrol ...` → `motion/cikti/<video>.mp4` ve `-paylasim.mp4`
+- Render: `HF=<hyperframes yolu> ./render.sh p1-kontrol d1-kontrol ...` → `videolar/tanitim/tanitim-01-kontrol-yatay.mp4` ve `-dikey.mp4` (P1–P4 = tanıtım 01–04, D1–D4 bunların dikey kesimi)

@@ -1,7 +1,5 @@
 node_modules/
-cikti/*.png
-cikti/kareler/
-!cikti/ornek-karsilastirma.png
+cikti/
 .panel-state.json
 build/
 muzik/*.wav

@@ -1,0 +1,35 @@
+1
+00:00:00,250 --> 00:00:04,931
+Bu eğitimde siparişlerinizi nasıl bulacağınızı, filtreleyeceğinizi ve adım adım izleyeceğinizi göreceksiniz.
+
+2
+00:00:07,781 --> 00:00:10,760
+Siparişinizin nerede olduğunu dört yoldan takip edebilirsiniz.
+
+3
+00:00:17,481 --> 00:00:23,013
+Siparişlerim ekranında firmanız adına açılan tüm siparişleri, kimin açtığını ve güncel durumunu görürsünüz.
+
+4
+00:00:27,181 --> 00:00:33,138
+Duruma, projeye ve tarihe göre filtreleyin; hızlı filtrelerle tek tıkla daraltın, listeyi Excel’e aktarın.
+
+5
+00:00:37,631 --> 00:00:42,312
+Detay ekranında siparişin dokuz adımın hangisinde olduğunu ve sıradaki işlemi görürsünüz.
+
+6
+00:00:47,331 --> 00:00:51,161
+Kalemleri, indirimleri ve toplamı inceleyin; siparişi PDF olarak yazdırın.
+
+7
+00:00:57,031 --> 00:01:00,861
+Her durum değişikliği bildirim olarak gelir; aramanıza gerek kalmaz.
+
+8
+00:01:06,131 --> 00:01:08,259
+Teslimatla birlikte durum anında güncellenir.
+
+9
+00:01:11,781 --> 00:01:14,334
+Sıradaki eğitimde kullanıcıları ve bütçeleri göreceğiz.

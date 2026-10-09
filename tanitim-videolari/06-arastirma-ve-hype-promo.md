@@ -31,6 +31,7 @@
 ## Hype promo
 - Dosyalar: `motion/hype/promo.html` (sahne), `motion/hype/render.js` (hareket bulanıklıklı render), `motion/hype/audio.py` (müzik + efekt sentezi)
 - Süre 60 sn · 1920×1080 · 30 fps · −14 LUFS
+- Video: `videolar/tanitim/tanitim-00-hype-promo-yatay.mp4` (HyperFrames sürümü) · ilk sürüm `videolar/arsiv/hype-promo-ilk-surum-yatay.mp4`
 - Sahneler: açılış → 3D uçuş → kategori yörüngesi → özel fiyat → hızlı sipariş → onay mührü → teslimat koşusu → büyük sayılar → logo montajı
 
 ## v2 · Okunabilirlik düzeltmesi
