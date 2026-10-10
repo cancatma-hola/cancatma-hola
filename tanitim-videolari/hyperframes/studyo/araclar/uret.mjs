@@ -132,7 +132,7 @@ function html(v) {
     <script src="assets/vendor/hyper-shader.js"></script>
     <script src="assets/parts.js"></script>
     <script src="assets/zaman.js"></script>
-    <script src="assets/motor.js"></script>
+    <script src="assets/${(v.surum || 1) >= 2 ? "motor.js" : "motor-v1.js"}"></script>
     <style>html, body { width: ${w}px; height: ${h}px; }</style>
   </head>
   <body>
