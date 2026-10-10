@@ -81,7 +81,7 @@ function coz(video, yon) {
   const v = structuredClone(video);
   v.yon = yon;
   // Dikey sürüm için sahnenin yerine geçecek tanım (ör. masaüstü ekran → telefon ekranı)
-  v.sahneler = v.sahneler.map((s) => (yon === "dikey" && s.dikey ? { adim: s.adim, metin: s.metin, ...s.dikey } : (({ dikey, ...r }) => r)(s)));
+  v.sahneler = v.sahneler.map((s) => (yon === "dikey" && s.dikey ? { adim: s.adim, metin: s.metin, saat: s.saat, ...s.dikey } : (({ dikey, ...r }) => r)(s)));
   v.sahneler.forEach((s) => {
     if (s.tip === "cihaz") {   // masaüstü kırpım + telefon görüntüsü
       const hm = harita(s.masa.ekran), ht = harita(s.tel.ekran);

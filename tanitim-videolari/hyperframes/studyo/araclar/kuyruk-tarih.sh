@@ -16,8 +16,9 @@ while :; do
   for f in videolar/$K/*.mjs; do
     b=$(basename "$f" .mjs)
     if [ -f "videolar/$K/$b.hazir" ]; then
-      [ -f "$D/$b" ] && [ ! "videolar/$K/$b.hazir" -nt "$D/$b" ] && continue
-      isle "$b" onay && touch "$D/$b"
+      [ -f "$D/$b" ] && [ "$(stat -c %Y "videolar/$K/$b.hazir")" -le "$(stat -c %Y "$D/$b")" ] && continue
+      ref=$(stat -c %Y "videolar/$K/$b.hazir")   # işlem sırasında .hazir yenilenirse sonraki turda yeniden işlenir
+      isle "$b" onay && touch -d "@$ref" "$D/$b"
     elif [ ! -f "$D/$b.taslak" ]; then
       isle "$b" taslak && touch "$D/$b.taslak"
     fi

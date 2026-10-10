@@ -1,6 +1,6 @@
 // 2026-10-09 serisi · Tanıtım 27–33: rol, rakam, günlük akış (surum 2).
 // Metin kuralları: kısa, düz cümle, fiil sonda; *yıldızlı* kelimeler sarı. Rakamlar ve etiketler 9 Ekim element haritalarından okundu:
-//   katalog: "1326 ürün", 7 kategori (75+328+149+63+300+224+187), marka filtresi 6 + "+ 99 marka daha" ("Genel Markalar" dahil; videoda "100+")
+//   katalog: "1326 ürün", 7 kategori (75+328+149+63+300+224+187), marka filtresi 6 + "+ 99 marka daha" ("Genel Markalar" dahil; videoda "+100")
 //   kampanyalar: "Peşin Ödeme %2 İndirim", "₺3.500,00 ve üzeri siparişlerde kargo ücreti uygulanmaz." · hizli: "En fazla 100 satır"
 //   urun-alt: "Cari hesap", "Kredi kartı (3D Secure)", "Havale/EFT (peşin %2 iskonto)"
 // Demo hesabın tutarları (harcama, bakiye, limit) fayda gibi sunulmaz. Kayıt değiştiren tıklamalar (Onayla, Sepete Ekle, Excel'e Aktar) yalnız canlandırılır.
@@ -19,10 +19,10 @@ export default [
       { tip: "karakter", avatar: { sac: "kisa", ten: "esmer", sacRenk: "#1F1712", giysi: "#3D4F5C", yaka: "yelek", sakal: true, ruh: "dertli" },
         ad: "Serkan", rol: "Fabrika satın alma sorumlusu", ikon: "box", metin: "Sünger bitti, *hat bekliyor.*" },
       ek("listeler-firma", "Hattın listesini *tek tıkla* sepete ekleyin.", { bolge: HESAP,
-        vurgu: [{ hedef: ["Üretim Hattı Standart Set", "5 ürün · Oluşturulma 22.08.2026"], not: "Firma listesi şirketteki herkese açıktır" }],
+        vurgu: [{ hedef: ["Üretim Hattı Standart Set", "5 ürün · Oluşturulma 22.08.2026"], not: "Firma listesi şirket genelinde görünür" }],
         tikla: { hedef: "Sepete Ekle#2", sonuc: "Liste sepete eklendi" },
         dikey: { tip: "telefon", ekran: "m-listeler",
-          vurgu: [{ hedef: ["Üretim Hattı Standart Set", "5 ürün · Oluşturulma 22.08.2026"], not: "Firma listesi şirketteki herkese açıktır" }],
+          vurgu: [{ hedef: ["Üretim Hattı Standart Set", "5 ürün · Oluşturulma 22.08.2026"], not: "Firma listesi şirket genelinde görünür" }],
           tikla: { hedef: "Sepete Ekle#2", sonuc: "Liste sepete eklendi" } } }),
       tel("m-onaylarim", "Üretimden gelen siparişi *telefondan* onaylayın.", {
         vurgu: [{ hedef: "~Departman: Üretim", not: "Siparişi açan departman kartta yazar" }],
@@ -35,12 +35,12 @@ export default [
   {
     id: "tanitim-28-rakamlarla", tur: "tanitim", baslik: "Rakamlarla MTS Hijyen B2B", tohum: 28, ton: -1, surum: 2,
     sahneler: [
-      { tip: "rakamlar", baslik: "Katalog *tek panelde*",
-        kartlar: [{ ikon: "box", deger: 1326, etiket: "ürün" }, { ikon: "list", deger: 7, etiket: "ana kategori" }, { ikon: "tag", deger: 100, sonek: "+", etiket: "marka" }] },
-      { tip: "rakamlar", baslik: "Kurallar *panelde yazılı*",
+      { tip: "rakamlar", baslik: "Katalogda *aradığınızı* bulun.",
+        kartlar: [{ ikon: "box", deger: 1326, etiket: "ürün" }, { ikon: "list", deger: 7, etiket: "ana kategori" }, { ikon: "tag", deger: 100, onek: "+", etiket: "marka" }] },
+      { tip: "rakamlar", baslik: "Kurallar *panelde açıkça* yazar.",
         kartlar: [{ ikon: "percent", deger: 2, onek: "%", etiket: "Havale/EFT ile peşin ödemede indirim" },
           { ikon: "truck", deger: 3500, para: true, ondalik: 0, etiket: "ve üzeri siparişte kargo ücretsiz" },
-          { ikon: "bolt", deger: 100, sonek: "satır", etiket: "hızlı siparişte tek seferde" }] },
+          { ikon: "bolt", deger: 100, sonek: "satır", etiket: "hızlı siparişle tek seferde eklenir" }] },
       ek("katalog", "Tüm ürünleri *tek katalogda* süzün.", { bolge: B(283, 190, 1360, 700), bolgeD: B(283, 300, 560, 620),
         vurgu: [{ hedef: ["Kağıt Ürünleri 75", "Atık Yönetimi & Ortam Bakımı 187"], not: "Her kategorinin ürün sayısı yanında yazar" },
           { hedef: ["Koleston 104", "+ 99 marka daha"], not: "Marka filtresi aramayı daraltır" }] }),
@@ -55,9 +55,9 @@ export default [
       { tip: "karakter", avatar: { sac: "uzun", ten: "bugday", sacRenk: "#4A2E1F", giysi: "#0B5677", yaka: "gomlek", ruh: "notr" },
         ad: "Derya", rol: "Satın alma sorumlusu", ikon: "calendar", metin: "Bugün *dört işim* var.", sure: 3.5 },
       ek("ozet", "Sabah *onay bekleyenlere* bakın.", { saat: "09:00", bolge: HESAP,
-        vurgu: [{ hedef: ["Onay bekleyen", "Şimdi incele →"], not: "Onayınızı bekleyen siparişler özette sayılır" }],
+        vurgu: [{ hedef: ["Onay bekleyen", "Şimdi incele →"], not: "Bekleyen siparişlerin sayısı özette görünür" }],
         dikey: { tip: "telefon", ekran: "m-ozet", saat: "09:00",
-          vurgu: [{ hedef: ["Onay bekleyen", "Şimdi incele →"], not: "Onayınızı bekleyen siparişler özette sayılır" }] } }),
+          vurgu: [{ hedef: ["Onay bekleyen", "Şimdi incele →"], not: "Bekleyen siparişlerin sayısı özette görünür" }] } }),
       ek("hizli", "Ürün kodunu yazıp *sepete* ekleyin.", { saat: "10:00", bolge: HESAP,
         yaz: { hedef: "Ürün ara (ad veya kod)", metin: "555204" },
         tikla: { hedef: "Sepete Ekle", sonuc: "Ürün sepete eklendi" },
@@ -68,7 +68,7 @@ export default [
         tikla: { hedef: "Onayla", sonuc: "Sipariş onaylandı" } }),
       ek("siparis-sevkiyat", "Öğleden sonra *kargoyu* izleyin.", { saat: "15:00", bolge: HESAP,
         vurgu: [{ hedef: "Sevkiyatta", not: "Siparişin durumu sayfanın başında yazar" },
-          { hedef: "[]Sıradaki adım", not: "Takip bilgisi kargo bölümünde yer alır" }],
+          { hedef: ["Sıradaki adım", "Sipariş kargoda. Takip için kargo bölümüne bakın."], not: "Takip bilgisi kargo bölümünde yer alır" }],
         dikey: { tip: "telefon", ekran: "m-siparis-sevkiyat", saat: "15:00",
           vurgu: [{ hedef: "Sevkiyatta", not: "Siparişin durumu sayfanın başında yazar" },
             { hedef: ["Sıradaki adım", "Sipariş kargoda. Takip için kargo bölümüne bakın."], not: "Takip bilgisi kargo bölümünde yer alır" }] } }),
@@ -93,16 +93,22 @@ export default [
     sahneler: [
       { tip: "gundem", ust: "Muhasebe ekibi için", baslik: "*3 neden*", ikon: "invoice",
         maddeler: ["Faturalar panele otomatik gelir", "Fatura ve sipariş eşleşir", "Bakiye vadeye göre ayrılır"] },
+      // Yatayda vurgular son satırda: kamera yukarı kayıp sayfanın "Logo ERP üzerinden…" alt başlığını göstermesin; PDF sütunu kırpım dışında
       ek("faturalar", "Her fatura *siparişiyle* eşleşir.", { bolge: B(560, 290, 880, 390),
-        vurgu: [{ hedef: ["Fatura No", "MTSD2026000001"], not: "e-Faturalar bu listeye otomatik düşer" },
-          { hedef: ["MTSD2026000003", "MTS-2026-0016"], not: "Faturanın yanında sipariş numarası yazar" }],
+        vurgu: [{ hedef: ["MTSD2026000001", "01.06.2026"], not: "e-Faturalar bu listeye otomatik düşer" },
+          { hedef: ["MTSD2026000001", "MTS-2026-0008"], not: "Faturanın yanında sipariş numarası yazar" }],
         dikey: { tip: "telefon", ekran: "m-faturalar",
-          vurgu: [{ hedef: ["MTSD2026000003", "10.09.2026"], not: "e-Faturalar bu listeye otomatik düşer" },
+          // Kısa sayfa: kamera alt başlığı kadraj dışına itemez; yakın çekim ise "PDF yakında yüklenecek" satırını büyütür, bu yüzden normal yakınlık
+          vurgu: [{ hedef: "e-Fatura", not: "e-Faturalar bu listeye otomatik düşer" },
             { hedef: ["MTSD2026000003", "MTS-2026-0016"], not: "Faturanın yanında sipariş numarası yazar" }] } }),
-      // Dikeyde m-ekstre yerine masaüstü dar kırpım: mobil çekimde Sadakat Birikim şeridinin yazıları üst üste biniyor (panel hatası)
-      ek("ekstre", "Bakiyeyi *vadesine göre* görün.", { bolge: B(555, 290, 1095, 485), bolgeD: B(700, 372, 460, 460),
-        vurgu: [{ hedef: "[]0–30 gün (Vade 30 gün)", not: "Açık bakiye vade aralıklarına bölünür" },
-          { hedef: ["Vade Tarihi", "05.11.2026"], not: "Her siparişin vade tarihi satırında yazar" }] }),
+      // Panel verisi: "Açık Bakiye ₺15.405,55" ile "0–30 gün ₺22.739,84" birbirini tutmuyor. Kamera Açık Bakiye tutarını dışarıda bırakır, not "açık bakiye bölünür" demez.
+      // Dikey m-ekstre: Sadakat Birikim şeridinin yazıları üst üste biniyor; basY ve yakın çekim şeridi kadraj dışında tutar.
+      ek("ekstre", "Bakiyeyi *vadesine göre* görün.", { bolge: B(700, 290, 950, 420),
+        vurgu: [{ hedef: ["[]0–30 gün (Vade 30 gün)", "[]60+ gün"], not: "Borçlar vade aralıklarına göre ayrılır" },
+          { hedef: ["04.11.2026", "₺1.855,68"], not: "Her siparişin vade tarihi satırında yazar" }],
+        dikey: { tip: "telefon", ekran: "m-ekstre", basY: 480,
+          vurgu: [{ hedef: ["0–30 gün (Vade 30 gün)", "₺22.739,84"], not: "Borçlar vade aralıklarına göre ayrılır", zoom: 2.3 },
+            { hedef: B(14, 682, 115, 88), not: "Her siparişin vade tarihi kartında yazar", zoom: 1.6 }] } }),
       kapanis("Faturayı ve bakiyeyi *tek yerde* izleyin."),
     ],
   },
@@ -111,7 +117,7 @@ export default [
   {
     id: "tanitim-32-ay-sonu", tur: "tanitim", baslik: "Ay sonu: önce / sonra", tohum: 32, ton: 3, surum: 2,
     sahneler: [
-      { tip: "karsilastir", baslik: "Sipariş raporu *nasıl hazırlanır?*", once: "Elle", sonra: "Panelde",
+      { tip: "karsilastir", baslik: "Ay sonu raporu *nasıl hazırlanır?*", once: "Elle", sonra: "Panelde",
         sol: ["Siparişler e-postalardan toplanır", "Tablo elle doldurulur", "Toplamlar tek tek kontrol edilir"],
         sag: ["Tüm siparişler tek listede durur", "Durum ve tarihe göre süzülür", "Liste Excel'e aktarılır"] },
       ek("siparisler", "Sipariş listesini *Excel'e* aktarın.", { bolge: HESAP,

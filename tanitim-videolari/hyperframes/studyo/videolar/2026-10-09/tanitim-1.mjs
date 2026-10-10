@@ -21,8 +21,8 @@ export default [
   {
     id: "tanitim-20-tek-panel", tur: "tanitim", baslik: "Hepsi tek panelde", tohum: 20, ton: 1, surum: 2,
     sahneler: [
-      { tip: "kelime", kelimeler: ["Telefon.", "E-posta.", "Excel."], ciz: true, son: "Hepsi artık *tek panelde.*" },
-      { tip: "cihaz", metin: "Siparişi, onayı ve faturayı *tek ekrandan* izleyin.", alt: "Masaüstünde ve telefonda aynı hesap", ikon: "phone", sure: 4.5,
+      { tip: "kelime", kelimeler: ["Telefon.", "E-posta.", "Excel."], ciz: true, son: "Hepsi artık *tek panelde*." },
+      { tip: "cihaz", metin: "Siparişi, onayı ve bakiyeyi *tek ekranda* görün.", alt: "Aynı hesap masaüstünde ve telefonda açılır", ikon: "phone", sure: 4.5,
         masa: { ekran: "ozet", bolge: B(555, 180, 1095, 620) }, tel: { ekran: "m-ozet", basY: 60 } },
       kapanis("Satın almayı *tek yerden* yönetin."),
     ],
@@ -32,10 +32,10 @@ export default [
   {
     id: "tanitim-21-panel-cebinizde", tur: "tanitim", baslik: "Panel cebinizde", tohum: 21, ton: -1, surum: 2,
     sahneler: [
-      { tip: "cihaz", metin: "Bilgisayardaki panel *telefonda* da çalışır.", alt: "Masaüstünde ve telefonda aynı hesap", ikon: "phone", sure: 5,
+      { tip: "cihaz", metin: "Bilgisayardaki panel *telefonda* da çalışır.", alt: "Siparişleriniz iki ekranda da aynı görünür", ikon: "phone", sure: 5,
         masa: { ekran: "siparisler", bolge: B(555, 180, 1095, 620) }, tel: { ekran: "m-siparisler", basY: 160 } },
       tel("m-ozet", "Hesabınızı *tek bakışta* görün.", {
-        vurgu: [{ hedef: "[]ONAY BEKLEYEN 3", not: "Onayınızı bekleyen siparişler burada sayılır" }] }),
+        vurgu: [{ hedef: "[]ONAY BEKLEYEN 3", not: "Onay bekleyen siparişler Özet ekranında görünür" }] }),
       onayla("Siparişi *tek dokunuşla* onaylayın."),
       kapanis("Siparişlerinizi *her yerden* izleyin.", "Panelde deneyin"),
     ],
@@ -46,14 +46,14 @@ export default [
     id: "tanitim-22-otel", tur: "tanitim", baslik: "Otel: kat hizmetleri tek panelde", tohum: 22, ton: 2, surum: 2,
     sahneler: [
       { tip: "karakter", avatar: { sac: "topuz", ten: "bugday", sacRenk: "#3B2A20", giysi: "#0B5677", yaka: "gomlek", ruh: "dertli" },
-        ad: "Sevgi", rol: "Kat hizmetleri şefi", ikon: "building", metin: "Her sabah kat arabasında bir ürünü *eksik buluyorum.*" },
+        ad: "Sevgi", rol: "Kat hizmetleri şefi", ikon: "building", metin: "Her sabah kat arabasında bir ürünü *eksik* buluyorum." },
       ek("paket-otel", "Kat ürünlerini *tek pakette* alın.", { bolge: B(283, 195, 1360, 680), bolgeD: B(283, 190, 800, 800),
         vurgu: [{ hedef: ["12 × Domestos Pro Tuvalet Temizleyici Asidik 750 ml", "~Kapalı ortamlarda hoş"], not: "Tuvalet, cam ve oda ürünleri aynı pakette gelir" },
           { hedef: ["₺7.913,52", "[]Paket içi %10 indirim otomatik uygulanır"], not: "Paket içi %10 indirimle ₺879,28 tasarruf edersiniz" }] }),
       ek("periyodik", "Siparişi her ay *otomatik* tekrarlayın.", { bolge: HESAP,
-        vurgu: [{ hedef: ["Aylık Temizlik Sarf Aboneliği", "Aylık, her ayın 5. günü"], not: "Sipariş her ayın aynı günü kendiliğinden oluşur" }],
+        vurgu: [{ hedef: ["Aylık periyodik sipariş", "Aylık, her ayın 1. günü"], not: "Sipariş her ayın aynı günü kendiliğinden oluşur" }],
         dikey: { tip: "telefon", ekran: "m-periyodik",
-          vurgu: [{ hedef: ["Aylık Temizlik Sarf Aboneliği", "Aylık, her ayın 5. günü"], not: "Sipariş her ayın aynı günü kendiliğinden oluşur" }] } }),
+          vurgu: [{ hedef: ["Aylık periyodik sipariş", "Aylık, her ayın 1. günü"], not: "Sipariş her ayın aynı günü kendiliğinden oluşur" }] } }),
       kapanis("Kat arabasını *eksiksiz* hazırlayın."),
     ],
   },
@@ -62,18 +62,18 @@ export default [
   {
     id: "tanitim-23-okul", tur: "tanitim", baslik: "Okul: dönem başlamadan hazır", tohum: 23, ton: 0, surum: 2,
     sahneler: [
-      { tip: "kelime", ust: "Okullar ve eğitim kurumları", kelimeler: ["Tuvalet kağıdı.", "Kağıt havlu.", "El sabunu."], son: "Dönem başlamadan *hepsini* hazırlayın." },
+      { tip: "kelime", ust: "Okullar ve eğitim kurumları", kelimeler: ["Tuvalet kağıdı.", "Kağıt havlu.", "El sabunu."], son: "*Dönem başlamadan* hepsini hazırlayın." },
       ek("paket-okul", "Okulun temel ihtiyacını *tek pakette* alın.", { bolge: PAKET,
-        vurgu: [{ hedef: ["Eğitim", "En Avantajlı"], not: "Paket panelde En Avantajlı etiketiyle yer alır" },
+        vurgu: [{ hedef: ["Eğitim", "~Okul tuvaletleri ve sınıflar için"], not: "Tuvalet kağıdı, kağıt havlu ve el sabunu aynı pakette gelir" },
           { hedef: ["₺8.387,55", "[]Paket içi %10 indirim otomatik uygulanır"], not: "Paket içi %10 indirimle ₺931,95 tasarruf edersiniz" }],
         dikey: { tip: "telefon", ekran: "m-paketler", yol: "Vitrin › Paketler",
-          vurgu: [{ hedef: ["Okul & Eğitim Kurumu Paketi", "En Avantajlı"], not: "Paket panelde En Avantajlı etiketiyle yer alır" },
+          vurgu: [{ hedef: ["Okul & Eğitim Kurumu Paketi", "En Avantajlı"], not: "Tuvalet kağıdı, kağıt havlu ve el sabunu aynı pakette gelir" },
             { hedef: "₺931,95 tasarruf · %10", not: "Paket içi %10 indirimle ₺931,95 tasarruf edersiniz" }] } }),
       ek("departmanlar", "Her birimin *bütçesini* ayrı izleyin.", { bolge: HESAP,
         vurgu: [{ hedef: ["İdari İşler", "/ ₺45.000,00"], not: "Bu ayki harcama, aylık bütçenin yanında görünür" }],
         dikey: { tip: "telefon", ekran: "m-departmanlar",
           vurgu: [{ hedef: ["İdari İşler", "/ ₺45.000,00"], not: "Bu ayki harcama, aylık bütçenin yanında görünür" }] } }),
-      kapanis("Yeni döneme *hazır* başlayın."),
+      kapanis("Okulun siparişlerini *önceden* planlayın."),
     ],
   },
 
@@ -117,12 +117,12 @@ export default [
   {
     id: "tanitim-26-saglik", tur: "tanitim", baslik: "Sağlık kuruluşları: kontrol sizde", tohum: 26, ton: -3, surum: 2,
     sahneler: [
-      { tip: "soru", metin: "Hangi sipariş *kimin onayından* geçiyor?", alt: "Her departman için kuralı siz belirleyin.",
+      { tip: "soru", metin: "Hangi sipariş *kimin onayından* geçiyor?", alt: "Sağlık kuruluşlarında siparişler birçok birimden gelir.",
         cipler: [["building", "Departman"], ["wallet", "Tutar"], ["approve", "Onaylayan"]] },
       ek("onay-kural-yeni", "Onay kurallarını *siz* belirleyin.", { bolge: B(565, 190, 1080, 478),
         vurgu: [{ hedef: ["Alt Tutar (₺) (opsiyonel)", "~Tüm departmanlar"], not: "Kural tutara ve departmana göre çalışır" }],
         dikey: { tip: "telefon", ekran: "m-onay-kurallari",
-          vurgu: [{ hedef: ["10.000 TL Üzeri Siparişler", "Tutar: ₺10.000,00 – ∞"], not: "Bu tutarı aşan sipariş onay bekler" }] } }),
+          vurgu: [{ hedef: "~Belirli tutar/departman koşullarına", not: "Kural tutara ve departmana göre çalışır" }] } }),
       ek("butce", "Departman *bütçelerini* izleyin.", { bolge: B(565, 290, 1072, 474),
         vurgu: [{ hedef: "[]Satın Alma ₺150.000,00", not: "Bütçe, harcama ve kalan tutar aynı satırda görünür" }],
         dikey: { tip: "telefon", ekran: "m-departmanlar", yol: "Hesabım › Departman & Bütçe",

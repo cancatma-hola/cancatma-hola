@@ -36,17 +36,18 @@ export default [
     ek("siparis-onay", 2, "Onaya düşen sipariş *Onay Bekleniyor* durumuna geçer.", { bolge: B(555, 290, 1095, 690), bolgeD: B(565, 300, 700, 680),
       vurgu: [{ hedef: "Onay Bekleniyor", not: "Sıradaki adım şirket içi onaydır." },
         { hedef: B(605, 908, 180, 46), not: "Onay zinciri siparişin kimde beklediğini gösterir." }] }),
-    ek("onaylarim", 3, "Onaylayıcı siparişi *Onaylarım* sayfasında karara bağlar.", { bolge: HESAP_UST,
+    // Önce bildirim gelir, sonra onaylayıcı Onaylarım sayfasında karar verir
+    ek("bildirim-panel", 3, "Yeni onay talebi *bildirim* olarak gelir.", { bolge: B(760, 50, 882, 390),
+      vurgu: [{ hedef: "[]Onayınızı bekleyen sipariş var", not: "Zil simgesi bekleyen onayı size haber verir." }],
+      dikey: tel("m-bildirimler", {
+        // Bildirimin tamamı (başlık, açıklama, tarih satırı): açıklama satırı başlıktan geniş
+        vurgu: [{ hedef: B(52, 390, 312, 68), not: "Zil simgesi bekleyen onayı size haber verir." }] }) }),
+    ek("onaylarim", 4, "Onaylayıcı siparişi *Onaylarım* sayfasında karara bağlar.", { bolge: HESAP_UST,
       vurgu: [{ hedef: ["Onayla", "Revize için Geri Yolla", "Reddet"], not: "Siparişi onaylayabilir, revizeye yollayabilir ya da reddedebilirsiniz." }],
       tikla: { hedef: "Onayla", sonuc: "Sipariş onaylandı" },
       dikey: tel("m-onaylarim", {
         vurgu: [{ hedef: ["Onayla", "Revize için Geri Yolla", "Reddet"], not: "Siparişi onaylayabilir, revizeye yollayabilir ya da reddedebilirsiniz." }],
         tikla: { hedef: "Onayla", sonuc: "Sipariş onaylandı" } }) }),
-    ek("bildirim-panel", 4, "Yeni onay talebi *bildirim* olarak gelir.", { bolge: B(760, 50, 882, 390),
-      vurgu: [{ hedef: "[]Onayınızı bekleyen sipariş var", not: "Zil simgesi bekleyen onayı size haber verir." }],
-      dikey: tel("m-bildirimler", {
-        // Bildirimin tamamı (başlık, açıklama, tarih satırı): açıklama satırı başlıktan geniş
-        vurgu: [{ hedef: B(52, 390, 312, 68), not: "Zil simgesi bekleyen onayı size haber verir." }] }) }),
     // 9 durum 6 kutuda: üç MTS durumu tek kutuda, Faturalandı son kutunun alt satırında
     { tip: "akis", baslik: "Sipariş *9 durumdan* geçer.",
       adimlar: [["edit", "Taslak", "Sipariş oluşur"], ["approve", "Onay Bekleniyor", "Şirketiniz onaylar"],
@@ -62,7 +63,7 @@ export default [
     { tip: "karakter", avatar: { sac: "kisa", ten: "bugday", sacRenk: "#2A1A10", giysi: "#1D4F7A", yaka: "kravat", gozluk: true, ruh: "mutlu" },
       ad: "Kerem", rol: "Operasyon müdürü", ikon: "phone", metin: "Onayları *toplantı arasında* veriyorum." },
     tel("m-ozet", { adim: 1, metin: "*Özet* ekranında Onay bekleyen kartına dokunun.",
-      vurgu: [{ hedef: ["Onay bekleyen", "Şimdi incele →"], not: "Kart bekleyen onayları sayar." }],
+      vurgu: [{ hedef: ["Onay bekleyen", "Şimdi incele →"], not: "Bekleyen onaylara bu karttan geçersiniz." }],
       tikla: { hedef: "Şimdi incele →", sonuc: "Onaylarım sayfası açılır" } }),
     tel("m-onaylarim", { adim: 2, metin: "Kartı okuyup *Onayla* düğmesine dokunun.",
       vurgu: [{ hedef: ["Sipariş tutarı: ₺1.779,56", "₺409,50"], not: "Kartta tutar, açan kişi ve ürünler yazar." }],
@@ -76,7 +77,7 @@ export default [
     kapak(66, "Rol rehberi: satın alma sorumlusu", "Günlük satın alma işlerini panelde hızla yapın.", "cart"),
     { tip: "karakter", avatar: { sac: "uzun", ten: "acik", sacRenk: "#4A2E1A", giysi: "#0B5677", ruh: "dertli" },
       ad: "Elif", rol: "Satın alma sorumlusu", ikon: "cart", metin: "Her hafta aynı ürünleri *tek tek* sipariş ediyorum." },
-    gundem(66, "cart", ["Özet ekranını açın", "Ürün kodunu yazın", "Kayıtlı listeyi ekleyin", "Siparişi takip edin"]),
+    gundem(66, "cart", ["Özet ekranını açın", "Ürün kodunu yazın", "Kayıtlı listeyi sepete ekleyin", "Siparişi takip edin"]),
     ek("ozet", 1, "Güne *Özet* ekranıyla başlayın.", { bolge: HESAP_UST,
       vurgu: [{ hedef: ["+ Yeni Sipariş", "Sık Listeler"], not: "Yeni sipariş, şablonlar ve sık listeler buradan açılır." }],
       dikey: tel("m-ozet", { vurgu: [{ hedef: ["+ Yeni Sipariş", "Sık Listeler"], not: "Yeni sipariş, şablonlar ve sık listeler buradan açılır." }] }) }),
@@ -126,8 +127,9 @@ export default [
       vurgu: [{ hedef: ["Kredi Kullanımı", "/ ₺250.000,00"], not: "Kredi kullanımı limitle birlikte yazar." },
         { hedef: ["Kalan", "₺76.648,37"], not: "Her departmanın kalan bütçesi bu sütunda yazar." }],
       // Mobilde departman tablosu yana taşıyor: dikeyde yalnız üstteki kartlar
+      // Mobilde "Kredi Kullanımı" kutusu satır genişliğinde: dar ham kutu kamerayı sola kaydırmadan yakınlaştırır
       dikey: tel("m-butce", {
-        vurgu: [{ hedef: ["Kredi Kullanımı", "/ ₺250.000,00"], not: "Kredi kullanımı limitle birlikte yazar." },
+        vurgu: [{ hedef: B(60, 385, 190, 42), not: "Kredi kullanımı limitle birlikte yazar." },
           { hedef: ["Bu Ay Toplam Harcama", "₺29.348,56"], not: "Bu ayki toplam harcama ilk kartta yazar." }] }) }),
     ek("analitik", 4, "*Analitik* sayfasında harcamanın dağılımını görün.", { bolge: B(555, 290, 1095, 620),
       vurgu: [{ hedef: ["Toplam Harcama", "₺51.320,08"], not: "Son 12 ayın toplam harcaması kartta yazar." },
@@ -176,8 +178,8 @@ export default [
   E(69, "egitim-69-rol-sube", "Rol rehberi: şube ve depo sorumlusu", -3, [
     kapak(69, "Rol rehberi: şube ve depo sorumlusu", "Şube siparişini doğru listeden doğru adrese verin.", "building"),
     { tip: "karakter", avatar: { sac: "kisa", ten: "esmer", sacRenk: "#1A1410", giysi: "#2F5E3A", yaka: "yelek", ruh: "dertli" },
-      ad: "Hakan", rol: "Şube ve depo sorumlusu", ikon: "box", metin: "Her şubenin siparişi *farklı adrese* gidiyor." },
-    gundem(69, "building", ["Firma listesini ekleyin", "Proje kaydı açın", "Varsayılan adresi kontrol edin", "Siparişin adresini görün"]),
+      ad: "Hakan", rol: "Şube ve depo sorumlusu", ikon: "box", metin: "Her şubenin siparişini *farklı adrese* gönderiyorum." },
+    gundem(69, "building", ["Firma listesini sepete ekleyin", "Proje kaydı açın", "Varsayılan adresi kontrol edin", "Siparişin adresini görün"]),
     // "Firma" ile "Kişisel" listeler ayrı sekmelerde: not yalnız bu ayrımı söyler
     ek("listeler-firma", 1, "*Firma* listesini tek tıkla sepete ekleyin.", { bolge: HESAP_UST,
       vurgu: [{ hedef: "Firma", not: "Firma listesi şirketin ortak listesidir." }],

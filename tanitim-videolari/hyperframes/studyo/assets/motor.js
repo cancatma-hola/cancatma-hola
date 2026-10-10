@@ -47,8 +47,11 @@
   const rise = (tl, els, t, stagger = 0.1, y = 60) => els.length && tl.fromTo(els, { y, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger, ease: "expo.out" }, t);
   const popIn = (tl, el, t, d = 0.6) => tl.fromTo(el, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: d, ease: "back.out(2.2)" }, t);
   const draw = (tl, svg, t) => svg && tl.fromTo($$("path,circle,rect,line,polyline", svg), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.6, ease: "power2.out" }, t);
-  const ringAnim = (tl, el, t, size = 900, d = 0.9) => tl.fromTo(el, { width: 20, height: 20, marginLeft: -10, marginTop: -10, opacity: 1 },
-    { width: size, height: size, marginLeft: -size / 2, marginTop: -size / 2, opacity: 0, duration: d, ease: "expo.out" }, t);
+  // Halka yalnız t anında belirir (fromTo kullanılmaz: başlangıç durumu sahne başından itibaren nokta olarak görünüyordu)
+  const ringAnim = (tl, el, t, size = 900, d = 0.9) => {
+    tl.set(el, { width: 20, height: 20, marginLeft: -10, marginTop: -10, opacity: 1 }, t);
+    return tl.to(el, { width: size, height: size, marginLeft: -size / 2, marginTop: -size / 2, opacity: 0, duration: d, ease: "expo.out" }, t);
+  };
   const flash = (tl, el, t, peak = 0.35) => tl.fromTo(el, { opacity: 0 }, { keyframes: [{ opacity: peak, duration: 0.04 }, { opacity: 0, duration: 0.3 }] }, t);
   const countTo = (tl, el, t, to, d, f) => { const o = { v: 0 }; tl.fromTo(o, { v: 0 }, { v: to, duration: d, ease: "expo.out", onUpdate: () => { el.textContent = f(o.v); } }, t); };
   const NB = `<svg width="0.62em" height="0.62em" viewBox="0 0 24 24" fill="none" stroke="#2B1E00" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>`;
@@ -99,22 +102,30 @@
       Object.assign(s, { _k: k, _vw: vw, _vh: vh, _dl: dl, _dt: dt });
       const ic = (p) => ({ x: (p.x - r.x) * k, y: (p.y - r.y) * k, w: p.w * k, h: p.h * k });
       // kameralar: her vurgu / yaz / tıkla hedefi için ölçek ve kaydırma
-      const camFor = (t, kaydir = true) => {
+      const camFor = (t, kaydir = true, odak = null) => {
         const p = { x: t.x - 18, y: t.y - 14, w: t.w + 36, h: t.h + 28 }, q = ic(p);
         const sFit = Math.min((vw * 0.88) / q.w, (vh * (DIKEY ? 0.7 : 0.62)) / q.h);
         const sMin = Math.min((DIKEY ? 1.7 : 1.1) / k, (vh * 0.72) / q.h);
-        const sc = clamp(Math.max(sFit, sMin), 1, 2.3 / k);
+        const sc = clamp(Math.max(sFit, sMin), 1, Math.max(1, 2.3 / k));
         const cx = (x) => clamp(x, vw - (1920 - r.x) * k * sc, r.x * k * sc);
         let tx = cx(vw / 2 - (q.x + q.w / 2) * sc), ty = vh / 2 - (q.y + q.h / 2) * sc;
         ty = clamp(ty, vh - (1080 - r.y) * k * sc, r.y * k * sc);
         let pan = null;
-        if (q.w * sc > vw * 0.94) { const x0 = cx(vw * 0.04 - q.x * sc), x1 = cx(vw * 0.96 - (q.x + q.w) * sc); tx = x0; if (kaydir) pan = x1; }
+        if (q.w * sc > vw * 0.94) {
+          if (odak) { const o = ic(odak); tx = o.w * sc > vw * 0.92 ? cx(vw * 0.04 - o.x * sc) : cx(vw / 2 - (o.x + o.w / 2) * sc); }   // yaz/tıkla: hedefin kendisi kadrajda
+          else { const x0 = cx(vw * 0.04 - q.x * sc), x1 = cx(vw * 0.96 - (q.x + q.w) * sc); tx = x0; if (kaydir) pan = x1; }
+        }
         return { s: sc, x: tx, y: ty, q, pan };
       };
       s._cams = (s.vurgu || []).map((v) => camFor(v.r, !!v.kaydir));
-      const genis = (t) => { const x = Math.max(0, t.x - 260), y = Math.max(0, t.y - 110); return { x, y, w: Math.min(1920, t.x + t.w + 260) - x, h: Math.min(1080, t.y + t.h + 110) - y }; };
-      if (s.yaz) s._camYaz = camFor(genis(s.yaz.r), false);
-      if (s.tikla) s._camTik = camFor(genis(s.tikla.r), false);
+      // Hedefin çevresi (bağlam), sahnenin seçilen kırpımıyla sınırlı: üstteki site başlığı ve boş kenarlar kadraja girmez
+      const genis = (t) => {
+        const x0 = Math.min(t.x, Math.max(r.x, t.x - 260)), y0 = Math.min(t.y, Math.max(r.y, t.y - 110));
+        const x1 = Math.max(t.x + t.w, Math.min(r.x + r.w, t.x + t.w + 260)), y1 = Math.max(t.y + t.h, Math.min(r.y + r.h, t.y + t.h + 110));
+        return { x: x0, y: y0, w: x1 - x0, h: y1 - y0 };
+      };
+      if (s.yaz) s._camYaz = camFor(genis(s.yaz.r), false, s.yaz.r);
+      if (s.tikla) s._camTik = camFor(genis(s.tikla.r), false, s.tikla.r);
       const etiket = s.adim && s._toplam > 1 ? `<div class="mono cyan" id="${id}-e" style="font-size:${DIKEY ? 28 : 24}px;margin-bottom:${DIKEY ? 10 : 4}px">Adım ${s.adim} / ${s._toplam}</div>` : "";
       const hdr = s.adim
         ? `<div class="abs" style="left:${O.pad}px;top:${O.hdrY}px;right:${O.pad}px;display:flex;gap:${DIKEY ? 28 : 30}px;align-items:flex-start">
@@ -123,7 +134,7 @@
         : `<div class="abs" style="left:${O.pad}px;right:${O.pad}px;top:${DIKEY ? SAFE.top : 48}px;text-align:center"><div class="h1" id="${id}-m" style="font-size:${O.promoFs}px">${yazi(s.metin)}</div></div>`;
       const rings = (s.vurgu || []).map((v, i) => { const q = ic(v.r), cm = s._cams[i], bw = 5 / cm.s;
         return `<div class="spot" id="${id}-r${i}" style="left:${q.x - 10 / k}px;top:${q.y - 8 / k}px;width:${q.w + 20 / k}px;height:${q.h + 16 / k}px;border-width:${bw}px;border-radius:${12 / cm.s}px;opacity:0"></div>`; }).join("");
-      const gz = (s.gizle || []).map((g) => { const q = ic(g); return `<div class="abs" style="left:${q.x}px;top:${q.y}px;width:${q.w}px;height:${q.h}px;background:#E3E9F0;border-radius:${4 * k}px"></div>`; }).join("");
+      const gz = (s.gizle || []).map((g) => { const q = ic(g); return `<div class="abs" style="left:${q.x}px;top:${q.y}px;width:${q.w}px;height:${q.h}px;background:${g.y + g.h <= 36 ? "#075985" : "#E3E9F0"};border-radius:${4 * k}px"></div>`; }).join("");
       let yaz = "";
       if (s.yaz) { const q = ic(s.yaz.r);
         yaz = `<div class="abs" id="${id}-y" style="left:${q.x}px;top:${q.y}px;width:${q.w}px;height:${q.h}px;background:#fff;border:${2 * k}px solid ${BLUE};border-radius:${6 * k}px;
@@ -198,12 +209,13 @@
       const camFor = (t, zoom) => {
         const sc = clamp(Math.min((sw * 0.9) / (t.w * k), (useH * 0.55) / (t.h * k)), 1, zoom || s.zoom || 1.35);
         const cx = (t.x + t.w / 2) * k * sc, cy = (t.y + t.h / 2) * k * sc;
-        return { s: sc, x: clamp(sw / 2 - cx, sw - PW * k * sc, 0), y: clamp(ust * k + (useH - ust * k) * 0.46 - cy, Math.min(0, visH - PH * k * sc), 0) };
+        const alt = DIKEY ? 420 : 220;   // sayfa sonundan sonra boş alan: alttaki hedefler de ortaya kaydırılabilir
+        return { s: sc, x: clamp(sw / 2 - cx, sw - PW * k * sc, 0), y: clamp(ust * k + (useH - ust * k) * 0.46 - cy, Math.min(0, visH - PH * k * sc - alt), 0) };
       };
       Object.assign(s, { _k: k, _sw: sw, _vTop: vTop, _ph: ph });
       s._cams = (s.vurgu || []).map((v) => camFor(v.r, v.zoom));
-      if (s.yaz) s._camYaz = camFor(s.yaz.r, 1.3);
-      if (s.tikla) s._camTik = camFor(s.tikla.r, 1.3);
+      if (s.yaz) s._camYaz = camFor(s.yaz.r, s.yaz.zoom || 1.3);
+      if (s.tikla) s._camTik = camFor(s.tikla.r, s.tikla.zoom || 1.3);
       s._cam0 = { s: 1, x: 0, y: -(s.basY || 0) * k };
       const ic = (p) => ({ x: p.x * k, y: p.y * k, w: p.w * k, h: p.h * k });
       const etiket = s.adim && s._toplam > 1 ? `<div class="mono cyan" id="${id}-e" style="font-size:${DIKEY ? 28 : 26}px;margin-bottom:${DIKEY ? 10 : 8}px">Adım ${s.adim} / ${s._toplam}</div>` : "";
@@ -413,12 +425,12 @@
 
   SAHNE.karsilastir = {
     html: (s, z, id) => {
-      const kart = (cls, baslik, ic, renk, maddeler, n) => `<div class="card ${cls}" id="${id}-${n}" style="${DIKEY ? "width:100%" : "flex:1"};padding:${DIKEY ? "36px 40px" : "40px 46px"};${n === "y" ? `border-color:${AMBER}` : "border-color:rgba(255,120,120,0.45)"}">
+      const kart = (cls, baslik, ic, renk, maddeler, n) => `<div class="card ${cls}" id="${id}-${n}" style="${DIKEY ? "width:100%" : "flex:1"};padding:${DIKEY ? "36px 40px" : "40px 46px"};${n === "y" ? `border-color:${AMBER}` : s.notr ? "border-color:rgba(95,211,255,0.6)" : "border-color:rgba(255,120,120,0.45)"}">
           <div style="font-size:${DIKEY ? 50 : 48}px;font-weight:800;color:${renk};margin-bottom:24px">${baslik}</div>
           ${maddeler.map((m) => `<div style="display:flex;gap:18px;align-items:center;font-size:${DIKEY ? 42 : 40}px;font-weight:600;margin-top:18px">${icon(ic, DIKEY ? 44 : 40, renk, 2.6)}<span>${m}</span></div>`).join("")}</div>`;
       return `<div class="abs" style="left:${DIKEY ? 60 : 150}px;right:${DIKEY ? 60 : 150}px;top:${DIKEY ? SAFE.top : 80}px;${DIKEY ? "" : "text-align:center"}"><div class="h1" id="${id}-b" style="font-size:${DIKEY ? 92 : 84}px">${yazi(s.baslik)}</div></div>
         <div class="abs" style="left:${DIKEY ? 60 : 150}px;right:${DIKEY ? 60 : 150}px;top:${DIKEY ? 560 : 300}px;display:flex;${DIKEY ? "flex-direction:column;gap:40px" : "gap:50px"}">
-          ${kart("ks", s.once || "Eskiden", "x", "#FF8A8A", s.sol, "x")}${kart("ks", s.sonra || "MTS Hijyen B2B ile", "check", AMBER, s.sag, "y")}</div>`;
+          ${kart("ks", s.once || "Eskiden", s.notr ? "check" : "x", s.notr ? CYAN : "#FF8A8A", s.sol, "x")}${kart("ks", s.sonra || "MTS Hijyen B2B ile", "check", AMBER, s.sag, "y")}</div>`;
     },
     anim: (tl, s, z, id, b) => {
       rise(tl, $$(`#${id}-b .w`), b + z.baslik, 0.08);
@@ -563,7 +575,7 @@
       s.kartlar.forEach((c, i) => { const el = $(`#${id}-k${i}`), t = b + z.kart[i], d = c.ondalik || 0;
         tl.fromTo(el, { y: 60, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.6)" }, t);
         draw(tl, $(".tile svg", el), t + 0.1);
-        countTo(tl, $(".rs", el), t + 0.2, c.deger, 1.6, (v) => (c.para ? fmt(v, d) : (c.onek || "") + v.toLocaleString("tr-TR", { minimumFractionDigits: d, maximumFractionDigits: d })) + (c.sonek ? " " + c.sonek : "")); });
+        countTo(tl, $(".rs", el), t + 0.2, c.deger, 1.6, (v) => (c.para ? fmt(v, d) : (c.onek || "") + v.toLocaleString("tr-TR", { minimumFractionDigits: d, maximumFractionDigits: d })) + (c.sonek ? (/^[+%]/.test(c.sonek) ? "" : " ") + c.sonek : "")); });
     },
   };
 

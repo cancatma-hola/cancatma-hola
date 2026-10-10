@@ -11,13 +11,13 @@ for id in "${ids[@]}"; do
   for yon in yatay dikey; do
     out="$HEDEF/$tur/$id-$yon.mp4"; d="cikti/$id/$yon"
     [ -f "$d/index.html" ] || continue
-    # Güncel mi? render.md5 = render edilen index.html'in özeti. Özet yoksa (eski seriler) var olan çıktı korunur.
+    # Güncel mi? render.md5 = render edilen tanım (index.html) + motor dosyalarının özeti. Özet yoksa (eski seriler) var olan çıktı korunur.
+    h=$(cat "$d/index.html" assets/motor.js assets/zaman.js assets/kit.css assets/parts.js | md5sum | cut -d' ' -f1)
     if [ -s "$out" ]; then
       [ ! -f "$d/render.md5" ] && continue
-      md5sum -c --quiet "$d/render.md5" >/dev/null 2>&1 && continue
+      [ "$(cat "$d/render.md5")" = "$h" ] && continue
       echo "değişti, yeniden: $id $yon"
     fi
-    h=$(md5sum "$d/index.html")   # render başlamadan önceki tanım (render sırasında değişirse sonraki geçişte yeniden yapılır)
     if (cd "$d" && $H render -o renders/video.mp4 -q standard -w 4 > render.log 2>&1); then
       ffmpeg -nostdin -v error -y -i "$d/renders/video.mp4" -c:v libx264 -preset medium -crf 25 -pix_fmt yuv420p \
         -af "loudnorm=I=-14:TP=-1:LRA=9" -c:a aac -b:a 160k -ar 48000 -movflags +faststart "$out.tmp.mp4" && mv "$out.tmp.mp4" "$out"

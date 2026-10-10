@@ -36,8 +36,8 @@ module.exports = [
   { ad: 'analitik', url: '/tr/hesap/analitik', bekle: 3000 },
   { ad: 'analitik-alt', url: '/tr/hesap/analitik', bekle: 3000, once: kaydir(560) },
   { ad: 'sozlesme', url: '/tr/hesap/sozlesme' },
-  { ad: 'butce', url: '/tr/hesap/butce' },
-  { ad: 'butce-alt', url: '/tr/hesap/butce', once: kaydir(380) },
+  { ad: 'butce', url: '/tr/hesap/butce', ortu: ['CUSTOMER MANAGER', 'CUSTOMER MANAGER#2'] },   // ham rol kodu
+  { ad: 'butce-alt', url: '/tr/hesap/butce', once: kaydir(380), ortu: ['CUSTOMER MANAGER', 'CUSTOMER MANAGER#2'] },
   { ad: 'onaylarim', url: '/tr/hesap/onaylarim' },
   { ad: 'onay-kurallari', url: '/tr/hesap/onay-kurallari' },
   { ad: 'onay-kural-yeni', url: '/tr/hesap/onay-kurallari', once: tikla('+ Yeni Kural') },

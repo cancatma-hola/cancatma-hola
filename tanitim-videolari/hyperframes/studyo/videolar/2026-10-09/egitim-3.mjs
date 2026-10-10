@@ -14,7 +14,7 @@ const BELGE_TEL = ["Burak Şahin · +90 216 000 00 01", "Ayşe Yılmaz · +90 21
 export default [
   // ── 57 · Sipariş belgesi
   E(57, "egitim-57-siparis-belgesi", "Sipariş belgesini yazdırın", 1, [
-    kapak(57, "Sipariş belgesini yazdırın", "Siparişin belgesini tek tıkla açıp yazdırın.", "doc"),
+    kapak(57, "Sipariş belgesini yazdırın", "Sipariş belgesini açıp kontrol edin ve yazdırın.", "doc"),
     { tip: "karakter", avatar: { sac: "topuz", ten: "acik", sacRenk: "#4A2E1A", giysi: "#2C6E8F", gozluk: true, ruh: "dertli" },
       ad: "Derya", rol: "Muhasebe sorumlusu", ikon: "doc", metin: "Her siparişin *çıktısını* dosyaya eklemem gerekiyor." },
     ek("siparis-hazirlaniyor", 1, "Sipariş detayında *Yazdır / PDF* düğmesine basın.", { bolge: B(560, 180, 1090, 482), bolgeD: B(1130, 185, 520, 520),
@@ -55,7 +55,7 @@ export default [
     // Panel kuralı: "Sipariş henüz işleme alınmadan iptal edilebilir. MTS hazırlığa başladıktan sonra iptal için destek ekibine ulaşın."
     // Motor sol kartı kırmızı ✕ ile, sağ kartı onay işaretiyle çizer: kısıtlar solda, yapılabilen sağda.
     { tip: "karsilastir", baslik: "İptal *ne zaman* mümkün?", sure: 6,
-      once: "Hazırlık başladıysa", sol: ["İptal düğmesi görünmez", "İptal için destek talebi gerekir"],
+      once: "Hazırlık başladıysa", sol: ["Siparişi İptal Et düğmesi görünmez", "İptal için destek talebi gerekir"],
       sonra: "İşleme alınmadan önce", sag: ["Siparişi İptal Et düğmesi görünür", "Siparişi kendiniz iptal edersiniz"] },
     ek("siparis-mts-bekleniyor", 1, "İşleme alınmamış siparişte *Siparişi İptal Et* düğmesine basın.", { bolge: B(560, 290, 800, 354),
       vurgu: [{ hedef: "MTS Onayı Bekleniyor", not: "Bu durumda sipariş henüz işleme alınmadı." }],
@@ -78,7 +78,7 @@ export default [
       cipler: [["tag", "Birim fiyat"], ["chat", "Admin notu"], ["calendar", "Son tarih"]] },
     // TKF-2026-0002 (test kaydı) satırı ekranlar.js `ortu` ile her sahnede kapalı.
     // m-teklifler kullanılmadı: ekranlar.js `ortu` ("[]TKF-2026-0002") orada tüm tabloyu kapatıyor; ayrıca Durum sütunu yana taşıyor.
-    // Dikeyde satır vurgusu dar kadraja sığmıyor (numara ve durum görünmüyordu): yalnız durum rozeti vurgulanır, sonra numaraya tıklanır
+    // Dikeyde satır vurgusu dar kadraja sığmıyor (kaydırmada durum rozeti çok kısa görünüyor): yalnız durum rozeti vurgulanır, sonra aynı satırdaki numaraya tıklanır
     ek("teklifler", 1, "*Teklif Hazır* yazan teklifi açın.", { bolge: B(290, 180, 1360, 602),
       vurgu: [{ hedef: ["TKF-2026-0003", "Teklif Hazır#2"], not: "Fiyatı hazırlanan teklifler bu durumla görünür." }],
       tikla: { hedef: "TKF-2026-0003", sonuc: "Teklif detayı açılır" },
@@ -109,20 +109,20 @@ export default [
     // Metinler formların kendi açıklamalarından: "Fiyat teklifi almak istediğiniz ürünleri ve miktarları girin." / "500+ adet veya yıllık sözleşme talepleri için satış ekibimizden hızlı teklif alın."
     { tip: "ipucu", baslik: "Hangi form *ne zaman* kullanılır?",
       maddeler: [["tag", "Fiyat teklifi: ürünü ve miktarı panelde girin"], ["building", "Toplu alım: 500+ adet için satış ekibinden teklif alın"]] },
-    ek("teklif-yeni", 1, "*Yeni Fiyat Teklifi* formuna ürünü ve miktarı yazın.", { bolge: B(570, 300, 680, 380), bolgeD: B(575, 300, 670, 670),
+    ek("teklif-yeni", 1, "*Yeni Fiyat Teklifi* formuna ürünü yazın.", { bolge: B(570, 300, 680, 380), bolgeD: B(575, 300, 670, 670),
       yaz: { hedef: "Ürün ara (ad veya kod)", metin: "kağıt havlu" },
       tikla: { hedef: "Teklif Oluştur", sonuc: "Fiyatı admin ekibi hazırlar" } }),
     // Dar kadraj: tıklama kamerası formun altındaki İngilizce "Choose File No file chosen" yazısını dışarıda bırakır
     ek("teklif-iste", 2, "500+ adet için *Teklif İste* formunu doldurun.", { bolge: B(600, 190, 820, 363),
-      vurgu: [{ hedef: "~500+ adet veya yıllık sözleşme", not: "Toplu alım talebi satış ekibine gider." }],
+      vurgu: [{ hedef: "~500+ adet veya yıllık sözleşme", not: "Talep Detayı alanına ürünü, adedi ve periyodu yazın." }],
       tikla: { hedef: "Teklif Talep Et", sonuc: "Talebiniz satış ekibine iletilir" },
       // Dikeyde uzun açıklama satırı küçük kalıyordu: yalnız "500+ adet veya yıllık sözleşme" kısmı vurgulanır
       dikey: { tip: "ekran", ekran: "teklif-iste", bolge: B(610, 180, 640, 640),
-        vurgu: [{ hedef: B(626, 247, 194, 22), not: "Toplu alım talebi satış ekibine gider." }],
+        vurgu: [{ hedef: B(626, 247, 206, 22), not: "Talep Detayı alanına ürünü, adedi ve periyodu yazın." }],
         tikla: { hedef: "Teklif Talep Et", sonuc: "Talebiniz satış ekibine iletilir" } } }),
     { tip: "test", ust: "Mini test", soru: "500+ adetlik alım için hangi formu doldurursunuz?",
       secenekler: ["Toplu Alım Teklifi", "Hızlı Sipariş", "Numune Talebi"], dogru: 0, aciklama: "*Toplu Alım Teklifi* 500+ adet içindir." },
-    kontrol(["Ürünü ve miktarı Yeni Fiyat Teklifi formuna yazın.", "500+ adet için Teklif İste formunu kullanın.", "Teklif Talep Et düğmesiyle talebi gönderin."]),
+    kontrol(["Yeni Fiyat Teklifi formuna ürünü yazın.", "500+ adet için Teklif İste formunu kullanın.", "Teklif Talep Et düğmesiyle talebi gönderin."]),
     { tip: "son", metin: "Şimdi *Teklif İste* sayfasını açın.", sonraki: "Hesabı 4 adımda kurun" },
   ]),
 
@@ -149,8 +149,8 @@ export default [
       tikla: { hedef: "Kuralı Oluştur", sonuc: "Onay kuralı oluşturuldu" } }),
     // Kısa başlık: dikeyde üç satıra taşan metin telefonun arkasında kalıyordu (konum çipte yazar)
     ek("sozlesme", 4, "*Otomatik onay eşiğini* kontrol edin.", { bolge: B(285, 330, 1360, 602),
-      vurgu: [{ hedef: B(583, 605, 180, 44), not: "₺5.000 altındaki siparişler onay beklemeden onaylanır." }],
-      dikey: tel("m-sozlesme", { vurgu: [{ hedef: ["Otomatik Onay Eşiği", "₺5.000,00"], not: "₺5.000 altındaki siparişler onay beklemeden onaylanır." }] }) }),
+      vurgu: [{ hedef: B(583, 605, 180, 44), not: "₺5.000 altındaki siparişler doğrudan onaylanır." }],
+      dikey: tel("m-sozlesme", { vurgu: [{ hedef: ["Otomatik Onay Eşiği", "₺5.000,00"], not: "₺5.000 altındaki siparişler doğrudan onaylanır." }] }) }),
     kontrol(["Departman ekleyip kullanıcıları davet edin.", "Tutar sınırıyla onay kuralı oluşturun.", "Otomatik onay eşiğini kontrol edin."]),
     { tip: "son", metin: "Şimdi *Departman & Bütçe* sayfasını açın.", sonraki: "Roller ve yetkiler" },
   ]),
@@ -161,7 +161,7 @@ export default [
     { tip: "soru", metin: "Ekipte *kim ne yapabilir?*", alt: "Bunu rol ve yetkiler belirler.", sure: 4,
       cipler: [["user", "Genel Müdür"], ["cart", "Satınalmacı"], ["eye", "Görüntüleyici"]] },
     ek("kullanicilar", 1, "*Kullanıcılar & Yetkiler* sayfasında rolleri görün.", { bolge: B(560, 190, 1090, 482),
-      vurgu: [{ hedef: ["Rol", "Görüntüleyici"], not: "Cari Sahibi dışında üç rol var: Genel Müdür, Satınalmacı, Görüntüleyici." }],
+      vurgu: [{ hedef: ["Rol", "Görüntüleyici"], not: "Kullanıcıya Genel Müdür, Satınalmacı ya da Görüntüleyici rolü verilir." }],
       tikla: { hedef: "Düzenle#3", sonuc: "Kullanıcının yetki sayfası açılır" },
       dikey: tel("m-kullanicilar", { vurgu: [{ hedef: ["Genel Müdür", "· 45 yetki"], not: "Kartta rol, departman, onay limiti ve yetki sayısı yazar." }],
         tikla: { hedef: "Düzenle#3", sonuc: "Kullanıcının yetki sayfası açılır" } }) }),
@@ -169,7 +169,8 @@ export default [
       vurgu: [{ hedef: "[]Genel Müdür Satınalmacı Görüntüleyici", not: "Rol seçimi varsayılan yetkileri belirler." },
         { hedef: B(947, 385, 340, 54), not: "Boş bırakırsanız onay limiti sınırsız olur." }] }),   // etiket + kutunun sol kısmı
     ek("kullanici-yetki", 3, "*Hazır şablon* ile yetkileri tek seferde seçin.", { bolge: B(830, 440, 1090, 482), bolgeD: B(940, 440, 690, 640),
-      vurgu: [{ hedef: ["Hazır şablon:", "uygulayıp ince ayar yapabilirsiniz"], not: "Örneğin Onaycı ya da Tam Yetki şablonunu seçin." }] }),
+      // Şablon listesi: Görüntüleyici (salt-okur), Standart Satınalmacı, Onaycı, Departman Yöneticisi, Tam Yetki ("uygulayıp ince ayar yapabilirsiniz")
+      tikla: { hedef: "~Standart Satınalmacı Onaycı", sonuc: "Şablondaki yetkiler işaretlenir" } }),
     ek("kullanici-yetki-alt", 4, "*Detaylı Yetkiler* listesinde ekstra yetki açın.", { bolge: B(830, 590, 1090, 482), bolgeD: B(945, 420, 660, 660),
       vurgu: [{ hedef: "Onay ver / reddet (iç onay) Varsayılan", not: "Varsayılan etiketi yetkinin rolden geldiğini gösterir." }],
       // Dokunuş "Onay kurallarını yönet" yazısının üstüne düşer; dar kutu dikeyde kamerayı boş sol sütundan uzak tutar

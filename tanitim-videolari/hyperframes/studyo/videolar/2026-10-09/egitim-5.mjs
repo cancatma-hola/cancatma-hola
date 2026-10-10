@@ -110,7 +110,7 @@ export default [
       tikla: { hedef: "Verilerimi İndir (ZIP)", sonuc: "Verileriniz ZIP dosyası olarak iner" },
       dikey: tel("m-ayarlar", {
         tikla: { hedef: "Verilerimi İndir (ZIP)", sonuc: "Verileriniz ZIP dosyası olarak iner" } }) }),
-    kontrol(["Ayarlar sayfasında Bildirim Tercihleri bölümünü bulun.", "Seçimlerinizi Tercihleri Kaydet düğmesiyle kaydedin.", "Verilerimi İndir (ZIP) düğmesine basın."]),
+    kontrol(["Ayarlar sayfasında Bildirim Tercihleri bölümünü bulun.", "İstemediğiniz e-postaların işaretini kaldırıp kaydedin.", "Verilerimi İndir (ZIP) düğmesine basın."]),
     { tip: "son", metin: "Şimdi *Ayarlar* sayfasını açın.", sonraki: "Mini test: sipariş" },
   ]),
 
@@ -119,9 +119,9 @@ export default [
     kapak(73, "Mini test: sipariş", "Sipariş bilginizi üç soruyla pekiştirin.", "help"),
     test(1, "Kargoya verilen sipariş hangi *durumda* görünür?", ["Hazırlanıyor", "Sevkiyatta", "Teslim Edildi"], 1),
     { tip: "ekran", ekran: "siparisler", metin: "Kargodaki sipariş *Sevkiyatta* durumunda görünür.", bolge: B(270, 290, 1380, 610),
-      // sipariş no + durum (ilk "Sevkiyatta" hızlı filtre). Not 3. sorunun cevabını önceden vermesin diye filtreyi anlatır.
-      vurgu: [{ hedef: ["MTS-2026-0024", "Sevkiyatta#2"], not: "Sevkiyatta hızlı filtresi bu siparişleri ayırır" }],
-      dikey: tel("m-siparisler", { vurgu: [{ hedef: "~MTS-2026-0024 ₺8.634,37", not: "Sevkiyatta hızlı filtresi bu siparişleri ayırır" }] }) },
+      // sipariş no + durum (ilk "Sevkiyatta" hızlı filtre). Not yakınlaşan satırı anlatır; 3. sorunun cevabını önceden vermez.
+      vurgu: [{ hedef: ["MTS-2026-0024", "Sevkiyatta#2"], not: "Durum etiketi siparişin aşamasını gösterir" }],
+      dikey: tel("m-siparisler", { vurgu: [{ hedef: "~MTS-2026-0024 ₺8.634,37", not: "Durum etiketi siparişin aşamasını gösterir" }] }) },
     test(2, "*Hızlı Sipariş* formuna en fazla kaç satır girersiniz?", ["50 satır", "100 satır", "500 satır"], 1, "Sınır *100 satırdır.*"),
     test(3, "Kargo *takip numarası* nerede yazar?", ["Sipariş detayındaki Sevkiyat kutusunda", "Faturalarım sayfasında", "Cari Ekstre sayfasında"], 0),
     // Yalnız Sevkiyat kutusu: yanındaki Geçmiş listesi ham durum kodları içerir, gri bantla kapatılır
@@ -161,8 +161,9 @@ export default [
     { tip: "ekran", ekran: "butce", metin: "*Bütçe Panosu* kalan bütçeyi gösterir.", bolge: B(270, 180, 1380, 610),
       vurgu: [{ hedef: ["Depo ve Lojistik", "₺58.144,32"], not: "Bütçe, harcanan ve kalan tutar aynı satırda yazar" }],
       // m-butce'de tablo yana kayıyor (Kalan sütunu kesik): dikeyde masaüstü dar kadraj. Dikey vurgu en az ~1,7 kat yakınlaştığı
-      // için 730 px'lik satır sığmıyor: hedef Harcandı + Kalan sütunları (yakınlaşmadan önce tüm tablo görünür)
-      dikey: { tip: "ekran", ekran: "butce", bolgeD: B(560, 395, 745, 745),
+      // için 730 px'lik satır sığmıyor: hedef Harcandı + Kalan sütunları. Kadraj y 30–775: başlık ve tüm tablo görünür,
+      // altındaki Kullanıcı Onay Limitleri satırlarının ham rol kodu ("CUSTOMER MANAGER", y 792) kadraja girmez.
+      dikey: { tip: "ekran", ekran: "butce", bolgeD: B(560, 30, 745, 745),
         vurgu: [{ hedef: ["Harcandı", "₺58.144,32"], not: "Harcanan ve kalan tutar yan yana yazar" }] } },
     kontrol(["Otomatik onay eşiğini Sözleşme & Fiyat sayfasında kontrol edin.", "Onay zincirine en fazla üç seviye ekleyin.", "Kalan bütçeyi Bütçe Panosu sayfasında izleyin."]),
     { tip: "son", metin: "Şimdi *Bütçe Panosu* sayfasını açın." },

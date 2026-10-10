@@ -12,21 +12,24 @@ const T = (no, id, baslik, ton, sahneler) => ({ id, tur: "tanitim", baslik, tohu
 
 // Motor geçici çözümü (tanitim-1 ile aynı): tıklama halkası dokunuştan önce sahne boyunca 20 px'lik sarı nokta olarak görünüyor.
 // Telefon onayında başlangıç kaydırması (basY), noktanın baştan Onayla düğmesinin üstünde durmasını sağlayacak şekilde seçildi.
-const onayla = (metin) => tel("m-onaylarim", metin, { basY: 215, tikla: { hedef: "Onayla", sonuc: "Sipariş onaylandı" },
-  dikey: { tip: "telefon", ekran: "m-onaylarim", basY: 292, tikla: { hedef: "Onayla", sonuc: "Sipariş onaylandı" } } });
+// Dikeyde dokunuş kamerası "Açan: Zeynep Kaya" satırını üst çubuğun altında bırakıyor: dikey başlık bu yüzden isim vermez.
+const onayla = (metin, metinD) => tel("m-onaylarim", metin, { basY: 215, tikla: { hedef: "Onayla", sonuc: "Sipariş onaylandı" },
+  dikey: { tip: "telefon", ekran: "m-onaylarim", metin: metinD, basY: 292, tikla: { hedef: "Onayla", sonuc: "Sipariş onaylandı" } } });
 // Numune formunda kullanıcının adı iki alanda yazılı (İsim Soyisim, Firma Ünvanı): kamera yukarı kaydığında görünmesin
 const NUMUNE_AD = [B(647, 345, 626, 38), B(647, 567, 626, 38)];
 
 export default [
   // ── 34 · Kupon kodu gerektirmeyen 4 avantaj (kelime → Kampanyalar: Sürekli Avantajlar + Paket Fırsatları → kapanış)
   T(34, "tanitim-34-avantajlar", "Kupon kodu gerektirmeyen 4 avantaj", 2, [
-    { tip: "kelime", ust: "Kupon kodu gerektirmez", kelimeler: ["Çok alın.", "Peşin ödeyin.", "Paketi seçin.", "₺3.500'ü aşın."],
+    // Kural "₺3.500,00 ve üzeri": tam ₺3.500 de geçerli, bu yüzden "aşın" değil "ulaşın"
+    { tip: "kelime", ust: "Kupon kodu gerektirmez", kelimeler: ["Çok alın.", "Peşin ödeyin.", "Paketi seçin.", "₺3.500'e ulaşın."],
       son: "Hepsi *kendiliğinden* uygulanır." },
     ek("kampanyalar", "Avantajları *Kampanyalar* sayfasında görün.", { bolge: B(270, 190, 1380, 610),
-      // Üç kartın yazı alanı: kartların tamamı (1354 px) görünümün %94'ünden geniş olduğu için kamera sola yaslanıp sağı kesiyordu
-      vurgu: [{ hedef: ["Çok Al Az Öde", "~Kademeli iskontolu ürünlerde", "~₺3.500,00 ve üzeri"], not: "Koşul sağlanınca avantaj sepete otomatik yansır." }],
+      // Üç kartın yazı alanı: kartların tamamı (1354 px) görünümün %94'ünden geniş olduğu için kamera sola yaslanıp sağı kesiyordu.
+      // Not "sepete" demez: peşin %2 sepette değil, Havale/EFT ödemesinde düşülür. Sayfadaki ifade: "uygun koşulda otomatik uygulanır".
+      vurgu: [{ hedef: ["Çok Al Az Öde", "~Kademeli iskontolu ürünlerde", "~₺3.500,00 ve üzeri"], not: "Koşul sağlanınca avantaj otomatik uygulanır." }],
       dikey: { tip: "telefon", ekran: "m-kampanyalar",
-        vurgu: [{ hedef: ["Çok Al Az Öde", "~₺3.500,00 ve üzeri"], not: "Koşul sağlanınca avantaj sepete otomatik yansır." }] } }),
+        vurgu: [{ hedef: ["Çok Al Az Öde", "~₺3.500,00 ve üzeri"], not: "Koşul sağlanınca avantaj otomatik uygulanır." }] } }),
     kapanis("İndirimleri *kod girmeden* kullanın.", "Panelde deneyin"),
   ]),
 
@@ -34,11 +37,14 @@ export default [
   // "14:00'a kadar verilen siparişler aynı gün kargoda" giriş ve kayıt sayfalarında yazıyor. Masaüstü ürün sayfasındaki
   // "Pazartesi kargoda" rozeti (cuma akşamı çekim) kadraj dışında bırakıldı.
   T(35, "tanitim-35-saat-14", "Saat 14:00, bugün kargoda", -1, [
-    { tip: "sayac", baslik: "Siparişi *14:00'a kadar* verin.", deger: 14, sonek: ":00", alt: "Aynı gün sevkiyat" },
-    // Dikeyde m-urun kullanılmadı: stok satırı mobil çekimin dibinde (y 1584 / 1800), telefon kamerası daha aşağı kayamıyor ve satır
-    // güvenli alanın altında, notun arkasında kalıyordu. Dikeyde masaüstü dar kadraj (bolgeD) kullanıldı.
-    ek("urun", "Sipariş *aynı gün* kargoya çıkar.", { saat: "13:45", bolge: B(815, 560, 830, 367), bolgeD: B(820, 600, 520, 480),
-      vurgu: [{ hedef: "Stok: 88 adet · 1 iş günü içinde kargo", not: "Stok adedi sepete eklemeden önce görünür." }] }),
+    { tip: "sayac", baslik: "Siparişi *14:00'a kadar* verin.", deger: 14, sonek: ":00", alt: "Sipariş aynı gün kargoya verilir." },
+    // Ekran başlığı "aynı gün" demez: vurgulanan satır "1 iş günü içinde kargo" yazıyor, başlık ekranla çelişmesin.
+    // Dikey: m-urun'daki stok satırı çekimin dibinde (y 1584 / 1800) kalıp telefonda güvenli alanın altına düşüyor; aynı bilgi
+    // sayfanın üstündeki "Stoktaki ürünlerde 1 iş günü içinde kargo" şeridinde de yazıyor, dikeyde o vurgulanır (mobil çekim).
+    ek("urun", "Stok ve kargo bilgisi *ürün sayfasında* yazar.", { saat: "13:45", bolge: B(815, 560, 830, 367),
+      vurgu: [{ hedef: "Stok: 88 adet · 1 iş günü içinde kargo", not: "Stok adedi sepete eklemeden önce görünür." }],
+      dikey: { tip: "telefon", ekran: "m-urun", saat: "13:45",
+        vurgu: [{ hedef: "[]Stoktaki ürünlerde 1 iş günü içinde kargo", not: "Kargo süresi sepete eklemeden önce görünür." }] } }),
     kapanis("Acil ihtiyacı *beklemeden* karşılayın."),
   ]),
 
@@ -48,12 +54,12 @@ export default [
     { tip: "karakter", avatar: { sac: "uzun", ten: "bugday", sacRenk: "#3B2416", giysi: "#1D5FA8", yaka: "gomlek", ruh: "mutlu" },
       ad: "Zeynep", rol: "Satın alma sorumlusu", ikon: "cart", metin: "Haftalık siparişi *ürün kodlarıyla* hazırlıyorum." },
     // Yazma kamerası sol menüye kayıyor: menüdeki hesap sahibinin adı da (e-postası gibi) gri bantla kapatılır
-    ek("hizli", "Ürünleri *koduyla* sepete ekleyin.", { bolge: B(555, 185, 1095, 485), ortu: ["Can Çatma"],
+    ek("hizli", "Ürünleri *kodlarıyla* sepete ekleyin.", { bolge: B(555, 185, 1095, 485), ortu: ["Can Çatma"],
       yaz: { hedef: "Ürün ara (ad veya kod)", metin: "555204" },
       dikey: { tip: "telefon", ekran: "m-hizli", yaz: { hedef: "Ürün ara (ad veya kod)", metin: "555204" } } }),
     { tip: "karakter", avatar: { sac: "kisa", ten: "acik", sacRenk: "#2A1E17", giysi: "#16324F", yaka: "kravat", sakal: true, ruh: "notr" },
       ad: "Kerem", rol: "Birim yöneticisi", ikon: "approve", metin: "Onay bekleyen siparişleri *telefondan* görüyorum." },
-    onayla("Zeynep'in siparişini *telefondan* onaylayın."),
+    onayla("Zeynep'in siparişini *telefondan* onaylayın.", "Siparişi *telefondan* onaylayın."),
     kapanis("Siparişi hazırlayın, *yöneticiniz* onaylasın."),
   ]),
 
@@ -70,11 +76,15 @@ export default [
   T(38, "tanitim-38-dogru-urun", "Doğru ürün, ilk seferde", 3, [
     { tip: "soru", metin: "Havlu *dispensere* uyar mı?", alt: "Cevabı ürün sayfasında bulun.", sure: 4,
       cipler: [["search", "Teknik özellik"], ["box", "Dispenser"], ["sample", "Numune"]] },
-    // Vurgu kamerası en fazla 2,3 kat büyütür (kadraj 740 px'ten darsa vurguda geri çekiliyor): yatay kadraj 740 px, satıra ortalı.
+    // Vurgu kamerası en fazla 2,3 kat büyütür (kadraj 740 px'ten darsa vurguda geri çekiliyor) ve hedefi ortalar.
+    // Yatay: satırın tamamı vurgulanınca görünüm x 1047'den başlıyor, soldaki açıklama paragrafının kesik satır sonları
+    // ("…lmak üzere", "…nluğundadır.") görünüyordu. Vurgu cevabın kendisinde: değer yazısının kutusu (ham kutu, x 1459–1615,
+    // sağa yaslı); görünüm x 1166'dan başlar, paragraf 1158'de biter. Kadraj vurgu görünümüyle aynı, kamera yer değiştirmez.
+    // "Dispenser Uyumu" etiketi aynı satırda solda okunur.
     // Dikeyde aynı tablo urun-alt çekiminde sayfanın ortasında: urun-teknik'te satır üstte kaldığı için kamera yapışkan kategori
     // çubuğunu da gösteriyordu.
-    ek("urun-teknik", "Cevap *Teknik Özellikler* bölümünde yazar.", { bolge: B(1047, 114, 740, 327),
-      vurgu: [{ hedef: ["Dispenser Uyumu", "Fotoselli Havlu Dispenseri"], not: "Satın almadan önce dispenser tipinizle karşılaştırın." }],
+    ek("urun-teknik", "Cevap *Teknik Özellikler* bölümünde yazar.", { bolge: B(1166, 114, 740, 327),
+      vurgu: [{ hedef: B(1453, 268, 166, 24), not: "Satın almadan önce dispenser tipinizle karşılaştırın." }],
       dikey: { tip: "ekran", ekran: "urun-alt", yol: "Kağıt Ürünleri › Ürün", bolge: B(1180, 340, 476, 476),
         vurgu: [{ hedef: ["Dispenser Uyumu", "Fotoselli Havlu Dispenseri"], not: "Satın almadan önce dispenser tipinizle karşılaştırın." }] } }),
     // Yazma (yaz) yerine vurgu: yazma kamerası hedefin 260 px soluna da yer açıyor, dar kadrajda formun solundaki boş alana kayıyordu.
@@ -86,13 +96,17 @@ export default [
     kapanis("Ürünü *önce deneyin,* sonra sipariş verin."),
   ]),
 
-  // ── 39 · Kurumsal hesabınızı açın (kelime: sayfadaki fayda başlıkları → Kurumsal Üyelik formu → kapanış)
-  // Kayıt sayfasının sertifika satırı kadraja girmez; vurgu formun vergi satırında, not sayfadaki cümlenin aynısı.
-  // Yatay kadraj 740 px ve vergi satırına ortalı: kamera vurguda yer değiştirmez, kartın üstündeki boş zemin görünmez.
+  // ── 39 · Kurumsal hesabınızı açın (kelime: sayfadaki faydalar → Kurumsal Üyelik formu → Üyeliği Tamamla → kapanış)
+  // Kelimeler giriş ve kayıt sayfalarındaki fayda yazılarından ("Cari özel fiyat", "…özel fiyatlandırma + kademeli iskonto",
+  // "Yetki zincirli onay"); panelde doğrulanabilen özellikler. Üç kelime: motor kelimeleri (son − 0,4) sn'de sildiği için iki kelimeyle
+  // ikincisi yalnız ~0,1 sn tam görünüyordu; üç kelimeyle liste ~1,5 sn ekranda kalır.
+  // "Atanmış temsilci" (danışman, WhatsApp desteği) ve sertifika satırı hizmet/şirket iddiası: kullanılmaz, kadraja girmez.
+  // Kadraj formun başı (başlık, Kurumsal sekmesi, firma ve vergi alanları); x 842: soldaki mavi sütunun yazı sonu ("…aktif") kesik görünmesin.
+  // Vurgu formu bitiren düğmede, not sayfadaki cümlenin aynısı.
   T(39, "tanitim-39-kurumsal-hesap", "Kurumsal hesabınızı açın", 0, [
-    { tip: "kelime", ust: "Yeni Kurumsal Hesap", kelimeler: ["Cari özel fiyat.", "Atanmış temsilci."], son: "Hepsi *tek formla* başlar." },
-    ek("kayit", "*Kurumsal Üyelik* formunu doldurun.", { bolge: B(824, 212, 740, 327), bolgeD: B(925, 125, 535, 535),
-      vurgu: [{ hedef: ["Vergi Dairesi", "10 hane"], kaydir: true, not: "Cari özel fiyatlar onay sonrası otomatik tanımlanır." }] }),
+    { tip: "kelime", ust: "Yeni Kurumsal Hesap", kelimeler: ["Cari özel fiyat.", "Yetki zincirli onay.", "Kademeli iskonto."], son: "Hepsi *tek formla* başlar." },
+    ek("kayit", "*Kurumsal Üyelik* formunu doldurun.", { bolge: B(842, 130, 740, 327), bolgeD: B(925, 125, 535, 535),
+      vurgu: [{ hedef: "Üyeliği Tamamla", kaydir: true, not: "Cari özel fiyatlar onay sonrası otomatik tanımlanır." }] }),
     kapanis("Firmanızı *bugün* panele taşıyın."),
   ]),
 ];

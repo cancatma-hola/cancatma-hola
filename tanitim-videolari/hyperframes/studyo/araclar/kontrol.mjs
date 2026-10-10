@@ -50,7 +50,8 @@ for (const id of dirs) for (const yon of yonlar) {
         sc.querySelectorAll(".h1,.h2").forEach((el) => { if (el.scrollWidth > el.clientWidth + 4) out.push(`taşan satır "${el.innerText.slice(0, 40)}"`); }); });
       return out; }, [w, h]);
     tasan.forEach((x) => uyari.add(x));
-    const k = path.join(OUT, `_k${i}.jpg`); await page.screenshot({ path: k, type: "jpeg", quality: 70 }); kareler.push(k);
+    // süreç başına geçici ad: paralel kontroller birbirini ezmez
+    const k = path.join(OUT, `_k${process.pid}-${i}.jpg`); await page.screenshot({ path: k, type: "jpeg", quality: 70 }); kareler.push(k);
   }
   const n = kareler.length, cols = dikey ? Math.min(n, 6) : Math.min(n, 4), rows = Math.ceil(n / cols), tw = dikey ? 360 : 640;
   const inp = kareler.flatMap((k) => ["-i", k]);

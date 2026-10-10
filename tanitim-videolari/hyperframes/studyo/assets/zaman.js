@@ -28,7 +28,7 @@
     akis: (s) => { const t = { baslik: 0.3, adim: [] }; s.adimlar.forEach((_, i) => t.adim.push(1.1 + i * 0.75)); t.dur = R(1.1 + n(s.adimlar) * 0.75 + 2.2); return t; },
     karsilastir: (s) => ({ baslik: 0.3, sol: 1.0, sag: 2.4, dur: s.sure || 6.5 }),
     // Kinetik kelimeler: her kelime bir vuruşta gelir, sonra ana cümle
-    kelime: (s) => { const t = { kelime: s.kelimeler.map((_, i) => 0.1 + i * 0.5) }; t.ciz = 0.1 + n(s.kelimeler) * 0.5 + 0.2; t.son = t.ciz + (s.ciz ? 0.6 : 0.1); t.dur = s.sure || R(t.son + oku(s.son) + 0.6); return t; },
+    kelime: (s) => { const t = { kelime: s.kelimeler.map((_, i) => 0.1 + i * 0.5) }; t.ciz = 0.1 + n(s.kelimeler) * 0.5 + 0.2; t.son = t.ciz + (s.ciz ? 1.2 : 0.5); t.dur = s.sure || R(t.son + oku(s.son) + 0.6); return t; },
     // Karakter: avatar, ad/rol, konuşma balonu
     karakter: (s) => ({ avatar: 0.2, ad: 0.6, balon: 1.0, dur: s.sure || R(1.0 + oku(s.metin) + 0.8) }),
     // Gündem: "Bu videoda" + numaralı maddeler

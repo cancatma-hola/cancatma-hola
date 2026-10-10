@@ -30,7 +30,7 @@ Süreler otomatik hesaplanır (0,5 sn ızgarası). Okuma süresi kelime başına
 ```js
 { tip: "telefon", ekran: "m-onaylarim", adim: 2, metin: "Siparişi *tek dokunuşla* onaylayın.",
   vurgu: [{ hedef: "[]Sipariş tutarı: ₺1.779,56", not: "Tutar ve ürünler tek kartta", zoom?: 1.3 }],
-  tikla: { hedef: "Onayla", sonuc: "Sipariş onaylandı" }, basY?: 0, ustSabit?: 65 }
+  tikla: { hedef: "Onayla", sonuc: "Sipariş onaylandı", zoom?: 1 }, basY?: 0, ustSabit?: 65 }   // yaz/tikla.zoom: dokunma kadrajı (varsayılan 1,3)
 ```
 - Yalnızca `m-` ile başlayan mobil çekimler (430 px genişlik). Hedef koordinatları CSS px.
 - Kamera hedefe kaydırır ve yakınlaştırır; panelin üst çubuğu sabit kalır.
@@ -52,7 +52,7 @@ Süreler otomatik hesaplanır (0,5 sn ızgarası). Okuma süresi kelime başına
 | `kelime` | `ust?`, `kelimeler: [..]` (2–4), `ciz: true` (üstünü çiz), `son` | Tanıtım kancası, ilk 3 sn |
 | `soru` | `metin`, `alt?`, `cipler: [[ikon, metin]]` | Sorunu sorma |
 | `akis` | `baslik`, `adimlar: [[ikon, baslik, alt?]]` (3–6) | Süreç |
-| `karsilastir` | `baslik`, `once`, `sonra`, `sol: [..]`, `sag: [..]` | Önce / sonra |
+| `karsilastir` | `baslik`, `once`, `sonra`, `sol: [..]`, `sag: [..]`, `notr?` (iki seçenek de ✓) | Önce / sonra ya da iki seçenek |
 | `sayac` | `baslik`, `deger`, `para?`, `ondalik?`, `onek?`, `sonek?`, `alt?`, `cipler?` | Tek büyük rakam |
 | `rakamlar` | `baslik`, `kartlar: [{ikon, deger, para?, ondalik?, sonek?, etiket}]` (2–4) | Birden çok rakam |
 | `cubuk` | `baslik`, `satirlar: [[ad, kullanılan, limit]]`, `para?`, `vurgu?` | Bütçe çubukları |
@@ -65,6 +65,10 @@ Süreler otomatik hesaplanır (0,5 sn ızgarası). Okuma süresi kelime başına
 Avatar seçenekleri: `sac`: kisa, uzun, topuz, kivircik, kel · `ten`: acik, bugday, esmer, koyu · `yaka`: gomlek, kravat, yelek · `sakal`, `gozluk`: true · `ruh`: mutlu, dertli, notr.
 
 İkonlar: cart check clock chart users wallet doc repeat bell gift truck search shield box percent mail building list star back flask calendar table userplus tag eye key phone link bolt approve x heart gear help download upload filter sparkle home pin lock user chat edit plus trend sun package undo sample invoice map.
+
+## Kamera
+- Masaüstü `yaz`/`tikla` kadrajı hedefin çevresini gösterir ama sahnenin `bolge` kırpımının dışına çıkmaz; geniş alanlarda hedefin kendisine hizalanır.
+- Telefonda sayfa sonundaki hedefler de güvenli alana kaydırılabilir (sayfa altında boşluk bırakılır).
 
 ## Geçişler
 - Eğitim: kapaktan sonra ve tıklamalı ekrandan sonraki ekrana yakınlaşarak geçiş (cinematic-zoom); diğerleri yumuşak geçiş.

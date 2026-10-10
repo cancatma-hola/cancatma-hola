@@ -10,6 +10,8 @@ const kontrol = (maddeler) => ({ tip: "kontrol", baslik: "*Özet*", maddeler });
 const GECMIS_SEVK = ["[]Geçmiş 20.09.2026"], GECMIS_TESLIM = ["[]Geçmiş 12.09.2026"];
 // "Önceden aldıklarım" listesinde bir ürünün görseli yüklenmiyor (alt metin görünüyor): görsel alanı gri bantla kapatılır
 const KIRIK_GORSEL = [B(1395, 463, 226, 226)], KIRIK_GORSEL_M = [B(236, 815, 169, 169)];
+// Masaüstü üst şeritteki destek saatleri ("Pzt-Cum 08:00-18:00") gösterilmez: üst şerit kadraja giren sahnelerde kapatılır
+const SAAT = B(644, 3, 152, 26);
 
 export default [
   // ── 43 · Menü haritası
@@ -37,11 +39,11 @@ export default [
         dikey: { tip: "telefon", ekran: "m-menu-hesap", ustSabit: 0, metin: "Telefonda sağ üstteki *yuvarlak düğmeye* dokunun.",
           vurgu: [{ hedef: "CÇ", not: "Menü bu düğmeyle açılır" },
             { hedef: ["Hesap Özeti", "Faturalarım"], not: "Sık kullanılan sayfalara tek dokunuşla gidin" }] } }),
-      ek("katalog", 4, "Ürünleri *kategori menüsü* ve filtrelerle bulun.", { bolge: B(270, 105, 1380, 560),
+      ek("katalog", 4, "Ürünleri *kategori menüsü* ve filtrelerle bulun.", { bolge: B(270, 105, 1380, 560), ortu: [SAAT],
         vurgu: [{ hedef: ["Kağıt Ürünleri", "Dispenser & Aparat Sistemleri"], not: "Yedi ana kategori her sayfada üstte durur", kaydir: true },
           { hedef: ["Filtreler", "Tüm Kategoriler", "Atık Yönetimi & Ortam Bakımı 187"], not: "Soldan kategori seçip listeyi daraltın" }],
         dikey: { tip: "telefon", ekran: "m-kategori", metin: "Telefonda kategori sayfasında *Filtrele* düğmesini kullanın.",
-          vurgu: [{ hedef: ["75", "Fiyat aralığı"], not: "Ürün ve marka sayısı en üstte yazar" },
+          vurgu: [{ hedef: ["75", "Fiyat aralığı"], not: "Ürün sayısı, marka ve fiyat aralığı en üstte yazar" },
             { hedef: "Filtrele", not: "Filtreler bu düğmeyle açılır" }] } }),
       kontrol(["Sipariş ve fatura sayfalarını menüde bulun.", "Hesap menüsünü sağ üstten açın.", "Ürünleri kategori ve filtrelerle daraltın."]),
       { tip: "son", metin: "Şimdi panelde *menüleri* gezin.", sonraki: "Paneli telefondan kullanın" },
@@ -66,7 +68,8 @@ export default [
         tikla: { hedef: "Siparişlerim", sonuc: "Siparişlerim sayfası açılır" } }),
       tel("m-siparisler", { adim: 3, metin: "Siparişlerinizi *durumlarıyla* izleyin.",
         vurgu: [{ hedef: "~MTS-2026-0028 ₺3.161,19", not: "Her kartta durum, tutar ve tarih yazar" }],
-        tikla: { hedef: "Sevkiyatta", sonuc: "Sevkiyattaki siparişler listelenir" } }),
+        // Dar hedefte telefon 1,3 kat yakınlaşıp kartların solunu kesiyor: "Sevkiyatta" çipinin ortasına göre tam genişlikte ham kutu
+        tikla: { hedef: B(58, 540, 389, 26), sonuc: "Sevkiyattaki siparişler listelenir" } }),
       kontrol(["Özet ekranında hesabınızı kontrol edin.", "Özet düğmesiyle bölüm listesini açın.", "Siparişleri hızlı filtreyle süzün."]),
       { tip: "son", metin: "Şimdi telefonunuzdan *paneli* açın.", sonraki: "İlk siparişinizi verin" },
     ],
@@ -80,7 +83,7 @@ export default [
       kapak(45, "İlk siparişinizi verin", "Ürünü bulun, sepete ekleyin ve siparişi izleyin.", "cart"),
       { tip: "gundem", ust: "Eğitim 45", baslik: "Bu videoda", ikon: "cart", maddeler: ["Ürünü arayın", "Fiyatı ve indirimi okuyun", "Sepete ekleyin", "Siparişi izleyin"] },
       ek("arama", 1, "Arama kutusuna yazıp *ürünü* listeden seçin.", { bolge: B(420, 40, 1175, 520), bolgeD: B(407, 40, 680, 680),
-        ortu: [B(283, 176, 124, 518)],   // arkadaki banner'ın soldan kesik yazısı
+        ortu: [B(283, 176, 124, 518), SAAT],   // arkadaki banner'ın soldan kesik yazısı + destek saatleri
         yaz: { hedef: "kağıt havlu", metin: "kağıt havlu" },
         tikla: { hedef: "Fotoselli/Sensörlü Kağıt Havlu 4 kg 555204 ÜRÜN", sonuc: "Ürün sayfası açılır" } }),
       ek("urun", 2, "Fiyatı ve *kademeli indirimi* okuyun.", { bolge: B(810, 380, 850, 400),
@@ -101,7 +104,9 @@ export default [
         tikla: { hedef: "Detay →#5", sonuc: "Sipariş detayı açılır" },
         dikey: { tip: "telefon", ekran: "m-siparisler",
           vurgu: [{ hedef: ["Hızlı:", "Teslim"], not: "Siparişleri durumuna göre tek dokunuşla süzün" }],
-          tikla: { hedef: "~MTS-2026-0018 ₺2.428,14", sonuc: "Sipariş detayı açılır" } } }),
+          // 0018 kartı çekimin dibinde: kamera daha aşağı inemiyor, kart ortasına dokunuş bildirimin altında kalıyordu.
+          // Dokunuş kartın üst satırına (numara ve tutar), tam genişlikte ham kutuyla
+          tikla: { hedef: B(21, 1659, 388, 30), sonuc: "Sipariş detayı açılır" } } }),
       ek("siparis-hazirlaniyor", 5, "Detayda siparişin *hangi adımda* olduğunu görün.", { bolge: B(555, 180, 1095, 400),
         // Durum çubuğunun tamamı ~1000 px (yakınlaşma olmuyor): yalnız şu anki adım ve iki komşusu
         vurgu: [{ hedef: B(1138, 386, 330, 36), not: "Koyu mavi işaret siparişin şu anki adımıdır" },
@@ -130,12 +135,14 @@ export default [
             { hedef: "ürün bulundu", not: "Aldığınız ürünlerin sayısı burada yazar" }] } }),
       ek("katalog-tekrar", 2, "Ürünü listeden doğrudan *sepete* ekleyin.", { bolge: B(270, 170, 1380, 620), ortu: KIRIK_GORSEL,
         tikla: { hedef: "Ekle", sonuc: "Ürün sepete eklendi" },
-        dikey: { tip: "telefon", ekran: "m-katalog-tekrar", ortu: KIRIK_GORSEL_M, tikla: { hedef: "Ekle", sonuc: "Ürün sepete eklendi" } } }),
-      ek("siparis-teslim", 3, "Eski siparişi açıp *Yeniden Sipariş Ver* düğmesine basın.", { bolge: B(555, 180, 1095, 560),
+        // Dikeyde dar "Ekle" hedefi 1,3 kat yakınlaşıp ürün adını kesiyor: düğmenin ortasına göre tam genişlikte ham kutu
+        dikey: { tip: "telefon", ekran: "m-katalog-tekrar", ortu: KIRIK_GORSEL_M, tikla: { hedef: B(-57, 737, 389, 36), sonuc: "Ürün sepete eklendi" } } }),
+      ek("siparis-teslim", 3, "Eski siparişi açıp *Yeniden Sipariş Ver* düğmesine basın.", { bolge: B(555, 180, 1095, 560), ortu: [SAAT],
         vurgu: [{ hedef: "[]Bez Mikrofiber 40*40 Yeşil 60 Gr ST00325", not: "Siparişteki ürünler ve adetler burada yazar" }],
         tikla: { hedef: "Yeniden Sipariş Ver", sonuc: "Siparişin ürünleri sepete eklendi" },
         dikey: { tip: "telefon", ekran: "m-siparis-teslim", ortu: GECMIS_TESLIM,
-          vurgu: [{ hedef: "[]Bez Mikrofiber 40*40 Yeşil 60 Gr ST00325#2", not: "Siparişteki ürünler ve adetler burada yazar" }],
+          // Mobil tabloda Adet sütunu sağdan taşıyor (görünmüyor): not adet demiyor
+          vurgu: [{ hedef: "[]Bez Mikrofiber 40*40 Yeşil 60 Gr ST00325#2", not: "Siparişteki ürünler bu listede görünür" }],
           tikla: { hedef: "Yeniden Sipariş Ver", sonuc: "Siparişin ürünleri sepete eklendi" } } }),
       kontrol(["Sadece önceden aldıklarım filtresini açın.", "Ürünü listeden sepete ekleyin.", "Eski siparişte Yeniden Sipariş Ver düğmesine basın."]),
       { tip: "son", metin: "Şimdi katalogda bu *filtreyi* açın.", sonraki: "Aynı siparişi tekrar vermenin 3 yolu" },
@@ -148,13 +155,14 @@ export default [
     tohum: 47, ton: -2, surum: 2,
     sahneler: [
       kapak(47, "Aynı siparişi tekrar vermenin 3 yolu", "Sık aldığınız ürünleri baştan girmeden sipariş edin.", "repeat"),
-      { tip: "akis", baslik: "Tekrar sipariş için *3 yol*",
-        adimlar: [["repeat", "Yeniden Sipariş Ver", "Eski siparişten"], ["list", "Sipariş listesi", "Kayıtlı listeden"], ["calendar", "Aboneliğe Çevir", "Ürün sayfasından"]] },
-      ek("siparis-teslim", 1, "Eski siparişte *Yeniden Sipariş Ver* düğmesine basın.", { bolge: B(555, 180, 1095, 420),
+      { tip: "akis", baslik: "Aynı siparişi *3 yoldan* tekrar verin.",
+        adimlar: [["repeat", "Yeniden Sipariş Ver", "Eski siparişten"], ["list", "Sipariş Listelerim", "Kayıtlı listeden"], ["calendar", "Aboneliğe Çevir", "Ürün sayfasından"]] },
+      ek("siparis-teslim", 1, "Eski siparişte *Yeniden Sipariş Ver* düğmesine basın.", { bolge: B(555, 180, 1095, 420), ortu: [SAAT],
         vurgu: [{ hedef: "Şablona Kaydet", not: "Siparişi şablon olarak da saklayabilirsiniz" }],
         tikla: { hedef: "Yeniden Sipariş Ver", sonuc: "Siparişin ürünleri sepete eklendi" },
         dikey: { tip: "telefon", ekran: "m-siparis-teslim", ortu: GECMIS_TESLIM,
-          vurgu: [{ hedef: "Şablona Kaydet", not: "Siparişi şablon olarak da saklayabilirsiniz" }],
+          // zoom 1: yakınlaşınca soldaki "Yeniden Sipariş Ver" düğmesi kesiliyordu
+          vurgu: [{ hedef: "Şablona Kaydet", not: "Siparişi şablon olarak da saklayabilirsiniz", zoom: 1 }],
           tikla: { hedef: "Yeniden Sipariş Ver", sonuc: "Siparişin ürünleri sepete eklendi" } } }),
       ek("listeler", 2, "Kayıtlı listeyi *Sepete Ekle* ile tek seferde ekleyin.", { bolge: B(555, 180, 1095, 360),
         vurgu: [{ hedef: ["Üretim Hattı Standart Set", "5 ürün · Oluşturulma 22.08.2026"], not: "Listedeki 5 ürün birlikte eklenir" }],
@@ -200,11 +208,12 @@ export default [
         dikey: { tip: "telefon", ekran: "m-paket-ofis",
           vurgu: [{ hedef: "Aboneliğe Çevir (aylık)", not: "Aynı paket her ay otomatik sipariş edilir" }],
           tikla: { hedef: "Tüm Paketi Sepete Ekle", sonuc: "Paketteki 4 ürün sepete eklendi" } } }),
-      { tip: "rakamlar", baslik: "Paketlerde *tasarruf*",
+      // Beş paketin tasarrufu (₺93,22 · ₺388,94 · ₺879,28 · ₺931,95 · ₺1.768,29) paket tutarıyla birlikte artıyor
+      { tip: "rakamlar", baslik: "Paket büyüdükçe *tasarruf* artar.",
         kartlar: [{ ikon: "building", deger: 388.94, para: true, ondalik: 2, etiket: "Ofis Başlangıç · %8" },
           { ikon: "star", deger: 931.95, para: true, ondalik: 2, etiket: "Okul & Eğitim · %10" },
           { ikon: "package", deger: 1768.29, para: true, ondalik: 2, etiket: "Restoran & Mutfak · %10" }] },
-      kontrol(["Paketler sayfasında tasarrufu karşılaştırın.", "Tüm Paketi Sepete Ekle düğmesine basın.", "Aylık alım için aboneliği seçin."]),
+      kontrol(["Paket kartında tasarruf tutarını okuyun.", "Tüm Paketi Sepete Ekle düğmesine basın.", "Aylık alım için Aboneliğe Çevir düğmesini kullanın."]),
       { tip: "son", metin: "Şimdi *Paketler* sayfasını açın.", sonraki: "Ürünleri karşılaştırın" },
     ],
   },
@@ -222,7 +231,7 @@ export default [
       tel("m-kategori", { adim: 1, metin: "Ürün kartındaki *karşılaştır* simgesine dokunun.",
         vurgu: [{ hedef: B(369, 496, 28, 28), not: "Bu simge ürünü karşılaştırma listesine ekler" }],
         tikla: { hedef: B(369, 496, 28, 28), sonuc: "Ürün karşılaştırmaya eklendi" } }),
-      ek("karsilastir", 2, "Fiyatı ve stoğu *aynı satırda* karşılaştırın.", { bolge: B(270, 250, 1380, 640), bolgeD: B(283, 330, 900, 750),
+      ek("karsilastir", 2, "Fiyatı ve stoğu *yan yana* karşılaştırın.", { bolge: B(270, 250, 1380, 640), bolgeD: B(283, 330, 900, 750),
         vurgu: [{ hedef: ["₺420,00", "₺525,00"], not: "KDV hariç fiyatlar aynı satırda yazar", kaydir: true },
           { hedef: ["Sınırlı", "Sınırlı#2"], not: "Stok durumu da yan yana görünür", kaydir: true }] }),
       // Dispenser Uyumu: iki ürünün tek farklı satırı. Ham kutu iki hücredeki yazıları kapsar (hücreler 489 px, yazı ortada)

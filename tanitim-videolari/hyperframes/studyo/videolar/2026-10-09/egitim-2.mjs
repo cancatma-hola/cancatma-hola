@@ -50,8 +50,12 @@ export default [
       // rozet + marka adı birlikte vurgulanınca kamera biraz aşağıda kalır
       dikey: ek("urun-tukendi", 1, "Ürün adının üstünde *Stokta yok* yazar.", { bolge: B(815, 190, 500, 500),
         vurgu: [{ hedef: ["Stokta yok", "Wanda Soft"], not: "Bu ürün şu an sepete eklenemez." }] }) }),
-    ek("urun-tukendi", 2, "*Stok Gelince Haber Ver* düğmesine basın.", { bolge: B(810, 600, 840, 372), bolgeD: B(815, 600, 500, 500),
-      tikla: { hedef: B(824, 856, 200, 38), sonuc: "Ürün gelince size haber verilir" } }),   // düğmenin yazılı kısmı: dikey kadrajda imleç görünsün
+    // Düğme 824,856,475x38. Tıklama kutusu düğmenin sağ yarısında: kamera düğmeyi tam gösterir,
+    // soldaki etiketsiz hesaplayıcı tutarları (₺630,00 …) kadraja girmez. Dikeyde dar kutu: kamera kaymadan 815–1315 arasını gösterir.
+    ek("urun-tukendi", 2, "*Stok Gelince Haber Ver* düğmesine basın.", { bolge: B(820, 600, 740, 327),
+      tikla: { hedef: B(1175, 860, 30, 30), sonuc: "Ürün gelince size haber verilir" },
+      dikey: ek("urun-tukendi", 2, "*Stok Gelince Haber Ver* düğmesine basın.", { bolge: B(815, 600, 500, 500),
+        tikla: { hedef: B(1113, 860, 20, 30), sonuc: "Ürün gelince size haber verilir" } }) }),
     ek("urun-tukendi", 3, "Ürünü *listenize* de ekleyin.", { bolge: B(810, 600, 840, 372), bolgeD: B(815, 600, 500, 500),
       tikla: { hedef: "Listeye Ekle", sonuc: "Ürün listenize eklenir" } }),
     { tip: "kontrol", baslik: "*Özet*", maddeler: ["Ürün adının üstünde Stokta yok etiketine bakın.", "Stok Gelince Haber Ver düğmesine basın.", "Ürünü Listeye Ekle ile kaydedin."] },
@@ -71,7 +75,7 @@ export default [
       tikla: { hedef: "+ Yeni Numune Talebi", sonuc: "Numune formu açılır" },
       dikey: tel("m-numune", { tikla: { hedef: "+ Yeni Numune Talebi", sonuc: "Numune formu açılır" } }) }),
     ek("numune-yeni", 3, "Ürün kodunu yazıp *ücretsiz numune* isteyin.", { bolge: B(630, 600, 740, 360), bolgeD: B(640, 600, 640, 400),
-      yaz: { hedef: "Virgülle ayırarak yazın. Örn: MTS-1001, MTS-2030", metin: "555204, 555206" },
+      yaz: { hedef: "Virgülle ayırarak yazın. Örn: MTS-1001, MTS-2030", metin: "555204" },   // 1. adımdaki havlunun ürün kodu
       tikla: { hedef: "Numune Talep Et", sonuc: "Numune talebiniz iletildi" } }),
     { tip: "kontrol", baslik: "*Özet*", maddeler: ["Dispenser uyumunu Teknik Özellikler bölümünde kontrol edin.", "Gramajı ve kat sayısını karşılaştırın.", "Emin değilseniz ücretsiz numune isteyin."] },
     { tip: "son", metin: "Şimdi *Numune Taleplerim* sayfasını açın.", sonraki: "Kargonuz nerede?" },
@@ -90,10 +94,10 @@ export default [
       dikey: tel("m-siparis-sevkiyat", { ortu: [GECMIS_SEVKIYAT_M],
         vurgu: [{ hedef: "Sipariş kargoda. Takip için kargo bölümüne bakın.", not: "Siparişiniz kargoya verildi." }] }) }),
     ek("siparis-teslim-kargo", 3, "*Takip et* ile kargonuzu izleyin.", { bolge: B(1107, 20, 740, 327), ortu: [GECMIS_TESLIM],
-      vurgu: [{ hedef: ["Aras Kargo", "1000855481"], not: "Kargo firması ve takip numarası burada yazar." }],
+      vurgu: [{ hedef: ["Aras Kargo", "1000855481"], not: "Kargo firması, durum ve takip numarası burada yazar." }],
       tikla: { hedef: "Takip et", sonuc: "Kargo firmasının takip sayfası açılır" },
       dikey: tel("m-siparis-sevkiyat", { ortu: [GECMIS_SEVKIYAT_M],
-        vurgu: [{ hedef: "[]Aras Kargo Yolda 1000933252", not: "Kargo firması ve takip numarası burada yazar." }],
+        vurgu: [{ hedef: "[]Aras Kargo Yolda 1000933252", not: "Kargo firması, durum ve takip numarası burada yazar." }],
         // "Takip et" (338,1668,60x16) ortada kalan 388 px genişlikte ham kutu: telefon kamerası yakınlaşmaz,
         // kargo kartı soldan kesilmez; imleç yine "Takip et" üstüne gelir
         tikla: { hedef: B(174, 1668, 388, 16), sonuc: "Kargo firmasının takip sayfası açılır" } }) }),
@@ -106,8 +110,12 @@ export default [
     kapak(54, "Ürünleri değerlendirin, puan kazanın", "Teslim edilen ürünlere yorum yazın.", "star"),
     { tip: "gundem", baslik: "Bu videoda", ikon: "star", maddeler: ["Puan kuralını görün", "Yıldız verip yorum yazın", "Yorumu gönderin"] },
     // yatay kadraj en az 739 px: daha dar kadrajda ölçek 2,3'ü aşıyor ve vurguda kamera uzaklaşıyordu
-    ek("sadakat-puan", 1, "Her ürün yorumu *5 puan* kazandırır.", { bolge: B(700, 600, 740, 327), bolgeD: B(800, 640, 440, 250),
-      vurgu: [{ hedef: ["Ürün yorumu yaz, 5 puan kazan", "+5 puan"], not: "Kural teslim edilen her ürün için geçerlidir." }] }),
+    // dikey: kamera vurguyu ortalar; vurgu kutusu biraz yukarı alındı (merkez y≈740), böylece alttaki
+    // puan defterinin filtre satırı ("Düzeltme" …) kadraja girmez
+    ek("sadakat-puan", 1, "Her ürün yorumu *5 puan* kazandırır.", { bolge: B(700, 600, 740, 327),
+      vurgu: [{ hedef: ["Ürün yorumu yaz, 5 puan kazan", "+5 puan"], not: "Kural teslim edilen her ürün için geçerlidir." }],
+      dikey: ek("sadakat-puan", 1, "Her ürün yorumu *5 puan* kazandırır.", { bolge: B(780, 520, 420, 420),
+        vurgu: [{ hedef: B(890, 696, 194, 88), not: "Kural teslim edilen her ürün için geçerlidir." }] }) }),
     ek("siparis-degerlendir", 2, "Yıldız verip *kısa bir yorum* yazın.", { bolge: B(575, 140, 760, 336), bolgeD: B(575, 190, 540, 300),
       vurgu: [{ hedef: B(592, 240, 175, 26), not: "Ürüne 1 ile 5 arasında yıldız verin." }],
       yaz: { hedef: "Deneyiminizi paylaşın (opsiyonel)", metin: "Dayanıklı, iyi temizliyor." } }),
@@ -130,15 +138,17 @@ export default [
       yaz: { hedef: B(1547, 430, 72, 24), metin: "2" },
       dikey: tel("m-iade-yeni", { vurgu: [{ hedef: "Selpak Prof. Kutu Mendil 50Li (18X21)", not: "Siparişteki her ürün ayrı satırda yazar." }],
         yaz: { hedef: B(330, 464, 80, 28), metin: "2" } }) }),
+    // sebep metni 4. adımdaki listede görünen talebin sebebiyle aynı başlar
     ek("iade-yeni", 3, "Sebebi yazıp talebi *gönderin.*", { bolge: SIPARIS_UST,
-      yaz: { hedef: "~Örn: Yanlış ürün", metin: "2 koli hasarlı geldi." },
+      yaz: { hedef: "~Örn: Yanlış ürün", metin: "Ürünlerin 2 kolisi hasarlı teslim edildi." },
       tikla: { hedef: "İade Talebini Gönder", sonuc: "İade talebiniz alındı" },
-      dikey: tel("m-iade-yeni", { yaz: { hedef: "~Örn: Yanlış ürün", metin: "2 koli hasarlı geldi." },
+      dikey: tel("m-iade-yeni", { yaz: { hedef: "~Örn: Yanlış ürün", metin: "Ürünlerin 2 kolisi hasarlı teslim edildi." },
         tikla: { hedef: "İade Talebini Gönder", sonuc: "İade talebiniz alındı" } }) }),
+    // satır vurgusu sipariş no'dan durum rozetine: ürün ve sebep de görünür (yalnız rozet vurgulanınca kamera soldaki sütunları kesiyordu)
     ek("iadeler", 4, "Talebi *İade Taleplerim* sayfasında izleyin.", { bolge: SIPARIS_UST,
-      vurgu: [{ hedef: "Talep Alındı#2", not: "MTS ekibi talebinizi inceler." }, { hedef: ["Talep Alındı", "İade Tamamlandı"], not: "Talepleri duruma göre filtreleyin." }],
-      dikey: tel("m-iadeler", { vurgu: [{ hedef: "Talep Alındı#2", not: "MTS ekibi talebinizi inceler." },
-        { hedef: ["Talep Alındı", "İade Tamamlandı"], not: "Talepleri duruma göre filtreleyin." }] }) }),
+      vurgu: [{ hedef: ["MTS-2026-0017", "Talep Alındı#2"], not: "MTS ekibi talebinizi inceler." }, { hedef: ["Talep Alındı", "İade Tamamlandı"], not: "Talepleri duruma göre filtreleyin." }],
+      dikey: tel("m-iadeler", { vurgu: [{ hedef: ["MTS-2026-0017", "Talep Alındı#2"], not: "MTS ekibi talebinizi inceler.", zoom: 1 },
+        { hedef: ["Talep Alındı", "İade Tamamlandı"], not: "Talepleri duruma göre filtreleyin.", zoom: 1 }] }) }),
     { tip: "kontrol", baslik: "*Özet*", maddeler: ["Siparişte İade Talebi Aç düğmesine basın.", "İade adedini ve sebebi yazın.", "Durumu İade Taleplerim sayfasında izleyin."] },
     { tip: "son", metin: "Şimdi *İade Taleplerim* sayfasını açın.", sonraki: "Siparişiniz reddedildiyse" },
   ]),
