@@ -81,7 +81,7 @@ function coz(video, yon) {
   const v = structuredClone(video);
   v.yon = yon;
   // Dikey sürüm için sahnenin yerine geçecek tanım (ör. masaüstü ekran → telefon ekranı)
-  v.sahneler = v.sahneler.map((s) => (yon === "dikey" && s.dikey ? { adim: s.adim, metin: s.metin, saat: s.saat, ...s.dikey } : (({ dikey, ...r }) => r)(s)));
+  v.sahneler = v.sahneler.map((s) => (yon === "dikey" && s.dikey ? { adim: s.adim, metin: s.metin, saat: s.saat, etiket: s.etiket, ...s.dikey } : (({ dikey, ...r }) => r)(s)));
   // Kapaktaki süre: "auto" → gerçek süre (5 sn'ye yuvarlanmış)
   const kp = v.sahneler.find((s) => s.tip === "kapak" && s.sure === "auto");
   if (kp) kp.sure = `${Math.max(10, Math.round(ZAMAN.zamanla(v).total / 5) * 5)} saniye`;
