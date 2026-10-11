@@ -57,7 +57,7 @@ E("urun-arama", "Ürün arama", "search", "Aradığınız ürünü arama kutusuy
     tikla: { hedef: "\"kağıt havlu\" için tüm sonuçları gör", sonuc: "Tüm sonuçlar listelenir" } }),
   ek("katalog", 3, "Ürün *kodu* veya *barkod* ile de arayabilirsiniz.", { bolge: B(285, 40, 1100, 470), bolgeD: B(285, 32, 880, 948), ortu: [SAAT],
     yaz: { hedef: "Ürün, SKU veya barkod...", metin: "555204" } }),
-], ["Ürün adının bir kısmını yazmanız yeterlidir.", "Tüm sonuçlar için listenin son satırına basın.", "Ürün kodunu ya da barkodu da yazabilirsiniz."],
+], ["Ürün adının bir kısmını yazın.", "Tüm sonuçlar için listenin son satırına basın.", "Ürün kodunu ya da barkodu da yazabilirsiniz."],
 "Şimdi bir ürünü *arayın.*");
 
 E("kategoriler", "Kategoriler ve filtreler", "filter", "Ürünleri kategoriye göre süzün.", [
@@ -171,12 +171,12 @@ E("periyodik-sablon", "Periyodik şablon oluşturma", "calendar", "Bir kez kurun
 
 E("siparis-listeleri", "Sipariş listeleri", "list", "Sık aldıklarınızı listeye kaydedin.", [
   ek("listeler", 1, "*Sipariş Listelerim* sayfası kayıtlı listelerinizi gösterir.", { bolge: B(555, 340, 1095, 220),
-    vurgu: [{ hedef: ["Tümü", "Firma"], not: "Listeler kişisel ve firma olarak ayrılır" }, { hedef: "[]Üretim Hattı Standart Set", not: "Bu firma listesinde 5 ürün var" }] }),
+    vurgu: [{ hedef: ["Tümü", "Firma"], not: "Listeler kişisel ve firma olarak ayrılır" }, { hedef: "[]Üretim Hattı Standart Set", not: "Bu firma listesi 5 ürün içerir" }] }),
   ek("listeler", 2, "Listeyi *tek tıkla* sepete ekleyin.", { bolge: B(555, 340, 1095, 220),
     tikla: { hedef: "Sepete Ekle#2", sonuc: "5 ürün sepete eklendi" } }),
   ek("listeler", 3, "Yeni liste için *Yeni Liste* butonuna basın.", { bolge: B(555, 205, 1095, 360),
     vurgu: [{ hedef: "Yeni Liste", not: "Listeye istediğiniz ürünleri ekleyin" }] }),
-], ["Firma listesi şirketin ortak listesidir.", "Kayıtlı listeyi Sepete Ekle ile ekleyin.", "Listeyi Düzenle düğmesiyle güncel tutun."],
+], ["Ortak listeleri Firma sekmesinde bulun.", "Kayıtlı listeyi Sepete Ekle ile ekleyin.", "Listeyi Düzenle düğmesiyle güncel tutun."],
 "Şimdi *Sipariş Listelerim* sayfasını açın.");
 
 E("favoriler", "Favorilerim", "heart", "Sık aldığınız ürünlere hızlı ulaşın.", [
@@ -190,7 +190,7 @@ E("favoriler", "Favorilerim", "heart", "Sık aldığınız ürünlere hızlı ul
 // ── Fiyat ve teklif
 E("fiyat-teklifleri", "Fiyat teklifleri", "tag", "Özel fiyat isteyin, teklifinizi takip edin.", [
   ek("teklifler", 1, "*Fiyat Tekliflerim* sayfası tüm taleplerinizi listeler.", { bolge: B(555, 205, 1095, 320),
-    vurgu: [{ hedef: ["TKF-2026-0003", "Teklif Hazır#2"], not: "Bu teklifin fiyatı hazır", kaydir: true }, { hedef: ["TKF-2026-0004", "Gönderildi"], not: "Bu teklifin fiyatı henüz hazırlanıyor", kaydir: true }],
+    vurgu: [{ hedef: ["TKF-2026-0003", "Teklif Hazır#2"], not: "Bu teklifin fiyatı hazırlandı", kaydir: true }, { hedef: ["TKF-2026-0004", "Gönderildi"], not: "Bu teklifin fiyatı henüz hazırlanıyor", kaydir: true }],
     ortu: ["[]TKF-2026-0002"] }),
   ek("teklifler", 2, "Yeni talep için *Yeni Teklif Talebi* butonuna basın.", { bolge: B(555, 205, 1095, 320),
     tikla: { hedef: "Yeni Teklif Talebi", sonuc: "Teklif formu açılır" } }),
@@ -349,7 +349,7 @@ E("numune-talebi", "Numune talebi", "sample", "Ürünü almadan önce ücretsiz 
     tikla: { hedef: "+ Yeni Numune Talebi", sonuc: "Numune formu açılır" } }),
   ek("numune-yeni", 2, "Formda istediğiniz *ürün kodlarını* yazın.", { bolge: B(620, 340, 690, 580),
     yaz: { hedef: "Virgülle ayırarak yazın. Örn: MTS-1001, MTS-2030", metin: "555204, ST00560" }, tikla: { hedef: "Numune Talep Et", sonuc: "Numune talebiniz iletildi" } }),
-], ["Numune talebi ücretsizdir.", "Birden çok ürünü virgülle ayırarak yazın.", "Onaydan sonra numune 2 iş günü içinde gönderilir."],
+], ["Numuneyi ücretsiz isteyin.", "Birden çok ürünü virgülle ayırarak yazın.", "Onaydan sonra numune 2 iş günü içinde gönderilir."],
 "Şimdi *Numune Taleplerim* sayfasını açın.");
 
 E("ai-asistan", "AI ürün asistanı", "sparkle", "İhtiyacınızı yazın, uygun ürünü asistan önersin.", [
@@ -366,7 +366,7 @@ E("sadakat", "Sadakat programı", "star", "Her siparişte puan kazanın, kademe 
   ek("sadakat", 1, "*Sadakat Programı* puanınızı ve kademenizi gösterir.", { bolge: B(555, 290, 1095, 330),
     vurgu: [{ hedef: ["Toplam Bakiye", "4.980₺ kupon değeri"], not: "Puanınız ve kupon karşılığı burada yazar" }, { hedef: ["Sonraki", "167 puan kaldı, Stratejik ortak"], not: "Platin kademesine 167 puan kaldı" }] }),
   ek("sadakat-alt", 2, "*Kademeler* puanınız arttıkça açılır.", { bolge: B(555, 660, 1095, 400),
-    vurgu: [{ hedef: ["[]AÇILDI BRONZ MÜŞTERİ", "[]KİLİTLİ PLATİN MÜŞTERİ"], not: "Kademe Bronz'dan Platin'e yükselir", kaydir: true }] }),
+    vurgu: [{ hedef: B(578, 835, 930, 135), not: "Kademe Bronz'dan Platin'e yükselir", kaydir: true }] }),   // dört kademenin adı ve puan sınırı
 ], ["Puanlar sipariş teslim edilince bakiyenize eklenir.", "100 puanı 10 TL'lik kupona çevirin.", "Kademe yükseldikçe ayrıcalığınız artar."],
 "Şimdi *Sadakat Programı* sayfasını açın.");
 
