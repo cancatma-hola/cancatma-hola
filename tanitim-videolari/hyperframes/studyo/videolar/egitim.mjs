@@ -16,6 +16,7 @@ const TARIH = [B(1466, 313, 156, 30), B(601, 353, 131, 30)];   // Siparişlerim 
 const BASLANGIC = B(1266, 205, 133, 22), BITIS = B(1434, 205, 133, 22);   // Cari Ekstre tarih kutuları
 const GECMIS_HAZIR = ["[]Geçmiş 05.10.2026", "~DEMO-SHOWCASE-PAY"];      // sipariş geçmişindeki ham durum kodları ve ödeme kodu
 const GECMIS_ONAY = ["[]Geçmiş 06.10.2026"];
+const DOSYA_EN = B(645, 722, 160, 20);              // dosya kutusundaki İngilizce tarayıcı yazısı ("Choose File No file chosen")
 const SAATLER_YARDIM = "Müşteri hizmetlerimiz hafta içi 09:00–18:00 hizmetinizdedir.";
 
 // ── Başlangıç
@@ -205,9 +206,9 @@ E("yeni-teklif", "Yeni fiyat teklifi", "edit", "Ürün ve miktarı yazın, fiyat
 "Şimdi ilk *teklif talebinizi* oluşturun.");
 
 E("toplu-alim-teklifi", "Toplu alım teklifi", "package", "500+ adetlik alımlar için teklif isteyin.", [
-  ek("teklif-iste", 1, "*Teklif İste* sayfasında firma bilgilerinizi yazın.", { bolge: B(620, 220, 690, 520),
+  ek("teklif-iste", 1, "*Teklif İste* sayfasında firma bilgilerinizi yazın.", { bolge: B(620, 220, 690, 520), ortu: [DOSYA_EN],
     vurgu: [{ hedef: ["Firma Ünvanı", "E-posta"], not: "Firma ve iletişim bilgilerinizi yazın" }] }),
-  ek("teklif-iste", 2, "Ürün, *adet* ve süreyi açıklayın.", { bolge: B(620, 560, 690, 300),
+  ek("teklif-iste", 2, "Ürün, *adet* ve süreyi açıklayın.", { bolge: B(620, 560, 690, 300), ortu: [DOSYA_EN],
     yaz: { hedef: "~Örn: 6 ay boyunca aylık 200 koli", metin: "12 ay boyunca aylık 150 koli kağıt havlu" },
     tikla: { hedef: "Teklif Talep Et", sonuc: "Talebiniz satış ekibine iletildi" } }),
 ], ["Adedi ve süreyi açıkça yazın.", "Varsa ek dosyayı forma ekleyin.", "Teklifi satış ekibi hazırlar."],
