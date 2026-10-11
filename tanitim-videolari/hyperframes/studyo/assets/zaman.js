@@ -39,14 +39,16 @@
     test: (s) => { const t = { soru: 0.3, secenek: s.secenekler.map((_, i) => 1.0 + i * 0.35) }; t.sayac = 1.0 + n(s.secenekler) * 0.35 + 0.4; t.cevap = t.sayac + 3; t.aciklama = t.cevap + 0.6; t.dur = R(t.aciklama + (s.aciklama ? oku(s.aciklama) : 1.5) + 0.4); return t; },
     // Rakamlar: 2–4 sayaç kartı
     rakamlar: (s) => { const t = { baslik: 0.3, kart: s.kartlar.map((_, i) => 0.9 + i * 0.3) }; t.dur = s.sure || R(0.9 + n(s.kartlar) * 0.3 + 3.4); return t; },
-    kapanis: () => ({ logo: 0.2, halka: 0.4, slogan: 0.7, marka: 1.5, url: 1.9, dur: 6 }),
+    // Sürüm 3: özet + sıradaki video tek sahnede; kısa tanıtım kapanışı
+    ozet: (s) => { const t = { baslik: 0.2, madde: s.maddeler.map((_, i) => 0.6 + i * 0.55) }; t.sonraki = 0.6 + n(s.maddeler) * 0.55 + 0.3; t.marka = t.sonraki + 0.4; t.dur = R(t.marka + 2.4); return t; },
+    kapanis: (s) => (s._v3 ? { logo: 0.1, halka: 0.2, slogan: 0.4, marka: 1.0, url: 1.3, dur: 4.5 } : { logo: 0.2, halka: 0.4, slogan: 0.7, marka: 1.5, url: 1.9, dur: 6 }),
     son: (s) => (s._v2 ? { ikon: 0.1, baslik: 0.3, sonraki: 1.2, marka: 1.6, dur: Math.max(4, R(0.3 + oku(s.metin) + 1.2)) } : { ikon: 0.2, baslik: 0.6, sonraki: 1.6, marka: 2.2, dur: 5.5 }),
   };
 
   // Geçiş seçimi: eğitimde ekran→ekran yumuşak geçiş, diğerleri shader; tanıtımda sırayla shader
   const PROMO_SHADER = ['cinematic-zoom', 'whip-pan', 'chromatic-split', 'whip-pan', 'cinematic-zoom', 'whip-pan'];
   function gecis(video, i, a, b) {
-    if (b.tip === 'kapanis' || b.tip === 'son') return ['cross-warp-morph', 0.8];
+    if (b.tip === 'kapanis' || b.tip === 'son' || b.tip === 'ozet') return ['cross-warp-morph', 0.8];
     if (video.tur === 'egitim') {
       if (a.tip === 'kapak') return ['cinematic-zoom', 0.6];
       if ((a.tip === 'ekran' || a.tip === 'telefon') && a.tikla && (b.tip === 'ekran' || b.tip === 'telefon')) return ['cinematic-zoom', 0.6];   // tıklanan yere dalış
@@ -60,7 +62,7 @@
     let t0 = 0;
     const v2 = (video.surum || 1) >= 2;
     video.sahneler.forEach((s, i) => {
-      const z = TIP[s.tip](v2 ? { ...s, _v2: true } : s);
+      const z = TIP[s.tip](v2 ? { ...s, _v2: true, _v3: (video.surum || 1) >= 3 } : s);
       sah.push({ ...z, bas: t0, tip: s.tip });
       t0 += z.dur;
     });
@@ -89,6 +91,7 @@
       if (z.tip === 'karakter') { H(b + z.avatar, 'pop'); H(b + z.balon, 'pop', { g: 0.7 }); }
       if (z.tip === 'gundem') z.madde.forEach((m) => H(b + m, 'pop', { g: 0.6 }));
       if (z.tip === 'kontrol') z.madde.forEach((m) => { H(b + m, 'pop', { g: 0.5 }); H(b + m + 0.45, 'tick'); });
+      if (z.tip === 'ozet') { z.madde.forEach((m) => { H(b + m, 'pop', { g: 0.5 }); H(b + m + 0.3, 'tick'); }); H(b + z.sonraki, 'impact', { g: 0.6 * G }); }
       if (z.tip === 'test') { z.secenek.forEach((c) => H(b + c, 'pop', { g: 0.6 })); for (let k = 0; k < 3; k++) H(b + z.sayac + k, 'tick'); H(b + z.cevap, 'stamp', { g: 0.7 }); }
       if (z.tip === 'rakamlar') { z.kart.forEach((c) => H(b + c, 'pop', { g: 0.7 })); H(b + z.kart[z.kart.length - 1] + 1.6, 'impact', { g: 0.5 * G }); }
       if (z.tip === 'kapanis' || z.tip === 'son') { H(b + 0.4, 'impact', { g: 1.1 * G }); H(b + 0.5, 'pop'); }

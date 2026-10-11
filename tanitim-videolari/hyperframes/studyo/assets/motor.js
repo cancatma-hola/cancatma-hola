@@ -342,7 +342,7 @@
 
   SAHNE.soru = {
     html: (s, z, id) => {
-      const POS = DIKEY ? [[80, 260], [560, 300], [120, 420], [600, 440], [80, 1460], [560, 1500], [140, 1620]]
+      const POS = DIKEY ? [[80, 400], [560, 440], [120, 560], [600, 580], [80, 1300], [560, 1340], [140, 1420]]
         : [[150, 150], [1350, 170], [170, 850], [1330, 860], [760, 110], [760, 900]];
       return (s.cipler || []).map(([ic, t], i) => `<div class="abs chip sc" id="${id}-c${i}" style="left:${POS[i % POS.length][0]}px;top:${POS[i % POS.length][1]}px;font-size:${DIKEY ? 40 : 36}px">${icon(ic, DIKEY ? 40 : 36)}${t}</div>`).join("")
         + `<div class="full center" style="padding:0 ${DIKEY ? 70 : 220}px"><div class="h1" id="${id}-m" style="font-size:${DIKEY ? 112 : 116}px">${yazi(s.metin)}</div>
@@ -463,7 +463,7 @@
   // ── Karakter: sade avatar, ad, rol ve konuşma balonu (sorun ya da sonuç cümlesi)
   SAHNE.karakter = {
     html: (s, z, id) => {
-      const av = AVATAR(s.avatar || {}, DIKEY ? 380 : 400), dertli = (s.avatar || {}).ruh === "dertli";
+      const av = AVATAR(s.avatar || {}, DIKEY ? 380 : 400) + (s.rozet ? `<div class="abs" id="${id}-z" style="right:6px;bottom:10px;width:${DIKEY ? 104 : 108}px;height:${DIKEY ? 104 : 108}px;border-radius:50%;background:#1E9E5A;display:grid;place-items:center;box-shadow:0 0 0 8px #050d18">${icon("check", DIKEY ? 64 : 66, "#fff", 3)}</div>` : ""), dertli = (s.avatar || {}).ruh === "dertli";
       const ad = `<div id="${id}-n" style="display:flex;flex-direction:column;align-items:center;margin-top:24px;gap:14px">
           ${s.ad ? `<div style="font-size:${DIKEY ? 52 : 48}px;font-weight:800">${s.ad}</div>` : ""}
           ${s.rol ? `<div class="chip" style="font-size:${DIKEY ? 32 : 30}px;padding:12px 26px">${icon(s.ikon || "user", DIKEY ? 32 : 30)}${s.rol}</div>` : ""}</div>`;
@@ -471,9 +471,9 @@
           <i class="kuyruk ${yon}"></i><div class="h2" id="${id}-m" style="font-size:${DIKEY ? 60 : 64}px">${yazi(s.metin)}</div></div>`;
       return DIKEY
         ? `<div class="abs" style="left:60px;right:60px;top:${SAFE.top}px;bottom:${1920 - SAFE.bottom}px;display:flex;flex-direction:column;align-items:center;justify-content:center">
-            <div id="${id}-a">${av}</div>${ad}<div style="margin-top:56px;width:100%">${balon("ust")}</div></div>`
+            <div id="${id}-a" style="position:relative">${av}</div>${ad}<div style="margin-top:56px;width:100%">${balon("ust")}</div></div>`
         : `<div class="abs" style="left:150px;right:150px;top:0;bottom:0;display:flex;align-items:center;gap:90px">
-            <div style="flex:none;display:flex;flex-direction:column;align-items:center"><div id="${id}-a">${av}</div>${ad}</div>
+            <div style="flex:none;display:flex;flex-direction:column;align-items:center"><div id="${id}-a" style="position:relative">${av}</div>${ad}</div>
             <div style="flex:1">${balon("sol")}</div></div>`;
     },
     anim: (tl, s, z, id, b) => {
@@ -481,6 +481,7 @@
       const n = Math.max(1, Math.floor((z.dur - 1) / 1.6));
       tl.fromTo(`#${id}-a`, { y: 0 }, { y: -10, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: n - 1 }, b + z.avatar + 0.7);
       tl.fromTo(`#${id}-n`, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, b + z.ad);
+      if ($(`#${id}-z`)) { popIn(tl, `#${id}-z`, b + z.balon + 0.4, 0.5); draw(tl, $(`#${id}-z svg`), b + z.balon + 0.5); }
       tl.fromTo(`#${id}-b`, { scale: 0.6, opacity: 0, transformOrigin: DIKEY ? "50% 0%" : "0% 50%" }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }, b + z.balon);
       rise(tl, $$(`#${id}-m .w`), b + z.balon + 0.2, 0.05, 30);
     },
@@ -523,7 +524,7 @@
 
   // ── Mini test: soru, seçenekler, 3 sn geri sayım, doğru cevap ve kısa açıklama
   SAHNE.test = {
-    html: (s, z, id) => `<div class="abs" style="left:${DIKEY ? 60 : 200}px;right:${DIKEY ? 60 : 200}px;top:${DIKEY ? SAFE.top : 0}px;bottom:${DIKEY ? 1920 - SAFE.bottom : 0}px;display:flex;flex-direction:column;justify-content:center;gap:${DIKEY ? 24 : 20}px">
+    html: (s, z, id) => `<div class="abs" style="left:${DIKEY ? 60 : 200}px;right:${DIKEY ? 60 : 200}px;top:${DIKEY ? SAFE.top + (s.etiket ? 170 : 0) : s.etiket ? 130 : 0}px;bottom:${DIKEY ? 1920 - SAFE.bottom : 0}px;display:flex;flex-direction:column;justify-content:center;gap:${DIKEY ? 24 : 20}px">
         <div style="display:flex;align-items:center;justify-content:space-between">
           <div class="chip" id="${id}-u" style="font-size:${DIKEY ? 34 : 30}px;padding:12px 28px">${icon("help", DIKEY ? 36 : 32, AMBER)}${s.ust || "Mini test"}</div>
           <div id="${id}-z" style="position:relative;width:${DIKEY ? 124 : 116}px;height:${DIKEY ? 124 : 116}px">
@@ -579,6 +580,35 @@
     },
   };
 
+  // ── Özet ve kapanış (sürüm 3 eğitimleri): kontrol listesi + sıradaki video + marka, tek sahnede
+  SAHNE.ozet = {
+    html: (s, z, id) => {
+      const liste = `<div class="h1" id="${id}-b" style="font-size:${DIKEY ? 88 : 80}px;margin-bottom:${DIKEY ? 30 : 22}px">${yazi(s.baslik || "*Özet*")}</div>
+        ${s.maddeler.map((m, i) => `<div class="card" id="${id}-m${i}" style="display:flex;align-items:center;gap:26px;padding:${DIKEY ? "24px 30px" : "20px 30px"};margin-top:${i ? (DIKEY ? 22 : 18) : 0}px">
+          <div class="kutu" style="width:${DIKEY ? 64 : 58}px;height:${DIKEY ? 64 : 58}px;border-radius:14px;border:4px solid #5FD3FF;flex:none;display:grid;place-items:center">${icon("check", DIKEY ? 46 : 42, "#2B1E00", 3.2)}</div>
+          <div style="font-size:${DIKEY ? 44 : 40}px;font-weight:600;line-height:1.2">${m}</div></div>`).join("")}`;
+      const son = `${s.sonraki ? `<div class="card" id="${id}-n" style="padding:${DIKEY ? "26px 32px" : "30px 34px"};border-color:${AMBER};display:flex;align-items:center;gap:24px">
+          <div style="flex:1"><div class="mono cyan" style="font-size:${DIKEY ? 26 : 24}px">Sıradaki video</div>
+          <div style="font-size:${DIKEY ? 44 : 42}px;font-weight:800;margin-top:8px;line-height:1.15">${s.sonraki}</div></div>${icon("ileri", DIKEY ? 60 : 56, AMBER, 2.6)}</div>` : ""}
+        <div id="${id}-l" style="display:flex;align-items:center;gap:22px;margin-top:${DIKEY ? 34 : 40}px">
+          <img src="assets/logo.png" style="width:${DIKEY ? 170 : 160}px;background:#fff;border-radius:14px;padding:8px 14px">
+          <div class="cyan" style="font-size:${DIKEY ? 34 : 32}px;font-weight:600">panel.mtshijyen.com</div></div>`;
+      return DIKEY
+        ? `<div class="abs" style="left:60px;right:60px;top:${SAFE.top}px;bottom:${1920 - SAFE.bottom}px;display:flex;flex-direction:column;justify-content:center">${liste}<div style="margin-top:56px">${son}</div></div>`
+        : `<div class="abs" style="left:150px;width:960px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center">${liste}</div>
+           <div class="abs" style="left:1190px;width:580px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center">${son}</div>`;
+    },
+    anim: (tl, s, z, id, b) => {
+      rise(tl, $$(`#${id}-b .w`), b + z.baslik, 0.08);
+      s.maddeler.forEach((_, i) => { const el = $(`#${id}-m${i}`), t = b + z.madde[i];
+        tl.fromTo(el, { x: -50, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, ease: "expo.out" }, t);
+        tl.fromTo($(".kutu", el), { backgroundColor: "rgba(245,176,25,0)", borderColor: "#5FD3FF" }, { backgroundColor: "rgba(245,176,25,1)", borderColor: "#F5B019", duration: 0.2 }, t + 0.3);
+        draw(tl, $(".kutu svg", el), t + 0.35); });
+      if ($(`#${id}-n`)) { tl.fromTo(`#${id}-n`, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, ease: "back.out(1.6)" }, b + z.sonraki); draw(tl, $(`#${id}-n svg`), b + z.sonraki + 0.2); }
+      tl.fromTo(`#${id}-l`, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, b + z.marka);
+    },
+  };
+
   SAHNE.kapanis = {
     html: (s, z, id) => `<div class="full center" style="gap:${DIKEY ? 40 : 30}px;padding:0 70px">
         <div id="${id}-l" style="width:${DIKEY ? 260 : 210}px;height:${DIKEY ? 260 : 210}px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 0 0 12px rgba(95,211,255,0.22),0 0 120px rgba(47,127,224,0.85)"><img src="assets/logo.png" style="width:${DIKEY ? 190 : 156}px"></div>
@@ -628,7 +658,10 @@
         ? `<div class="abs wm" style="${DIKEY ? `left:0;right:0;top:${O.wmY}px;text-align:center` : `left:${O.pad}px;top:${O.wmY}px`}">${marka()} · ${video.etiket || "Eğitim"}</div>` : "";
       const pr = egitim ? `<div class="abs prog" style="left:0;bottom:0;width:${W}px;height:8px;background:#0e2a4c"><div id="${id}-pg" style="width:100%;height:100%;background:${AMBER};transform-origin:0 50%"></div></div>` : "";
       const son = i === video.sahneler.length - 1 ? `<div class="full karart"></div>` : "";
-      el.innerHTML = ortam(i + 1 + (video.tohum || 0)) + SAHNE[s.tip].html(s, z, id) + wm + pr + son;
+      const [et1, et2] = s.etiket ? (s.etiket.includes(" · ") ? s.etiket.split(" · ") : ["", s.etiket]) : [];
+      const etiket = s.etiket ? `<div class="abs etiket" id="${id}-et" style="${DIKEY ? `left:60px;right:60px;top:${SAFE.top - 10}px;flex-direction:column;align-items:center;text-align:center;gap:10px` : "left:110px;right:110px;top:52px;gap:22px"}">
+          ${et1 ? `<span class="mono amber" style="font-size:${DIKEY ? 30 : 28}px">${et1}</span>` : ""}<span class="h2" style="font-size:${DIKEY ? 58 : 46}px;font-weight:800">${et2}</span></div>` : "";
+      el.innerHTML = ortam(i + 1 + (video.tohum || 0)) + SAHNE[s.tip].html(s, z, id) + etiket + wm + pr + son;
     });
     PLAN = plan;
     return { scenes: video.sahneler.map((_, i) => `s${i + 1}`),
@@ -643,6 +676,7 @@
       tl.fromTo(`#${id} .amb-b`, { x: 0, y: 0 }, { x: -140, y: -50, duration: z.dur + 1, ease: "none" }, Math.max(0, b - 0.5));
       if ($(`#${id}-pg`)) tl.fromTo(`#${id}-pg`, { scaleX: b / plan.total }, { scaleX: (b + z.dur) / plan.total, duration: z.dur, ease: "none" }, b);
       SAHNE[s.tip].anim(tl, s, z, id, b);
+      if ($(`#${id}-et`)) tl.fromTo(`#${id}-et`, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, b);
     });
     const last = `#s${video.sahneler.length}`;
     tl.fromTo(`${last} .karart`, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: "power1.in" }, plan.total - 0.6);

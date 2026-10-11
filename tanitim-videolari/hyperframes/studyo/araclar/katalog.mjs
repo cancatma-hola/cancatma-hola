@@ -30,6 +30,7 @@ function metinler(v) {
     if (s.tip === "test") out.push(`Test: ${temiz(s.soru)} (${s.secenekler.map((o, i) => (i === s.dogru ? "✓ " : "") + o).join(" / ")})${s.aciklama ? " — " + temiz(s.aciklama) : ""}`);
     if (s.tip === "rakamlar") out.push(`${temiz(s.baslik)}: ${s.kartlar.map((c) => `${c.para ? "₺" : c.onek || ""}${c.deger.toLocaleString("tr-TR")}${c.sonek ? " " + c.sonek : ""} ${c.etiket}`).join(" · ")}`);
     if (s.tip === "son" && s.metin) out.push(`Kapanış: ${temiz(s.metin)}`);
+    if (s.tip === "ozet") out.push(`${temiz(s.baslik || "Özet")}: ${s.maddeler.map(temiz).join(" · ")}${s.sonraki ? " — Sıradaki: " + s.sonraki : ""}`);
     if (s.tip === "kapanis") out.push(`Kapanış: ${temiz(s.slogan)}${s.cta ? " · " + s.cta : ""}`);
   }
   return out;

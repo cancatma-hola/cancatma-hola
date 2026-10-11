@@ -1,38 +1,60 @@
-// 2026-10-09 serisi · Eğitim 57–63: sipariş belgesi, SSS (havale, iptal), teklifler ve hesap kurulumu (surum 2).
+// 2026-10-09 serisi · Eğitim 57–63: sipariş belgesi, SSS (havale, iptal), teklifler ve hesap kurulumu (kurgu v3, surum 3).
+// Kurgu v3: kapak yok; ilk sahne kanca (dertli karakter ya da SSS sorusu) ve başlık çipini (etiket) taşır.
+// Karakterle açılan videoda aynı kişi sonda gülümseyerek (rozet) döner; video tek `ozet` sahnesiyle biter.
 // Metin kuralları: kısa, düz cümle, fiil sonda; *yıldızlı* kelimeler sarı. Rakamlar ve etiketler 9 Ekim öğe haritalarından okundu.
 // Kayıt değiştiren tıklamalar (İptal Et, Kabul Et, Kaydet, Davet Et, Oluştur) panelde yapılmaz; motor yalnızca canlandırır.
 const B = (x, y, w, h) => ({ x, y, w, h });
 const ek = (ekran, adim, metin, ayar) => ({ tip: "ekran", ekran, adim, metin, ...ayar });
 const tel = (ekran, ayar) => ({ tip: "telefon", ekran, ...ayar });
-const kapak = (no, baslik, alt, ikon) => ({ tip: "kapak", ust: `Eğitim ${no}`, baslik, alt, ikon, sure: "auto" });
-const kontrol = (maddeler) => ({ tip: "kontrol", baslik: "*Özet*", maddeler });
-const E = (no, id, baslik, ton, sahneler) => ({ id, tur: "egitim", baslik, etiket: `Eğitim ${no} · ${baslik}`, tohum: no, ton, surum: 2, sahneler });
+const ozet = (maddeler, sonraki) => ({ tip: "ozet", maddeler, ...(sonraki ? { sonraki } : {}) });
+// İlk sahne (kanca) videonun başlık çipini taşır (dikey yerine geçen tanım da)
+const E = (no, id, baslik, ton, [kanca, ...sahneler]) => {
+  const etiket = `Eğitim ${no} · ${baslik}`;
+  const ilk = { ...kanca, etiket, ...(kanca.dikey ? { dikey: { ...kanca.dikey, etiket } } : {}) };
+  return { id, tur: "egitim", baslik, etiket, tohum: no, ton, surum: 3, sahneler: [ilk, ...sahneler] };
+};
+// SSS sorusu: dikeyde iki satırlık başlık çipi üstteki soru çiplerinin (y 400–440) üstüne biniyor; dikeyde çipsiz gösterilir
+const soru = (metin, alt, cipler) => ({ tip: "soru", metin, alt, cipler, dikey: { tip: "soru", alt } });
+// Kurgusal kişi: açılışta dertli (sorun), sonda aynı kişi mutlu ve rozetli (yeni rutin)
+const kisi = (avatar, ad, rol, ikon) => ({
+  sorun: (metin) => ({ tip: "karakter", avatar: { ...avatar, ruh: "dertli" }, ad, rol, ikon, metin }),
+  sonuc: (metin) => ({ tip: "karakter", avatar: { ...avatar, ruh: "mutlu" }, ad, rol, ikon, rozet: true, metin }),
+});
 
-// Sipariş belgesindeki adres satırlarında kişi adı + telefon var: kadraja girdiğinde gri bantla kapatılır
-const BELGE_TEL = ["Burak Şahin · +90 216 000 00 01", "Ayşe Yılmaz · +90 216 000 00 03"];
+const DERYA = kisi({ sac: "topuz", ten: "acik", sacRenk: "#4A2E1A", giysi: "#2C6E8F", gozluk: true }, "Derya", "Muhasebe sorumlusu", "doc");
+const OZAN = kisi({ sac: "kisa", ten: "bugday", sacRenk: "#3A2615", giysi: "#5B3A8E", sakal: true }, "Ozan", "Satın alma uzmanı", "tag");
+const NIHAN = kisi({ sac: "uzun", ten: "bugday", sacRenk: "#2B1B12", giysi: "#7A2E3A", yaka: "gomlek" }, "Nihan", "İdari işler müdürü", "gear");
+const OKAN = kisi({ sac: "kisa", ten: "acik", sacRenk: "#5A4632", giysi: "#24476B", yaka: "kravat", gozluk: true }, "Okan", "İşletme müdürü", "key");
+
+// Sipariş belgesindeki adres satırlarında kişi adı + telefon, müşteri bloğunda vergi numarası var: kadraja girdiğinde gri bantla kapatılır (Eğitim 68 ile aynı)
+const BELGE_TEL = ["Burak Şahin · +90 216 000 00 01", "Ayşe Yılmaz · +90 216 000 00 03", "~VKN"];
+// Siparişlerim: tarih filtrelerinde tarayıcının "mm/dd/yyyy" yer tutucusu var; kutular boş gri kutuyla kapatılır
+const TARIH = [B(1466, 313, 156, 30), B(601, 353, 131, 30)], TARIH_M = [B(25, 493, 177, 34), B(232, 493, 153, 34)];
 
 export default [
   // ── 57 · Sipariş belgesi
   E(57, "egitim-57-siparis-belgesi", "Sipariş belgesini yazdırın", 1, [
-    kapak(57, "Sipariş belgesini yazdırın", "Sipariş belgesini açıp kontrol edin ve yazdırın.", "doc"),
-    { tip: "karakter", avatar: { sac: "topuz", ten: "acik", sacRenk: "#4A2E1A", giysi: "#2C6E8F", gozluk: true, ruh: "dertli" },
-      ad: "Derya", rol: "Muhasebe sorumlusu", ikon: "doc", metin: "Her siparişin *çıktısını* dosyaya eklemem gerekiyor." },
-    ek("siparis-hazirlaniyor", 1, "Sipariş detayında *Yazdır / PDF* düğmesine basın.", { bolge: B(560, 180, 1090, 482), bolgeD: B(1130, 185, 520, 520),
+    DERYA.sorun("Her siparişin *çıktısını* dosyaya eklemem gerekiyor."),
+    // MTS-2026-0020 listede beşinci satır; sonraki adımlar aynı siparişin detayı ve belgesi
+    ek("siparisler", 1, "*Siparişlerim* sayfasında siparişin detayını açın.", { bolge: B(555, 180, 1095, 600), ortu: TARIH,
+      tikla: { hedef: "Detay →#5", sonuc: "Sipariş detayı açılır" },
+      dikey: tel("m-siparisler", { ortu: TARIH_M, tikla: { hedef: "MTS-2026-0020", sonuc: "Sipariş detayı açılır" } }) }),
+    ek("siparis-hazirlaniyor", 2, "Sipariş detayında *Yazdır / PDF* düğmesine basın.", { bolge: B(560, 180, 1090, 482), bolgeD: B(1130, 185, 520, 520),
       tikla: { hedef: "Yazdır / PDF", sonuc: "Sipariş belgesi açılır" } }),
-    ek("siparis-yazdir", 2, "Belgede *PO numarasını* ve toplamı kontrol edin.", { bolge: B(383, 345, 1435, 635), bolgeD: B(760, 340, 680, 680), ortu: BELGE_TEL,
+    ek("siparis-yazdir", 3, "Belgede *PO numarasını* ve toplamı kontrol edin.", { bolge: B(383, 345, 1435, 635), bolgeD: B(760, 340, 680, 680), ortu: BELGE_TEL,
       vurgu: [{ hedef: "PO No : SAS-2026-0644", not: "Satın alma numaranız müşteri bilgisinin altında yazar." },
         { hedef: "[]Genel Toplam ₺2.925,48", not: "İndirim, kargo ve KDV toplamın üstünde ayrı satırlarda yazar." }] }),
-    ek("siparis-yazdir", 3, "*Yazdır / PDF olarak Kaydet* düğmesine basın.", { bolge: B(760, 195, 690, 305), bolgeD: B(900, 190, 560, 560), ortu: BELGE_TEL,
+    ek("siparis-yazdir", 4, "*Yazdır / PDF olarak Kaydet* düğmesine basın.", { bolge: B(760, 195, 690, 305), bolgeD: B(900, 190, 560, 560), ortu: BELGE_TEL,
       tikla: { hedef: "Yazdır / PDF olarak Kaydet", sonuc: "Yazdırma penceresi açılır" } }),
-    kontrol(["Sipariş detayında Yazdır / PDF düğmesine basın.", "Belgede PO numarasını ve toplamı kontrol edin.", "Yazdır / PDF olarak Kaydet ile çıktı alın."]),
-    { tip: "son", metin: "Şimdi bir *siparişin belgesini* yazdırın.", sonraki: "Havale yaptım, sipariş neden ilerlemiyor?" },
+    DERYA.sonuc("Artık belgeyi sipariş detayından *yazdırıyorum*."),
+    ozet(["Sipariş detayında Yazdır / PDF düğmesine basın.", "Belgede PO numarasını ve toplamı kontrol edin.", "Yazdır / PDF olarak Kaydet ile çıktı alın."],
+      "Havale yaptım, sipariş neden ilerlemiyor?"),
   ]),
 
   // ── 58 · Havale ödemesi (SSS)
   E(58, "egitim-58-havale-odeme", "Havale yaptım, sipariş neden ilerlemiyor?", -2, [
-    kapak(58, "Havale yaptım, sipariş neden ilerlemiyor?", "Havale ödemesinin siparişle nasıl eşleştiğini öğrenin.", "wallet"),
-    { tip: "soru", metin: "Havale yaptınız ama sipariş *ilerlemiyor* mu?", alt: "Cevap sipariş detayında yazar.", sure: 4,
-      cipler: [["wallet", "Havale / EFT"], ["clock", "Ödeme Bekleniyor"]] },
+    soru("Havale yaptınız, sipariş hâlâ *Ödeme Bekleniyor* mu?", "Cevap sipariş detayında yazar.",
+      [["wallet", "Havale / EFT"], ["doc", "Sipariş numarası"]]),
     ek("siparis-odeme", 1, "Sipariş detayında *Ödeme Bekleniyor* durumuna bakın.", { bolge: B(560, 172, 1090, 482),
       vurgu: [{ hedef: "Ödeme Bekleniyor", not: "Ödeme hesaba geçince sipariş hazırlığa alınır." }],
       dikey: tel("m-siparis-odeme", { vurgu: [{ hedef: "Ödeme Bekleniyor", not: "Ödeme hesaba geçince sipariş hazırlığa alınır." }] }) }),
@@ -45,37 +67,37 @@ export default [
       vurgu: [{ hedef: "[]Havale açıklamasına yazınız MTS-2026-0027", not: "Bu numarayı havale açıklamasına yapıştırın." }],
       // Dokunuş Kopyala düğmesinin ortasına (x 354) düşer; geniş kutu yakınlaşmayı 1x'te tutar, numara kadrajda kalır
       tikla: { hedef: B(160, 1557, 388, 26), sonuc: "Sipariş numarası kopyalandı" } }),
-    kontrol(["Sipariş detayında Ödeme Bekleniyor durumuna bakın.", "Havale açıklamasına sipariş numarasını yazın.", "Numarayı Kopyala düğmesiyle alın."]),
-    { tip: "son", metin: "Şimdi *Siparişlerim* sayfasını açın.", sonraki: "Siparişimi iptal edebilir miyim?" },
+    ozet(["Sipariş detayında Ödeme Bekleniyor durumuna bakın.", "Sipariş numarasını Kopyala düğmesiyle alın.", "Numarayı havale açıklamasına yazın."],
+      "Siparişimi iptal edebilir miyim?"),
   ]),
 
   // ── 59 · Sipariş iptali (SSS)
+  // Panel kuralı: "Sipariş henüz işleme alınmadan iptal edilebilir. MTS hazırlığa başladıktan sonra iptal için destek ekibine ulaşın."
+  // Kural artık panelde gösterilir: işleme alınmamış siparişte düğme var (adım 1), hazırlanan siparişte yok (adım 2).
   E(59, "egitim-59-siparis-iptal", "Siparişimi iptal edebilir miyim?", 2, [
-    kapak(59, "Siparişimi iptal edebilir miyim?", "İptal kuralını öğrenin, doğru yolu seçin.", "x"),
-    // Panel kuralı: "Sipariş henüz işleme alınmadan iptal edilebilir. MTS hazırlığa başladıktan sonra iptal için destek ekibine ulaşın."
-    // Motor sol kartı kırmızı ✕ ile, sağ kartı onay işaretiyle çizer: kısıtlar solda, yapılabilen sağda.
-    { tip: "karsilastir", baslik: "İptal *ne zaman* mümkün?", sure: 6,
-      once: "Hazırlık başladıysa", sol: ["Siparişi İptal Et düğmesi görünmez", "İptal için destek talebi gerekir"],
-      sonra: "İşleme alınmadan önce", sag: ["Siparişi İptal Et düğmesi görünür", "Siparişi kendiniz iptal edersiniz"] },
+    soru("Sipariş *ne zaman* iptal edilebilir?", "Cevap siparişin durumuna bağlıdır.",
+      [["clock", "MTS Onayı Bekleniyor"], ["box", "Hazırlanıyor"]]),
     ek("siparis-mts-bekleniyor", 1, "İşleme alınmamış siparişte *Siparişi İptal Et* düğmesine basın.", { bolge: B(560, 290, 800, 354),
       vurgu: [{ hedef: "MTS Onayı Bekleniyor", not: "Bu durumda sipariş henüz işleme alınmadı." }],
       tikla: { hedef: "Siparişi İptal Et", sonuc: "Sipariş iptal edilir" },
       dikey: tel("m-siparis-odeme", { vurgu: [{ hedef: "Ödeme Bekleniyor", not: "Bu durumda sipariş henüz işleme alınmadı." }],
         tikla: { hedef: "Siparişi İptal Et", sonuc: "Sipariş iptal edilir" } }) }),
+    // Hazırlanan siparişte (MTS-2026-0020) "Sıradaki adım" kutusunun altında iptal düğmesi yok: kadraj bu boşluğu da gösterir
+    ek("siparis-hazirlaniyor", 2, "Hazırlanan siparişte *iptal düğmesi* görünmez.", { bolge: B(560, 290, 800, 354), bolgeD: B(565, 290, 560, 560),
+      // Durum rozeti + "Sıradaki adım" yazısı birlikte: kamera kutunun altını da gösterir, orada iptal düğmesi yok
+      vurgu: [{ hedef: ["Hazırlanıyor", "Depo personeli ürünleri toplayıp paketliyor."], not: "Bu aşamada iptal için destek talebi gerekir." }] }),
     // Dikeyde masaüstü form okunmuyor: mobil Destek sayfasında "+ Yeni Destek Talebi" dokunuşu gösterilir
-    ek("destek-yeni", 2, "Hazırlık başladıysa *destek talebi* açın.", { bolge: B(570, 362, 680, 376),
+    ek("destek-yeni", 3, "Hazırlık başladıysa *destek talebi* açın.", { bolge: B(570, 362, 680, 376),
       yaz: { hedef: "Destek talebinizin konusunu girin", metin: "MTS-2026-0020 iptal talebi" },
       tikla: { hedef: "Talebi Oluştur", sonuc: "Destek talebiniz oluşturuldu" },
       dikey: tel("m-destek", { tikla: { hedef: "+ Yeni Destek Talebi", sonuc: "Destek talebi formu açılır" } }) }),
-    kontrol(["Sipariş detayında durumu kontrol edin.", "İşleme alınmamış siparişte Siparişi İptal Et düğmesine basın.", "Hazırlık başladıysa destek talebi açın."]),
-    { tip: "son", metin: "Şimdi *Siparişlerim* sayfasını açın.", sonraki: "Teklifiniz hazır: detayı okuyun" },
+    ozet(["Sipariş detayında durumu kontrol edin.", "İşleme alınmamış siparişte Siparişi İptal Et düğmesine basın.", "Hazırlık başladıysa destek talebi açın."],
+      "Teklifiniz hazır: detayı okuyun"),
   ]),
 
   // ── 60 · Teklif detayı
   E(60, "egitim-60-teklif-detayi", "Teklifiniz hazır: detayı okuyun", -1, [
-    kapak(60, "Teklifiniz hazır: detayı okuyun", "Teklifin fiyatını, notunu ve son tarihini okuyun.", "tag"),
-    { tip: "soru", metin: "Teklifiniz hazır. *Neye* bakmalısınız?", alt: "Kabul etmeden önce detayı okuyun.", sure: 4,
-      cipler: [["tag", "Birim fiyat"], ["chat", "Admin notu"], ["calendar", "Son tarih"]] },
+    OZAN.sorun("Teklif geldi ama *neye bakacağımı* bilmiyorum."),
     // TKF-2026-0002 (test kaydı) satırı ekranlar.js `ortu` ile her sahnede kapalı.
     // m-teklifler kullanılmadı: ekranlar.js `ortu` ("[]TKF-2026-0002") orada tüm tabloyu kapatıyor; ayrıca Durum sütunu yana taşıyor.
     // Dikeyde satır vurgusu dar kadraja sığmıyor (kaydırmada durum rozeti çok kısa görünüyor): yalnız durum rozeti vurgulanır, sonra aynı satırdaki numaraya tıklanır
@@ -98,39 +120,39 @@ export default [
       tikla: { hedef: "Teklifi Kabul Et", sonuc: "Teklif siparişe çevrilir" },
       dikey: tel("m-teklif-hazir", { vurgu: [{ hedef: ["Teklif Hazır", "Son: 14 Ekim 2026"], not: "Teklif bu tarihe kadar geçerlidir." }],
         tikla: { hedef: "Teklifi Kabul Et", sonuc: "Teklif siparişe çevrilir" } }) }),
-    kontrol(["Teklif Hazır durumundaki teklifi açın.", "Admin notunu ve birim fiyatları okuyun.", "Son tarihten önce Teklifi Kabul Et düğmesine basın."]),
-    { tip: "son", metin: "Şimdi *Fiyat Tekliflerim* sayfasını açın.", sonraki: "Fiyat teklifi mi, toplu alım mı?" },
+    OZAN.sonuc("Artık kabul etmeden önce *notu ve son tarihi* okuyorum."),
+    ozet(["Teklif Hazır yazan teklifi açın.", "Admin notunu ve birim fiyatları okuyun.", "Son tarihten önce Teklifi Kabul Et düğmesine basın."],
+      "Fiyat teklifi mi, toplu alım mı?"),
   ]),
 
-  // ── 61 · Fiyat teklifi mi, toplu alım mı?
+  // ── 61 · Fiyat teklifi mi, toplu alım mı? (soru videosu)
+  // Metinler formların kendi açıklamalarından: "Fiyat teklifi almak istediğiniz ürünleri ve miktarları girin." / "500+ adet veya yıllık sözleşme talepleri için satış ekibimizden hızlı teklif alın."
   E(61, "egitim-61-teklif-turleri", "Fiyat teklifi mi, toplu alım mı?", 3, [
-    kapak(61, "Fiyat teklifi mi, toplu alım mı?", "İhtiyacınıza uygun teklif formunu seçin.", "help"),
-    // İki seçenek de olumlu: karsilastir sol kartı ✕ ile çizdiği için tarafsız ikonlu ipucu kartı kullanıldı.
-    // Metinler formların kendi açıklamalarından: "Fiyat teklifi almak istediğiniz ürünleri ve miktarları girin." / "500+ adet veya yıllık sözleşme talepleri için satış ekibimizden hızlı teklif alın."
-    { tip: "ipucu", baslik: "Hangi form *ne zaman* kullanılır?",
-      maddeler: [["tag", "Fiyat teklifi: ürünü ve miktarı panelde girin"], ["building", "Toplu alım: 500+ adet için satış ekibinden teklif alın"]] },
-    ek("teklif-yeni", 1, "*Yeni Fiyat Teklifi* formuna ürünü yazın.", { bolge: B(570, 300, 680, 380), bolgeD: B(575, 300, 670, 670),
+    soru("Özel fiyat için *hangi formu* doldurmalısınız?", "Seçim adede ve ihtiyaca bağlıdır.",
+      [["tag", "Fiyat teklifi"], ["building", "500+ adet"], ["calendar", "Yıllık sözleşme"]]),
+    // Gönderilen talep (TKF-2026-0004) listede "Fiyat bekleniyor / Gönderildi" görünür; TKF-2026-0002 satırı ekranlar.js `ortu` ile kapalı
+    // m-teklifler kullanılmadı (ortu tüm tabloyu kapatıyor): dikeyde masaüstü çekimin sağ kısmı (düğme + Toplam/Durum sütunları)
+    ek("teklifler", 1, "*Fiyat Tekliflerim* sayfasında Yeni Teklif Talebi düğmesine basın.", { bolge: B(290, 180, 1360, 602), bolgeD: B(1190, 180, 460, 460),
+      vurgu: [{ hedef: ["Fiyat bekleniyor", "Gönderildi"], not: "Gönderdiğiniz talep fiyatlanana kadar böyle görünür." }],
+      tikla: { hedef: "Yeni Teklif Talebi", sonuc: "Yeni Fiyat Teklifi formu açılır" } }),
+    ek("teklif-yeni", 2, "*Yeni Fiyat Teklifi* formuna ürünü yazın.", { bolge: B(570, 300, 680, 380), bolgeD: B(575, 300, 670, 670),
       yaz: { hedef: "Ürün ara (ad veya kod)", metin: "kağıt havlu" },
       tikla: { hedef: "Teklif Oluştur", sonuc: "Fiyatı admin ekibi hazırlar" } }),
     // Dar kadraj: tıklama kamerası formun altındaki İngilizce "Choose File No file chosen" yazısını dışarıda bırakır
-    ek("teklif-iste", 2, "500+ adet için *Teklif İste* formunu doldurun.", { bolge: B(600, 190, 820, 363),
+    ek("teklif-iste", 3, "500+ adet için *Teklif İste* formunu doldurun.", { bolge: B(600, 190, 820, 363),
       vurgu: [{ hedef: "~500+ adet veya yıllık sözleşme", not: "Talep Detayı alanına ürünü, adedi ve periyodu yazın." }],
       tikla: { hedef: "Teklif Talep Et", sonuc: "Talebiniz satış ekibine iletilir" },
       // Dikeyde uzun açıklama satırı küçük kalıyordu: yalnız "500+ adet veya yıllık sözleşme" kısmı vurgulanır
       dikey: { tip: "ekran", ekran: "teklif-iste", bolge: B(610, 180, 640, 640),
         vurgu: [{ hedef: B(626, 247, 206, 22), not: "Talep Detayı alanına ürünü, adedi ve periyodu yazın." }],
         tikla: { hedef: "Teklif Talep Et", sonuc: "Talebiniz satış ekibine iletilir" } } }),
-    { tip: "test", ust: "Mini test", soru: "500+ adetlik alım için hangi formu doldurursunuz?",
-      secenekler: ["Toplu Alım Teklifi", "Hızlı Sipariş", "Numune Talebi"], dogru: 0, aciklama: "*Toplu Alım Teklifi* 500+ adet içindir." },
-    kontrol(["Yeni Fiyat Teklifi formuna ürünü yazın.", "500+ adet için Teklif İste formunu kullanın.", "Teklif Talep Et düğmesiyle talebi gönderin."]),
-    { tip: "son", metin: "Şimdi *Teklif İste* sayfasını açın.", sonraki: "Hesabı 4 adımda kurun" },
+    ozet(["Fiyat Tekliflerim'de Yeni Teklif Talebi düğmesine basın.", "Formda ürünü yazıp Teklif Oluştur düğmesine basın.", "500+ adet için Teklif İste formunu doldurun."],
+      "Hesabı 4 adımda kurun"),
   ]),
 
   // ── 62 · Hesap kurulumu (hesap sahibi)
   E(62, "egitim-62-hesap-kurulumu", "Hesabı 4 adımda kurun", 0, [
-    kapak(62, "Hesabı 4 adımda kurun", "Departman, kullanıcı ve onay kuralını sırayla kurun.", "gear"),
-    { tip: "gundem", ust: "Eğitim 62", baslik: "Bu videoda", ikon: "list",
-      maddeler: ["Departman ekleyin", "Kullanıcı davet edin", "Onay kuralı kurun", "Onay eşiğini kontrol edin"] },
+    NIHAN.sorun("Ekip büyüdü, siparişlerde *onay sırası* karıştı."),
     // Yatayda formun kendi bütçe alanı vurgulanır (mevcut bir departmanın harcama satırı yerine)
     ek("departman-yeni", 1, "*Departman & Bütçe* sayfasında yeni departman ekleyin.", { bolge: B(560, 180, 1090, 482),
       vurgu: [{ hedef: ["Aylık Bütçe (₺) isteğe bağlı", "0.00"], not: "Bütçe girerseniz harcama bu tutarla izlenir." }],
@@ -151,15 +173,13 @@ export default [
     ek("sozlesme", 4, "*Otomatik onay eşiğini* kontrol edin.", { bolge: B(285, 330, 1360, 602),
       vurgu: [{ hedef: B(583, 605, 180, 44), not: "₺5.000 altındaki siparişler doğrudan onaylanır." }],
       dikey: tel("m-sozlesme", { vurgu: [{ hedef: ["Otomatik Onay Eşiği", "₺5.000,00"], not: "₺5.000 altındaki siparişler doğrudan onaylanır." }] }) }),
-    kontrol(["Departman ekleyip kullanıcıları davet edin.", "Tutar sınırıyla onay kuralı oluşturun.", "Otomatik onay eşiğini kontrol edin."]),
-    { tip: "son", metin: "Şimdi *Departman & Bütçe* sayfasını açın.", sonraki: "Roller ve yetkiler" },
+    NIHAN.sonuc("Artık büyük siparişleri *onay kuralıyla* yönetiyorum."),
+    ozet(["Departman ekleyip kullanıcıları davet edin.", "Tutar sınırıyla onay kuralı oluşturun.", "Otomatik onay eşiğini kontrol edin."], "Roller ve yetkiler"),
   ]),
 
   // ── 63 · Roller ve yetkiler
   E(63, "egitim-63-roller-yetkiler", "Roller ve yetkiler", -3, [
-    kapak(63, "Roller ve yetkiler", "Kimin ne yapabileceğini rol ve yetkilerle belirleyin.", "key"),
-    { tip: "soru", metin: "Ekipte *kim ne yapabilir?*", alt: "Bunu rol ve yetkiler belirler.", sure: 4,
-      cipler: [["user", "Genel Müdür"], ["cart", "Satınalmacı"], ["eye", "Görüntüleyici"]] },
+    OKAN.sorun("Ekipte kimin ne yapacağını *ayarlayamıyorum*."),
     ek("kullanicilar", 1, "*Kullanıcılar & Yetkiler* sayfasında rolleri görün.", { bolge: B(560, 190, 1090, 482),
       vurgu: [{ hedef: ["Rol", "Görüntüleyici"], not: "Kullanıcıya Genel Müdür, Satınalmacı ya da Görüntüleyici rolü verilir." }],
       tikla: { hedef: "Düzenle#3", sonuc: "Kullanıcının yetki sayfası açılır" },
@@ -175,7 +195,8 @@ export default [
       vurgu: [{ hedef: "Onay ver / reddet (iç onay) Varsayılan", not: "Varsayılan etiketi yetkinin rolden geldiğini gösterir." }],
       // Dokunuş "Onay kurallarını yönet" yazısının üstüne düşer; dar kutu dikeyde kamerayı boş sol sütundan uzak tutar
       tikla: { hedef: B(1060, 808, 120, 29), sonuc: "Ekstra yetki açılır" } }),
-    kontrol(["Kullanıcı listesinde rolleri kontrol edin.", "Düzenle sayfasında rolü ve onay limitini belirleyin.", "Detaylı Yetkiler listesinde ekstra yetki açın."]),
-    { tip: "son", metin: "Şimdi *Kullanıcılar & Yetkiler* sayfasını açın." },
+    OKAN.sonuc("Artık herkese *rolüne göre* yetki veriyorum."),
+    ozet(["Düzenle sayfasında rolü ve onay limitini belirleyin.", "Hazır şablonla yetkileri tek seferde seçin.", "Detaylı Yetkiler listesinde ekstra yetki açın."],
+      "Bir siparişin onay yolculuğu"),
   ]),
 ];

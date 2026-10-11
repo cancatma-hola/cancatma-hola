@@ -81,7 +81,10 @@ function coz(video, yon) {
   const v = structuredClone(video);
   v.yon = yon;
   // Dikey sürüm için sahnenin yerine geçecek tanım (ör. masaüstü ekran → telefon ekranı)
-  v.sahneler = v.sahneler.map((s) => (yon === "dikey" && s.dikey ? { adim: s.adim, metin: s.metin, saat: s.saat, ...s.dikey } : (({ dikey, ...r }) => r)(s)));
+  v.sahneler = v.sahneler.map((s) => (yon === "dikey" && s.dikey ? { adim: s.adim, metin: s.metin, saat: s.saat, etiket: s.etiket, ...s.dikey } : (({ dikey, ...r }) => r)(s)));
+  // Kapaktaki süre: "auto" → gerçek süre (5 sn'ye yuvarlanmış)
+  const kp = v.sahneler.find((s) => s.tip === "kapak" && s.sure === "auto");
+  if (kp) kp.sure = `${Math.max(10, Math.round(ZAMAN.zamanla(v).total / 5) * 5)} saniye`;
   v.sahneler.forEach((s) => {
     if (s.tip === "cihaz") {   // masaüstü kırpım + telefon görüntüsü
       const hm = harita(s.masa.ekran), ht = harita(s.tel.ekran);
@@ -165,6 +168,16 @@ function ses(video, klasor) {
   return m4a;
 }
 
+// Kapak görseli anı: ilk sahnenin sonu (metin tam görünür). İstisnalar: mini testte cevap açılmadan önce;
+// üstü çizilen kelimelerle açılan tanıtımda ilk panel ekranı (çizili, sönük kelimeler kapakta zayıf durur).
+export function kapakAni(video) {
+  const z = ZAMAN.zamanla(video).sahneler, p0 = z[0], s0 = video.sahneler[0];
+  let t = p0.bas + p0.dur - 0.7;
+  if (s0.tip === "test") t = p0.bas + p0.sayac + 0.3;
+  if (s0.tip === "kelime" && s0.ciz) { const i = z.findIndex((p) => ["ekran", "telefon", "cihaz"].includes(p.tip)); if (i > 0) t = z[i].bas + Math.min(2.2, z[i].dur - 0.5); }
+  return +t.toFixed(2);
+}
+
 export async function uret(ids) {
   const hepsi = await videolar();
   const sec = ids.length ? hepsi.filter((v) => ids.includes(v.id)) : hepsi;
@@ -183,9 +196,7 @@ export async function uret(ids) {
       fs.writeFileSync(path.join(d, "meta.json"), JSON.stringify({ id: `${video.id}-${yon}`, name: `${video.baslik} (${yon})` }));
     }
     fs.writeFileSync(path.join(kl, "hedef"), hedef(video));
-    // Kapak görseli anı: eğitimde kapak sahnesinin sonu, tanıtımda ilk sahnenin sonu (metin tam görünür)
-    const p0 = ZAMAN.zamanla(video).sahneler[0];
-    fs.writeFileSync(path.join(kl, "kapak_t"), String(+(p0.bas + p0.dur - 0.7).toFixed(2)));
+    fs.writeFileSync(path.join(kl, "kapak_t"), String(kapakAni(video)));
     console.log(`${video.id.padEnd(28)} ${ZAMAN.zamanla(video).total.toFixed(1).padStart(5)} sn  ${video.baslik}`);
   }
 }

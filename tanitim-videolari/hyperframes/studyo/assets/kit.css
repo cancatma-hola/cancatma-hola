@@ -78,3 +78,7 @@ html, body { overflow: hidden; background: #050d18; }
 .telefon .ekr { position: relative; overflow: hidden; background: #ffffff; }
 .dokun { position: absolute; left: 0; top: 0; margin: -42px 0 0 -42px; border-radius: 50%; background: rgba(255, 255, 255, 0.55); border: 4px solid #ffffff;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35); }
+
+/* Bölüm etiketi (sürüm 3 açılış sahnesi) */
+.etiket { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.etiket > span:last-child { color: #ffffff; }

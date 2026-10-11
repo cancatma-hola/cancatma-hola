@@ -1,11 +1,17 @@
-// 2026-10-09 serisi · Eğitim 43–49: gezinme ve sipariş (surum 2).
+// 2026-10-09 serisi · Eğitim 43–49: gezinme ve sipariş (surum 3 kurgusu).
+// Kurgu: kapak yok; ilk sahne kanca (karakter ya da soru) ve video etiketini taşır. Karakterle açılan videoda
+// aynı kişi sonda mutlu ve rozetli döner; video tek bir özet sahnesiyle biter.
 // Metin kuralları: kısa, düz cümle, fiil sonda; *yıldızlı* kelimeler sarı. Rakamlar ve etiketler 9 Ekim element haritalarından okundu.
 // Kayıt değiştiren tıklamalar (Sepete Ekle, Yeniden Sipariş Ver, Aboneliğe Çevir) panelde yapılmaz; motor yalnız canlandırır.
 const B = (x, y, w, h) => ({ x, y, w, h });
 const ek = (ekran, adim, metin, ayar) => ({ tip: "ekran", ekran, adim, metin, ...ayar });
 const tel = (ekran, ayar) => ({ tip: "telefon", ekran, ...ayar });
-const kapak = (no, baslik, alt, ikon) => ({ tip: "kapak", ust: `Eğitim ${no}`, baslik, alt, ikon, sure: "auto" });
-const kontrol = (maddeler) => ({ tip: "kontrol", baslik: "*Özet*", maddeler });
+const ozet = (maddeler, sonraki) => ({ tip: "ozet", maddeler, sonraki });
+// Kurgusal kişi: açılışta dertli (etiketli), sonda aynı kişi mutlu ve rozetli
+const kisi = (avatar, ad, rol, ikon) => ({
+  dert: (metin, etiket) => ({ tip: "karakter", etiket, avatar: { ...avatar, ruh: "dertli" }, ad, rol, ikon, metin }),
+  mutlu: (metin) => ({ tip: "karakter", avatar: { ...avatar, ruh: "mutlu" }, ad, rol, ikon, rozet: true, metin }),
+});
 // Mobil sipariş detayında "Geçmiş" listesi ham durum kodları içerir: kadraja girmese de ayrıca kapatılır
 const GECMIS_SEVK = ["[]Geçmiş 20.09.2026"], GECMIS_TESLIM = ["[]Geçmiş 12.09.2026"];
 // "Önceden aldıklarım" listesinde bir ürünün görseli yüklenmiyor (alt metin görünüyor): görsel alanı gri bantla kapatılır
@@ -13,14 +19,22 @@ const KIRIK_GORSEL = [B(1395, 463, 226, 226)], KIRIK_GORSEL_M = [B(236, 815, 169
 // Masaüstü üst şeritteki destek saatleri ("Pzt-Cum 08:00-18:00") gösterilmez: üst şerit kadraja giren sahnelerde kapatılır
 const SAAT = B(644, 3, 152, 26);
 
+// Kişiler (kurgusal)
+const ZEYNEP = kisi({ sac: "kivircik", ten: "bugday", sacRenk: "#2B1B12", giysi: "#7A3E9D" }, "Zeynep", "Şube sorumlusu", "pin");
+const DENIZ = kisi({ sac: "kisa", ten: "esmer", sacRenk: "#1A1410", giysi: "#B5562B", yaka: "gomlek" }, "Deniz", "İdari işler sorumlusu", "building");
+const SELIN = kisi({ sac: "uzun", ten: "bugday", sacRenk: "#3B2416", giysi: "#0B5677" }, "Selin", "Satın alma sorumlusu", "cart");
+const BURAK = kisi({ sac: "kel", ten: "acik", sacRenk: "#4A3426", giysi: "#2C3E50", yaka: "kravat", sakal: true }, "Burak", "Tesis sorumlusu", "repeat");
+const AYLIN = kisi({ sac: "topuz", ten: "acik", sacRenk: "#6B3A1E", giysi: "#B03A5B", gozluk: true }, "Aylin", "Ofis yöneticisi", "package");
+const EMRE = kisi({ sac: "kisa", ten: "acik", sacRenk: "#2A1A10", giysi: "#1D5FA8", yaka: "gomlek", sakal: true }, "Emre", "Depo sorumlusu", "box");
+
 export default [
-  // ── 43 · Menü haritası
+  // ── 43 · Menü haritası (soru videosu: soru kancası, kişi yok)
   {
     id: "egitim-43-menu-haritasi", tur: "egitim", baslik: "Panelde her şey nerede?", etiket: "Eğitim 43 · Panelde her şey nerede?",
-    tohum: 43, ton: -1, surum: 2,
+    tohum: 43, ton: -1, surum: 3,
     sahneler: [
-      kapak(43, "Panelde her şey nerede?", "Menüleri tanıyın, aradığınız sayfayı hızla bulun.", "map"),
-      { tip: "gundem", ust: "Eğitim 43", baslik: "Bu videoda", ikon: "map", maddeler: ["Sol menüyü tanıyın", "Hesap menüsünü açın", "Kategori ve filtreleri kullanın"] },
+      { tip: "soru", etiket: "Eğitim 43 · Panelde her şey nerede?", metin: "Aradığınız sayfayı *bulamıyor* musunuz?", alt: "Sol menü ve hesap menüsü yolu gösterir.", sure: 4,
+        cipler: [["invoice", "Faturalar"], ["approve", "Onaylar"], ["box", "Ürünler"]] },
       ek("ozet", 1, "Sol menüde *sipariş* ve *finans* sayfalarını bulun.", { bolge: B(270, 180, 1180, 520),
         vurgu: [{ hedef: ["Siparişlerim", "Periyodik Siparişler"], not: "Sipariş verme ve takip sayfaları menünün başında durur" },
           { hedef: ["Cari Ekstre", "Faturalarım"], not: "Hesap hareketlerini ve faturaları buradan açın" }],
@@ -45,19 +59,16 @@ export default [
         dikey: { tip: "telefon", ekran: "m-kategori", metin: "Telefonda kategori sayfasında *Filtrele* düğmesini kullanın.",
           vurgu: [{ hedef: ["75", "Fiyat aralığı"], not: "Ürün sayısı, marka ve fiyat aralığı en üstte yazar" },
             { hedef: "Filtrele", not: "Filtreler bu düğmeyle açılır" }] } }),
-      kontrol(["Sipariş ve fatura sayfalarını menüde bulun.", "Hesap menüsünü sağ üstten açın.", "Ürünleri kategori ve filtrelerle daraltın."]),
-      { tip: "son", metin: "Şimdi panelde *menüleri* gezin.", sonraki: "Paneli telefondan kullanın" },
+      ozet(["Sipariş ve fatura sayfalarını sol menüde bulun.", "Hesap menüsünü sağ üstten açın.", "Ürünleri kategori ve filtrelerle daraltın."], "Paneli telefondan kullanın"),
     ],
   },
 
   // ── 44 · Telefondan panel
   {
     id: "egitim-44-telefondan-panel", tur: "egitim", baslik: "Paneli telefondan kullanın", etiket: "Eğitim 44 · Paneli telefondan kullanın",
-    tohum: 44, ton: 1, surum: 2,
+    tohum: 44, ton: 1, surum: 3,
     sahneler: [
-      kapak(44, "Paneli telefondan kullanın", "Siparişlerinizi telefondan da izleyin.", "phone"),
-      { tip: "soru", metin: "Bilgisayardan *uzakta* mısınız?", alt: "Panel telefonda da aynı çalışır.",
-        cipler: [["clock", "Toplantıda"], ["truck", "Depoda"], ["pin", "Yolda"]] },
+      ZEYNEP.dert("Bilgisayardan uzaktayken siparişleri *göremiyorum*.", "Eğitim 44 · Paneli telefondan kullanın"),
       { tip: "cihaz", metin: "Aynı panel *telefonunuzda* da açılır.", alt: "İki cihazda da aynı hesapla girin", ikon: "phone", sure: 5,
         masa: { ekran: "ozet", bolge: B(555, 180, 1095, 620) }, tel: { ekran: "m-ozet", basY: 60 } },
       tel("m-ozet", { adim: 1, metin: "*Özet* ekranında hesabınızı tek bakışta görün.",
@@ -70,18 +81,17 @@ export default [
         vurgu: [{ hedef: "~MTS-2026-0028 ₺3.161,19", not: "Her kartta durum, tutar ve tarih yazar" }],
         // Dar hedefte telefon 1,3 kat yakınlaşıp kartların solunu kesiyor: "Sevkiyatta" çipinin ortasına göre tam genişlikte ham kutu
         tikla: { hedef: B(58, 540, 389, 26), sonuc: "Sevkiyattaki siparişler listelenir" } }),
-      kontrol(["Özet ekranında hesabınızı kontrol edin.", "Özet düğmesiyle bölüm listesini açın.", "Siparişleri hızlı filtreyle süzün."]),
-      { tip: "son", metin: "Şimdi telefonunuzdan *paneli* açın.", sonraki: "İlk siparişinizi verin" },
+      ZEYNEP.mutlu("Artık siparişleri *telefondan* izliyorum."),
+      ozet(["Özet ekranında hesabınızı kontrol edin.", "Özet düğmesiyle bölüm listesini açın.", "Siparişleri Sevkiyatta filtresiyle süzün."], "İlk siparişinizi verin"),
     ],
   },
 
   // ── 45 · İlk sipariş
   {
     id: "egitim-45-ilk-siparis", tur: "egitim", baslik: "İlk siparişinizi verin", etiket: "Eğitim 45 · İlk siparişinizi verin",
-    tohum: 45, ton: 0, surum: 2,
+    tohum: 45, ton: 0, surum: 3,
     sahneler: [
-      kapak(45, "İlk siparişinizi verin", "Ürünü bulun, sepete ekleyin ve siparişi izleyin.", "cart"),
-      { tip: "gundem", ust: "Eğitim 45", baslik: "Bu videoda", ikon: "cart", maddeler: ["Ürünü arayın", "Fiyatı ve indirimi okuyun", "Sepete ekleyin", "Siparişi izleyin"] },
+      DENIZ.dert("İlk siparişi nereden vereceğimi *bilmiyorum*.", "Eğitim 45 · İlk siparişinizi verin"),
       ek("arama", 1, "Arama kutusuna yazıp *ürünü* listeden seçin.", { bolge: B(420, 40, 1175, 520), bolgeD: B(407, 40, 680, 680),
         ortu: [B(283, 176, 124, 518), SAAT],   // arkadaki banner'ın soldan kesik yazısı + destek saatleri
         yaz: { hedef: "kağıt havlu", metin: "kağıt havlu" },
@@ -114,29 +124,31 @@ export default [
         dikey: { tip: "telefon", ekran: "m-siparis-sevkiyat", ortu: GECMIS_SEVK,
           vurgu: [{ hedef: B(30, 494, 384, 76), not: "Koyu mavi işaret siparişin şu anki adımıdır" },
             { hedef: ["Sıradaki adım", "Sipariş kargoda. Takip için kargo bölümüne bakın."], not: "Sıradaki işi bu kutuda okuyun" }] } }),
-      kontrol(["Ürünü arama kutusundan bulun.", "Kademeli indirimi kontrol edip sepete ekleyin.", "Siparişin durumunu detayda izleyin."]),
-      { tip: "son", metin: "Şimdi ilk ürününüzü *sepete* ekleyin.", sonraki: "Önceden aldıklarınızı hızlı bulun" },
+      DENIZ.mutlu("Artık siparişi verip *durumunu* izliyorum."),
+      ozet(["Ürünü arama kutusundan bulun.", "Kademeli indirimi kontrol edip sepete ekleyin.", "Siparişin durumunu detayda izleyin."], "Önceden aldıklarınızı hızlı bulun"),
     ],
   },
 
   // ── 46 · Önceden aldıklarım
   {
     id: "egitim-46-onceden-aldiklarim", tur: "egitim", baslik: "Önceden aldıklarınızı hızlı bulun", etiket: "Eğitim 46 · Önceden aldıklarınızı hızlı bulun",
-    tohum: 46, ton: 2, surum: 2,
+    tohum: 46, ton: 2, surum: 3,
     sahneler: [
-      kapak(46, "Önceden aldıklarınızı hızlı bulun", "Daha önce aldığınız ürünleri tek filtreyle listeleyin.", "filter"),
-      { tip: "karakter", avatar: { sac: "uzun", ten: "bugday", sacRenk: "#3B2416", giysi: "#0B5677", ruh: "dertli" },
-        ad: "Selin", rol: "Satın alma sorumlusu", ikon: "cart", metin: "Geçen ay aldığım ürünü her seferinde *baştan* arıyorum." },
+      SELIN.dert("Aldığım ürünü her seferinde *baştan* arıyorum.", "Eğitim 46 · Önceden aldıklarınızı hızlı bulun"),
       ek("katalog-tekrar", 1, "Katalogda *Sadece önceden aldıklarım* filtresini açın.", { bolge: B(270, 170, 1380, 620), ortu: KIRIK_GORSEL,
         vurgu: [{ hedef: "SADECE ALDIKLARIM evet", not: "Bu filtre açıkken yalnız aldığınız ürünler görünür" },
           { hedef: "ürün bulundu", not: "Aldığınız ürünlerin sayısı burada yazar" }],
         dikey: { tip: "telefon", ekran: "m-katalog-tekrar", ortu: KIRIK_GORSEL_M,
           vurgu: [{ hedef: "SADECE ALDIKLARIM evet", not: "Bu filtre açıkken yalnız aldığınız ürünler görünür" },
             { hedef: "ürün bulundu", not: "Aldığınız ürünlerin sayısı burada yazar" }] } }),
-      ek("katalog-tekrar", 2, "Ürünü listeden doğrudan *sepete* ekleyin.", { bolge: B(270, 170, 1380, 620), ortu: KIRIK_GORSEL,
+      // Adet seçici: masaüstünde "− 1 +" kutusu (çekimden ölçüldü), mobilde açılır liste
+      ek("katalog-tekrar", 2, "Adedi seçip ürünü listeden *sepete* ekleyin.", { bolge: B(270, 170, 1380, 620), ortu: KIRIK_GORSEL,
+        vurgu: [{ hedef: B(580, 837, 68, 32), not: "Adedi bu kutuda ayarlayın" }],
         tikla: { hedef: "Ekle", sonuc: "Ürün sepete eklendi" },
         // Dikeyde dar "Ekle" hedefi 1,3 kat yakınlaşıp ürün adını kesiyor: düğmenin ortasına göre tam genişlikte ham kutu
-        dikey: { tip: "telefon", ekran: "m-katalog-tekrar", ortu: KIRIK_GORSEL_M, tikla: { hedef: B(-57, 737, 389, 36), sonuc: "Ürün sepete eklendi" } } }),
+        dikey: { tip: "telefon", ekran: "m-katalog-tekrar", ortu: KIRIK_GORSEL_M,
+          vurgu: [{ hedef: B(25, 737, 50, 36), not: "Adedi bu kutuda ayarlayın", zoom: 1 }],
+          tikla: { hedef: B(-57, 737, 389, 36), sonuc: "Ürün sepete eklendi" } } }),
       ek("siparis-teslim", 3, "Eski siparişi açıp *Yeniden Sipariş Ver* düğmesine basın.", { bolge: B(555, 180, 1095, 560), ortu: [SAAT],
         vurgu: [{ hedef: "[]Bez Mikrofiber 40*40 Yeşil 60 Gr ST00325", not: "Siparişteki ürünler ve adetler burada yazar" }],
         tikla: { hedef: "Yeniden Sipariş Ver", sonuc: "Siparişin ürünleri sepete eklendi" },
@@ -144,19 +156,17 @@ export default [
           // Mobil tabloda Adet sütunu sağdan taşıyor (görünmüyor): not adet demiyor
           vurgu: [{ hedef: "[]Bez Mikrofiber 40*40 Yeşil 60 Gr ST00325#2", not: "Siparişteki ürünler bu listede görünür" }],
           tikla: { hedef: "Yeniden Sipariş Ver", sonuc: "Siparişin ürünleri sepete eklendi" } } }),
-      kontrol(["Sadece önceden aldıklarım filtresini açın.", "Ürünü listeden sepete ekleyin.", "Eski siparişte Yeniden Sipariş Ver düğmesine basın."]),
-      { tip: "son", metin: "Şimdi katalogda bu *filtreyi* açın.", sonraki: "Aynı siparişi tekrar vermenin 3 yolu" },
+      SELIN.mutlu("Artık önceden aldıklarımı *tek filtreyle* buluyorum."),
+      ozet(["Sadece önceden aldıklarım filtresini açın.", "Ürünü listeden sepete ekleyin.", "Eski siparişte Yeniden Sipariş Ver düğmesine basın."], "Aynı siparişi tekrar vermenin 3 yolu"),
     ],
   },
 
-  // ── 47 · Tekrar sipariş: 3 yol
+  // ── 47 · Tekrar sipariş: 3 yol (üç adım = üç yol; ayrı akış sahnesi yok)
   {
     id: "egitim-47-tekrar-siparis", tur: "egitim", baslik: "Aynı siparişi tekrar vermenin 3 yolu", etiket: "Eğitim 47 · Aynı siparişi tekrar vermenin 3 yolu",
-    tohum: 47, ton: -2, surum: 2,
+    tohum: 47, ton: -2, surum: 3,
     sahneler: [
-      kapak(47, "Aynı siparişi tekrar vermenin 3 yolu", "Sık aldığınız ürünleri baştan girmeden sipariş edin.", "repeat"),
-      { tip: "akis", baslik: "Aynı siparişi *3 yoldan* tekrar verin.",
-        adimlar: [["repeat", "Yeniden Sipariş Ver", "Eski siparişten"], ["list", "Sipariş Listelerim", "Kayıtlı listeden"], ["calendar", "Aboneliğe Çevir", "Ürün sayfasından"]] },
+      BURAK.dert("Her ay aynı siparişi *satır satır* giriyorum.", "Eğitim 47 · Aynı siparişi tekrar vermenin 3 yolu"),
       ek("siparis-teslim", 1, "Eski siparişte *Yeniden Sipariş Ver* düğmesine basın.", { bolge: B(555, 180, 1095, 420), ortu: [SAAT],
         vurgu: [{ hedef: "Şablona Kaydet", not: "Siparişi şablon olarak da saklayabilirsiniz" }],
         tikla: { hedef: "Yeniden Sipariş Ver", sonuc: "Siparişin ürünleri sepete eklendi" },
@@ -177,19 +187,17 @@ export default [
         dikey: { tip: "ekran", ekran: "urun", bolgeD: B(800, 640, 520, 520),
           vurgu: [{ hedef: "Aboneliğe Çevir", not: "Ürün belirli aralıkla otomatik sipariş edilir" }],
           tikla: { hedef: B(1000, 880, 120, 38), sonuc: "Ürün aboneliğe çevrildi" } } }),
-      kontrol(["Eski siparişte Yeniden Sipariş Ver düğmesine basın.", "Kayıtlı listeyi Sepete Ekle ile ekleyin.", "Düzenli aldığınız ürünü aboneliğe çevirin."]),
-      { tip: "son", metin: "Şimdi *Siparişlerim* sayfasını açın.", sonraki: "Hazır paketlerle tasarruf edin" },
+      BURAK.mutlu("Artık aynı siparişi *tek tıkla* veriyorum."),
+      ozet(["Eski siparişte Yeniden Sipariş Ver düğmesine basın.", "Kayıtlı listeyi Sepete Ekle ile ekleyin.", "Düzenli aldığınız ürünü aboneliğe çevirin."], "Hazır paketlerle tasarruf edin"),
     ],
   },
 
   // ── 48 · Paketler
   {
     id: "egitim-48-paketler", tur: "egitim", baslik: "Hazır paketlerle tasarruf edin", etiket: "Eğitim 48 · Hazır paketlerle tasarruf edin",
-    tohum: 48, ton: 1, surum: 2,
+    tohum: 48, ton: 1, surum: 3,
     sahneler: [
-      kapak(48, "Hazır paketlerle tasarruf edin", "Sektörünüze uygun paketi tek tıkla sepete ekleyin.", "package"),
-      { tip: "soru", metin: "Her ay aynı ürünleri *tek tek* mi ekliyorsunuz?", alt: "Hazır paketler bu işi kısaltır.",
-        cipler: [["package", "Hazır paket"], ["percent", "%8–%10 indirim"], ["repeat", "Aylık abonelik"]] },
+      AYLIN.dert("Her ay ürünleri sepete *tek tek* ekliyorum.", "Eğitim 48 · Hazır paketlerle tasarruf edin"),
       ek("paketler", 1, "*Paketler* sayfasında işletmenize uygun paketi seçin.", { bolge: B(270, 170, 1380, 560),
         vurgu: [{ hedef: ["Ofis Başlangıç Paketi", "5-15 Kişilik Ofisler İçin 1 Aylık Temel İhtiyaçlar"], not: "Paketin kime uygun olduğu adının altında yazar" },
           { hedef: ["₺4.472,86", "₺388,94 tasarruf · %8"], not: "Paket fiyatı, eski fiyat ve tasarruf altta yazar" }],
@@ -208,24 +216,17 @@ export default [
         dikey: { tip: "telefon", ekran: "m-paket-ofis",
           vurgu: [{ hedef: "Aboneliğe Çevir (aylık)", not: "Aynı paket her ay otomatik sipariş edilir" }],
           tikla: { hedef: "Tüm Paketi Sepete Ekle", sonuc: "Paketteki 4 ürün sepete eklendi" } } }),
-      // Beş paketin tasarrufu (₺93,22 · ₺388,94 · ₺879,28 · ₺931,95 · ₺1.768,29) paket tutarıyla birlikte artıyor
-      { tip: "rakamlar", baslik: "Paket büyüdükçe *tasarruf* artar.",
-        kartlar: [{ ikon: "building", deger: 388.94, para: true, ondalik: 2, etiket: "Ofis Başlangıç · %8" },
-          { ikon: "star", deger: 931.95, para: true, ondalik: 2, etiket: "Okul & Eğitim · %10" },
-          { ikon: "package", deger: 1768.29, para: true, ondalik: 2, etiket: "Restoran & Mutfak · %10" }] },
-      kontrol(["Paket kartında tasarruf tutarını okuyun.", "Tüm Paketi Sepete Ekle düğmesine basın.", "Aylık alım için Aboneliğe Çevir düğmesini kullanın."]),
-      { tip: "son", metin: "Şimdi *Paketler* sayfasını açın.", sonraki: "Ürünleri karşılaştırın" },
+      AYLIN.mutlu("Artık paketi *tek tıkla* ekliyorum."),
+      ozet(["Paket kartında tasarruf tutarını okuyun.", "Tüm Paketi Sepete Ekle düğmesine basın.", "Aylık alım için Aboneliğe Çevir düğmesini kullanın."], "Ürünleri karşılaştırın"),
     ],
   },
 
   // ── 49 · Ürün karşılaştırma
   {
     id: "egitim-49-urun-karsilastirma", tur: "egitim", baslik: "Ürünleri karşılaştırın", etiket: "Eğitim 49 · Ürünleri karşılaştırın",
-    tohum: 49, ton: -1, surum: 2,
+    tohum: 49, ton: -1, surum: 3,
     sahneler: [
-      kapak(49, "Ürünleri karşılaştırın", "Benzer ürünleri fiyat ve özellikleriyle yan yana görün.", "table"),
-      { tip: "karakter", avatar: { sac: "kisa", ten: "acik", sacRenk: "#2A1A10", giysi: "#1D5FA8", yaka: "gomlek", sakal: true, ruh: "dertli" },
-        ad: "Emre", rol: "Depo sorumlusu", ikon: "box", metin: "İki havluyu kıyaslamak için sekmeler arasında *gidip geliyorum*." },
+      EMRE.dert("Havluları kıyaslamak için sekmeler arasında *gidip geliyorum*.", "Eğitim 49 · Ürünleri karşılaştırın"),
       // Karşılaştır simgesi masaüstünde yalnız fareyle üzerine gelince çıkıyor (haritada yok); mobil kartlarda görünür:
       // m-kategori'de 555213 kartının sağ üstü (kalp simgesinin altı), ham kutu çekimden ölçüldü
       tel("m-kategori", { adim: 1, metin: "Ürün kartındaki *karşılaştır* simgesine dokunun.",
@@ -239,8 +240,8 @@ export default [
       ek("karsilastir", 3, "Farkı görüp seçtiğiniz ürünü *sepete* ekleyin.", { bolge: B(270, 340, 1380, 620), bolgeD: B(283, 250, 830, 830),
         vurgu: [{ hedef: B(545, 899, 720, 41), not: "Ürünler farklı dispenserlere uyar", kaydir: true }],
         tikla: { hedef: B(611, 409, 120, 25), sonuc: "Ürün sepete eklendi" } }),
-      kontrol(["Kartta karşılaştır simgesine basın.", "Fiyatı ve stoğu yan yana kıyaslayın.", "Seçtiğiniz ürünü Sepete Ekle ile ekleyin."]),
-      { tip: "son", metin: "Şimdi *Kağıt Ürünleri* kategorisini açın." },
+      EMRE.mutlu("Artık iki ürünü *yan yana* kıyaslıyorum."),
+      ozet(["Kartta karşılaştır simgesine basın.", "Fiyatı ve stoğu yan yana kıyaslayın.", "Seçtiğiniz ürünü Sepete Ekle ile ekleyin."], "Ürün kartını doğru okuyun"),
     ],
   },
 ];
