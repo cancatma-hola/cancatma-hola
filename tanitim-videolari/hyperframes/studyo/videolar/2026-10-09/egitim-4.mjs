@@ -35,6 +35,8 @@ const BITIS = B(1434, 205, 133, 22), BITIS_M = B(259, 268, 152, 26), BASLANGIC =
 const TARIH = [B(1466, 313, 156, 30), B(601, 353, 131, 30)], TARIH_M = [B(25, 493, 177, 34), B(232, 493, 153, 34)];
 // Mobil ekstrede Sadakat Birikim bandındaki yazılar üst üste biniyor: bant tümüyle kapatılır
 const SADAKAT_BANT_M = B(8, 371, 414, 95);
+// Sipariş belgesindeki adres satırlarında kişi adı + telefon var: kadraja girdiğinde gri bantla kapatılır (Eğitim 57 ile aynı)
+const BELGE_TEL = ["Burak Şahin · +90 216 000 00 01", "Ayşe Yılmaz · +90 216 000 00 03"];
 // Adres Defteri: "asd" test kaydının kartı (telefon ve ad otomatik maskelenmiyor)
 const ASD_ADRES = "[]aasdasd";
 
@@ -111,7 +113,7 @@ export default [
       dikey: tel("m-siparisler", { ortu: TARIH_M,
         vurgu: [{ hedef: ["Hızlı:", "Teslim"], not: "Hızlı filtreler listeyi tek dokunuşla süzer." }],
         tikla: { hedef: "Sevkiyatta", sonuc: "Kargodaki siparişler listelenir" } }) }),
-    ELIF.sonuc("Artık kayıtlı listeyi *tek tıkla* sepete ekliyorum."),
+    ELIF.sonuc("Artık kayıtlı listeyi *tek seferde* sepete ekliyorum."),
     ozet(["Hızlı Sipariş sayfasına ürün kodunu yazın.", "Kayıtlı listede Sepete Ekle düğmesine basın.", "Siparişleri Sevkiyatta filtresiyle izleyin."],
       "Rol rehberi: yönetici"),
   ]),
@@ -175,7 +177,7 @@ export default [
     ek("siparisler", 4, "Sipariş listesini *Excel'e* aktarın.", { bolge: B(900, 170, 750, 332), ortu: TARIH,
       tikla: { hedef: "Excel'e Aktar", sonuc: "Liste Excel dosyasına aktarılır" },
       dikey: tel("m-siparisler", { ortu: TARIH_M, tikla: { hedef: "Excel'e Aktar", sonuc: "Liste Excel dosyasına aktarılır" } }) }),
-    ek("siparis-yazdir", 5, "Sipariş belgesinde *PO numarasını* bulun.", { bolge: B(770, 200, 750, 340), bolgeD: B(770, 300, 420, 420), ortu: ["~VKN"],
+    ek("siparis-yazdir", 5, "Sipariş belgesinde *PO numarasını* bulun.", { bolge: B(770, 200, 750, 340), bolgeD: B(770, 300, 420, 420), ortu: ["~VKN", ...BELGE_TEL],
       vurgu: [{ hedef: ["Sipariş veren : Ayşe Yılmaz", "PO No : SAS-2026-0644"], not: "Belgede siparişi veren kişi ve PO numarası yazar." }] }),
     SEDA.sonuc("Artık faturaları ve ekstreyi *panelden* alıyorum."),
     ozet(["Cari Ekstre'yi tarih aralığıyla filtreleyin.", "Faturayı Yazdır düğmesiyle yazdırın.", "Sipariş listesini Excel'e aktarın."],
@@ -199,7 +201,7 @@ export default [
       dikey: tel("m-projeler", {
         vurgu: [{ hedef: ["Yeni Şube Açılış Donanımı#2", "3 sipariş"], not: "Projenin kodu, adresi ve sipariş sayısı burada yazar." }],
         tikla: { hedef: "Yeni Proje", sonuc: "Yeni proje formu açılır" } }) }),
-    ek("adresler", 3, "*Varsayılan* teslimat adresini kontrol edin.", { bolge: B(270, 640, 840, 340), bolgeD: B(560, 700, 560, 380), ortu: [ASD_ADRES],
+    ek("adresler", 3, "*Varsayılan* teslimat adresini kontrol edin.", { bolge: B(270, 640, 840, 340), bolgeD: B(560, 700, 560, 380), ortu: [ASD_ADRES, "Burak Şahin · +90 216 000 00 01"],   // varsayılan adresin kişi + telefon satırı da kapatılır
       vurgu: [{ hedef: ["Merkez Depo", "Varsayılan"], not: "Varsayılan etiketi ana teslimat adresinizi gösterir." }] }),
     ek("siparis-sevkiyat", 4, "Sipariş detayında *teslimat adresini* görün.", { bolge: B(555, 470, 1095, 610),
       vurgu: [{ hedef: "Sipariş kargoda. Takip için kargo bölümüne bakın.", not: "Sıradaki adım kutusu siparişin nerede olduğunu söyler." },

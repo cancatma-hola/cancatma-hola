@@ -22,7 +22,7 @@ const PAKET = B(283, 200, 1360, 600);
 // Hesap sayfaları: içerik alanı (sol menü dışarıda)
 const HESAP = B(555, 185, 1095, 485);
 // Hızlı Sipariş: "En fazla 100 satır" yazısı (öğe 1036 px'lik satırın tamamı; görünen yazı ~85 px)
-const SATIR100 = B(578, 455, 96, 26);
+const SATIR100 = B(578, 455, 86, 26), SATIR100_M = B(17, 510, 100, 22);   // mobilde ilk satırın başı
 
 // Kişiler
 const SEVGI = { avatar: { sac: "topuz", ten: "bugday", sacRenk: "#3B2A20", giysi: "#0B5677", yaka: "gomlek" }, ad: "Sevgi", rol: "Kat hizmetleri şefi", ikon: "building" };
@@ -48,7 +48,7 @@ export default [
       cipler: [["clock", "Toplantıda"], ["truck", "Yolda"], ["building", "Şubede"]] },
     { tip: "cihaz", metin: "Bilgisayardaki panel *telefonda* da çalışır.", alt: "Siparişleriniz iki ekranda da aynı görünür", ikon: "phone", sure: 5.5,
       masa: { ekran: "siparisler", bolge: B(555, 180, 1095, 620) }, tel: { ekran: "m-siparisler", basY: 160 } },
-    onayla("Siparişi *tek dokunuşla* onaylayın.", { hedef: "[]Sipariş tutarı: ₺1.779,56", not: "Tutar ve ürünler tek kartta görünür" }),
+    onayla("Siparişi *tek dokunuşla* onaylayın.", { hedef: "Sipariş tutarı: ₺1.779,56", not: "Tutar ve ürünler tek kartta görünür" }),
     // Mobil haritalarda da aynı: m-hizli "En fazla 100 satır", m-kampanyalar "Peşin Ödeme %2", "₺3.500,00 ve üzeri"
     { tip: "rakamlar", baslik: "Avantajlar *telefonda da* aynı kalır.", sure: 5,
       kartlar: [{ ikon: "list", deger: 100, sonek: "satır", etiket: "Hızlı siparişte tek form" },
@@ -84,7 +84,7 @@ export default [
       vurgu: [{ hedef: ["İdari İşler", "/ ₺45.000,00"], not: "Bu ayki harcama, aylık bütçenin yanında görünür" }],
       dikey: { tip: "telefon", ekran: "m-departmanlar",
         vurgu: [{ hedef: ["İdari İşler", "/ ₺45.000,00"], not: "Bu ayki harcama, aylık bütçenin yanında görünür" }] } }),
-    { tip: "rakamlar", baslik: "İndirim ve kargo *kendiliğinden* uygulanır.", sure: 5,
+    { tip: "rakamlar", baslik: "İndirim ve ücretsiz kargo *kendiliğinden* uygulanır.", sure: 5,
       kartlar: [{ ikon: "percent", onek: "%", deger: 10, etiket: "Paket içi indirim" },
         { ikon: "wallet", deger: 931.95, para: true, ondalik: 2, etiket: "Okul paketinde tasarruf" },
         { ikon: "truck", deger: 3500, para: true, ondalik: 0, etiket: "Üzerinde kargo ücretsiz" }] },
@@ -93,7 +93,7 @@ export default [
 
   // ── 24 · Restoran: soru → Restoran paketi → hızlı siparişte ürün kodu → kanıt (paket ve ödeme kuralları) → kapanış
   T("tanitim-24-restoran", "Restoran: mutfak hijyeni tek pakette", 24, -2, [
-    { tip: "soru", metin: "Servis ortasında *eldiven* bitti mi?", sure: 3,
+    { tip: "soru", metin: "*Eldiven* yine mi bitti?", sure: 3,
       cipler: [["flask", "Deterjan"], ["shield", "Eldiven"], ["bolt", "Yağ sökücü"]] },
     ek("paket-restoran", "Mutfak hijyenini *tek pakette* toplayın.", { bolge: PAKET, bolgeD: B(283, 190, 800, 800),
       vurgu: [{ hedef: ["~4 × Ritm Sıvı Bulaşık", "~Mavi Nitril Eldiven sağlık"], not: "Deterjan, tablet, yağ sökücü ve eldiven aynı pakette gelir" },
@@ -103,7 +103,7 @@ export default [
       vurgu: [{ hedef: SATIR100, not: "Tek formda 100 satıra kadar ürün girilir" }],
       yaz: { hedef: "Ürün ara (ad veya kod)", metin: "MNM01" },
       dikey: { tip: "telefon", ekran: "m-hizli",
-        vurgu: [{ hedef: "~En fazla 100 satır", not: "Tek formda 100 satıra kadar ürün girilir" }],
+        vurgu: [{ hedef: SATIR100_M, not: "Tek formda 100 satıra kadar ürün girilir" }],
         yaz: { hedef: "Ürün ara (ad veya kod)", metin: "MNM01" } } }),
     { tip: "rakamlar", baslik: "Mutfak paketi *indirimle* gelir.", sure: 5,
       kartlar: [{ ikon: "percent", onek: "%", deger: 10, etiket: "Paket içi indirim" },
@@ -116,10 +116,11 @@ export default [
   T("tanitim-25-ofis", "Ofis: bir aylık ihtiyaç tek pakette", 25, 3, [
     kisi(MURAT, "dertli", "Her ay *aynı listeyi* yazıyorum.", { sure: 3 }),
     ek("paket-ofis", "Bir aylık ihtiyacı *tek pakette* alın.", { bolge: PAKET,
-      vurgu: [{ hedef: ["5-15 Kişilik Ofisler İçin 1 Aylık Temel İhtiyaçlar", "Paket İçeriği ( 4 ürün)"], not: "Dört temel ürün aynı pakette gelir" },
+      vurgu: [{ hedef: ["~5 × Z Katlama", "~5 × Mini Cimri"], not: "Dört temel ürün aynı pakette gelir" },
         { hedef: ["₺4.472,86", "[]Paket içi %8 indirim otomatik uygulanır"], not: "Paket içi %8 indirimle ₺388,94 tasarruf edersiniz" }],
       dikey: { tip: "telefon", ekran: "m-paket-ofis",
-        vurgu: [{ hedef: ["5-15 Kişilik Ofisler İçin 1 Aylık Temel İhtiyaçlar", "Paket İçeriği ( 4 ürün)"], not: "Dört temel ürün aynı pakette gelir" },
+        // mobilde dört ürünün listesi ekrana sığmıyor: "Paket İçeriği (4 ürün)" başlığı ve ilk ürün
+        vurgu: [{ hedef: ["Paket İçeriği ( 4 ürün)", "~5 × Z Katlama"], not: "Dört temel ürün aynı pakette gelir" },
           { hedef: ["₺4.472,86", "Paket içi % 8 indirim otomatik uygulanır"], not: "Paket içi %8 indirimle ₺388,94 tasarruf edersiniz" }] } }),
     // basY: telefon sahne başında düğmenin bulunduğu fiyat kutusunda açılır (yatay ve dikey ölçek farklı)
     tel("m-paket-ofis", "Paketi *aylık aboneliğe* çevirin.", { basY: 1061,

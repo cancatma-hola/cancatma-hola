@@ -48,19 +48,19 @@ E("ozet", "Özet ekranı", "chart", "Hesabınızın durumunu tek bakışta gör�
 // ── Ürün bulma ve sipariş
 // Ana sayfanın banner'ı çekimde geçiş anında yakalanmış (yazılar kesik): arama kutusu Tüm Ürünler sayfasında gösterilir
 E("urun-arama", "Ürün arama", "search", "Aradığınız ürünü arama kutusuyla bulun.", [
-  ek("katalog", 1, "Üstteki *arama kutusuna* ürün adını yazın.", { bolge: B(285, 0, 1100, 300), bolgeD: B(285, 0, 880, 950), ortu: [SAAT],
+  ek("katalog", 1, "Üstteki *arama kutusuna* ürün adını yazın.", { bolge: B(285, 40, 1100, 470), bolgeD: B(285, 32, 880, 948), ortu: [SAAT],
     yaz: { hedef: "Ürün, SKU veya barkod...", metin: "kağıt havlu" } }),
-  ek("arama", 2, "Sonuçlar siz *yazarken* listelenir.", { bolge: B(380, 80, 760, 520), bolgeD: B(407, 40, 700, 560), ortu: [SAAT, BANNER_YAZI],
+  ek("arama", 2, "Sonuçlar siz *yazarken* listelenir.", { bolge: B(380, 80, 760, 520), bolgeD: B(407, 40, 700, 740), ortu: [SAAT, BANNER_YAZI],
     vurgu: [{ hedef: "Fotoselli/Sensörlü Kağıt Havlu 4 kg 555204 ÜRÜN", not: "Ürün adı ve ürün kodu birlikte görünür" }],
     tikla: { hedef: "\"kağıt havlu\" için tüm sonuçları gör", sonuc: "Tüm sonuçlar listelenir" } }),
-  ek("katalog", 3, "Ürün *kodu* veya *barkod* ile de arayabilirsiniz.", { bolge: B(285, 0, 1100, 300), bolgeD: B(285, 0, 880, 950), ortu: [SAAT],
+  ek("katalog", 3, "Ürün *kodu* veya *barkod* ile de arayabilirsiniz.", { bolge: B(285, 40, 1100, 470), bolgeD: B(285, 32, 880, 948), ortu: [SAAT],
     yaz: { hedef: "Ürün, SKU veya barkod...", metin: "555204" } }),
 ], ["Ürün adının bir kısmını yazmanız yeterlidir.", "Tüm sonuçlar için listenin son satırına basın.", "Ürün kodunu ya da barkodu da yazabilirsiniz."],
 "Şimdi bir ürünü *arayın.*");
 
 E("kategoriler", "Kategoriler ve filtreler", "filter", "Ürünleri kategoriye göre süzün.", [
   ek("kategori", 1, "Üst menüden bir *kategori* seçin.", { bolge: B(270, 150, 1380, 420), ortu: [SAAT, MARKA_BOS],
-    vurgu: [{ hedef: ["Kağıt Ürünleri", "Atık Yönetimi & Ortam Bakımı"], not: "Yedi ana kategori bu menüde durur", kaydir: true },
+    vurgu: [{ hedef: ["Kağıt Ürünleri", "Mutfak, Bulaşık & Gıda Servisi"], not: "Ana kategoriler bu menüde durur" },
       { hedef: ["75", "Fiyat aralığı"], not: "Ürün sayısı, marka ve fiyat aralığı burada yazar" }] }),
   ek("kategori", 2, "Sol taraftaki *filtrelerle* sonuçları daraltın.", { bolge: B(270, 300, 700, 760), ortu: [SAAT, MARKA_BOS],
     vurgu: [{ hedef: ["Alt Kategoriler", "Endüstriyel Temizlik Rulosu"], not: "Alt kategoriye göre süzün" },
@@ -75,10 +75,10 @@ E("urun-sayfasi", "Ürün sayfası", "box", "Fiyatı, stoğu ve kargo süresini 
   ek("urun", 1, "Ürün sayfasında *KDV hariç* fiyatı görün.", { bolge: B(810, 200, 840, 460),
     vurgu: [{ hedef: ["Liste Fiyatı (KDV Hariç)", "KDV dahil ₺504,00"], not: "KDV dahil fiyat hemen altında yazar" },
       { hedef: "Bu üründen 1 adet alırsan +4 puan kazanırsın", not: "Her koli 4 sadakat puanı kazandırır" }] }),
-  ek("urun", 2, "*Stok* ve *kargo* bilgisini kontrol edin.", { bolge: B(810, 560, 850, 420),
+  ek("urun", 2, "*Stok* ve *kargo* bilgisini kontrol edin.", { bolge: B(810, 740, 500, 220), bolgeD: B(815, 600, 500, 540),
     vurgu: [{ hedef: "Stok: 88 adet · 1 iş günü içinde kargo", not: "Stok adedi ve kargo süresi burada yazar" }] }),
   // urun-alt çekiminde Sepete Ekle düğmesi sabit üst menünün altında kalıyor: düğme ürün sayfasının ilk çekiminde gösterilir
-  ek("urun", 3, "Adedi seçip *Sepete Ekle* butonuna basın.", { bolge: B(810, 560, 850, 420),
+  ek("urun", 3, "Adedi seçip *Sepete Ekle* butonuna basın.", { bolge: B(810, 740, 500, 220), bolgeD: B(815, 600, 500, 540),
     tikla: { hedef: "Sepete Ekle", sonuc: "Ürün sepete eklendi" } }),
 ], ["KDV dahil fiyatı liste fiyatının altında okuyun.", "Sepete eklemeden önce stok adedine bakın.", "Kazanacağınız puanı fiyat kutusunda görün."],
 "Şimdi bir *ürün sayfası* açın.");
@@ -111,7 +111,8 @@ E("siparislerim", "Siparişlerim", "list", "Tüm siparişlerinizi tek listede ta
     vurgu: [{ hedef: "Sipariş no veya PO ara...", not: "Sipariş no veya PO ile arayın" },
       { hedef: "~Tüm Durumlar", not: "Duruma göre süzün" }, { hedef: ["Hızlı:", "Teslim"], not: "Tek tıkla duruma göre süzün" }] }),
   ek("siparisler", 3, "Listeyi *Excel'e* aktarın.", { bolge: B(555, 205, 1095, 300), ortu: TARIH,
-    tikla: { hedef: "Excel'e Aktar", sonuc: "Liste Excel dosyasına aktarılır" } }),
+    // Sağ üstteki düğme: uzun kutunun merkezi düğmede, yatayda kamera yakınlaşmaz ve sayfa başlığı kadrajda kalır
+    tikla: { hedef: B(1404, 70, 116, 300), sonuc: "Liste Excel dosyasına aktarılır" } }),
 ], ["Her siparişin durumunu listede izleyin.", "Siparişi numarası ya da PO ile arayın.", "Rapor için listeyi Excel'e aktarın."],
 "Şimdi *Siparişlerim* sayfasını açın.");
 
@@ -123,7 +124,7 @@ E("siparis-detayi", "Sipariş detayı", "doc", "Siparişin hangi adımda olduğu
   ek("siparis-hazirlaniyor-alt", 2, "*Sipariş kalemlerini* ve tutarı kontrol edin.", { bolge: B(555, 200, 1095, 380), ortu: GECMIS_HAZIR,
     vurgu: [{ hedef: "[]ÜRÜN SKU ADET BİRİM TUTAR", not: "Her satırda kod, adet ve birim fiyat yazar" }, { hedef: "[]Toplam ₺2.925,48", not: "İndirim, KDV ve kargo toplamın üstünde yazar" }] }),
   ek("siparis-hazirlaniyor", 3, "Siparişi *yazdırın* ya da şablona kaydedin.", { bolge: B(555, 205, 1095, 260),
-    vurgu: [{ hedef: "Şablona Kaydet", not: "Aynı siparişi tekrar vermek için saklayın" }], tikla: { hedef: "Yazdır / PDF", sonuc: "Sipariş belgesi açılır" } }),
+    vurgu: [{ hedef: "Şablona Kaydet", not: "Aynı siparişi tekrar vermek için saklayın" }], tikla: { hedef: B(1519, 71, 118, 300), sonuc: "Sipariş belgesi açılır" } }),   // merkez: Yazdır / PDF
 ], ["Siparişin adımını durum çubuğunda izleyin.", "Kalemleri ve toplam tutarı kontrol edin.", "Sık verdiğiniz siparişi şablona kaydedin."],
 "Şimdi bir *sipariş detayı* açın.");
 
@@ -133,7 +134,7 @@ E("onay-bekleyen-siparis", "Onay bekleyen sipariş", "approve", "Onay zincirinde
   ek("siparis-onay", 2, "*Onay zincirinde* kimin beklediğini görün.", { bolge: B(555, 680, 1095, 360), ortu: GECMIS_ONAY,
     vurgu: [{ hedef: "[]Onay Zinciri Seviye 2", not: "Bekleyen kişinin adı burada yazar" }] }),
   ek("siparis-onay", 3, "Gerekirse siparişi *iptal* edebilirsiniz.", { bolge: B(555, 330, 1095, 350), ortu: GECMIS_ONAY,
-    vurgu: [{ hedef: "[]Siparişi İptal Et Sipariş henüz", not: "Sipariş işleme alınmadan iptal edilebilir" }] }),
+    vurgu: [{ hedef: "Siparişi İptal Et", not: "Sipariş işleme alınmadan iptal edilebilir" }] }),
 ], ["Sipariş onaylayıcılara sırayla gider.", "Bekleyen kişiyi Onay Zinciri bölümünde görün.", "Hazırlık başladıysa iptal için destek ekibine ulaşın."],
 "Şimdi onay bekleyen bir *siparişi* açın.");
 
@@ -141,7 +142,7 @@ E("odeme-bekleyen-siparis", "Ödeme bekleyen sipariş", "wallet", "Siparişin ö
   ek("siparis-odeme", 1, "Sipariş durumunda *Ödeme Bekleniyor* yazar.", { bolge: B(555, 330, 1095, 350),
     vurgu: [{ hedef: "Ödeme Bekleniyor", not: "Ödeme hesaba geçince sipariş hazırlığa alınır" }] }),
   ek("siparis-odeme", 2, "*Sıradaki adım* ne yapmanız gerektiğini söyler.", { bolge: B(555, 330, 1095, 350),
-    vurgu: [{ hedef: ["Sıradaki adım", "~Ödeme tamamlanması bekleniyor"], not: "Kart sorununda farklı kart ya da havale deneyin" }] }),
+    vurgu: [{ hedef: ["Sıradaki adım", "~Ödeme tamamlanması bekleniyor"], not: "Kart sorununda farklı kart ya da havale deneyin", kaydir: true }] }),
   // Ekranın altındaki kesik "Havale açıklamasına yazınız" satırı gri bantla kapatılır
   ek("siparis-odeme", 3, "Havale açıklamasına *sipariş numarasını* yazın.", { bolge: B(1000, 640, 920, 410), bolgeD: B(1100, 560, 560, 520), ortu: [B(1330, 1050, 310, 30)],
     vurgu: [{ hedef: "Açıklama alanına sipariş numaranızı yazmazsanız ödemenizin eşleştirilmesi gecikir.", not: "Ödemeniz bu numarayla siparişe bağlanır" }] }),
@@ -153,7 +154,7 @@ E("periyodik-siparisler", "Periyodik siparişler", "repeat", "Düzenli siparişl
   ek("periyodik", 1, "*Periyodik Siparişler* sayfası şablonlarınızı listeler.", { bolge: B(555, 205, 1095, 380),
     vurgu: [{ hedef: "[]Aylık periyodik sipariş", not: "Bu şablon her ayın 1. günü sipariş oluşturur" }, { hedef: "[]Aylık Temizlik Sarf Aboneliği", not: "Sonraki sipariş tarihi kartta yazar" }] }),
   ek("periyodik", 2, "Yeni bir şablon için *Yeni Şablon* butonuna basın.", { bolge: B(555, 205, 1095, 380),
-    tikla: { hedef: "~Yeni Şablon", sonuc: "Yeni şablon formu açılır" } }),
+    tikla: { hedef: B(1521, 70, 115, 300), sonuc: "Yeni şablon formu açılır" } }),   // merkez: Yeni Şablon (yatayda başlık kadrajda kalır)
 ], ["Sonraki sipariş tarihini kartta kontrol edin.", "Şablonu kalem simgesiyle düzenleyin.", "Yeni şablon için Yeni Şablon düğmesine basın."],
 "Şimdi *Periyodik Siparişler* sayfasını açın.");
 

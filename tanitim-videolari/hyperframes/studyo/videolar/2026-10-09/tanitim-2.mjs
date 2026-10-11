@@ -47,7 +47,8 @@ export default [
   {
     id: "tanitim-28-rakamlarla", tur: "tanitim", baslik: "Rakamlarla MTS Hijyen B2B", tohum: 28, ton: -1, surum: 3,
     sahneler: [
-      { tip: "kelime", ust: "Rakamlarla", kelimeler: ["1.326 ürün."], son: "*Tek katalogda* durur.", sure: 3 },
+      // Kapak karesi ilk sahnenin sonundan alınır: son cümle tek başına anlaşılır (öznesiyle)
+      { tip: "kelime", ust: "Rakamlarla", kelimeler: ["100+ marka."], son: "Katalogda *1.326 ürün* var.", sure: 3 },
       ek("katalog", "Ürünleri *kategori ve markayla* süzün.", { bolge: B(283, 190, 1360, 700), bolgeD: B(283, 300, 560, 620),
         vurgu: [{ hedef: ["Kağıt Ürünleri 75", "Atık Yönetimi & Ortam Bakımı 187"], not: "Her kategorinin ürün sayısı yanında yazar." },
           { hedef: ["Koleston 104", "+ 99 marka daha"], not: "Marka filtresi aramayı daraltır." }] }),
@@ -55,9 +56,10 @@ export default [
       ek("kampanyalar", "Kurallar *Kampanyalar* sayfasında yazar.", { bolge: B(270, 190, 1380, 610),
         vurgu: [{ hedef: ["Peşin Ödeme %2 İndirim", "~Havale/EFT ile ödediğiniz"], not: "İndirim net tutardan otomatik düşülür." },
           { hedef: ["Ücretsiz Kargo", "~₺3.500,00 ve üzeri"], not: "Sipariş bu tutara ulaşınca kargo ücretsizdir." }],
+        // Dikey: kartın tamamı (x 8–422) hedeflenir; yalnız yazı alanı hedeflenince kamera yakınlaşıp sayfanın solunu kesiyordu
         dikey: { tip: "telefon", ekran: "m-kampanyalar",
-          vurgu: [{ hedef: ["Peşin Ödeme %2 İndirim", "~Havale/EFT ile ödediğiniz"], not: "İndirim net tutardan otomatik düşülür." },
-            { hedef: ["Ücretsiz Kargo", "~₺3.500,00 ve üzeri"], not: "Sipariş bu tutara ulaşınca kargo ücretsizdir." }] } }),
+          vurgu: [{ hedef: "[]Peşin Ödeme %2 İndirim", not: "İndirim net tutardan otomatik düşülür." },
+            { hedef: "[]Ücretsiz Kargo", not: "Sipariş bu tutara ulaşınca kargo ücretsizdir." }] } }),
       { tip: "rakamlar", baslik: "Her rakam *panelde* yazar.",
         kartlar: [{ ikon: "list", deger: 7, etiket: "ana kategori" }, { ikon: "tag", deger: 100, sonek: "+", etiket: "marka" },
           { ikon: "percent", deger: 2, onek: "%", etiket: "peşin ödemede indirim" },
@@ -84,7 +86,8 @@ export default [
           tikla: { hedef: "Sepete Ekle", sonuc: "Ürün sepete eklendi" } } }),
       tel("m-onaylarim", "Öğle arasında *telefondan* onaylayın.", { saat: "12:30",
         tikla: { hedef: "Onayla", sonuc: "Sipariş onaylandı" } }),
-      ek("siparis-sevkiyat", "Öğleden sonra *kargoyu* izleyin.", { saat: "15:00", bolge: HESAP,
+      // Vurgu kamerası sol menüyü ve sipariş başlığını da gösteriyor: hesap sahibinin adı iki yerde gri bantla kapatılır
+      ek("siparis-sevkiyat", "Öğleden sonra *kargoyu* izleyin.", { saat: "15:00", bolge: HESAP, ortu: ["Can Çatma", "20.09.2026 · Ayşe Yılmaz · Can Çatma"],
         vurgu: [{ hedef: "Sevkiyatta", not: "Siparişin durumu sayfanın başında yazar." }],
         dikey: { tip: "telefon", ekran: "m-siparis-sevkiyat", saat: "15:00",
           vurgu: [{ hedef: "Sevkiyatta", not: "Siparişin durumu sayfanın başında yazar." }] } }),
@@ -130,7 +133,7 @@ export default [
             { hedef: B(14, 682, 115, 88), not: "Her siparişin vade tarihi kartında yazar.", zoom: 1.6 }] } }),
       // Kanıt: panelin kuralları (ekstredeki 3 vade aralığı, kampanyalardaki Havale/EFT peşin %2); demo tutarı yok
       { tip: "rakamlar", baslik: "Kurallar *panelde* yazar.",
-        kartlar: [{ ikon: "calendar", deger: 3, etiket: "vade aralığında bakiye" },
+        kartlar: [{ ikon: "calendar", deger: 3, etiket: "vade aralığı: 0–30, 31–60, 60+ gün" },
           { ikon: "percent", deger: 2, onek: "%", etiket: "Havale/EFT ile peşin ödemede indirim" }] },
       kapanis("Faturayı ve bakiyeyi *tek yerde* izleyin."),
     ],
@@ -163,7 +166,8 @@ export default [
     sahneler: [
       { tip: "soru", metin: "Siparişi *nasıl* ödersiniz?", sure: 3,
         cipler: [["wallet", "Cari hesap"], ["shield", "Kredi kartı"], ["percent", "Havale/EFT"]] },
-      ek("urun-alt", "Ödeme yolları *ürün sayfasında* yazar.", { bolge: B(820, 110, 830, 240), bolgeD: B(1300, 195, 345, 150),
+      // "Pazartesi kargoda" rozeti (cuma akşamı çekim, güne bağlı) vurgu kamerasının görüş alanına giriyor: gri bantla kapatılır
+      ek("urun-alt", "Ödeme yolları *ürün sayfasında* yazar.", { bolge: B(820, 110, 830, 240), bolgeD: B(1300, 195, 345, 150), ortu: ["Pazartesi kargoda"],
         vurgu: [{ hedef: ["Cari hesap", "Havale/EFT (peşin %2 iskonto)"], not: "Ödeme yolunu siparişe göre siz seçersiniz." }] }),
       // Kırpım: sipariş kalemlerinin sayı sütunları + özet kutusu (x 918: ürün adları kesik görünmesin; üstteki kullanıcı adı ve
       // "Kart doğrulamasında sorun" satırı dışarıda). Kopyala: havale açıklamasına yazılacak sipariş numarası.
@@ -171,9 +175,10 @@ export default [
       ek("siparis-odeme", "Havale indirimi *sipariş özetinde* düşer.", { bolge: B(918, 640, 732, 324),
         vurgu: [{ hedef: ["Havale İndirimi", "-₺45,81"], not: "Peşin indirim özette ayrı satırda yazar." }],
         tikla: { hedef: "Kopyala", sonuc: "Sipariş numarası kopyalandı" },
-        dikey: { tip: "telefon", ekran: "m-siparis-odeme", ortu: ["~06.10.2026 · Can Çatma"],
+        // Dikey: Kopyala'nın altında banka hesapları var; IBAN satırları gri bantla kapatılır, dokunuş yakınlaşmaz (sayfa sola kaymaz)
+        dikey: { tip: "telefon", ekran: "m-siparis-odeme", ortu: ["~06.10.2026 · Can Çatma", "~TR35 0001", "~TR52 0006", "~TR43 0021"],
           vurgu: [{ hedef: ["Havale İndirimi", "-₺45,81"], not: "Peşin indirim özette ayrı satırda yazar." }],
-          tikla: { hedef: "Kopyala", sonuc: "Sipariş numarası kopyalandı", zoom: 1.6 } } }),
+          tikla: { hedef: "Kopyala", sonuc: "Sipariş numarası kopyalandı", zoom: 1 } } }),
       { tip: "sayac", baslik: "Havale/EFT ile *peşin* ödeyin.", deger: 2, onek: "%", alt: "Net tutardan indirim düşülür." },
       kapanis("Her siparişte *size uyanı* kullanın."),
     ],

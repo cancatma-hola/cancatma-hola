@@ -7,9 +7,14 @@ const B = (x, y, w, h) => ({ x, y, w, h });
 const ek = (ekran, adim, metin, ayar) => ({ tip: "ekran", ekran, adim, metin, ...ayar });
 const tel = (ekran, ayar) => ({ tip: "telefon", ekran, ...ayar });
 const ozet = (maddeler, sonraki) => ({ tip: "ozet", maddeler, ...(sonraki ? { sonraki } : {}) });
-// İlk sahne (kanca) videonun başlık çipini taşır
-const E = (no, id, baslik, ton, [kanca, ...sahneler]) =>
-  ({ id, tur: "egitim", baslik, etiket: `Eğitim ${no} · ${baslik}`, tohum: no, ton, surum: 3, sahneler: [{ ...kanca, etiket: `Eğitim ${no} · ${baslik}` }, ...sahneler] });
+// İlk sahne (kanca) videonun başlık çipini taşır (dikey yerine geçen tanım da)
+const E = (no, id, baslik, ton, [kanca, ...sahneler]) => {
+  const etiket = `Eğitim ${no} · ${baslik}`;
+  const ilk = { ...kanca, etiket, ...(kanca.dikey ? { dikey: { ...kanca.dikey, etiket } } : {}) };
+  return { id, tur: "egitim", baslik, etiket, tohum: no, ton, surum: 3, sahneler: [ilk, ...sahneler] };
+};
+// SSS sorusu: dikeyde iki satırlık başlık çipi üstteki soru çiplerinin (y 400–440) üstüne biniyor; dikeyde çipsiz gösterilir
+const soru = (metin, alt, cipler) => ({ tip: "soru", metin, alt, cipler, dikey: { tip: "soru", alt } });
 // Kurgusal kişi: açılışta dertli (sorun), sonda aynı kişi mutlu ve rozetli (yeni rutin)
 const kisi = (avatar, ad, rol, ikon) => ({
   sorun: (metin) => ({ tip: "karakter", avatar: { ...avatar, ruh: "dertli" }, ad, rol, ikon, metin }),
@@ -21,8 +26,8 @@ const OZAN = kisi({ sac: "kisa", ten: "bugday", sacRenk: "#3A2615", giysi: "#5B3
 const NIHAN = kisi({ sac: "uzun", ten: "bugday", sacRenk: "#2B1B12", giysi: "#7A2E3A", yaka: "gomlek" }, "Nihan", "İdari işler müdürü", "gear");
 const OKAN = kisi({ sac: "kisa", ten: "acik", sacRenk: "#5A4632", giysi: "#24476B", yaka: "kravat", gozluk: true }, "Okan", "İşletme müdürü", "key");
 
-// Sipariş belgesindeki adres satırlarında kişi adı + telefon var: kadraja girdiğinde gri bantla kapatılır
-const BELGE_TEL = ["Burak Şahin · +90 216 000 00 01", "Ayşe Yılmaz · +90 216 000 00 03"];
+// Sipariş belgesindeki adres satırlarında kişi adı + telefon, müşteri bloğunda vergi numarası var: kadraja girdiğinde gri bantla kapatılır (Eğitim 68 ile aynı)
+const BELGE_TEL = ["Burak Şahin · +90 216 000 00 01", "Ayşe Yılmaz · +90 216 000 00 03", "~VKN"];
 // Siparişlerim: tarih filtrelerinde tarayıcının "mm/dd/yyyy" yer tutucusu var; kutular boş gri kutuyla kapatılır
 const TARIH = [B(1466, 313, 156, 30), B(601, 353, 131, 30)], TARIH_M = [B(25, 493, 177, 34), B(232, 493, 153, 34)];
 
@@ -48,8 +53,8 @@ export default [
 
   // ── 58 · Havale ödemesi (SSS)
   E(58, "egitim-58-havale-odeme", "Havale yaptım, sipariş neden ilerlemiyor?", -2, [
-    { tip: "soru", metin: "Havale yaptınız, sipariş hâlâ *Ödeme Bekleniyor* mu?", alt: "Cevap sipariş detayında yazar.",
-      cipler: [["wallet", "Havale / EFT"], ["doc", "Sipariş numarası"]] },
+    soru("Havale yaptınız, sipariş hâlâ *Ödeme Bekleniyor* mu?", "Cevap sipariş detayında yazar.",
+      [["wallet", "Havale / EFT"], ["doc", "Sipariş numarası"]]),
     ek("siparis-odeme", 1, "Sipariş detayında *Ödeme Bekleniyor* durumuna bakın.", { bolge: B(560, 172, 1090, 482),
       vurgu: [{ hedef: "Ödeme Bekleniyor", not: "Ödeme hesaba geçince sipariş hazırlığa alınır." }],
       dikey: tel("m-siparis-odeme", { vurgu: [{ hedef: "Ödeme Bekleniyor", not: "Ödeme hesaba geçince sipariş hazırlığa alınır." }] }) }),
@@ -70,8 +75,8 @@ export default [
   // Panel kuralı: "Sipariş henüz işleme alınmadan iptal edilebilir. MTS hazırlığa başladıktan sonra iptal için destek ekibine ulaşın."
   // Kural artık panelde gösterilir: işleme alınmamış siparişte düğme var (adım 1), hazırlanan siparişte yok (adım 2).
   E(59, "egitim-59-siparis-iptal", "Siparişimi iptal edebilir miyim?", 2, [
-    { tip: "soru", metin: "Sipariş *ne zaman* iptal edilebilir?", alt: "Cevap siparişin durumuna bağlıdır.",
-      cipler: [["clock", "MTS Onayı Bekleniyor"], ["box", "Hazırlanıyor"]] },
+    soru("Sipariş *ne zaman* iptal edilebilir?", "Cevap siparişin durumuna bağlıdır.",
+      [["clock", "MTS Onayı Bekleniyor"], ["box", "Hazırlanıyor"]]),
     ek("siparis-mts-bekleniyor", 1, "İşleme alınmamış siparişte *Siparişi İptal Et* düğmesine basın.", { bolge: B(560, 290, 800, 354),
       vurgu: [{ hedef: "MTS Onayı Bekleniyor", not: "Bu durumda sipariş henüz işleme alınmadı." }],
       tikla: { hedef: "Siparişi İptal Et", sonuc: "Sipariş iptal edilir" },
@@ -79,13 +84,14 @@ export default [
         tikla: { hedef: "Siparişi İptal Et", sonuc: "Sipariş iptal edilir" } }) }),
     // Hazırlanan siparişte (MTS-2026-0020) "Sıradaki adım" kutusunun altında iptal düğmesi yok: kadraj bu boşluğu da gösterir
     ek("siparis-hazirlaniyor", 2, "Hazırlanan siparişte *iptal düğmesi* görünmez.", { bolge: B(560, 290, 800, 354), bolgeD: B(565, 290, 560, 560),
-      vurgu: [{ hedef: "Hazırlanıyor", not: "Bu aşamada iptal için destek talebi gerekir." }] }),
+      // Durum rozeti + "Sıradaki adım" yazısı birlikte: kamera kutunun altını da gösterir, orada iptal düğmesi yok
+      vurgu: [{ hedef: ["Hazırlanıyor", "Depo personeli ürünleri toplayıp paketliyor."], not: "Bu aşamada iptal için destek talebi gerekir." }] }),
     // Dikeyde masaüstü form okunmuyor: mobil Destek sayfasında "+ Yeni Destek Talebi" dokunuşu gösterilir
     ek("destek-yeni", 3, "Hazırlık başladıysa *destek talebi* açın.", { bolge: B(570, 362, 680, 376),
       yaz: { hedef: "Destek talebinizin konusunu girin", metin: "MTS-2026-0020 iptal talebi" },
       tikla: { hedef: "Talebi Oluştur", sonuc: "Destek talebiniz oluşturuldu" },
       dikey: tel("m-destek", { tikla: { hedef: "+ Yeni Destek Talebi", sonuc: "Destek talebi formu açılır" } }) }),
-    ozet(["Sipariş detayında durumu kontrol edin.", "İşleme alınmamış siparişi Siparişi İptal Et ile iptal edin.", "Hazırlık başladıysa destek talebi açın."],
+    ozet(["Sipariş detayında durumu kontrol edin.", "İşleme alınmamış siparişte Siparişi İptal Et düğmesine basın.", "Hazırlık başladıysa destek talebi açın."],
       "Teklifiniz hazır: detayı okuyun"),
   ]),
 
@@ -122,8 +128,8 @@ export default [
   // ── 61 · Fiyat teklifi mi, toplu alım mı? (soru videosu)
   // Metinler formların kendi açıklamalarından: "Fiyat teklifi almak istediğiniz ürünleri ve miktarları girin." / "500+ adet veya yıllık sözleşme talepleri için satış ekibimizden hızlı teklif alın."
   E(61, "egitim-61-teklif-turleri", "Fiyat teklifi mi, toplu alım mı?", 3, [
-    { tip: "soru", metin: "Özel fiyat için *hangi formu* doldurmalısınız?", alt: "Seçim adede ve ihtiyaca bağlıdır.",
-      cipler: [["tag", "Fiyat teklifi"], ["building", "500+ adet ya da yıllık sözleşme"]] },
+    soru("Özel fiyat için *hangi formu* doldurmalısınız?", "Seçim adede ve ihtiyaca bağlıdır.",
+      [["tag", "Fiyat teklifi"], ["building", "500+ adet"], ["calendar", "Yıllık sözleşme"]]),
     // Gönderilen talep (TKF-2026-0004) listede "Fiyat bekleniyor / Gönderildi" görünür; TKF-2026-0002 satırı ekranlar.js `ortu` ile kapalı
     // m-teklifler kullanılmadı (ortu tüm tabloyu kapatıyor): dikeyde masaüstü çekimin sağ kısmı (düğme + Toplam/Durum sütunları)
     ek("teklifler", 1, "*Fiyat Tekliflerim* sayfasında Yeni Teklif Talebi düğmesine basın.", { bolge: B(290, 180, 1360, 602), bolgeD: B(1190, 180, 460, 460),

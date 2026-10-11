@@ -36,7 +36,7 @@ const AYAR = B(270, 120, 1380, 610);
 // Puan Kullan formundaki birim kutusu ("1" yazılı giriş)
 const BIRIM = B(583, 217, 346, 32);
 // Hızlı Sipariş: "En fazla 100 satır" yazısı (öğe 1036 px'lik satırın tamamı; görünen yazı ~85 px)
-const SATIR100 = B(578, 455, 96, 26);
+const SATIR100 = B(578, 455, 86, 26), SATIR100_M = B(17, 510, 100, 22);   // mobilde ilk satırın başı
 
 // Kişiler
 const MURAT = { avatar: { sac: "kisa", ten: "bugday", sacRenk: "#2A1A10", giysi: "#2E6B8F", yaka: "gomlek" }, ad: "Murat", rol: "Satın alma sorumlusu", ikon: "star" };
@@ -129,7 +129,7 @@ export default [
     test(2, "*Hızlı Sipariş* formuna en fazla kaç satır girersiniz?", ["50 satır", "100 satır", "500 satır"], 1),
     cevap("hizli", "Hızlı Sipariş formu *100 satır* alır.", { bolge: B(270, 180, 1380, 610),
       vurgu: [{ hedef: SATIR100, not: "Satır sınırı formun hemen altında yazar" }],
-      dikey: tel("m-hizli", { vurgu: [{ hedef: "~En fazla 100 satır", not: "Satır sınırı formun hemen altında yazar" }] }) }),
+      dikey: tel("m-hizli", { vurgu: [{ hedef: SATIR100_M, not: "Satır sınırı formun hemen altında yazar" }] }) }),
     test(3, "Kargo *takip numarası* nerede yazar?", ["Sipariş detayındaki Sevkiyat kutusunda", "Faturalarım sayfasında", "Cari Ekstre sayfasında"], 0),
     // Yalnız Sevkiyat kutusu: yanındaki Geçmiş listesi ham durum kodları içerir, gri bantla kapatılır
     cevap("siparis-teslim-kargo", "Takip numarası *Sevkiyat* kutusunda yazar.", { bolge: B(1107, 20, 740, 327), ortu: [GECMIS_TESLIM],

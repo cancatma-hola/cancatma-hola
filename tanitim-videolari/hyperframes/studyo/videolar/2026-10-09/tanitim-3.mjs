@@ -41,7 +41,7 @@ export default [
       vurgu: [{ hedef: ["Çok Al Az Öde", "~Kademeli iskontolu ürünlerde", "~₺3.500,00 ve üzeri"], not: "Koşul sağlanınca avantaj otomatik uygulanır." },
         { hedef: ["₺93,22 tasarruf · %8", "₺931,95 tasarruf · %10"], not: "Paketlerde %8–%10 indirim sepette düşer." }],
       dikey: { tip: "telefon", ekran: "m-kampanyalar",
-        vurgu: [{ hedef: ["Çok Al Az Öde", "~₺3.500,00 ve üzeri"], not: "Koşul sağlanınca avantaj otomatik uygulanır." },
+        vurgu: [{ hedef: ["[]Çok Al Az Öde", "[]Ücretsiz Kargo"], not: "Koşul sağlanınca avantaj otomatik uygulanır." },
           { hedef: ["Paket Fırsatları", "~Belirli ürünleri birlikte alın"], not: "Paketlerde %8–%10 indirim sepette düşer." }] } }),
     kapanis("İndirimleri *kod girmeden* kullanın.", "Panelde deneyin"),
   ]),
@@ -51,7 +51,8 @@ export default [
   // vurgulanan satır "1 iş günü içinde kargo" yazıyor, ekranla çelişmesin. Masaüstü ürün sayfasındaki "Pazartesi kargoda" rozeti
   // (cuma akşamı çekim) kadraj dışında bırakıldı.
   T(35, "tanitim-35-saat-14", "Saat 14:00, bugün kargoda", -1, [
-    { tip: "kelime", kelimeler: ["14:00'a kadar."], son: "Sipariş *aynı gün* kargoda.", sure: 3 },
+    // Kapak karesi son cümleden alınır: koşul (14:00) son cümlede, fayda (aynı gün kargo) kelimede
+    { tip: "kelime", kelimeler: ["Aynı gün kargo."], son: "*14:00'a kadar* sipariş verin.", sure: 3 },
     // Dikey: m-urun'daki stok satırı çekimin dibinde (y 1584 / 1800) kalıp telefonda güvenli alanın altına düşüyor; aynı bilgi
     // sayfanın üstündeki "Stoktaki ürünlerde 1 iş günü içinde kargo" şeridinde de yazıyor, dikeyde o vurgulanır (mobil çekim).
     ek("urun", "Stoğu görün, *hemen* sepete ekleyin.", { saat: "13:45", bolge: B(815, 560, 830, 367),
@@ -59,7 +60,7 @@ export default [
       tikla: { hedef: "Sepete Ekle", sonuc: "Ürün sepete eklendi" },
       dikey: { tip: "telefon", ekran: "m-urun", saat: "13:45",
         vurgu: [{ hedef: "[]Stoktaki ürünlerde 1 iş günü içinde kargo", not: "Stoktaki ürün 1 iş günü içinde kargoya verilir." }],
-        tikla: { hedef: "Sepete Ekle", sonuc: "Ürün sepete eklendi" } } }),
+        tikla: { hedef: "Sepete Ekle", sonuc: "Ürün sepete eklendi", zoom: 1 } } }),
     kapanis("Acil ihtiyacı *beklemeden* karşılayın."),
   ]),
 
@@ -79,7 +80,7 @@ export default [
 
   // ── 37 · Yedi kategori, tek tedarikçi (15 sn: kelime → katalogdaki kategori filtresi ve ürün sayıları, kanıt notta → kapanış)
   T(37, "tanitim-37-yedi-kategori", "Yedi kategori, tek tedarikçi", -2, [
-    { tip: "kelime", ust: "Kağıt · Kimyasal · Mutfak · Ekipman", kelimeler: ["7 kategori."], son: "*Tek sepette* birleşir.", sure: 3 },
+    { tip: "kelime", ust: "Kağıt · Kimyasal · Mutfak · Ekipman", kelimeler: ["7 kategori."], son: "*Tek tedarikçiden* alın.", sure: 3 },
     ek("katalog", "Yedi kategoriyi *tek katalogda* gezin.", { bolge: B(283, 180, 960, 425), bolgeD: B(283, 190, 480, 480),
       vurgu: [{ hedef: ["Kağıt Ürünleri 75", "Atık Yönetimi & Ortam Bakımı 187"], not: "7 kategoride toplam 1.326 ürün listelenir." }],
       tikla: { hedef: "Kağıt Ürünleri 75", sonuc: "Kağıt ürünleri listelendi" } }),
@@ -112,17 +113,18 @@ export default [
     kapanis("Ürünü *önce deneyin,* sonra sipariş verin."),
   ]),
 
-  // ── 39 · Kurumsal hesabınızı açın (15 sn: soru → Kurumsal Üyelik formu: Kurumsal sekmesi + Üyeliği Tamamla, kanıt notta → kapanış)
-  // Notlar sayfadaki cümlelerden: "Firma bilgilerinizi gönderin, hemen liste fiyatları ile alışveriş yapın." ve
-  // "Cari özel fiyatlar onay sonrası otomatik tanımlanır." "Atanmış temsilci" (danışman, WhatsApp desteği), "5 dakikada" ve
+  // ── 39 · Kurumsal hesabınızı açın (15 sn: soru → Kurumsal Üyelik formu: Üyeliği Tamamla vurgusu + dokunuş, kanıt notta → kapanış)
+  // Not sayfadaki cümlenin aynısı: "Cari özel fiyatlar onay sonrası otomatik tanımlanır." "Atanmış temsilci" (danışman, WhatsApp desteği), "5 dakikada" ve
   // sertifika satırı hizmet/şirket iddiası: kullanılmaz, kadraja girmez.
   // Kadraj formun başı (başlık, Kurumsal sekmesi, firma ve vergi alanları); x 842: soldaki mavi sütunun yazı sonu ("…aktif") kesik görünmesin.
   T(39, "tanitim-39-kurumsal-hesap", "Kurumsal hesabınızı açın", 0, [
     { tip: "soru", metin: "Cari özel fiyat *nasıl* alınır?", sure: 3,
       cipler: [["building", "Firma bilgisi"], ["doc", "Vergi no"], ["approve", "Onay"]] },
-    ek("kayit", "*Kurumsal Üyelik* formunu doldurun.", { bolge: B(842, 130, 740, 327), bolgeD: B(925, 125, 535, 535),
-      vurgu: [{ hedef: "Kurumsal", not: "Liste fiyatlarıyla hemen alışverişe başlarsınız." },
-        { hedef: "Üyeliği Tamamla", kaydir: true, not: "Cari özel fiyatlar onay sonrası otomatik tanımlanır." }] }),
+    // Vurgu kamerası hedefi ortalar (görünüm ~740 px): üstteki "Kurumsal" sekmesi vurgulanınca görünüm x 699'dan başlayıp soldaki
+    // sütunun kesik yazılarını ("…yın", "…omatik tanımlanır") gösteriyordu. Vurgu ve dokunuş formu bitiren düğmede; o yükseklikte sol sütunda yazı yok.
+    ek("kayit", "*Kurumsal Üyelik* formunu gönderin.", { bolge: B(842, 130, 740, 327), bolgeD: B(925, 125, 535, 535),
+      vurgu: [{ hedef: "Üyeliği Tamamla", not: "Cari özel fiyatlar onay sonrası otomatik tanımlanır." }],
+      tikla: { hedef: "Üyeliği Tamamla", sonuc: "Form gönderildi" } }),
     kapanis("Firmanızı *bugün* panele taşıyın."),
   ]),
 ];

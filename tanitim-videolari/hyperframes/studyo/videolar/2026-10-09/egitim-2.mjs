@@ -23,6 +23,8 @@ const SIPARIS_UST = B(555, 190, 1095, 485);      // sipariş başlığı ve dü�
 const GECMIS_TESLIM = B(1317, 265, 320, 317);
 const GECMIS_SEVKIYAT_M = B(8, 1757, 414, 208);
 const GECMIS_RED = B(1317, 943, 320, 144);
+// Masaüstü üst şeritteki destek saatleri ("Pzt-Cum 08:00-18:00") gösterilmez
+const SAAT = B(644, 3, 152, 26);
 
 // Kişiler (kurgusal)
 const MURAT = kisi({ sac: "kisa", ten: "acik", sacRenk: "#3B2A1A", giysi: "#2F6F4E", yaka: "gomlek", gozluk: true }, "Murat", "Satın alma sorumlusu", "cart");
@@ -47,9 +49,11 @@ export default [
       vurgu: [{ hedef: ["[]5+ %5", "[]40+ %10"], not: "İndirim 5 koliden %5, 30 koliden %8, 40 koliden %10 olur." }],
       dikey: tel("m-urun", { vurgu: [{ hedef: ["[]5+ %5", "[]40+ %10"], not: "İndirim 5 koliden %5, 30 koliden %8, 40 koliden %10 olur." }] }) }),
     // Stok satırı: "Stok: 88 adet · 1 iş günü içinde kargo"; sol sütunda "Stoktaki ürünlerde 1 iş günü içinde kargo".
-    // m-urun'da bu satır çekimin dibinde kalıyor: dikeyde masaüstü dar kadraj
-    ek("urun", 4, "Sepete eklemeden önce *stoğu* kontrol edin.", { bolge: URUN_ALT, bolgeD: B(815, 580, 500, 500),
-      vurgu: [{ hedef: "Stok: 88 adet · 1 iş günü içinde kargo", not: "Stoktaki ürünler 1 iş günü içinde kargoya verilir." }] }),
+    // Öğe 475 px genişliğinde, yazı ~180 px: ham kutu yalnız yazıyı kapsar (çekimden ölçüldü), kamera yazıya yaklaşır
+    ek("urun", 4, "Sepete eklemeden önce *stoğu* kontrol edin.", { bolge: URUN_ALT,
+      vurgu: [{ hedef: B(820, 819, 190, 22), not: "Stoktaki ürünler 1 iş günü içinde kargoya verilir." }],
+      // mobilde de öğe tam genişlikte (414 px), yazı ~200 px: ham kutu + yakın kadraj
+      dikey: tel("m-urun", { vurgu: [{ hedef: B(5, 1581, 208, 20), not: "Stoktaki ürünler 1 iş günü içinde kargoya verilir.", zoom: 1.6 }] }) }),
     ozet(["KDV dahil fiyatı liste fiyatının altında okuyun.", "Kademe tablosunda indirim oranına bakın.", "Sepete eklemeden önce stoğu kontrol edin."], "Stokta olmayan ürün için haber alın"),
   ]),
 
@@ -65,8 +69,10 @@ export default [
     // Vurgu: Sepete Ekle düğmesinin yerindeki kapalı "Stokta yok" düğmesi (952,780,347x40).
     // Düğme 824,856,475x38. Tıklama kutusu düğmenin sağ yarısında: kamera düğmeyi tam gösterir,
     // soldaki etiketsiz hesaplayıcı tutarları (₺630,00 …) kadraja girmez. Dikeyde dar kutu: kamera kaymadan 815–1315 arasını gösterir.
+    // Yatay vurgu kutusu düğmenin sağ kısmı ("Stokta yok" yazısı 1077–1175 içinde): kamera ortası x≈1185'te kalır,
+    // soldaki hesaplayıcı tutarları (x≤785) kadraja girmez. Dikeyde kadraj dar: tüm düğme vurgulanır.
     ek("urun-tukendi", 2, "*Stok Gelince Haber Ver* düğmesine basın.", { bolge: B(820, 600, 740, 327),
-      vurgu: [{ hedef: B(952, 780, 347, 40), not: "Sepete Ekle düğmesinin yerinde bu uyarı durur." }],
+      vurgu: [{ hedef: B(1070, 782, 229, 36), not: "Sepete Ekle düğmesinin yerinde bu uyarı durur." }],
       tikla: { hedef: B(1175, 860, 30, 30), sonuc: "Ürün gelince size haber verilir" },
       dikey: ek("urun-tukendi", 2, "*Stok Gelince Haber Ver* düğmesine basın.", { bolge: B(815, 600, 500, 500),
         vurgu: [{ hedef: B(952, 780, 347, 40), not: "Sepete Ekle düğmesinin yerinde bu uyarı durur." }],
@@ -85,9 +91,10 @@ export default [
         { hedef: ["Gramaj", "2 Katlı"], not: "Gramajı ve kat sayısını karşılaştırın." }] }),
     // Numune formuna giden yol: Hesabım › Numune Taleplerim › + Yeni Numune Talebi
     ek("numune", 2, "*Numune Taleplerim* sayfasında yeni talep açın.", { bolge: B(280, 180, 1360, 602),
-      vurgu: [{ hedef: ["Talep Alındı", "Teslim Edildi"], not: "Talebinizin durumunu bu listede izleyin." }],
+      // arama kutusu + durum filtreleri birlikte: kamera daha az yaklaşır, sayfa başlığı kesilmez
+      vurgu: [{ hedef: ["Ad, e-posta veya ürün ara...", "Reddedildi"], not: "Talebinizin durumunu bu listede izleyin." }],
       tikla: { hedef: "+ Yeni Numune Talebi", sonuc: "Numune formu açılır" },
-      dikey: tel("m-numune", { vurgu: [{ hedef: ["Talep Alındı", "Teslim Edildi"], not: "Talebinizin durumunu bu listede izleyin.", zoom: 1 }],
+      dikey: tel("m-numune", { vurgu: [{ hedef: ["Tümü", "Teslim Edildi"], not: "Talebinizin durumunu bu listede izleyin.", zoom: 1 }],
         tikla: { hedef: "+ Yeni Numune Talebi", sonuc: "Numune formu açılır" } }) }),
     ek("numune-yeni", 3, "Ürün kodunu yazıp *ücretsiz numune* isteyin.", { bolge: B(630, 600, 740, 360), bolgeD: B(640, 600, 640, 400),
       yaz: { hedef: "Virgülle ayırarak yazın. Örn: MTS-1001, MTS-2030", metin: "555204" },   // 1. adımdaki havlunun ürün kodu
@@ -121,11 +128,13 @@ export default [
   // ── 54 · Ürün değerlendirme: teslim edilen sipariş → yıldız ve yorum → gönder → +5 puan kuralı
   E(54, "egitim-54-urun-degerlendirme", "Ürünleri değerlendirin, puan kazanın", 3, [
     ELIF.dert("Puanlarım *çok yavaş* birikiyor.", etiket(54, "Ürünleri değerlendirin, puan kazanın")),
-    // Teslim edilen siparişin detayı, "Ürünleri Değerlendir" bölümü. Kadraj y≥140: sağ üstteki ham durum kodları (y≤103) girmez.
-    // Vurgu: başlık + açıklama satırı (ham kutu, çekimden ölçüldü)
-    ek("siparis-degerlendir", 1, "Teslim edilen siparişte *Ürünleri Değerlendir* bölümünü bulun.", { bolge: B(555, 140, 1095, 560), bolgeD: B(575, 140, 540, 420),
-      vurgu: [{ hedef: B(578, 148, 410, 50), not: "Siparişteki her ürün için ayrı bir kart var." }] }),
-    ek("siparis-degerlendir", 2, "Yıldız verip *kısa bir yorum* yazın.", { bolge: B(575, 140, 760, 336), bolgeD: B(575, 190, 540, 300),
+    // 1. adım: teslim edilen siparişin üst kısmı (durum rozeti). "Ürünleri Değerlendir" bölümü aynı sayfanın altındadır
+    // (siparis-degerlendir aynı adresin kaydırılmış çekimi). Mobil "Geçmiş" listesi ham kod içerir: ayrıca kapatılır
+    ek("siparis-teslim", 1, "Teslim edilen siparişin *detayını* açın.", { bolge: B(555, 180, 1095, 420), ortu: [SAAT],
+      vurgu: [{ hedef: "Teslim Edildi", not: "Ürünleri aynı sayfanın altında değerlendirin." }],
+      dikey: tel("m-siparis-teslim", { ortu: ["[]Geçmiş 12.09.2026"],
+        vurgu: [{ hedef: "Teslim Edildi", not: "Ürünleri aynı sayfanın altında değerlendirin." }] }) }),
+    ek("siparis-degerlendir", 2, "*Ürünleri Değerlendir* bölümünde yıldız verip yorum yazın.", { bolge: B(575, 140, 760, 336), bolgeD: B(575, 190, 540, 300),
       vurgu: [{ hedef: B(592, 240, 175, 26), not: "Ürüne 1 ile 5 arasında yıldız verin." }],
       yaz: { hedef: "Deneyiminizi paylaşın (opsiyonel)", metin: "Dayanıklı, iyi temizliyor." } }),
     ek("siparis-degerlendir", 3, "*Yorumu Gönder* düğmesine basın.", { bolge: B(575, 140, 760, 336), bolgeD: B(575, 190, 540, 300),
