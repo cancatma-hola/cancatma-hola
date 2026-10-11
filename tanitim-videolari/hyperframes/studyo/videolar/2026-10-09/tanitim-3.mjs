@@ -123,7 +123,8 @@ export default [
     // Vurgu kamerası hedefi ortalar (görünüm ~740 px): üstteki "Kurumsal" sekmesi vurgulanınca görünüm x 699'dan başlayıp soldaki
     // sütunun kesik yazılarını ("…yın", "…omatik tanımlanır") gösteriyordu. Vurgu ve dokunuş formu bitiren düğmede; o yükseklikte sol sütunda yazı yok.
     ek("kayit", "*Kurumsal Üyelik* formunu gönderin.", { bolge: B(842, 130, 740, 327), bolgeD: B(925, 125, 535, 535),
-      vurgu: [{ hedef: "Üyeliği Tamamla", not: "Cari özel fiyatlar onay sonrası otomatik tanımlanır." }],
+      // kaydir: dikeyde düğme görünümden geniş; kamera soldan sağa kayar, sağ ucu kesik kalmaz
+      vurgu: [{ hedef: "Üyeliği Tamamla", kaydir: true, not: "Cari özel fiyatlar onay sonrası otomatik tanımlanır." }],
       tikla: { hedef: "Üyeliği Tamamla", sonuc: "Form gönderildi" } }),
     kapanis("Firmanızı *bugün* panele taşıyın."),
   ]),

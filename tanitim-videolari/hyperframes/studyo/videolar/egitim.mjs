@@ -255,7 +255,7 @@ E("kullanicilar", "Kullanıcılar ve yetkiler", "users", "Ekibinizi ve yetkileri
     vurgu: [{ hedef: ["Rol", "Departman", "Görüntüleyici"], not: "Her kişinin rolü ve departmanı burada yazar" }, { hedef: ["Onay Limiti", "Yetki", "19 yetki"], not: "Kişinin onay limiti ve yetki sayısı burada yazar" }] }),
   ek("kullanicilar", 2, "Yeni kişi için *Kullanıcı Davet Et* butonuna basın.", { bolge: B(555, 205, 1095, 340),
     tikla: { hedef: "+ Kullanıcı Davet Et", sonuc: "Davet formu açılır" } }),
-], ["Rolü Genel Müdür, Satınalmacı ya da Görüntüleyici seçin.", "Devre dışı kullanıcıyı Etkinleştir ile geri açın.", "Onay limitini her kişi için ayrı belirleyin."],
+], ["Rolü Genel Müdür, Satınalmacı ya da Görüntüleyici seçin.", "Ayrılan kişiyi Devre Dışı bağlantısıyla kapatın.", "Onay limitini her kişi için ayrı belirleyin."],
 "Şimdi *Kullanıcılar & Yetkiler* sayfasını açın.");
 
 E("kullanici-davet", "Kullanıcı davet etme", "userplus", "Ekibinize yeni bir kullanıcı ekleyin.", [
@@ -289,7 +289,7 @@ E("butce-panosu", "Bütçe panosu", "wallet", "Bütçe ve limitleri anlık izley
 // Yeni proje formunun yer tutucularında gerçek marka adı var ("Türkcell Ankara", "TRKL-ANK"): kutular kapatılır, yazı animasyonu üstüne gelir
 E("projeler", "Projeler ve şantiyeler", "map", "Harcamayı projeye göre takip edin.", [
   ek("projeler", 1, "*Projeler / Şantiyeler* sayfası proje harcamalarını özetler.", { bolge: B(555, 320, 1095, 340),
-    vurgu: [{ hedef: "[]Toplam Harcama ₺38.720,95", not: "Tüm projelerin harcaması burada toplanır" }, { hedef: B(583, 405, 1036, 52), not: "Her projenin harcaması bütçesiyle birlikte yazar" }] }),
+    vurgu: [{ hedef: "[]Toplam Harcama ₺38.720,95", not: "Tüm projelerin harcaması burada toplanır" }, { hedef: B(583, 405, 1036, 52), not: "Her projenin harcaması bütçesiyle birlikte yazar", kaydir: true }] }),
   ek("proje-yeni", 2, "Yeni projenin *adını* ve adresini yazın.", { bolge: B(555, 540, 1095, 500), ortu: ["Türkcell Ankara", "TRKL-ANK"],
     yaz: { hedef: "Türkcell Ankara", metin: "Kadıköy Şube Açılışı" } }),
 ], ["Siparişi verirken projeyi seçin.", "Şantiye adresini teslimat adresi olarak yazın.", "Proje bütçesini özet tablosunda izleyin."],
