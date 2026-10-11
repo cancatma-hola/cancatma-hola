@@ -14,7 +14,7 @@ for id in "${ids[@]}"; do
     # Güncel mi? render.md5 = render edilen tanım (index.html) + motor dosyalarının özeti. Özet yoksa (eski seriler) var olan çıktı korunur.
     h=$(cat "$d/index.html" assets/motor.js assets/zaman.js assets/kit.css assets/parts.js | md5sum | cut -d' ' -f1)
     if [ -s "$out" ]; then
-      [ ! -f "$d/render.md5" ] && continue
+      [ ! -f "$d/render.md5" ] && [ -z "$YENILE" ] && continue   # YENILE=1: özeti olmayan eski çıktıları da yeniden render et
       [ "$(cat "$d/render.md5")" = "$h" ] && continue
       echo "değişti, yeniden: $id $yon"
     fi

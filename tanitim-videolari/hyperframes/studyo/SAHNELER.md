@@ -8,6 +8,12 @@ Her video bir nesnedir: `{ id, tur: "egitim" | "tanitim", baslik, etiket?, tohum
 Metin kuralları: kısa, düz cümle, fiil sonda (devrik cümle yok), anlamsız dolgu yok. `*yıldızlı*` kelimeler sarı vurgulanır.
 Süreler otomatik hesaplanır (0,5 sn ızgarası). Okuma süresi kelime başına ~0,32 sn.
 
+## Sürüm 3 kurgusu (`surum: 3`)
+- Kapak yok: ilk sahne kanca (karakter/soru/test) ve `etiket: "Eğitim NN · Başlık"` taşır (her sahne tipinde çalışır; büyük başlık çipi olarak görünür).
+- İlk panel ekranından önce en fazla bir anlatım sahnesi; karakterle açılan videoda aynı kişi sonda `ruh: "mutlu"` ve `rozet: true` ile döner.
+- Eğitim `ozet` ile biter; tanıtım kapanışı 4,5 sn'dir.
+- Ölçüm: `node araclar/pay.mjs <id>` (panel payı, ilk ekran zamanı).
+
 ## Ekran sahneleri
 
 ### `ekran` (masaüstü panel, tarayıcı çerçevesi)
@@ -46,9 +52,10 @@ Süreler otomatik hesaplanır (0,5 sn ızgarası). Okuma süresi kelime başına
 ## Anlatım sahneleri
 | Tip | Alanlar | Ne zaman |
 |---|---|---|
-| `kapak` | `ust`, `baslik`, `alt`, `ikon`, `sure` | Eğitim açılışı |
+| `kapak` | `ust`, `baslik`, `alt`, `ikon`, `sure` ("auto" = gerçek süre) | Eğitim açılışı (sürüm 1–2) |
+| `ozet` | `baslik?` ("*Özet*"), `maddeler: [3 eylem]`, `sonraki?` | Sürüm 3 eğitim kapanışı: kontrol listesi + sıradaki video + marka |
 | `gundem` | `ust?`, `baslik?` ("Bu videoda"), `maddeler: [..]` (2–4 kısa madde), `ikon?` | Eğitimin başında yol haritası |
-| `karakter` | `avatar: {sac, ten, sacRenk, giysi, yaka, sakal, gozluk, ruh}`, `ad`, `rol`, `ikon`, `metin` | Sorun ya da sonuç cümlesi (kurgusal kişi; müşteri yorumu değil) |
+| `karakter` | `avatar: {sac, ten, sacRenk, giysi, yaka, sakal, gozluk, ruh}`, `ad`, `rol`, `ikon`, `metin`, `rozet?` (yeşil onay: sorun çözüldü) | Sorun ya da sonuç cümlesi (kurgusal kişi; müşteri yorumu değil) |
 | `kelime` | `ust?`, `kelimeler: [..]` (2–4), `ciz: true` (üstünü çiz), `son` | Tanıtım kancası, ilk 3 sn |
 | `soru` | `metin`, `alt?`, `cipler: [[ikon, metin]]` | Sorunu sorma |
 | `akis` | `baslik`, `adimlar: [[ikon, baslik, alt?]]` (3–6) | Süreç |

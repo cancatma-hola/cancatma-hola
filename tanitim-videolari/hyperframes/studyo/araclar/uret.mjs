@@ -82,6 +82,9 @@ function coz(video, yon) {
   v.yon = yon;
   // Dikey sürüm için sahnenin yerine geçecek tanım (ör. masaüstü ekran → telefon ekranı)
   v.sahneler = v.sahneler.map((s) => (yon === "dikey" && s.dikey ? { adim: s.adim, metin: s.metin, saat: s.saat, ...s.dikey } : (({ dikey, ...r }) => r)(s)));
+  // Kapaktaki süre: "auto" → gerçek süre (5 sn'ye yuvarlanmış)
+  const kp = v.sahneler.find((s) => s.tip === "kapak" && s.sure === "auto");
+  if (kp) kp.sure = `${Math.max(10, Math.round(ZAMAN.zamanla(v).total / 5) * 5)} saniye`;
   v.sahneler.forEach((s) => {
     if (s.tip === "cihaz") {   // masaüstü kırpım + telefon görüntüsü
       const hm = harita(s.masa.ekran), ht = harita(s.tel.ekran);

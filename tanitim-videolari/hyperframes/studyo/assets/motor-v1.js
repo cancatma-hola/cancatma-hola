@@ -313,7 +313,7 @@
     html: (s, z, id) => `<div class="full center" style="gap:${DIKEY ? 40 : 28}px;padding:0 70px">
         <div class="tile" id="${id}-i" style="width:${DIKEY ? 200 : 170}px;height:${DIKEY ? 200 : 170}px;border-radius:50%;background:#1E9E5A">${icon("check", DIKEY ? 120 : 100, "#fff", 2.6)}</div>
         <div class="h1" id="${id}-b" style="font-size:${DIKEY ? 100 : 104}px">${yazi(s.metin || "Eğitim *tamamlandı.*")}</div>
-        ${s.sonraki ? `<div class="chip" id="${id}-n" style="font-size:${DIKEY ? 42 : 40}px;padding:22px 40px">${icon("back", DIKEY ? 42 : 40, AMBER)}<span>Sıradaki: ${s.sonraki}</span></div>` : ""}
+        ${s.sonraki ? `<div class="chip" id="${id}-n" style="font-size:${DIKEY ? 42 : 40}px;padding:22px 40px"><span>Sıradaki: ${s.sonraki}</span>${icon("ileri", DIKEY ? 42 : 40, AMBER)}</div>` : ""}
         <div id="${id}-m" style="margin-top:${DIKEY ? 40 : 20}px;display:flex;flex-direction:column;align-items:center;gap:12px">
           <img src="assets/logo.png" style="width:${DIKEY ? 210 : 180}px;background:#fff;border-radius:16px;padding:10px 16px">
           <div class="cyan" style="font-size:${DIKEY ? 38 : 36}px;font-weight:600">panel.mtshijyen.com</div></div></div>
