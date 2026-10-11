@@ -13,6 +13,7 @@ const SAAT = B(644, 3, 152, 26);                      // üst şeritteki destek 
 const BANNER_YAZI = B(283, 176, 124, 518);            // arama listesinin solunda kalan, geçişte yakalanmış kesik banner yazısı
 const MARKA_BOS = B(298, 606, 231, 22);               // kategori filtresinde adı boş marka satırı
 const TARIH = [B(1466, 313, 156, 30), B(601, 353, 131, 30)];   // Siparişlerim tarih kutuları ("mm/dd/yyyy" yer tutucusu)
+const TARIH_LISTE = [B(1300, 309, 160, 34), B(1466, 309, 160, 34)];   // İade ve numune listelerindeki tarih kutuları ("mm/dd/yyyy")
 const BASLANGIC = B(1266, 205, 133, 22), BITIS = B(1434, 205, 133, 22);   // Cari Ekstre tarih kutuları
 const GECMIS_HAZIR = ["[]Geçmiş 05.10.2026", "~DEMO-SHOWCASE-PAY"];      // sipariş geçmişindeki ham durum kodları ve ödeme kodu
 const GECMIS_ONAY = ["[]Geçmiş 06.10.2026"];
@@ -306,8 +307,8 @@ E("adres-defteri", "Adres defteri", "pin", "Teslimat ve fatura adreslerinizi yö
 // ── Finans
 // Demo veride Açık Bakiye ile 0–30 gün tutarı birbirini tutmuyor: metin bakiyeyi vade kartlarıyla ilişkilendirmez
 E("cari-ekstre", "Cari ekstre", "invoice", "Borç, alacak ve bakiyenizi takip edin.", [
-  ek("ekstre", 1, "*Cari Ekstre* borçlarınızı vade aralığına göre gösterir.", { bolge: B(555, 400, 1095, 90), ortu: [BASLANGIC, BITIS],
-    vurgu: [{ hedef: B(838, 380, 794, 58), not: "Borçlar vadesine göre gün aralıklarında toplanır" }] }),
+  ek("ekstre", 1, "*Cari Ekstre* borçlarınızı vade aralığına göre gösterir.", { bolge: B(555, 300, 1095, 240), ortu: [BASLANGIC, BITIS],
+    vurgu: [{ hedef: B(838, 380, 794, 58), not: "Borçlar vadesine göre gün aralıklarında toplanır", kaydir: true }] }),
   ek("ekstre", 2, "Tüm *hareketleri* tarih sırasıyla görün.", { bolge: B(555, 440, 1095, 500), ortu: [BASLANGIC, BITIS],
     vurgu: [{ hedef: B(1288, 456, 349, 160), not: "Her satırda borç, alacak ve bakiye yazar" }] }),   // Borç, Alacak, Bakiye sütunları
   ek("ekstre", 3, "Tarih aralığı seçip *Filtrele* butonuna basın.", { bolge: B(1100, 205, 560, 120), ortu: [BITIS],
@@ -318,7 +319,7 @@ E("cari-ekstre", "Cari ekstre", "invoice", "Borç, alacak ve bakiyenizi takip ed
 // Faturalarda PDF henüz yok ("PDF yakında yüklenecek"): yalnız Yazdır gösterilir
 E("faturalar", "Faturalarım", "doc", "e-Faturalarınızı görün ve yazdırın.", [
   ek("faturalar", 1, "*Faturalarım* sayfası tüm e-faturalarınızı listeler.", { bolge: B(555, 205, 1095, 320),
-    vurgu: [{ hedef: ["MTSD2026000003", "Onaylı"], not: "Her faturanın siparişi ve durumu satırda yazar" }] }),
+    vurgu: [{ hedef: ["MTSD2026000003", "Onaylı"], not: "Her faturanın siparişi ve durumu satırda yazar", kaydir: true }] }),
   ek("faturalar", 2, "Faturayı *Yazdır* ile çıktı alın.", { bolge: B(555, 320, 1095, 200),
     tikla: { hedef: "Yazdır", sonuc: "Yazdırma görünümü açılır" } }),
 ], ["Faturalarınız panele otomatik gelir.", "Her faturanın sipariş numarasını satırda görün.", "Çıktı için Yazdır düğmesine basın."],
@@ -330,21 +331,21 @@ E("analitik", "Satın alma analitiği", "trend", "Harcamanızı rakamlarla anali
   ek("analitik", 2, "*Aylık trend* ve kategori dağılımını inceleyin.", { bolge: B(555, 410, 1095, 540),
     vurgu: [{ hedef: "[]Aylık Harcama Trendi Son 6 ay", not: "Grafik son 6 ayın harcamasını gösterir" }, { hedef: "[]Kategori Dağılımı", not: "Harcama kategorilere yüzdeyle ayrılır" }] }),
   ek("analitik-alt", 3, "En çok aldığınız ürünleri *listede* görün.", { bolge: B(1000, 170, 660, 300),
-    vurgu: [{ hedef: ["Sünger Ev Tipi", "27 adet"], not: "Ürünler alınan adede göre sıralanır" }] }),
+    vurgu: [{ hedef: ["Bulaşık Süngeri Endüstriyel", "27 adet"], not: "Ürünler alınan adede göre sıralanır" }] }),
 ], ["Kazandığınız indirimi Toplam İndirim kartında görün.", "Gelecek ayın bütçesini trende bakarak planlayın.", "En çok aldığınız ürünleri listede görün."],
 "Şimdi *Analitik* sayfasını açın.");
 
 // ── İade, numune, asistan
 E("iade-talebi", "İade talebi", "undo", "İade sürecini panelden başlatın ve takip edin.", [
-  ek("iadeler", 1, "*İade Taleplerim* sayfası iadelerinizi listeler.", { bolge: B(555, 320, 1095, 180),
+  ek("iadeler", 1, "*İade Taleplerim* sayfası iadelerinizi listeler.", { bolge: B(555, 320, 1095, 180), ortu: TARIH_LISTE,
     vurgu: [{ hedef: ["Tümü", "Reddedildi"], not: "Talepleri duruma göre süzün" }, { hedef: ["MTS-2026-0017", "Talep Alındı#2"], not: "MTS ekibi talebinizi inceler" }] }),
-  ek("iadeler", 2, "Yeni iade için *Sipariş seç ve iade aç* butonuna basın.", { bolge: B(555, 205, 1095, 300),
+  ek("iadeler", 2, "Yeni iade için *Sipariş seç ve iade aç* butonuna basın.", { bolge: B(555, 205, 1095, 300), ortu: TARIH_LISTE,
     tikla: { hedef: "Sipariş seç ve iade aç →", sonuc: "Sipariş seçim ekranı açılır" } }),
 ], ["Yeni iade için Sipariş seç ve iade aç'a basın.", "İade dört adımda tamamlanır.", "İade bitince cari ekstrenizi kontrol edin."],
 "Şimdi *İade Taleplerim* sayfasını açın.");
 
 E("numune-talebi", "Numune talebi", "sample", "Ürünü almadan önce ücretsiz deneyin.", [
-  ek("numune", 1, "*Yeni Numune Talebi* butonuna basın.", { bolge: B(555, 205, 1095, 420),
+  ek("numune", 1, "*Yeni Numune Talebi* butonuna basın.", { bolge: B(555, 205, 1095, 420), ortu: TARIH_LISTE,
     tikla: { hedef: "+ Yeni Numune Talebi", sonuc: "Numune formu açılır" } }),
   ek("numune-yeni", 2, "Formda istediğiniz *ürün kodlarını* yazın.", { bolge: B(620, 340, 690, 580),
     yaz: { hedef: "Virgülle ayırarak yazın. Örn: MTS-1001, MTS-2030", metin: "555204, ST00560" }, tikla: { hedef: "Numune Talep Et", sonuc: "Numune talebiniz iletildi" } }),
@@ -353,7 +354,7 @@ E("numune-talebi", "Numune talebi", "sample", "Ürünü almadan önce ücretsiz 
 
 E("ai-asistan", "AI ürün asistanı", "sparkle", "İhtiyacınızı yazın, uygun ürünü asistan önersin.", [
   ek("ai-oneri", 1, "*AI Ürün Asistanı* örnek sorularla başlar.", { bolge: B(555, 205, 1095, 360),
-    vurgu: [{ hedef: ["Örnek sorular:", "~Restoranlar için en uygun"], not: "Sorunuzu bu örneklere benzer yazın", kaydir: true }] }),
+    vurgu: [{ hedef: B(578, 264, 352, 90), not: "Sorunuzu bu örneklere benzer yazın" }] }),   // "Örnek sorular" ve üç örneğin yazılı kısmı
   ek("ai-oneri", 2, "Sorunuzu yazıp *Gönder* butonuna basın.", { bolge: B(555, 380, 1095, 180),
     yaz: { hedef: "~Örn: Otelim için aylık ne kadar kağıt havlu lazım?", metin: "Ofisimiz için hangi el dezenfektanını önerirsiniz?" },
     tikla: { hedef: "Gönder", sonuc: "Asistan uygun ürünleri önerir" } }),
