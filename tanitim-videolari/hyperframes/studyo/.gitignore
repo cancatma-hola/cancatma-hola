@@ -3,3 +3,6 @@ kontrol/
 kontrol-*.log
 node_modules/
 kuyruk.log
+videolar/_*/
+videolar/*/*.hazir
+videolar/*/.islendi/

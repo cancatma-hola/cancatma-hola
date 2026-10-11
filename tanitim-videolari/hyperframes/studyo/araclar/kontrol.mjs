@@ -16,7 +16,7 @@ const OUT = path.join(KOK, "kontrol"); fs.mkdirSync(OUT, { recursive: true });
 function anlar(v) {
   const p = ZAMAN.zamanla(v), t = [];
   p.sahneler.forEach((z) => {
-    if (z.tip === "ekran") { z.vurgu.forEach((x) => t.push(z.bas + x + 1.8)); if (z.yaz) t.push(z.bas + z.yaz.bit + 0.3); if (z.tikla) t.push(z.bas + z.tikla.sonuc + 0.6); if (!z.vurgu.length && !z.tikla && !z.yaz) t.push(z.bas + z.dur * 0.6); }
+    if (z.tip === "ekran" || z.tip === "telefon") { z.vurgu.forEach((x) => t.push(z.bas + x + 1.8)); if (z.yaz) t.push(z.bas + z.yaz.bit + 0.3); if (z.tikla) t.push(z.bas + z.tikla.sonuc + 0.6); if (!z.vurgu.length && !z.tikla && !z.yaz) t.push(z.bas + z.dur * 0.6); }
     else t.push(z.bas + z.dur * 0.75);
   });
   return t.map((x) => +x.toFixed(2));
@@ -50,7 +50,8 @@ for (const id of dirs) for (const yon of yonlar) {
         sc.querySelectorAll(".h1,.h2").forEach((el) => { if (el.scrollWidth > el.clientWidth + 4) out.push(`taşan satır "${el.innerText.slice(0, 40)}"`); }); });
       return out; }, [w, h]);
     tasan.forEach((x) => uyari.add(x));
-    const k = path.join(OUT, `_k${i}.jpg`); await page.screenshot({ path: k, type: "jpeg", quality: 70 }); kareler.push(k);
+    // süreç başına geçici ad: paralel kontroller birbirini ezmez
+    const k = path.join(OUT, `_k${process.pid}-${i}.jpg`); await page.screenshot({ path: k, type: "jpeg", quality: 70 }); kareler.push(k);
   }
   const n = kareler.length, cols = dikey ? Math.min(n, 6) : Math.min(n, 4), rows = Math.ceil(n / cols), tw = dikey ? 360 : 640;
   const inp = kareler.flatMap((k) => ["-i", k]);

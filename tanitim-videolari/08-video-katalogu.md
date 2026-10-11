@@ -5,6 +5,7 @@ Tüm videolar `videolar/` klasöründedir. Dosya adı: `<tür>-<no>-<konu>-<yata
 
 ```
 videolar/
+├── 2026-10-09/ 9 Ekim serisi: egitim/ ve tanitim/ (yatay + dikey, kapaklar/)
 ├── egitim/     eğitim videoları (yatay + dikey)
 ├── tanitim/    tanıtım ve promo videoları (yatay + dikey)
 ├── ilk-seri/   ilk üretilen eğitim ve süreç videoları (yatay + altyazı)
@@ -129,7 +130,7 @@ Stüdyo videolarının kaynak tanımları: `hyperframes/studyo/videolar/`. Yenid
 
 - Kademeli iskonto — Çok alın, birim fiyatınız düşsün.
 - 1. FIRSAT tablosu adet arttıkça düşen fiyatı gösterir.
-  - · 5, 30 ve 40 adet üzerinde ek indirim
+  - · 5 koliden %5, 30 koliden %8, 40 koliden %10
 - 2. Toplu Alım Hesaplayıcı ile toplam tutarı görün.
   - · Hazır adet seçenekleri
   - · Birim fiyat, KDV ve genel toplam
@@ -241,11 +242,11 @@ Stüdyo videolarının kaynak tanımları: `hyperframes/studyo/videolar/`. Yenid
 
 - Fiyat teklifleri — Özel fiyat isteyin, teklifinizi takip edin.
 - 1. Fiyat Tekliflerim sayfası tüm taleplerinizi listeler.
-  - · Teklif hazır: 525.000,00 ₺
+  - · Teklif hazır: 19.055,50 ₺
   - · Fiyat bekleniyor
 - 2. Yeni talep için Yeni Teklif Talebi butonuna basın.
   - ✓ Teklif formu açılır
-- Unutmayın: Teklif hazır olunca bildirim gelir · Hazır teklifi siparişe dönüştürün · Durum sütunu süreci gösterir
+- Unutmayın: Teklif hazır olunca bildirim gelir · Hazır teklifi Teklifi Kabul Et ile onaylayın · Teklif Hazır yazınca teklifi açın
 
 **Yeni fiyat teklifi** (`egitim-17-yeni-teklif`)
 
@@ -564,7 +565,7 @@ Tanıtım 01–04 (P1–P4) ve dikey kesimleri: `07-tanitim-serisi.md`. Hype pro
 - Ürün ve miktarı yazın, teklif isteyin.
   - ✓ Teklif talebiniz iletildi
 - Teklif hazır olunca panelde görün.
-  - · Teklif hazır: 525.000,00 ₺
+  - · Teklif hazır: 19.055,50 ₺
 - Kapanış: Toplu alımda size özel fiyat.
 
 **Harcamanızı rakamlarla görün** (`tanitim-08-analitik`)
@@ -606,8 +607,8 @@ Tanıtım 01–04 (P1–P4) ve dikey kesimleri: `07-tanitim-serisi.md`. Hype pro
 
 - Adet arttıkça birim fiyat düşer. (1 koli, 5+ koli, 30+ koli, 40+ koli)
 - FIRSAT tablosu indirimi gösterir.
-  - · 40 koli üzerinde %15 indirim
-- Kupon gerekmez, indirim otomatik.
+  - · 40 koliden itibaren %10 indirim
+- Kupon gerekmez, indirim otomatik uygulanır.
   - · Uygun adette otomatik uygulanır
 - Kapanış: Çok alın, az ödeyin.
 
@@ -668,6 +669,775 @@ Tanıtım 01–04 (P1–P4) ve dikey kesimleri: `07-tanitim-serisi.md`. Hype pro
 - Bulamazsanız destek talebi açın.
   - ✓ Destek talebiniz oluşturuldu
 - Kapanış: Destek ekibimiz yanınızda.
+
+## 2026-10-09 serisi
+
+Dosyalar `videolar/2026-10-09/egitim/` ve `videolar/2026-10-09/tanitim/` altında; kapak görselleri `kapaklar/` klasöründe. Plan: `09-seri-2026-10-09.md`.
+
+### Eğitim videoları (33 video · toplam 24:13)
+
+| No | Video | Süre | Dosya |
+|---|---|---|---|
+| 43 | Panelde her şey nerede? | 0:48 | `2026-10-09/egitim/egitim-43-menu-haritasi` |
+| 44 | Paneli telefondan kullanın | 0:47 | `2026-10-09/egitim/egitim-44-telefondan-panel` |
+| 45 | İlk siparişinizi verin | 0:58 | `2026-10-09/egitim/egitim-45-ilk-siparis` |
+| 46 | Önceden aldıklarınızı hızlı bulun | 0:40 | `2026-10-09/egitim/egitim-46-onceden-aldiklarim` |
+| 47 | Aynı siparişi tekrar vermenin 3 yolu | 0:44 | `2026-10-09/egitim/egitim-47-tekrar-siparis` |
+| 48 | Hazır paketlerle tasarruf edin | 0:47 | `2026-10-09/egitim/egitim-48-paketler` |
+| 49 | Ürünleri karşılaştırın | 0:43 | `2026-10-09/egitim/egitim-49-urun-karsilastirma` |
+| 50 | Ürün kartını doğru okuyun | 0:44 | `2026-10-09/egitim/egitim-50-urun-karti` |
+| 51 | Stokta olmayan ürün için haber alın | 0:33 | `2026-10-09/egitim/egitim-51-stok-bildirimi` |
+| 52 | Doğru ürünü seçin: teknik özellikler | 0:38 | `2026-10-09/egitim/egitim-52-teknik-ozellikler` |
+| 53 | Kargonuz nerede? | 0:36 | `2026-10-09/egitim/egitim-53-kargo-takibi` |
+| 54 | Ürünleri değerlendirin, puan kazanın | 0:37 | `2026-10-09/egitim/egitim-54-urun-degerlendirme` |
+| 55 | Hasarlı ürün için iade | 0:46 | `2026-10-09/egitim/egitim-55-iade-talebi` |
+| 56 | Siparişiniz reddedildiyse | 0:35 | `2026-10-09/egitim/egitim-56-reddedilen-siparis` |
+| 57 | Sipariş belgesini yazdırın | 0:36 | `2026-10-09/egitim/egitim-57-siparis-belgesi` |
+| 58 | Havale yaptım, sipariş neden ilerlemiyor? | 0:36 | `2026-10-09/egitim/egitim-58-havale-odeme` |
+| 59 | Siparişimi iptal edebilir miyim? | 0:37 | `2026-10-09/egitim/egitim-59-siparis-iptal` |
+| 60 | Teklifiniz hazır: detayı okuyun | 0:41 | `2026-10-09/egitim/egitim-60-teklif-detayi` |
+| 61 | Fiyat teklifi mi, toplu alım mı? | 0:45 | `2026-10-09/egitim/egitim-61-teklif-turleri` |
+| 62 | Hesabı 4 adımda kurun | 0:56 | `2026-10-09/egitim/egitim-62-hesap-kurulumu` |
+| 63 | Roller ve yetkiler | 0:47 | `2026-10-09/egitim/egitim-63-roller-yetkiler` |
+| 64 | Bir siparişin onay yolculuğu | 0:52 | `2026-10-09/egitim/egitim-64-onay-yolculugu` |
+| 65 | Telefondan onay verin | 0:34 | `2026-10-09/egitim/egitim-65-telefondan-onay` |
+| 66 | Rol rehberi: satın alma sorumlusu | 0:56 | `2026-10-09/egitim/egitim-66-rol-satin-alma` |
+| 67 | Rol rehberi: yönetici | 0:55 | `2026-10-09/egitim/egitim-67-rol-yonetici` |
+| 68 | Rol rehberi: muhasebe | 0:54 | `2026-10-09/egitim/egitim-68-rol-muhasebe` |
+| 69 | Rol rehberi: şube ve depo sorumlusu | 0:52 | `2026-10-09/egitim/egitim-69-rol-sube` |
+| 70 | Puanınızı kupona dönüştürün | 0:44 | `2026-10-09/egitim/egitim-70-puan-kupon` |
+| 71 | Kupon kodu gerektirmeyen avantajlar | 0:38 | `2026-10-09/egitim/egitim-71-avantajlar` |
+| 72 | Bildirim tercihleri | 0:39 | `2026-10-09/egitim/egitim-72-bildirim-tercihleri` |
+| 73 | Mini test: sipariş | 0:48 | `2026-10-09/egitim/egitim-73-test-siparis` |
+| 74 | Mini test: ödeme ve indirimler | 0:49 | `2026-10-09/egitim/egitim-74-test-odeme` |
+| 75 | Mini test: onay ve bütçe | 0:48 | `2026-10-09/egitim/egitim-75-test-onay` |
+
+#### Ekrandaki metinler
+
+**Panelde her şey nerede?** (`egitim-43-menu-haritasi`)
+
+- Panelde her şey nerede? — Menüleri tanıyın, aradığınız sayfayı hızla bulun.
+- Bu videoda: Sol menüyü tanıyın · Hesap menüsünü açın · Kategori ve filtreleri kullanın
+- 1. Sol menüde sipariş ve finans sayfalarını bulun.
+  - · Sipariş verme ve takip sayfaları menünün başında durur
+  - · Hesap hareketlerini ve faturaları buradan açın
+- 2. Onay ve ekip sayfalarını da aynı menüde bulun.
+  - · Onay bekleyen siparişleri buradan açın
+  - · Kullanıcıları ve bütçeleri buradan yönetin
+- 3. Sağ üstteki adınıza basıp hesap menüsünü açın.
+  - · Menü bu düğmeyle açılır
+  - · Sık kullanılan sayfalara tek tıkla gidin
+- 4. Ürünleri kategori menüsü ve filtrelerle bulun.
+  - · Yedi ana kategori her sayfada üstte durur
+  - · Soldan kategori seçip listeyi daraltın
+- Özet: Sipariş ve fatura sayfalarını menüde bulun. · Hesap menüsünü sağ üstten açın. · Ürünleri kategori ve filtrelerle daraltın.
+- Kapanış: Şimdi panelde menüleri gezin.
+
+**Paneli telefondan kullanın** (`egitim-44-telefondan-panel`)
+
+- Paneli telefondan kullanın — Siparişlerinizi telefondan da izleyin.
+- Bilgisayardan uzakta mısınız? — Panel telefonda da aynı çalışır.
+- Aynı panel telefonunuzda da açılır. — İki cihazda da aynı hesapla girin
+- 1. Özet ekranında hesabınızı tek bakışta görün. (telefon)
+  - · Bu ayki harcama ve açık bakiye en üstte yazar
+  - · Yeni siparişe buradan başlayın
+- 2. Özet düğmesine dokunup başka sayfaya geçin. (telefon)
+  - · Bu düğme tüm bölümlerin listesini açar
+  - ✓ Siparişlerim sayfası açılır
+- 3. Siparişlerinizi durumlarıyla izleyin. (telefon)
+  - · Her kartta durum, tutar ve tarih yazar
+  - ✓ Sevkiyattaki siparişler listelenir
+- Özet: Özet ekranında hesabınızı kontrol edin. · Özet düğmesiyle bölüm listesini açın. · Siparişleri hızlı filtreyle süzün.
+- Kapanış: Şimdi telefonunuzdan paneli açın.
+
+**İlk siparişinizi verin** (`egitim-45-ilk-siparis`)
+
+- İlk siparişinizi verin — Ürünü bulun, sepete ekleyin ve siparişi izleyin.
+- Bu videoda: Ürünü arayın · Fiyatı ve indirimi okuyun · Sepete ekleyin · Siparişi izleyin
+- 1. Arama kutusuna yazıp ürünü listeden seçin.
+  - ✓ Ürün sayfası açılır
+- 2. Fiyatı ve kademeli indirimi okuyun.
+  - · Fiyat KDV hariçtir; KDV dahil tutar altında yazar
+  - · 5 koliden %5, 30 koliden %8, 40 koliden %10 indirim alırsınız
+- 3. Stoğu kontrol edip Sepete Ekle düğmesine basın.
+  - · Stok ve kargo süresi düğmenin altında yazar
+  - ✓ Ürün sepete eklendi
+- 4. Siparişten sonra Siparişlerim sayfasını açın.
+  - · Her satırda siparişin durumu yazar
+  - ✓ Sipariş detayı açılır
+- 5. Detayda siparişin hangi adımda olduğunu görün.
+  - · Koyu mavi işaret siparişin şu anki adımıdır
+  - · Sıradaki işi bu kutuda okuyun
+- Özet: Ürünü arama kutusundan bulun. · Kademeli indirimi kontrol edip sepete ekleyin. · Siparişin durumunu detayda izleyin.
+- Kapanış: Şimdi ilk ürününüzü sepete ekleyin.
+
+**Önceden aldıklarınızı hızlı bulun** (`egitim-46-onceden-aldiklarim`)
+
+- Önceden aldıklarınızı hızlı bulun — Daha önce aldığınız ürünleri tek filtreyle listeleyin.
+- Selin (Satın alma sorumlusu): Geçen ay aldığım ürünü her seferinde baştan arıyorum.
+- 1. Katalogda Sadece önceden aldıklarım filtresini açın.
+  - · Bu filtre açıkken yalnız aldığınız ürünler görünür
+  - · Aldığınız ürünlerin sayısı burada yazar
+- 2. Ürünü listeden doğrudan sepete ekleyin.
+  - ✓ Ürün sepete eklendi
+- 3. Eski siparişi açıp Yeniden Sipariş Ver düğmesine basın.
+  - · Siparişteki ürünler ve adetler burada yazar
+  - ✓ Siparişin ürünleri sepete eklendi
+- Özet: Sadece önceden aldıklarım filtresini açın. · Ürünü listeden sepete ekleyin. · Eski siparişte Yeniden Sipariş Ver düğmesine basın.
+- Kapanış: Şimdi katalogda bu filtreyi açın.
+
+**Aynı siparişi tekrar vermenin 3 yolu** (`egitim-47-tekrar-siparis`)
+
+- Aynı siparişi tekrar vermenin 3 yolu — Sık aldığınız ürünleri baştan girmeden sipariş edin.
+- Aynı siparişi 3 yoldan tekrar verin. Yeniden Sipariş Ver → Sipariş Listelerim → Aboneliğe Çevir
+- 1. Eski siparişte Yeniden Sipariş Ver düğmesine basın.
+  - · Siparişi şablon olarak da saklayabilirsiniz
+  - ✓ Siparişin ürünleri sepete eklendi
+- 2. Kayıtlı listeyi Sepete Ekle ile tek seferde ekleyin.
+  - · Listedeki 5 ürün birlikte eklenir
+  - ✓ 5 ürün sepete eklendi
+- 3. Düzenli aldığınız ürünü aboneliğe çevirin.
+  - · Ürün belirli aralıkla otomatik sipariş edilir
+  - ✓ Ürün aboneliğe çevrildi
+- Özet: Eski siparişte Yeniden Sipariş Ver düğmesine basın. · Kayıtlı listeyi Sepete Ekle ile ekleyin. · Düzenli aldığınız ürünü aboneliğe çevirin.
+- Kapanış: Şimdi Siparişlerim sayfasını açın.
+
+**Hazır paketlerle tasarruf edin** (`egitim-48-paketler`)
+
+- Hazır paketlerle tasarruf edin — Sektörünüze uygun paketi tek tıkla sepete ekleyin.
+- Her ay aynı ürünleri tek tek mi ekliyorsunuz? — Hazır paketler bu işi kısaltır.
+- 1. Paketler sayfasında işletmenize uygun paketi seçin.
+  - · Paketin kime uygun olduğu adının altında yazar
+  - · Paket fiyatı, eski fiyat ve tasarruf altta yazar
+- 2. Paket sayfasında içeriği ve fiyatı kontrol edin.
+  - · Her satırın başında ürünün adedi yazar
+  - · ₺4.861,80 yerine ₺4.472,86 ödersiniz
+- 3. Paketi tek tıkla sepete ekleyin.
+  - · Aynı paket her ay otomatik sipariş edilir
+  - ✓ Paketteki 4 ürün sepete eklendi
+- Paket büyüdükçe tasarruf artar.: ₺388,94 Ofis Başlangıç · %8 · ₺931,95 Okul & Eğitim · %10 · ₺1.768,29 Restoran & Mutfak · %10
+- Özet: Paket kartında tasarruf tutarını okuyun. · Tüm Paketi Sepete Ekle düğmesine basın. · Aylık alım için Aboneliğe Çevir düğmesini kullanın.
+- Kapanış: Şimdi Paketler sayfasını açın.
+
+**Ürünleri karşılaştırın** (`egitim-49-urun-karsilastirma`)
+
+- Ürünleri karşılaştırın — Benzer ürünleri fiyat ve özellikleriyle yan yana görün.
+- Emre (Depo sorumlusu): İki havluyu kıyaslamak için sekmeler arasında gidip geliyorum.
+- 1. Ürün kartındaki karşılaştır simgesine dokunun. (telefon)
+  - · Bu simge ürünü karşılaştırma listesine ekler
+  - ✓ Ürün karşılaştırmaya eklendi
+- 2. Fiyatı ve stoğu yan yana karşılaştırın.
+  - · KDV hariç fiyatlar aynı satırda yazar
+  - · Stok durumu da yan yana görünür
+- 3. Farkı görüp seçtiğiniz ürünü sepete ekleyin.
+  - · Ürünler farklı dispenserlere uyar
+  - ✓ Ürün sepete eklendi
+- Özet: Kartta karşılaştır simgesine basın. · Fiyatı ve stoğu yan yana kıyaslayın. · Seçtiğiniz ürünü Sepete Ekle ile ekleyin.
+- Kapanış: Şimdi Kağıt Ürünleri kategorisini açın.
+
+**Ürün kartını doğru okuyun** (`egitim-50-urun-karti`)
+
+- Ürün kartını doğru okuyun — Fiyatı, birimi ve indirimi tek bakışta anlayın.
+- Bu fiyata KDV dahil mi? — Ürün kartı bu sorunun cevabını verir.
+- 1. Liste fiyatı KDV hariç yazılır.
+  - · KDV dahil fiyat hemen altında yazar.
+- 2. Fiyat bir koli içindir.
+  - · Bir kolide 6 rulo bulunur.
+  - · Her koli 4 sadakat puanı kazandırır.
+- 3. Çok alırsanız birim fiyat düşer.
+  - · İndirim 5 koliden %5, 30 koliden %8, 40 koliden %10 olur.
+- Test: ₺420,00 liste fiyatı neyi gösterir? (✓ Bir koli, KDV hariç / Bir koli, KDV dahil / Bir rulo, KDV dahil) — Koli fiyatı KDV hariçtir.
+- Özet: KDV dahil fiyatı liste fiyatının altında okuyun. · Fiyatın yanındaki satış birimine bakın. · Kademe tablosunda indirim oranını kontrol edin.
+- Kapanış: Şimdi bir ürün sayfası açın.
+
+**Stokta olmayan ürün için haber alın** (`egitim-51-stok-bildirimi`)
+
+- Stokta olmayan ürün için haber alın — Ürün stoğa girince haberiniz olsun.
+- Murat (Satın alma sorumlusu): Tuvalet kağıdı yine stokta yok.
+- 1. Ürün adının üstünde Stokta yok yazar.
+  - · Bu ürün şu an sepete eklenemez.
+- 2. Stok Gelince Haber Ver düğmesine basın.
+  - ✓ Ürün gelince size haber verilir
+- 3. Ürünü listenize de ekleyin.
+  - ✓ Ürün listenize eklenir
+- Özet: Ürün adının üstünde Stokta yok etiketine bakın. · Stok Gelince Haber Ver düğmesine basın. · Ürünü Listeye Ekle ile kaydedin.
+- Kapanış: Şimdi aradığınız ürünün sayfasını açın.
+
+**Doğru ürünü seçin: teknik özellikler** (`egitim-52-teknik-ozellikler`)
+
+- Doğru ürünü seçin: teknik özellikler — Satın almadan önce ürünün size uyduğunu kontrol edin.
+- Selin (İdari işler sorumlusu): Aldığım havlu dispensere uymadı.
+- 1. Teknik Özellikler bölümünü okuyun.
+  - · Havlunun uyduğu dispenser burada yazar.
+  - · Gramajı ve kat sayısını karşılaştırın.
+- 2. Yeni Numune Talebi düğmesine basın.
+  - ✓ Numune formu açılır
+- 3. Ürün kodunu yazıp ücretsiz numune isteyin.
+  - ✓ Numune talebiniz iletildi
+- Özet: Dispenser uyumunu Teknik Özellikler bölümünde kontrol edin. · Gramajı ve kat sayısını karşılaştırın. · Emin değilseniz ücretsiz numune isteyin.
+- Kapanış: Şimdi Numune Taleplerim sayfasını açın.
+
+**Kargonuz nerede?** (`egitim-53-kargo-takibi`)
+
+- Kargonuz nerede? — Kargo takip numaranızı siparişte bulun.
+- Kargom nerede? — Cevap sipariş detayında yazar.
+- 1. Sevkiyatta filtresini seçin.
+  - ✓ Kargodaki siparişler listelenir
+- 2. Siparişi açıp sıradaki adımı okuyun.
+  - · Siparişiniz kargoya verildi.
+- 3. Takip et ile kargonuzu izleyin.
+  - · Kargo firması, durum ve takip numarası burada yazar.
+  - ✓ Kargo firmasının takip sayfası açılır
+- Özet: Siparişlerim sayfasında Sevkiyatta filtresini seçin. · Siparişi açıp sıradaki adımı okuyun. · Kargo bölümünde Takip et bağlantısına basın.
+- Kapanış: Şimdi Siparişlerim sayfasını açın.
+
+**Ürünleri değerlendirin, puan kazanın** (`egitim-54-urun-degerlendirme`)
+
+- Ürünleri değerlendirin, puan kazanın — Teslim edilen ürünlere yorum yazın.
+- Bu videoda: Puan kuralını görün · Yıldız verip yorum yazın · Yorumu gönderin
+- 1. Her ürün yorumu 5 puan kazandırır.
+  - · Kural teslim edilen her ürün için geçerlidir.
+- 2. Yıldız verip kısa bir yorum yazın.
+  - · Ürüne 1 ile 5 arasında yıldız verin.
+- 3. Yorumu Gönder düğmesine basın.
+  - ✓ Yorumunuz gönderildi
+- Özet: Ürüne yıldız verin. · Kısa bir yorum yazın. · Yorumu Gönder düğmesine basın.
+- Kapanış: Şimdi Siparişlerim sayfasını açın.
+
+**Hasarlı ürün için iade** (`egitim-55-iade-talebi`)
+
+- Hasarlı ürün için iade — İade talebini panelden birkaç adımda açın.
+- Kemal (Depo sorumlusu): İki koli hasarlı geldi.
+- 1. Siparişte İade Talebi Aç düğmesine basın.
+  - ✓ İade formu açılır
+- 2. Hasarlı ürünün iade adedini yazın.
+  - · Siparişteki her ürün ayrı satırda yazar.
+- 3. Sebebi yazıp talebi gönderin.
+  - ✓ İade talebiniz alındı
+- 4. Talebi İade Taleplerim sayfasında izleyin.
+  - · MTS ekibi talebinizi inceler.
+  - · Talepleri duruma göre filtreleyin.
+- Özet: Siparişte İade Talebi Aç düğmesine basın. · İade adedini ve sebebi yazın. · Durumu İade Taleplerim sayfasında izleyin.
+- Kapanış: Şimdi İade Taleplerim sayfasını açın.
+
+**Siparişiniz reddedildiyse** (`egitim-56-reddedilen-siparis`)
+
+- Siparişiniz reddedildiyse — Ret nedenini okuyun, siparişi yeniden verin.
+- Siparişiniz neden reddedildi? — Gerekçe sipariş detayında yazar.
+- 1. Sipariş durumunda Reddedildi yazar.
+  - · Sipariş onay zincirinde durdu.
+- 2. Onay Zinciri bölümünde gerekçeyi okuyun.
+  - · Siparişi kimin reddettiğini görürsünüz.
+  - · Ret gerekçesi onay notunda yazar.
+- 3. Gerekirse Yeniden Sipariş Ver düğmesine basın.
+  - ✓ Aynı ürünlerle yeni sipariş hazırlanır
+- Özet: Sipariş durumunda Reddedildi etiketine bakın. · Onay Zinciri bölümünde gerekçeyi okuyun. · Yeniden Sipariş Ver düğmesine basın.
+- Kapanış: Şimdi Siparişlerim sayfasını açın.
+
+**Sipariş belgesini yazdırın** (`egitim-57-siparis-belgesi`)
+
+- Sipariş belgesini yazdırın — Sipariş belgesini açıp kontrol edin ve yazdırın.
+- Derya (Muhasebe sorumlusu): Her siparişin çıktısını dosyaya eklemem gerekiyor.
+- 1. Sipariş detayında Yazdır / PDF düğmesine basın.
+  - ✓ Sipariş belgesi açılır
+- 2. Belgede PO numarasını ve toplamı kontrol edin.
+  - · Satın alma numaranız müşteri bilgisinin altında yazar.
+  - · İndirim, kargo ve KDV toplamın üstünde ayrı satırlarda yazar.
+- 3. Yazdır / PDF olarak Kaydet düğmesine basın.
+  - ✓ Yazdırma penceresi açılır
+- Özet: Sipariş detayında Yazdır / PDF düğmesine basın. · Belgede PO numarasını ve toplamı kontrol edin. · Yazdır / PDF olarak Kaydet ile çıktı alın.
+- Kapanış: Şimdi bir siparişin belgesini yazdırın.
+
+**Havale yaptım, sipariş neden ilerlemiyor?** (`egitim-58-havale-odeme`)
+
+- Havale yaptım, sipariş neden ilerlemiyor? — Havale ödemesinin siparişle nasıl eşleştiğini öğrenin.
+- Havale yaptınız ama sipariş ilerlemiyor mu? — Cevap sipariş detayında yazar.
+- 1. Sipariş detayında Ödeme Bekleniyor durumuna bakın.
+  - · Ödeme hesaba geçince sipariş hazırlığa alınır.
+- 2. Havale açıklamasına sipariş numarasını yazın.
+  - · Ödemeniz bu numarayla siparişe bağlanır.
+- 3. Numarayı Kopyala düğmesiyle alın. (telefon)
+  - · Bu numarayı havale açıklamasına yapıştırın.
+  - ✓ Sipariş numarası kopyalandı
+- Özet: Sipariş detayında Ödeme Bekleniyor durumuna bakın. · Havale açıklamasına sipariş numarasını yazın. · Numarayı Kopyala düğmesiyle alın.
+- Kapanış: Şimdi Siparişlerim sayfasını açın.
+
+**Siparişimi iptal edebilir miyim?** (`egitim-59-siparis-iptal`)
+
+- Siparişimi iptal edebilir miyim? — İptal kuralını öğrenin, doğru yolu seçin.
+- İptal ne zaman mümkün? Hazırlık başladıysa: Siparişi İptal Et düğmesi görünmez, İptal için destek talebi gerekir / İşleme alınmadan önce: Siparişi İptal Et düğmesi görünür, Siparişi kendiniz iptal edersiniz
+- 1. İşleme alınmamış siparişte Siparişi İptal Et düğmesine basın.
+  - · Bu durumda sipariş henüz işleme alınmadı.
+  - ✓ Sipariş iptal edilir
+- 2. Hazırlık başladıysa destek talebi açın.
+  - ✓ Destek talebiniz oluşturuldu
+- Özet: Sipariş detayında durumu kontrol edin. · İşleme alınmamış siparişte Siparişi İptal Et düğmesine basın. · Hazırlık başladıysa destek talebi açın.
+- Kapanış: Şimdi Siparişlerim sayfasını açın.
+
+**Teklifiniz hazır: detayı okuyun** (`egitim-60-teklif-detayi`)
+
+- Teklifiniz hazır: detayı okuyun — Teklifin fiyatını, notunu ve son tarihini okuyun.
+- Teklifiniz hazır. Neye bakmalısınız? — Kabul etmeden önce detayı okuyun.
+- 1. Teklif Hazır yazan teklifi açın.
+  - · Fiyatı hazırlanan teklifler bu durumla görünür.
+  - ✓ Teklif detayı açılır
+- 2. Admin notunu ve birim fiyatları okuyun.
+  - · Fiyatla ilgili açıklama bu notta yazar.
+  - · Her kalemin birim fiyatı kendi satırında yazar.
+- 3. Son tarihten önce Teklifi Kabul Et düğmesine basın.
+  - · Teklif bu tarihe kadar geçerlidir.
+  - ✓ Teklif siparişe çevrilir
+- Özet: Teklif Hazır durumundaki teklifi açın. · Admin notunu ve birim fiyatları okuyun. · Son tarihten önce Teklifi Kabul Et düğmesine basın.
+- Kapanış: Şimdi Fiyat Tekliflerim sayfasını açın.
+
+**Fiyat teklifi mi, toplu alım mı?** (`egitim-61-teklif-turleri`)
+
+- Fiyat teklifi mi, toplu alım mı? — İhtiyacınıza uygun teklif formunu seçin.
+- Hangi form ne zaman kullanılır?: Fiyat teklifi: ürünü ve miktarı panelde girin · Toplu alım: 500+ adet için satış ekibinden teklif alın
+- 1. Yeni Fiyat Teklifi formuna ürünü yazın.
+  - ✓ Fiyatı admin ekibi hazırlar
+- 2. 500+ adet için Teklif İste formunu doldurun.
+  - · Talep Detayı alanına ürünü, adedi ve periyodu yazın.
+  - ✓ Talebiniz satış ekibine iletilir
+- Test: 500+ adetlik alım için hangi formu doldurursunuz? (✓ Toplu Alım Teklifi / Hızlı Sipariş / Numune Talebi) — Toplu Alım Teklifi 500+ adet içindir.
+- Özet: Yeni Fiyat Teklifi formuna ürünü yazın. · 500+ adet için Teklif İste formunu kullanın. · Teklif Talep Et düğmesiyle talebi gönderin.
+- Kapanış: Şimdi Teklif İste sayfasını açın.
+
+**Hesabı 4 adımda kurun** (`egitim-62-hesap-kurulumu`)
+
+- Hesabı 4 adımda kurun — Departman, kullanıcı ve onay kuralını sırayla kurun.
+- Bu videoda: Departman ekleyin · Kullanıcı davet edin · Onay kuralı kurun · Onay eşiğini kontrol edin
+- 1. Departman & Bütçe sayfasında yeni departman ekleyin.
+  - · Bütçe girerseniz harcama bu tutarla izlenir.
+  - ✓ Departman eklendi
+- 2. Kullanıcı Davet Et formunda rolü seçin.
+  - · Rol seçimi varsayılan yetkileri belirler.
+  - · Onay limitini boş bırakırsanız limit sınırsız olur.
+  - ✓ Kullanıcı davet edildi
+- 3. Yeni Onay Kuralı ile tutar sınırını belirleyin.
+  - · Siparişi ilk onaylayacak kişiyi burada seçersiniz.
+  - ✓ Onay kuralı oluşturuldu
+- 4. Otomatik onay eşiğini kontrol edin.
+  - · ₺5.000 altındaki siparişler doğrudan onaylanır.
+- Özet: Departman ekleyip kullanıcıları davet edin. · Tutar sınırıyla onay kuralı oluşturun. · Otomatik onay eşiğini kontrol edin.
+- Kapanış: Şimdi Departman & Bütçe sayfasını açın.
+
+**Roller ve yetkiler** (`egitim-63-roller-yetkiler`)
+
+- Roller ve yetkiler — Kimin ne yapabileceğini rol ve yetkilerle belirleyin.
+- Ekipte kim ne yapabilir? — Bunu rol ve yetkiler belirler.
+- 1. Kullanıcılar & Yetkiler sayfasında rolleri görün.
+  - · Kullanıcıya Genel Müdür, Satınalmacı ya da Görüntüleyici rolü verilir.
+  - ✓ Kullanıcının yetki sayfası açılır
+- 2. Kullanıcının rolünü ve onay limitini belirleyin.
+  - · Rol seçimi varsayılan yetkileri belirler.
+  - · Boş bırakırsanız onay limiti sınırsız olur.
+- 3. Hazır şablon ile yetkileri tek seferde seçin.
+  - ✓ Şablondaki yetkiler işaretlenir
+- 4. Detaylı Yetkiler listesinde ekstra yetki açın.
+  - · Varsayılan etiketi yetkinin rolden geldiğini gösterir.
+  - ✓ Ekstra yetki açılır
+- Özet: Kullanıcı listesinde rolleri kontrol edin. · Düzenle sayfasında rolü ve onay limitini belirleyin. · Detaylı Yetkiler listesinde ekstra yetki açın.
+- Kapanış: Şimdi Kullanıcılar & Yetkiler sayfasını açın.
+
+**Bir siparişin onay yolculuğu** (`egitim-64-onay-yolculugu`)
+
+- Bir siparişin onay yolculuğu — Siparişin onaydan faturaya hangi adımlardan geçtiğini görün.
+- Bu videoda: Onay kuralını görün · Siparişi Onaylarım'da onaylayın · Siparişin 9 durumunu öğrenin
+- 1. Onay kuralı siparişin kime gideceğini belirler.
+  - · Kural tutar sınırını ve onaylayacak kişiyi gösterir.
+- 2. Onaya düşen sipariş Onay Bekleniyor durumuna geçer.
+  - · Sıradaki adım şirket içi onaydır.
+  - · Onay zinciri siparişin kimde beklediğini gösterir.
+- 3. Yeni onay talebi bildirim olarak gelir.
+  - · Zil simgesi bekleyen onayı size haber verir.
+- 4. Onaylayıcı siparişi Onaylarım sayfasında karara bağlar.
+  - · Siparişi onaylayabilir, revizeye yollayabilir ya da reddedebilirsiniz.
+  - ✓ Sipariş onaylandı
+- Sipariş 9 durumdan geçer. Taslak → Onay Bekleniyor → MTS Onayı → Hazırlanıyor → Sevkiyatta → Teslim Edildi
+- Özet: Onay zincirini Onay Kuralları sayfasında kontrol edin. · Siparişin durumunu detay sayfasında izleyin. · Bekleyen siparişi Onaylarım sayfasında onaylayın.
+- Kapanış: Şimdi Onaylarım sayfasını açın.
+
+**Telefondan onay verin** (`egitim-65-telefondan-onay`)
+
+- Telefondan onay verin — Bekleyen siparişi telefondan tek dokunuşla onaylayın.
+- Kerem (Operasyon müdürü): Onayları toplantı arasında veriyorum.
+- 1. Özet ekranında Onay bekleyen kartına dokunun. (telefon)
+  - · Bekleyen onaylara bu karttan geçersiniz.
+  - ✓ Onaylarım sayfası açılır
+- 2. Kartı okuyup Onayla düğmesine dokunun. (telefon)
+  - · Kartta tutar, açan kişi ve ürünler yazar.
+  - ✓ Sipariş onaylandı
+- Özet: Özet ekranında Onay bekleyen kartına dokunun. · Kartta tutarı ve ürünleri kontrol edin. · Onayla düğmesine dokunun.
+- Kapanış: Şimdi telefonunuzda Onaylarım sayfasını açın.
+
+**Rol rehberi: satın alma sorumlusu** (`egitim-66-rol-satin-alma`)
+
+- Rol rehberi: satın alma sorumlusu — Günlük satın alma işlerini panelde hızla yapın.
+- Elif (Satın alma sorumlusu): Her hafta aynı ürünleri tek tek sipariş ediyorum.
+- Bu videoda: Özet ekranını açın · Ürün kodunu yazın · Kayıtlı listeyi sepete ekleyin · Siparişi takip edin
+- 1. Güne Özet ekranıyla başlayın.
+  - · Yeni sipariş, şablonlar ve sık listeler buradan açılır.
+- 2. Hızlı Sipariş sayfasına ürün kodunu yazın.
+  - · Tek seferde 100 satıra kadar ürün girebilirsiniz.
+  - ✓ Ürün sepete eklendi
+- 3. Kayıtlı listeyi tek tıkla sepete ekleyin.
+  - · Listedeki 6 ürün birlikte eklenir.
+  - ✓ 6 ürün sepete eklendi
+- 4. Siparişleri durumuna göre izleyin.
+  - · Hızlı filtreler listeyi tek tıkla süzer.
+  - ✓ Kargodaki siparişler listelenir
+- Özet: Hızlı Sipariş sayfasına ürün kodunu yazın. · Kayıtlı listede Sepete Ekle düğmesine basın. · Siparişleri Sevkiyatta filtresiyle izleyin.
+- Kapanış: Şimdi Hızlı Sipariş sayfasını açın.
+
+**Rol rehberi: yönetici** (`egitim-67-rol-yonetici`)
+
+- Rol rehberi: yönetici — Onayları, bütçeyi ve harcamayı tek panelden izleyin.
+- Murat (Genel müdür): Bütçe ve onaylar için her gün rapor istiyorum.
+- Bu videoda: Özet kartlarını okuyun · Siparişi onaylayın · Bütçeyi izleyin · Harcamayı inceleyin
+- 1. Özet kartlarında onayları ve krediyi görün.
+  - · Bekleyen onaylara bu karttan geçersiniz.
+  - · Kalan kredi limitiniz bu kartta yazar.
+- 2. Onaylarım sayfasında siparişi onaylayın.
+  - · Kartta tutar, açan kişi ve departman yazar.
+  - ✓ Sipariş onaylandı
+- 3. Bütçe Panosu ile harcamayı izleyin.
+  - · Kredi kullanımı limitle birlikte yazar.
+  - · Her departmanın kalan bütçesi bu sütunda yazar.
+- 4. Analitik sayfasında harcamanın dağılımını görün.
+  - · Son 12 ayın toplam harcaması kartta yazar.
+  - · Harcama kategorilere yüzdeyle ayrılır.
+- Özet: Özet kartlarında bekleyen onayları görün. · Onaylarım sayfasında Onayla düğmesine basın. · Bütçe Panosu sayfasında harcamayı izleyin.
+- Kapanış: Şimdi Bütçe Panosu sayfasını açın.
+
+**Rol rehberi: muhasebe** (`egitim-68-rol-muhasebe`)
+
+- Rol rehberi: muhasebe — Ekstreyi, faturaları ve sipariş belgelerini panelden alın.
+- Seda (Muhasebe uzmanı): Ay sonunda faturaları tek tek topluyorum.
+- Bu videoda: Ekstreyi filtreleyin · Faturayı yazdırın · Listeyi Excel'e aktarın · PO numarasını bulun
+- 1. Cari Ekstre sayfasında tarih aralığı seçin.
+  - ✓ Bu aralıktaki hareketler listelenir
+- 2. Borçları vade aralığına göre okuyun.
+  - · Borçlar vadesine göre gün aralıklarında toplanır.
+- 3. Faturalarım sayfasında faturayı yazdırın.
+  - · Faturalarınız panele otomatik gelir.
+  - ✓ Yazdırma görünümü açılır
+- 4. Sipariş listesini Excel'e aktarın.
+  - ✓ Liste Excel dosyasına aktarılır
+- 5. Sipariş belgesinde PO numarasını bulun.
+  - · Belgede siparişi veren kişi ve PO numarası yazar.
+- Özet: Cari Ekstre'yi tarih aralığıyla filtreleyin. · Faturayı Yazdır düğmesiyle yazdırın. · Sipariş listesini Excel'e aktarın.
+- Kapanış: Şimdi Cari Ekstre sayfasını açın.
+
+**Rol rehberi: şube ve depo sorumlusu** (`egitim-69-rol-sube`)
+
+- Rol rehberi: şube ve depo sorumlusu — Şube siparişini doğru listeden doğru adrese verin.
+- Hakan (Şube ve depo sorumlusu): Her şubenin siparişini farklı adrese gönderiyorum.
+- Bu videoda: Firma listesini sepete ekleyin · Proje kaydı açın · Varsayılan adresi kontrol edin · Siparişin adresini görün
+- 1. Firma listesini tek tıkla sepete ekleyin.
+  - · Firma listesi şirketin ortak listesidir.
+  - ✓ Listedeki 5 ürün sepete eklendi
+- 2. Her şube için proje kaydı açın.
+  - · Projenin kodu, adresi ve sipariş sayısı burada yazar.
+  - ✓ Yeni proje formu açılır
+- 3. Varsayılan teslimat adresini kontrol edin.
+  - · Varsayılan etiketi ana teslimat adresinizi gösterir.
+- 4. Sipariş detayında teslimat adresini görün.
+  - · Sıradaki adım kutusu siparişin nerede olduğunu söyler.
+  - · Ürünler Merkez Depo adresine teslim edilir.
+- Özet: Firma listesinde Sepete Ekle düğmesine basın. · Yeni Proje düğmesiyle şube projesi açın. · Varsayılan teslimat adresini kontrol edin.
+- Kapanış: Şimdi Adres Defteri sayfasını açın.
+
+**Puanınızı kupona dönüştürün** (`egitim-70-puan-kupon`)
+
+- Puanınızı kupona dönüştürün — Biriken puanınızı indirim kuponuna çevirin.
+- Murat (Satın alma sorumlusu): Puanım birikiyor, nasıl kullanacağımı bilmiyorum.
+- 1. Sadakat Programı sayfasında bakiyenizi görün.
+  - · Puanınızın kupon karşılığı rakamın altında yazar
+  - ✓ Puan Kullan bölümü açılır
+- 2. Birim sayısını yazıp İndirim Kuponu Oluştur düğmesine basın.
+  - · Örneğin 10 birim 100 TL'lik kupon olur
+  - ✓ 100 TL indirim kuponu oluşturuldu
+- 3. Kuponlarım sayfasında kodu kopyalayıp sepette kullanın.
+  - · Her kupon tek siparişte bir kez kullanılır
+  - ✓ Kupon kodu kopyalandı
+- Özet: Sadakat Programı sayfasında bakiyenizi kontrol edin. · Birim sayısını yazıp İndirim Kuponu Oluştur düğmesine basın. · Kuponlarım sayfasında kupon kodunu kopyalayın.
+- Kapanış: Şimdi Sadakat Programı sayfasını açın.
+
+**Kupon kodu gerektirmeyen avantajlar** (`egitim-71-avantajlar`)
+
+- Kupon kodu gerektirmeyen avantajlar — Sepette kendiliğinden uygulanan indirimleri tanıyın.
+- İndirim için kupon kodu mu arıyorsunuz? — Bazı indirimler sepette kendiliğinden uygulanır.
+- 1. Kampanyalar sayfasında Sürekli Avantajlar bölümünü bulun.
+  - · Bu bölümde üç kalıcı avantaj listelenir
+  - · Adet arttıkça indirim %5, %8 ve %10 olur
+- 2. Ödeme ve kargo avantajlarını okuyun.
+  - · İndirim havale veya EFT ile ödemede geçerlidir
+  - · Sepet tutarı ₺3.500'e ulaşınca kargo ücretsiz olur
+- Bu avantajlar için kod gerekmez.: %10 Kademeli indirimde en yüksek oran · %2 Peşin ödeme indirimi · ₺3.500 Ücretsiz kargo sınırı · %8–%10 Paket indirimi
+- Özet: Kampanyalar sayfasında Sürekli Avantajlar bölümünü bulun. · Peşin ödeme indirimini kartta okuyun. · Ücretsiz kargo sınırını kontrol edin.
+- Kapanış: Şimdi Kampanyalar sayfasını açın.
+
+**Bildirim tercihleri** (`egitim-72-bildirim-tercihleri`)
+
+- Bildirim tercihleri — Hangi e-postaları alacağınızı kendiniz seçin.
+- Derya (Muhasebe sorumlusu): Gelen kutum bildirim e-postalarıyla doluyor.
+- 1. Ayarlar sayfasında Bildirim Tercihleri bölümünü bulun.
+  - · İşaretli seçenekler için e-posta gönderilir
+- 2. Seçimlerinizi yapıp Tercihleri Kaydet düğmesine basın.
+  - · İşareti kaldırılan e-postalar size gönderilmez
+  - · Sepette kalan ürünler için 24 saat, 3 gün ve 7 gün sonra e-posta gelir
+  - ✓ Tercihleriniz kaydedildi
+- 3. Verilerimi İndir (ZIP) ile verilerinizin kopyasını alın.
+  - ✓ Verileriniz ZIP dosyası olarak iner
+- Özet: Ayarlar sayfasında Bildirim Tercihleri bölümünü bulun. · İstemediğiniz e-postaların işaretini kaldırıp kaydedin. · Verilerimi İndir (ZIP) düğmesine basın.
+- Kapanış: Şimdi Ayarlar sayfasını açın.
+
+**Mini test: sipariş** (`egitim-73-test-siparis`)
+
+- Mini test: sipariş — Sipariş bilginizi üç soruyla pekiştirin.
+- Test: Kargoya verilen sipariş hangi durumda görünür? (Hazırlanıyor / ✓ Sevkiyatta / Teslim Edildi)
+- Kargodaki sipariş Sevkiyatta durumunda görünür.
+  - · Durum etiketi siparişin aşamasını gösterir
+- Test: Hızlı Sipariş formuna en fazla kaç satır girersiniz? (50 satır / ✓ 100 satır / 500 satır) — Sınır 100 satırdır.
+- Test: Kargo takip numarası nerede yazar? (✓ Sipariş detayındaki Sevkiyat kutusunda / Faturalarım sayfasında / Cari Ekstre sayfasında)
+- Takip numarası Sevkiyat kutusunda yazar.
+  - · Takip et bağlantısıyla kargonuzu izleyebilirsiniz
+- Özet: Kargodaki siparişi Sevkiyatta durumunda bulun. · Hızlı Sipariş formuna en fazla 100 satır girin. · Takip numarasını Sevkiyat kutusunda okuyun.
+- Kapanış: Şimdi Siparişlerim sayfasını açın.
+
+**Mini test: ödeme ve indirimler** (`egitim-74-test-odeme`)
+
+- Mini test: ödeme ve indirimler — İndirim kurallarını üç soruyla pekiştirin.
+- Test: Havale/EFT ile peşin ödemede indirim yüzde kaçtır? (✓ %2 / %5 / %10)
+- Peşin ödemede net tutardan %2 düşülür.
+  - · Bu indirim için kupon kodu gerekmez
+- Test: Ücretsiz kargo hangi tutardan başlar? (₺1.500 / ✓ ₺3.500 / ₺5.000) — ₺3.500 ve üzerinde kargo ücretsizdir.
+- Test: Ürün sayfasındaki kademeli indirim oranları hangileridir? (✓ %5 / %8 / %10 / %2 / %4 / %6 / %10 / %15 / %20)
+- Adet arttıkça indirim oranı artar.
+  - · İndirim sepette her satıra kendiliğinden yansır
+- Özet: Havale/EFT ile ödeyip %2 indirim alın. · ₺3.500 ve üzeri siparişte ücretsiz kargodan yararlanın. · Kademe tablosunda indirim oranını okuyun.
+- Kapanış: Şimdi Kampanyalar sayfasını açın.
+
+**Mini test: onay ve bütçe** (`egitim-75-test-onay`)
+
+- Mini test: onay ve bütçe — Onay ve bütçe kurallarını üç soruyla pekiştirin.
+- Test: Otomatik onay eşiğinin altındaki sipariş ne olur? (✓ Doğrudan onaylanır / Onay zincirine girer / İptal edilir)
+- Eşiğin altındaki sipariş onay zincirine girmez.
+  - · Eşik tutarı sözleşmenizde tanımlıdır
+- Test: Bir onay kuralına en fazla kaç seviye onaylayıcı eklersiniz? (2 seviye / ✓ 3 seviye / 5 seviye) — Üç seviye seçilebilir.
+- Test: Departmanın kalan bütçesini nerede görürsünüz? (✓ Bütçe Panosu / Kuponlarım / Faturalarım)
+- Bütçe Panosu kalan bütçeyi gösterir.
+  - · Bütçe, harcanan ve kalan tutar aynı satırda yazar
+- Özet: Otomatik onay eşiğini Sözleşme & Fiyat sayfasında kontrol edin. · Onay zincirine en fazla üç seviye ekleyin. · Kalan bütçeyi Bütçe Panosu sayfasında izleyin.
+- Kapanış: Şimdi Bütçe Panosu sayfasını açın.
+
+### Tanıtım videoları (20 video · toplam 7:13)
+
+| No | Video | Süre | Dosya |
+|---|---|---|---|
+| 20 | Hepsi tek panelde | 0:17 | `2026-10-09/tanitim/tanitim-20-tek-panel` |
+| 21 | Panel cebinizde | 0:21 | `2026-10-09/tanitim/tanitim-21-panel-cebinizde` |
+| 22 | Otel: kat hizmetleri tek panelde | 0:24 | `2026-10-09/tanitim/tanitim-22-otel` |
+| 23 | Okul: dönem başlamadan hazır | 0:24 | `2026-10-09/tanitim/tanitim-23-okul` |
+| 24 | Restoran: mutfak hijyeni tek pakette | 0:23 | `2026-10-09/tanitim/tanitim-24-restoran` |
+| 25 | Ofis: bir aylık ihtiyaç tek pakette | 0:26 | `2026-10-09/tanitim/tanitim-25-ofis` |
+| 26 | Sağlık kuruluşları: kontrol sizde | 0:26 | `2026-10-09/tanitim/tanitim-26-saglik` |
+| 27 | Fabrika: üretim hattı durmasın | 0:26 | `2026-10-09/tanitim/tanitim-27-fabrika` |
+| 28 | Rakamlarla MTS Hijyen B2B | 0:25 | `2026-10-09/tanitim/tanitim-28-rakamlarla` |
+| 29 | Bir satın almacının günü | 0:35 | `2026-10-09/tanitim/tanitim-29-bir-gun` |
+| 30 | Toplantıdan çıkmadan onaylayın | 0:14 | `2026-10-09/tanitim/tanitim-30-toplantidan-onay` |
+| 31 | Muhasebe için 3 neden | 0:26 | `2026-10-09/tanitim/tanitim-31-muhasebe` |
+| 32 | Ay sonu: önce / sonra | 0:21 | `2026-10-09/tanitim/tanitim-32-ay-sonu` |
+| 33 | Ödemeyi siz seçin | 0:20 | `2026-10-09/tanitim/tanitim-33-odeme` |
+| 34 | Kupon kodu gerektirmeyen 4 avantaj | 0:17 | `2026-10-09/tanitim/tanitim-34-avantajlar` |
+| 35 | Saat 14:00, bugün kargoda | 0:16 | `2026-10-09/tanitim/tanitim-35-saat-14` |
+| 36 | Aynı panel, iki rol | 0:25 | `2026-10-09/tanitim/tanitim-36-iki-rol` |
+| 37 | Yedi kategori, tek tedarikçi | 0:17 | `2026-10-09/tanitim/tanitim-37-yedi-kategori` |
+| 38 | Doğru ürün, ilk seferde | 0:20 | `2026-10-09/tanitim/tanitim-38-dogru-urun` |
+| 39 | Kurumsal hesabınızı açın | 0:16 | `2026-10-09/tanitim/tanitim-39-kurumsal-hesap` |
+
+#### Ekrandaki metinler
+
+**Hepsi tek panelde** (`tanitim-20-tek-panel`)
+
+- Telefon. E-posta. Excel. → Hepsi artık tek panelde.
+- Siparişi, onayı ve bakiyeyi tek ekranda görün. — Aynı hesap masaüstünde ve telefonda açılır
+- Kapanış: Satın almayı tek yerden yönetin. · Kurumsal hesap açın
+
+**Panel cebinizde** (`tanitim-21-panel-cebinizde`)
+
+- Bilgisayardaki panel telefonda da çalışır. — Siparişleriniz iki ekranda da aynı görünür
+- Hesabınızı tek bakışta görün. (telefon)
+  - · Onay bekleyen siparişler Özet ekranında görünür
+- Siparişi tek dokunuşla onaylayın. (telefon)
+  - ✓ Sipariş onaylandı
+- Kapanış: Siparişlerinizi her yerden izleyin. · Panelde deneyin
+
+**Otel: kat hizmetleri tek panelde** (`tanitim-22-otel`)
+
+- Sevgi (Kat hizmetleri şefi): Her sabah kat arabasında bir ürünü eksik buluyorum.
+- Kat ürünlerini tek pakette alın.
+  - · Tuvalet, cam ve oda ürünleri aynı pakette gelir
+  - · Paket içi %10 indirimle ₺879,28 tasarruf edersiniz
+- Siparişi her ay otomatik tekrarlayın.
+  - · Sipariş her ayın aynı günü kendiliğinden oluşur
+- Kapanış: Kat arabasını eksiksiz hazırlayın. · Kurumsal hesap açın
+
+**Okul: dönem başlamadan hazır** (`tanitim-23-okul`)
+
+- Tuvalet kağıdı. Kağıt havlu. El sabunu. → Dönem başlamadan hepsini hazırlayın.
+- Okulun temel ihtiyacını tek pakette alın.
+  - · Tuvalet kağıdı, kağıt havlu ve el sabunu aynı pakette gelir
+  - · Paket içi %10 indirimle ₺931,95 tasarruf edersiniz
+- Her birimin bütçesini ayrı izleyin.
+  - · Bu ayki harcama, aylık bütçenin yanında görünür
+- Kapanış: Okulun siparişlerini önceden planlayın. · Kurumsal hesap açın
+
+**Restoran: mutfak hijyeni tek pakette** (`tanitim-24-restoran`)
+
+- Deterjan. Eldiven. Yağ sökücü. → Hepsini tek siparişte alın.
+- Mutfak hijyenini tek pakette toplayın.
+  - · Deterjan, tablet, yağ sökücü ve eldiven aynı pakette gelir
+  - · Paket fiyatına %10 indirim kendiliğinden yansır
+- Eksilen ürünü koduyla ekleyin.
+- Kapanış: Mutfağı servise hazır tutun. · Kurumsal hesap açın
+
+**Ofis: bir aylık ihtiyaç tek pakette** (`tanitim-25-ofis`)
+
+- Murat (Ofis yöneticisi): Her ay aynı listeyi yazıyorum.
+- Bir aylık ihtiyacı tek pakette alın.
+  - · Paket içi %8 indirimle ₺388,94 tasarruf edersiniz
+- Paketi aylık aboneliğe çevirin. (telefon)
+  - ✓ Aylık abonelik oluşturuldu
+- Mutfak için bulaşık setini ekleyin.
+  - · Tablet, tuz ve parlatıcı aynı sette gelir
+- Kapanış: Aylık siparişi bir kez ayarlayın. · Kurumsal hesap açın
+
+**Sağlık kuruluşları: kontrol sizde** (`tanitim-26-saglik`)
+
+- Hangi sipariş kimin onayından geçiyor? — Sağlık kuruluşlarında siparişler birçok birimden gelir.
+- Onay kurallarını siz belirleyin.
+  - · Kural tutara ve departmana göre çalışır
+- Departman bütçelerini izleyin.
+  - · Bütçe, harcama ve kalan tutar aynı satırda görünür
+- Bekleyen siparişi telefondan onaylayın. (telefon)
+  - ✓ Sipariş onaylandı
+- Kapanış: Her siparişi kendi kurallarınızla onaylayın. · Kurumsal hesap açın
+
+**Fabrika: üretim hattı durmasın** (`tanitim-27-fabrika`)
+
+- Serkan (Fabrika satın alma sorumlusu): Sünger bitti, hat bekliyor.
+- Hattın listesini tek tıkla sepete ekleyin.
+  - · Firma listesi şirket genelinde görünür
+  - ✓ Liste sepete eklendi
+- Üretimden gelen siparişi telefondan onaylayın. (telefon)
+  - · Siparişi açan departman kartta yazar
+  - ✓ Sipariş onaylandı
+- Kapanış: Hattın ihtiyacını tek listeden karşılayın. · Kurumsal hesap açın
+
+**Rakamlarla MTS Hijyen B2B** (`tanitim-28-rakamlarla`)
+
+- Katalogda aradığınızı bulun.: 1.326 ürün · 7 ana kategori · +100 marka
+- Kurallar panelde açıkça yazar.: %2 Havale/EFT ile peşin ödemede indirim · ₺3.500 ve üzeri siparişte kargo ücretsiz · 100 satır hızlı siparişle tek seferde eklenir
+- Tüm ürünleri tek katalogda süzün.
+  - · Her kategorinin ürün sayısı yanında yazar
+  - · Marka filtresi aramayı daraltır
+- Kapanış: Hijyen ihtiyacınızı tek panelden alın. · Kurumsal hesap açın
+
+**Bir satın almacının günü** (`tanitim-29-bir-gun`)
+
+- Derya (Satın alma sorumlusu): Bugün dört işim var.
+- Sabah onay bekleyenlere bakın.
+  - · Bekleyen siparişlerin sayısı özette görünür
+- Ürün kodunu yazıp sepete ekleyin.
+  - ✓ Ürün sepete eklendi
+- Öğle arasında telefondan onaylayın. (telefon)
+  - ✓ Sipariş onaylandı
+- Öğleden sonra kargoyu izleyin.
+  - · Siparişin durumu sayfanın başında yazar
+  - · Takip bilgisi kargo bölümünde yer alır
+- Kapanış: Günün işini tek panelde bitirin. · Kurumsal hesap açın
+
+**Toplantıdan çıkmadan onaylayın** (`tanitim-30-toplantidan-onay`)
+
+- Siparişi masaya dönmeden onaylayın. (telefon)
+  - · Siparişi açan kişi ve departmanı kartta yazar
+  - ✓ Sipariş onaylandı
+- Kapanış: Satın almayı bekletmeden yürütün. · Panelde deneyin
+
+**Muhasebe için 3 neden** (`tanitim-31-muhasebe`)
+
+- 3 neden: Faturalar panele otomatik gelir · Fatura ve sipariş eşleşir · Bakiye vadeye göre ayrılır
+- Her fatura siparişiyle eşleşir.
+  - · e-Faturalar bu listeye otomatik düşer
+  - · Faturanın yanında sipariş numarası yazar
+- Bakiyeyi vadesine göre görün.
+  - · Borçlar vade aralıklarına göre ayrılır
+  - · Her siparişin vade tarihi satırında yazar
+- Kapanış: Faturayı ve bakiyeyi tek yerde izleyin. · Kurumsal hesap açın
+
+**Ay sonu: önce / sonra** (`tanitim-32-ay-sonu`)
+
+- Ay sonu raporu nasıl hazırlanır? Elle: Siparişler e-postalardan toplanır, Tablo elle doldurulur, Toplamlar tek tek kontrol edilir / Panelde: Tüm siparişler tek listede durur, Durum ve tarihe göre süzülür, Liste Excel'e aktarılır
+- Sipariş listesini Excel'e aktarın.
+  - · Hızlı filtre listeyi duruma göre daraltır
+  - ✓ Liste Excel'e aktarıldı
+- Kapanış: Raporunuzu panelden alın. · Panelde deneyin
+
+**Ödemeyi siz seçin** (`tanitim-33-odeme`)
+
+- Siparişi üç yoldan ödeyin. Cari hesap → Kredi kartı → Havale/EFT
+- Ödeme yolları ürün sayfasında yazar.
+  - · Ödeme yolunu siparişe göre siz seçersiniz
+  - · Peşin ödemede net tutardan %2 düşülür
+- Kapanış: Her siparişte size uyanı kullanın. · Kurumsal hesap açın
+
+**Kupon kodu gerektirmeyen 4 avantaj** (`tanitim-34-avantajlar`)
+
+- Çok alın. Peşin ödeyin. Paketi seçin. ₺3.500'e ulaşın. → Hepsi kendiliğinden uygulanır.
+- Avantajları Kampanyalar sayfasında görün.
+  - · Koşul sağlanınca avantaj otomatik uygulanır.
+- Kapanış: İndirimleri kod girmeden kullanın. · Panelde deneyin
+
+**Saat 14:00, bugün kargoda** (`tanitim-35-saat-14`)
+
+- Siparişi 14:00'a kadar verin.: 14 :00 — Sipariş aynı gün kargoya verilir.
+- Stok ve kargo bilgisi ürün sayfasında yazar.
+  - · Stok adedi sepete eklemeden önce görünür.
+- Kapanış: Acil ihtiyacı beklemeden karşılayın. · Kurumsal hesap açın
+
+**Aynı panel, iki rol** (`tanitim-36-iki-rol`)
+
+- Zeynep (Satın alma sorumlusu): Haftalık siparişi ürün kodlarıyla hazırlıyorum.
+- Ürünleri kodlarıyla sepete ekleyin.
+- Kerem (Birim yöneticisi): Onay bekleyen siparişleri telefondan görüyorum.
+- Zeynep'in siparişini telefondan onaylayın. (telefon)
+  - ✓ Sipariş onaylandı
+- Kapanış: Siparişi hazırlayın, yöneticiniz onaylasın. · Kurumsal hesap açın
+
+**Yedi kategori, tek tedarikçi** (`tanitim-37-yedi-kategori`)
+
+- Kağıt. Kimyasal. Mutfak. Ekipman. → Hepsini tek tedarikçiden alın.
+- Yedi kategoriyi tek katalogda gezin.
+  - · Her kategorinin ürün sayısı yanında yazar.
+- Kapanış: Tüm ihtiyacı tek siparişte toplayın. · Kurumsal hesap açın
+
+**Doğru ürün, ilk seferde** (`tanitim-38-dogru-urun`)
+
+- Havlu dispensere uyar mı? — Cevabı ürün sayfasında bulun.
+- Cevap Teknik Özellikler bölümünde yazar.
+  - · Satın almadan önce dispenser tipinizle karşılaştırın.
+- Emin değilseniz ücretsiz numune isteyin.
+  - · Satış ekibi onaylayınca numune gönderilir.
+- Kapanış: Ürünü önce deneyin, sonra sipariş verin. · Kurumsal hesap açın
+
+**Kurumsal hesabınızı açın** (`tanitim-39-kurumsal-hesap`)
+
+- Cari özel fiyat. Yetki zincirli onay. Kademeli iskonto. → Hepsi tek formla başlar.
+- Kurumsal Üyelik formunu doldurun.
+  - · Cari özel fiyatlar onay sonrası otomatik tanımlanır.
+- Kapanış: Firmanızı bugün panele taşıyın. · Kurumsal hesap açın
 
 ## İlk seri (14 video · toplam 17:02)
 
