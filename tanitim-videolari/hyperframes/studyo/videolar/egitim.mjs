@@ -114,7 +114,7 @@ E("siparislerim", "Siparişlerim", "list", "Tüm siparişlerinizi tek listede ta
       { hedef: "~Tüm Durumlar", not: "Duruma göre süzün" }, { hedef: ["Hızlı:", "Teslim"], not: "Tek tıkla duruma göre süzün" }] }),
   ek("siparisler", 3, "Listeyi *Excel'e* aktarın.", { bolge: B(555, 205, 1095, 300), ortu: TARIH,
     tikla: { hedef: "Excel'e Aktar", sonuc: "Liste Excel dosyasına aktarılır" } }),
-], ["Her siparişin durumunu listede izleyin.", "Siparişi numarası ya da PO ile arayın.", "Rapor için listeyi Excel'e aktarın."],
+], ["Her siparişin durumunu listede izleyin.", "Siparişi numarasıyla ya da PO ile arayın.", "Rapor için listeyi Excel'e aktarın."],
 "Şimdi *Siparişlerim* sayfasını açın.");
 
 E("siparis-detayi", "Sipariş detayı", "doc", "Siparişin hangi adımda olduğunu görün.", [
@@ -131,7 +131,7 @@ E("siparis-detayi", "Sipariş detayı", "doc", "Siparişin hangi adımda olduğu
 
 E("onay-bekleyen-siparis", "Onay bekleyen sipariş", "approve", "Onay zincirindeki siparişi takip edin.", [
   ek("siparis-onay", 1, "Bu sipariş *şirket içi onay* bekliyor.", { bolge: B(555, 330, 1095, 350), ortu: GECMIS_ONAY,
-    vurgu: [{ hedef: ["Sıradaki adım", "~Şirket içi onay zincirinde"], not: "Siparişi sıradaki onaylayıcı onaylayacak" }] }),
+    vurgu: [{ hedef: ["Sıradaki adım", "~Şirket içi onay zincirinde"], not: "Siparişi sıradaki onaylayıcı inceleyecek" }] }),
   ek("siparis-onay", 2, "*Onay zincirinde* kimin beklediğini görün.", { bolge: B(555, 680, 1095, 360), ortu: GECMIS_ONAY,
     vurgu: [{ hedef: "[]Onay Zinciri Seviye 2", not: "Bekleyen kişinin adı burada yazar" }] }),
   ek("siparis-onay", 3, "Gerekirse siparişi *iptal* edebilirsiniz.", { bolge: B(555, 330, 1095, 350), ortu: GECMIS_ONAY,
@@ -230,8 +230,8 @@ E("onaylarim", "Onaylarım", "approve", "Onayınızı bekleyen siparişleri kara
   ek("onaylarim", 1, "*Onaylarım* sayfası onayınızı bekleyen siparişleri listeler.", { bolge: B(555, 320, 1095, 260),
     vurgu: [{ hedef: ["Sipariş tutarı: ₺1.779,56", "Açan: Zeynep Kaya · 06.10.2026 · Departman: İdari İşler"], not: "Kartta tutar, açan kişi ve departman yazar" }, { hedef: ["Onay seviyesi", "Seviye 1"], not: "Siparişin onay seviyesi sağ üstte yazar" }] }),
   ek("onaylarim", 2, "Siparişi *onaylayın*, revize isteyin ya da reddedin.", { bolge: B(555, 320, 1095, 260),
-    vurgu: [{ hedef: ["Onayla", "Reddet"], not: "Revize için Geri Yolla siparişi açana geri gönderir" }], tikla: { hedef: "Onayla", sonuc: "Sipariş onaylandı" } }),
-], ["Kartta tutarı ve ürünleri kontrol edin.", "Değişiklik için Revize için Geri Yolla'ya basın.", "Onaylanan sipariş MTS onayına geçer."],
+    vurgu: [{ hedef: ["Onayla", "Reddet"], not: "Revize için Geri Yolla siparişi geri gönderir" }], tikla: { hedef: "Onayla", sonuc: "Sipariş onaylandı" } }),
+], ["Kartta tutarı ve ürünleri kontrol edin.", "Değişiklik isterseniz Revize için Geri Yolla'ya basın.", "Onaylanan sipariş MTS onayına geçer."],
 "Şimdi *Onaylarım* sayfasını açın.");
 
 E("onay-kurallari", "Onay kuralları", "shield", "Hangi siparişin kime düşeceğini belirleyin.", [
@@ -330,7 +330,7 @@ E("analitik", "Satın alma analitiği", "trend", "Harcamanızı rakamlarla anali
     vurgu: [{ hedef: "[]Toplam Harcama ₺51.320,08", not: "Son 12 ayın toplam harcaması burada yazar" }, { hedef: "[]Toplam İndirim ₺933,86", not: "Kazandığınız toplam indirim burada yazar" }] }),
   ek("analitik", 2, "*Aylık trend* ve kategori dağılımını inceleyin.", { bolge: B(555, 410, 1095, 540),
     vurgu: [{ hedef: "[]Aylık Harcama Trendi Son 6 ay", not: "Grafik son 6 ayın harcamasını gösterir" }, { hedef: "[]Kategori Dağılımı", not: "Harcama kategorilere yüzdeyle ayrılır" }] }),
-  ek("analitik-alt", 3, "En çok aldığınız ürünleri *listede* görün.", { bolge: B(1000, 170, 660, 300),
+  ek("analitik-alt", 3, "En çok aldığınız ürünleri *listede* görün.", { bolge: B(1000, 150, 660, 430),
     vurgu: [{ hedef: ["Bulaşık Süngeri Endüstriyel", "27 adet"], not: "Ürünler alınan adede göre sıralanır" }] }),
 ], ["Kazandığınız indirimi Toplam İndirim kartında görün.", "Gelecek ayın bütçesini trende bakarak planlayın.", "En çok aldığınız ürünleri listede görün."],
 "Şimdi *Analitik* sayfasını açın.");
@@ -380,7 +380,7 @@ E("kuponlar", "Kuponlarım", "gift", "Size özel kuponları kullanın.", [
 
 E("arkadasini-davet-et", "Arkadaşını davet et", "mail", "Firma davet edin, ikiniz de kazanın.", [
   ek("davet", 1, "Davet *üç adımda* tamamlanır.", { bolge: B(555, 220, 1095, 180),
-    vurgu: [{ hedef: ["[]1 E-posta ile davet gönderin", "[]2 Firma kayıt olsun"], not: "Davet ettiğiniz firma panele kayıt olur" }, { hedef: "[]3 İlk siparişte ikisi de %5 indirim!", not: "İlk siparişte iki firma da %5 indirim kuponu alır" }] }),
+    vurgu: [{ hedef: ["[]1 E-posta ile davet gönderin", "[]2 Firma kayıt olsun"], not: "Davet ettiğiniz firma panele kayıt olur", kaydir: true }, { hedef: "[]3 İlk siparişte ikisi de %5 indirim!", not: "İlk siparişte iki firma da %5 indirim kuponu alır" }] }),
   ek("davet", 2, "Firmanın *e-postasını* yazıp gönderin.", { bolge: B(555, 410, 1095, 160),
     yaz: { hedef: "firma@ornek.com", metin: "satinalma@ornekfirma.com" }, tikla: { hedef: "Davet Gönder", sonuc: "Davet gönderildi" } }),
 ], ["Firmanın e-posta adresini yazıp Davet Gönder'e basın.", "İlk siparişte iki firma da indirim kuponu alır.", "Davetleri Gönderilen Davetler listesinde izleyin."],
@@ -395,7 +395,7 @@ E("kampanyalar", "Kampanyalar", "percent", "Güncel indirimleri ve paketleri gö
 // ── İletişim ve ayarlar
 E("bildirimler", "Bildirimler", "bell", "Sipariş ve onay hareketlerinden haberdar olun.", [
   ek("bildirimler", 1, "*Bildirimler* sayfası tüm hareketleri listeler.", { bolge: B(555, 205, 1095, 560),
-    vurgu: [{ hedef: ["MTS-2026-0018, Sevkiyatta", "Durum güncellendi: Hazırlanıyor → Sevkiyatta"], not: "Durum değişince bildirim gelir" }] }),
+    vurgu: [{ hedef: B(604, 494, 236, 54), not: "Durum değişince bildirim gelir" }] }),   // "MTS-2026-0018, Sevkiyatta" bildiriminin yazılı kısmı
   ek("bildirimler", 2, "Bildirimleri *türe göre* süzün.", { bolge: B(555, 205, 1095, 300),
     vurgu: [{ hedef: "~Tüm tipler", not: "Durum güncellemesi ya da yeni sipariş gibi türleri seçin" }], tikla: { hedef: "Tümünü okundu işaretle", sonuc: "Tüm bildirimler okundu olarak işaretlendi" } }),
 ], ["Yeni bildirimleri üstteki zil simgesinde görün.", "E-posta tercihlerinizi Ayarlar sayfasında seçin.", "Onay bildirimini Aç bağlantısıyla açın."],
