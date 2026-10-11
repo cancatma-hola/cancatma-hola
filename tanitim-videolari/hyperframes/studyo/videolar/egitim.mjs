@@ -362,7 +362,7 @@ export default LISTE.map((v, i) => {
   return {
     id: `egitim-${no}-${v.ad}`, tur: "egitim", baslik: v.baslik, etiket: `Eğitim ${no} · ${v.baslik}`, tohum: i + 1,
     sahneler: [
-      { tip: "kapak", ust: `Eğitim ${no}`, baslik: v.baslik, ikon: v.ikon, alt: v.alt, sure: "1 dakika" },
+      { tip: "kapak", ust: `Eğitim ${no}`, baslik: v.baslik, ikon: v.ikon, alt: v.alt, sure: "auto" },
       ...v.sahneler,
       { tip: "ipucu", baslik: "*Unutmayın*", maddeler: v.ipucu.map((m, j) => [["check", "bolt", "star", "shield"][j % 4], m]) },
       { tip: "son", sonraki: LISTE[i + 1] ? LISTE[i + 1].baslik : null },
