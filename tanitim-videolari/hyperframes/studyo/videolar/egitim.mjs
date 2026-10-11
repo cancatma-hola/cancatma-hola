@@ -111,8 +111,7 @@ E("siparislerim", "Siparişlerim", "list", "Tüm siparişlerinizi tek listede ta
     vurgu: [{ hedef: "Sipariş no veya PO ara...", not: "Sipariş no veya PO ile arayın" },
       { hedef: "~Tüm Durumlar", not: "Duruma göre süzün" }, { hedef: ["Hızlı:", "Teslim"], not: "Tek tıkla duruma göre süzün" }] }),
   ek("siparisler", 3, "Listeyi *Excel'e* aktarın.", { bolge: B(555, 205, 1095, 300), ortu: TARIH,
-    // Sağ üstteki düğme: uzun kutunun merkezi düğmede, yatayda kamera yakınlaşmaz ve sayfa başlığı kadrajda kalır
-    tikla: { hedef: B(1404, 70, 116, 300), sonuc: "Liste Excel dosyasına aktarılır" } }),
+    tikla: { hedef: "Excel'e Aktar", sonuc: "Liste Excel dosyasına aktarılır" } }),
 ], ["Her siparişin durumunu listede izleyin.", "Siparişi numarası ya da PO ile arayın.", "Rapor için listeyi Excel'e aktarın."],
 "Şimdi *Siparişlerim* sayfasını açın.");
 
@@ -124,7 +123,7 @@ E("siparis-detayi", "Sipariş detayı", "doc", "Siparişin hangi adımda olduğu
   ek("siparis-hazirlaniyor-alt", 2, "*Sipariş kalemlerini* ve tutarı kontrol edin.", { bolge: B(555, 200, 1095, 380), ortu: GECMIS_HAZIR,
     vurgu: [{ hedef: "[]ÜRÜN SKU ADET BİRİM TUTAR", not: "Her satırda kod, adet ve birim fiyat yazar" }, { hedef: "[]Toplam ₺2.925,48", not: "İndirim, KDV ve kargo toplamın üstünde yazar" }] }),
   ek("siparis-hazirlaniyor", 3, "Siparişi *yazdırın* ya da şablona kaydedin.", { bolge: B(555, 205, 1095, 260),
-    vurgu: [{ hedef: "Şablona Kaydet", not: "Aynı siparişi tekrar vermek için saklayın" }], tikla: { hedef: B(1519, 71, 118, 300), sonuc: "Sipariş belgesi açılır" } }),   // merkez: Yazdır / PDF
+    vurgu: [{ hedef: "Şablona Kaydet", not: "Aynı siparişi tekrar vermek için saklayın" }], tikla: { hedef: "Yazdır / PDF", sonuc: "Sipariş belgesi açılır" } }),
 ], ["Siparişin adımını durum çubuğunda izleyin.", "Kalemleri ve toplam tutarı kontrol edin.", "Sık verdiğiniz siparişi şablona kaydedin."],
 "Şimdi bir *sipariş detayı* açın.");
 
@@ -154,7 +153,7 @@ E("periyodik-siparisler", "Periyodik siparişler", "repeat", "Düzenli siparişl
   ek("periyodik", 1, "*Periyodik Siparişler* sayfası şablonlarınızı listeler.", { bolge: B(555, 205, 1095, 380),
     vurgu: [{ hedef: "[]Aylık periyodik sipariş", not: "Bu şablon her ayın 1. günü sipariş oluşturur" }, { hedef: "[]Aylık Temizlik Sarf Aboneliği", not: "Sonraki sipariş tarihi kartta yazar" }] }),
   ek("periyodik", 2, "Yeni bir şablon için *Yeni Şablon* butonuna basın.", { bolge: B(555, 205, 1095, 380),
-    tikla: { hedef: B(1521, 70, 115, 300), sonuc: "Yeni şablon formu açılır" } }),   // merkez: Yeni Şablon (yatayda başlık kadrajda kalır)
+    tikla: { hedef: "~Yeni Şablon", sonuc: "Yeni şablon formu açılır" } }),
 ], ["Sonraki sipariş tarihini kartta kontrol edin.", "Şablonu kalem simgesiyle düzenleyin.", "Yeni şablon için Yeni Şablon düğmesine basın."],
 "Şimdi *Periyodik Siparişler* sayfasını açın.");
 
@@ -189,7 +188,7 @@ E("favoriler", "Favorilerim", "heart", "Sık aldığınız ürünlere hızlı ul
 // ── Fiyat ve teklif
 E("fiyat-teklifleri", "Fiyat teklifleri", "tag", "Özel fiyat isteyin, teklifinizi takip edin.", [
   ek("teklifler", 1, "*Fiyat Tekliflerim* sayfası tüm taleplerinizi listeler.", { bolge: B(555, 205, 1095, 320),
-    vurgu: [{ hedef: ["TKF-2026-0003", "Teklif Hazır#2"], not: "Bu teklifin fiyatı hazır" }, { hedef: ["TKF-2026-0004", "Gönderildi"], not: "Bu teklifin fiyatı henüz hazırlanıyor" }],
+    vurgu: [{ hedef: ["TKF-2026-0003", "Teklif Hazır#2"], not: "Bu teklifin fiyatı hazır", kaydir: true }, { hedef: ["TKF-2026-0004", "Gönderildi"], not: "Bu teklifin fiyatı henüz hazırlanıyor", kaydir: true }],
     ortu: ["[]TKF-2026-0002"] }),
   ek("teklifler", 2, "Yeni talep için *Yeni Teklif Talebi* butonuna basın.", { bolge: B(555, 205, 1095, 320),
     tikla: { hedef: "Yeni Teklif Talebi", sonuc: "Teklif formu açılır" } }),
